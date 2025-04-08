@@ -1,0 +1,49 @@
+#s:11|Entry|_ - ^ - _|(  ***  )|{ + + + }|/*******\|\*******/|
+#s:121|Corridor|    _    |   /*\   |  /***\  | /*****\ |  IIIII  |
+#s:122|Corridor|
+#s:123|Corridor| .-===-. | ! . . ! | ! .'. ! |()_____()|II_____II| 
+#s:124|Corridor|  
+#s:125|Corridor|  _   _  | / \ / \ |(   v   )| \ T+J / |  \L+A/  |
+#s:126|Corridor|
+#s:127|Corridor|      _  |     ! ! |  ___! ! | (    .' |  )  (   |
+#s:13|Pantry|  ___    | l+**l`*m| l**+l   |  TTT m+'|         |
+#s:14|Hole|  ***  * |**/\ **  | /  \/ \ |*********|#     # #|
+
+#o:21|Branch|122|You found a Branch, don't eat it with ranch|
+#o:55|Grain|11|You found Grain, but lost your brain|
+#o:22|Leaf|11|You found a Leaf, fly away with it|
+#o:23|Nut|121|You found a Nut, make sure is not bad|
+#o:24|Donut|121|You found a Donut, time to glow up|
+
+#p:0|Ant|mO^|11|5|3|
+#p:1|Person|(0_0)|121|5|4|
+#p:2|Robot|[*-*]|123|5|3|
+#p:3|Pig|^(oo)^|124|5|3|
+#p:4|Cat|=^o^=|125|5|3|
+#p:5|Duck|(_*<|126|5|3|
+#p:6|Fish|><(*>|127|5|3|
+#p:7|Mouse|<:3--|122|5|3|
+
+#c:0|spider|/\oo/\|123|5|0|I won't talk to you!|
+#c:1|snake|>--00|124|3|0|I will kill you|
+#c:2|mamen|m0-|125|1|1|Good luck! I believe in you|
+
+#l:111|Entry|11|121|1|1|
+#l:1210|Corridor|121|11|0|1|
+#l:1211|Corridor|121|122|1|1|
+#l:1220|Corridor|122|121|0|1|
+#l:1221|Corridor|122|123|1|1|
+#l:1222|Corridor|122|125|2|1|
+#l:1230|Corridor|123|122|0|1|
+#l:1231|Corridor|123|124|1|0|
+#l:1240|Corridor|124|123|0|1|
+#l:1241|Corridor|124|13|1|1|
+#l:130|Pantry|13|124|0|1|
+#l:1253|Corridor|125|122|3|1|
+#l:1252|Corridor|125|126|2|1|
+#l:1263|Corridor|126|125|3|1|
+#l:1262|Corridor|126|127|2|1|
+#l:1273|Corridor|127|126|3|1|
+#l:1272|Corridor|127|14|2|1|
+#l:143|Corridor|14|127|3|1|
+#l:141|Corridor|14|13|1|1|

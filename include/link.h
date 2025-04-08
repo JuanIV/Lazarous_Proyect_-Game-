@@ -1,0 +1,171 @@
+/**
+ * @brief It defines the link module interface
+ *
+ * @file link.h
+ * @author Tiago Oselka
+ * @version 0
+ * @date 21-03-2025
+ * @copyright GNU Public License
+ */
+
+#ifndef LINK_H
+#define LINK_H
+
+#include"types.h"
+
+/**
+ * @brief Defines the number of ways a direction can be written
+ *
+ */
+#define N_DIRT 2
+
+/**
+ * @brief Total number of directions that exist
+ *
+ */
+#define N_DIR 5
+
+/**
+ * @brief Defines the ways a direction can be written (short, long)
+ *
+ */
+typedef enum { DIRS, DIRL } DirectionType;
+
+/**
+ * @brief This struct stores all the information related to a link
+ *
+ */
+typedef struct _Link Link;
+
+/**
+ * @brief It creates a new link, allocating memory and initializing its members
+ * @author Tiago Oselka
+ *
+ * @param id the identification number for the new link
+ * @return a new link, initialized
+ */
+Link *link_create(Id id);
+
+/**
+ * @brief It destroys a link, freeing the allocated memory
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link that must be destroyed
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status link_destroy(Link *link);
+
+/**
+ * @brief It gets the id of a link
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @return the id of the link
+ */
+Id link_get_id(Link *link);
+
+/**
+ * @brief It gets the name of a link
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @return  a string with the name of the link
+ */
+char *link_get_name(Link *link);
+
+/**
+ * @brief It sets the name of a link
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @param name a string with the name to store
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status link_set_name(Link *link, char *name);
+
+/**
+ * @brief It gets the id of the space located at the origin of the link
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @return the id number of the space located at the origin
+ */
+Id link_get_orig(Link *link);
+
+/**
+ * @brief It sets the id of the space located at the origin of the link
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @param origin the id number of the space located at the origin
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status link_set_orig(Link *link, Id origin);
+
+/**
+ * @brief It gets the id of the space located at the destination of the link
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @return the id number of the space located at the destination of the link
+ */
+Id link_get_dest(Link *link);
+
+/**
+ * @brief It sets the id of the space located at the destination of the link
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @param destination the id number of the space located at the destination
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status link_set_dest(Link *link, Id destination);
+
+/**
+ * @brief It gets the direction followed when traversing the link orig -> dest
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @return the said direction
+ */
+Direction link_get_direction(Link *link);
+
+/**
+ * @brief It sets the direction followed when traversing the link orig -> dest
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @param direction the said direction
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status link_set_direction(Link *link, Direction direction);
+
+/**
+ * @brief It gets the state of the link, TRUE if it's opened or FALSE if its closed
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @return the state of the link
+ */
+Bool link_get_open(Link *link);
+
+/**
+ * @brief It sets the state of the link, TRUE if it's opened or FALSE if its closed
+ * @author Tiago Oselka
+ *
+ * @param link a pointer to the link
+ * @param bool boolean that represents the state of the link
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status link_set_open(Link * link, Bool bool);
+
+/**
+ * @brief It prints the link information
+ * 
+ * @param link a pointer to the link
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status link_print(Link *link);
+
+#endif
+

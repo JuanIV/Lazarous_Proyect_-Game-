@@ -1,0 +1,510 @@
+/**
+ * @brief It defines the game interface
+ *
+ * @file game.h
+ * @author Profesores PPROG
+ * @version 0
+ * @date 27-01-2025
+ * @copyright GNU Public License
+ */
+
+#ifndef GAME_H
+#define GAME_H
+
+#include "command.h"
+#include "object.h"
+#include "player.h"
+#include "space.h"
+#include "character.h"
+#include "link.h"
+
+/**
+ * @brief Maximum amount of spaces that a game can have
+ *
+ */
+#define MAX_SPACES 100
+
+/**
+ * @brief Maximum amount of links that a game can have, 4 times the number of spaces
+ *
+ */
+#define MAX_LINKS (4 * MAX_SPACES)
+/**
+ * @brief Maximum amount of objects that a game can have
+ * 
+ */
+#define MAX_OBJ 100
+
+/**
+ * @brief Maximum amount of characters that a game can have
+ * 
+ */
+#define MAX_CHARR 100
+
+/**
+ * @brief Maximum amount of players that a game can have
+ * 
+ */
+#define MAX_PLAY 8
+
+/**
+ * @brief Number of last commands that are saved in order to print them in the feedback region of graphic engine
+ * 
+ */
+#define NUM_CMDS 3
+
+
+/**
+ * @brief It stores the interface data information
+ *
+ */
+typedef struct _InterfaceData InterfaceData;
+
+/**
+ * @brief It stores the game information
+ *
+ */
+typedef struct _Game Game;
+
+
+
+/**
+ * @brief It creates a new game, initializing the spaces and its other members
+ * @author Tiago Oselka
+ *
+ * @param game a pointer to the game
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Game *game_create();
+
+/**
+ * @brief It reads a games data from a file
+ * @author Alina Datsko Yaskerska
+ *
+ * @param game
+ * @param position
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_create_from_file(Game *game, char *filename);
+
+/**
+ * @brief It destroys a game freeing every allocated data (destroys space data
+ * and the last command)
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @return Ok if everything went well, ERROR if there was any mistake
+ */
+Status game_destroy(Game *game);
+
+
+
+/**
+ * @brief Gets a pointer to the player who has the turn
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @return a pointer to the player 
+ */
+Player *game_get_player(Game *game);
+
+/**
+ * @brief Gets a specific player of the game 
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param pos Position of the player in the array of players
+ * @return Pointer to the desired player or NULL in case of a mistake
+ */
+Player *game_get_player_at(Game *game, int pos);
+
+/**
+ * @brief Gets the number of players in the game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return Number of players in the game
+ */
+int game_get_n_players(Game *game);
+
+/**
+ * @brief It gets the player position from the game struct
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @return player´s location id
+ */
+Id game_get_player_location(Game *game);
+
+/**
+ * @brief Sets the player position to a given id
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @param id the id of the space where the player position will be set
+ * @return Ok if everything went well, ERROR if there was any mistake
+ */
+Status game_set_player_location(Game *game, Id id);
+
+/**
+ * @brief Add a new player to the game
+ * @author Lucas Blanco Rodríguez
+ *
+ * @param game pointer to the game
+ * @param play a pointer to the game that is going to be added
+ * @return Ok if everything went well, ERROR if there was any mistake
+ */
+Status game_add_player (Game *game, Player *play);
+
+
+
+/**
+ * @brief Gets the the turn of the game
+ * @author Alina Datsko Yaskerska
+ *
+ * @param game pointer to the game
+ * @return returns number of the turn
+ */
+int game_get_turn(Game *game);
+
+/**
+ * @brief Sets the next turn
+ * @author Alina Datsko Yaskerska
+ *
+ * @param game pointer to the game
+ * @return Ok if everything went well, ERROR if there was any mistake
+ */
+Status game_next_turn(Game *game);
+
+
+
+/**
+ * @brief Given an id, returns a pointer to the space that matches that id
+ * @author Profesores PPROG
+ *
+ * @param game pointer to the game
+ * @param id id of the space wanted
+ * @return a pointer to the space with the given id
+ */
+Space *game_get_space(Game *game, Id id);
+
+/**
+ * @brief Gets the number of spaces in a game
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @return Number of spaces in the game
+ */
+int game_get_n_spaces(Game *game);
+
+/** 
+ * @brief It sets the number of spaces in a game
+ * @author Juan Ibáñez  
+ * 
+ * @param game Pointer to the game
+ * @param n_spaces Number of spaces to be set
+ * @return OK if everything went well, ERROR if there was a mistake
+ */
+Status game_set_n_spaces(Game *game, int n_spaces);
+
+/**
+ * @brief Adds a space to the game
+ * @author Tiago Oselka
+ *
+ * @param game Pointer to the game where the space will be added
+ * @param space Pointer to the space being added
+ * @return OK if the space was added correctly, ERROR if the game is full or the
+ * space does not exist
+ */
+Status game_add_space(Game *game, Space *space);
+
+
+
+
+/**
+ * @brief Adds an object to the array of objects of the game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param obj Pointer to the object
+ * @return OK if the object was added correctly, ERROR if there was any mistake
+ */
+Status game_add_object(Game *game, Object *obj);
+
+/**
+ * @brief Gets the pointer to an object
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param id Id of the object wanted
+ * @return Pointer to the object wanted
+ */
+Object *game_get_object(Game *game, Id id);
+
+/**
+ * @brief Gets the number of objects in a game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return Number of objects in the game
+ */
+int game_get_n_objects(Game *game);
+
+/**
+ * @brief It gets an object's name from its id
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @param id Id of the object
+ * @return object´s name or NULL pointer if there was any mistake
+ */
+char *game_get_obj_name_from_id(Game *game, Id id);
+
+/**
+ * @brief It gets an object's id from its name
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @param name name of the object
+ * @return object´s id or NO_ID if there was any mistake
+ */
+Id game_get_obj_id_from_name(Game *game, char *obj_name);
+
+/**
+ * @brief it gets an object's position from a game
+ * @author Juan Ibáñez
+ *
+ * @param game pointer to the game
+ * @param id Id of the object
+ * @return object´s location id
+ */
+Id game_get_object_location(Game *game, Id id);
+
+/**
+ * @brief Declares the position of an object if posible
+ * @author Juan Ibáñez
+ *
+ * @param game pointer to the game
+ * @param obj Id of the object being placed
+ * @param pos the id of the space where the object will be placed
+ * @return Ok if everything went well, ERROR if the space is full or there was a mistake
+ */
+Status game_set_object_location(Game *game, Id obj, Id pos);
+
+/**
+ * @brief Gets the object in a position of the array of objects
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param pos Position in the array
+ * @return Pointer to the desired object
+ */
+Object *game_get_object_at_pos(Game *game, int pos);
+
+
+
+/**
+ * @brief Adds a character to the game and sets its location
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param charr Pointer to the character
+ * @param location Id of the location to be set
+ * @return Ok if everything went well, ERROR if the space is full or there was a mistake
+ */
+Status game_add_character(Game *game, Character *charr, Id location);
+
+/**
+ * @brief Gets the pointer to a character
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param id Id of the character
+ * @return Pointer to the character wanted
+ */
+Character *game_get_character(Game *game, Id id);
+
+/**
+ * @brief Gets the number of characters in a game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return Number of character in the game
+ */
+int game_get_n_characters(Game *game);
+
+/**
+ * @brief Gets the location of a character
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointert to the game
+ * @param id Id of the character
+ * @return Id of the space in which the character is
+ */
+Id game_get_character_location(Game *game, Id id);
+
+/**
+ * @brief Sets a character to a certain space
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param charr Id of the character being set
+ * @param pos Id of the space where the character will be set
+ * @return Ok if everything went well, ERROR if the space is full or there was a mistake
+ */
+Status game_set_character_location(Game *game, Id charr, Id loc);
+
+/**
+ * @brief Gets the character in a position of the array of objects
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param pos Position in the array
+ * @return Pointer to the desired character
+ */
+Character *game_get_character_at_pos(Game *game, int pos);
+
+
+
+/**
+ * @brief Adds a link to the game
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param link Pointer to the link
+ * @return Ok if everything went well, ERROR if the space is full or there was a mistake
+ */
+Status game_add_link(Game *game, Link *link);
+
+/**
+ * @brief Given the Id of a space and a direction returns the Id of the space linked in that direction
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param cur_space Id of a space
+ * @param dir The direction of the link
+ * @return The id of the space located in the desired direction or NO_ID if there was a mistake
+ */
+Id game_get_connection(Game *game, Id cur_space, Direction dir);
+
+/**
+ * @brief Checks wether a connection is opened given a space and a desired direction
+ * @author Tiago Oselka
+ * 
+ * @param game pointer to the game
+ * @param cur_space the id of the origin spce
+ * @param dir direction to be followed
+ * @return TRUE if the connection is opened or FALSE if it isn't opened/ doesn't exist
+ */
+Bool game_connection_is_open(Game *game, Id cur_space, Direction dir);
+
+/**
+ * @brief Gets the last message displayed by a chat
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return String of the message
+ */
+char *game_get_last_message(Game *game);
+
+/**
+ * @brief Sets the last displayed message
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param message String of the message
+ * @return OK if everything went well, ERROR if there was a mistake
+ */
+Status game_set_last_message(Game *game, char *message);
+
+/**
+ * @brief It gets the last command from the game struct
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @return a pointer to the last command
+ */
+Command *game_get_last_command(Game *game);
+
+/**
+ * @brief It gets the last command at a desired position from the game struct
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @param pos position to be searched
+ * @return a pointer to the command at position pos from the interface data command array of the 
+ * current player
+ */
+Command *game_get_last_command_at_pos(Game *game, int pos);
+
+/**
+ * @brief Given a command, the function sets it as the last one
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @param command pointer to the received command
+ * @return ERROR if game or command is null, OK otherwise
+ */
+Status game_set_last_command(Game *game, Command *command);
+
+
+/**
+ * @brief It gets the status of the last command at a desired position
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @return OK if the last_cmd was successfull, ERROR otherwise
+ */
+Status game_get_last_status(Game *game);
+
+/**
+ * @brief It gets the status of the last command
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @param pos position to be searched
+ * @return OK if the last_cmd was successfull, ERROR otherwise
+ */
+Status game_get_last_status_at_pos(Game *game, int pos);
+
+/**
+ * @brief Given the status of the last command, the function sets it as the last one
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @param status the status of the last command
+ * @return ERROR if game is null, OK otherwise
+ */
+Status game_set_last_status(Game *game, Status status);
+
+/**
+ * @brief Checks if the game is finished
+ * @author Profesores PPROG
+ *
+ * @param game pointer to the game
+ * @return TRUE if the game is finished, FALSE if not
+ */
+Bool game_get_finished(Game *game);
+
+/**
+ * @brief Updates the status of the game (finished or not)
+ * @author Profesores PPROG
+ *
+ * @param game pointer to the game
+ * @param finished TRUE if the game is finished, FALSE if not
+ * @return Ok when finished, ERROR if game pointer is null
+ */
+Status game_set_finished(Game *game, Bool finished);
+
+
+
+/**
+ * @brief Prints information about every space in the game and the object and
+ * player's location
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ */
+Status game_print(Game *game);
+
+#endif
