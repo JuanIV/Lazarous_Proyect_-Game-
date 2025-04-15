@@ -47,6 +47,6 @@ typedef enum { ERROR, OK } Status;
  * @brief Defines all four possible directions
  *
  */
-typedef enum { UNK_DIR = -1, N, S, E, W } Direction;
+typedef enum { UNK_DIR = -1, N, S, E, W, U, D } Direction;
 
 #endif

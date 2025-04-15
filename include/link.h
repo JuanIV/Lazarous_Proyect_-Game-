@@ -23,7 +23,7 @@
  * @brief Total number of directions that exist
  *
  */
-#define N_DIR 5
+#define N_DIR 7
 
 /**
  * @brief Defines the ways a direction can be written (short, long)
