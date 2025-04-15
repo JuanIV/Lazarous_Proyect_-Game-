@@ -21,13 +21,14 @@
  */
 struct _Object {
   Id id;                    /*!< Id number of the space, it must be unique */
+  Tag tag;                  /*!< Represents the type of object that it is */
   char name[WORD_SIZE + 1]; /*!< Name of the space */
-  char desc[OBJ_DESC_MX + 1]; /*!< Description of the object*/
-  int health;               /*!< Health that the object gives or takes to the player */
+  char desc[OBJ_DESC_MX + 1]; /*!< Description of the object */
+  int use_value;            /*!< Value for its specific action (damage of a wapon, defence of an armor...) */
   Bool movable;             /*!< True if the object is movable or False if not */
   Id depedency;             /*!< Id of the object that is needed to use this one */
   Id open;                  /*!< Id of the link that this object can open */
-  int luck;                /*!< Luck that it gives or takes to the player*/
+  int luck;                /*!< Luck that it gives or takes to the player */
 };
 
 /*Creates a new object by allocating memmory for it and initialazing its members*/
@@ -38,9 +39,10 @@ Object *object_create(Id id) {
   if (!(obj = (Object *)malloc(sizeof(Object)))) return NULL;
 
   obj->id = id;
+  obj->tag = NORMAL;
   obj->name[0] = '\0';
   obj->desc[0] = '\0';
-  obj->health = 0;
+  obj->use_value = 0;
   obj->movable = FALSE;
   obj->depedency = NO_ID;
   obj->open = NO_ID;
@@ -70,6 +72,21 @@ Status object_set_id(Object *obj, Id id) {
   if ((!obj) || (id == NO_ID)) return ERROR;
 
   obj->id = id;
+  return OK;
+}
+
+/*Gets the tag of an object*/
+Tag object_get_tag(Object *obj){
+  if(!obj) return NO_ID;
+
+  return obj->tag;
+}
+
+/*Sets the tag of an object*/
+Status object_set_tag(Object *obj, Tag tag){
+  if(!obj) return ERROR;
+
+  obj->tag = tag;
   return OK;
 }
 
@@ -105,18 +122,18 @@ Status object_set_desc(Object *obj, char *desc) {
   return OK;
 }
 
-/*Gets the health of an object*/
-int object_get_health(Object *obj) {
+/*Gets the use_value of an object*/
+int object_get_use_value(Object *obj) {
   if (!obj) return 0;
 
-  return obj->health;
+  return obj->use_value;
 }
 
-/*Sets the health of an object*/
-Status object_set_health(Object *obj, int health) {
+/*Sets the use_value of an object*/
+Status object_set_use_value(Object *obj, int use_value) {
   if (!obj) return ERROR;
 
-  obj->health = health;
+  obj->use_value = use_value;
 
   return OK;
 }
@@ -190,9 +207,10 @@ Status object_print(Object *obj) {
   if (!obj) return ERROR;
 
   fprintf(stdout, "--> Object id: %d\n", (int)obj->id);
+  fprintf(stdout, "--> Object tag: %d\n", (int)obj->tag);
   fprintf(stdout, "--> Object name: %s\n", obj->name);
   fprintf(stdout, "--> Object description: %s\n", obj->desc);
-  fprintf(stdout, "--> Object health: %d\n", obj->health);
+  fprintf(stdout, "--> Object use value: %d\n", obj->use_value);
   fprintf(stdout, "--> Object movable: %d\n", (int)obj->movable);
   fprintf(stdout, "--> Object dependency: %d\n", (int)obj->depedency);
   fprintf(stdout, "--> Object open: %d\n", (int)obj->open);

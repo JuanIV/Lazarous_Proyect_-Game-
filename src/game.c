@@ -655,7 +655,37 @@ Status game_set_character_location(Game *game, Id charr, Id loc) {
   return OK;
 }
 
-/*Gets the character in a position of the array of objects*/
+/*It gets a character's id from its name*/
+Id game_get_charr_id_from_name(Game *game, char *charr_name){
+  int i, n_charr, name_length;
+  Id charr_id = NO_ID;
+  char *aux_name = NULL;
+
+  if (!game || !charr_name) return NO_ID;
+  
+  name_length = strlen(charr_name);
+  
+  if (((n_charr = game->n_characters) <= 0) || name_length > WORD_SIZE || name_length < MIN_ESPECIF)
+    return NO_ID;
+  
+  for (i = 0; i < n_charr; i++) {
+    if (!(aux_name = character_get_name(game->characters[i]))) continue;
+
+    /*Strstr allows us to get an character from  a fraction of its name, but we set
+     * the minimum as 2 characters */
+    if (strstr(charr_name, aux_name) != NULL && aux_name[0] == charr_name[0]) {
+      charr_id = character_get_id(game->characters[i]);
+      
+      if (charr_id == NO_ID) return NO_ID;
+
+      return charr_id;
+    }
+  }
+  
+  return NO_ID;
+}
+
+/*Gets the character in a position of the array of characters*/
 Character *game_get_character_at_pos(Game *game, int pos) {
   if (!game) return NULL;
 

@@ -84,6 +84,45 @@ char *player_get_name(Player *play);
  */
 Status player_set_name(Player *play, char *name);
 
+
+/**
+ * @brief Gets the weapon equipped by a player
+ * @author Juan Ibáñez
+ * 
+ * @param play Pointer to the player
+ * @return Id of the object that serves as weapon
+ */
+Id player_get_weapon(Player *play);
+
+/**
+ * @brief Sets the weapon equipped by a player
+ * @author Juan Ibáñez
+ * 
+ * @param play Pointer to the player
+ * @param weapon_id Id of the new weapon
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status player_set_weapon(Player *play, Id weapon_id);
+
+/**
+ * @brief Gets the armor equipped by a player
+ * @author Juan Ibáñez
+ * 
+ * @param play Pointer to the player
+ * @return Id of the object that serves as armor
+ */
+Id player_get_armor(Player *play);
+
+/**
+ * @brief Sets the armor equipped by a player
+ * @author Juan Ibáñez
+ * 
+ * @param play Pointer to the player
+ * @param armor_id Id of the new armor
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status player_set_armor(Player *play, Id armor_id);
+
 /**
  * @brief It gets the backpack of the player
  * @author Lucas Blanco Rodriguez

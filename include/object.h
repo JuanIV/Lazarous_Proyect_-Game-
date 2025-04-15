@@ -20,6 +20,12 @@
 #define OBJ_DESC_MX 1000
 
 /**
+ * @brief It defines the type of objects there are in the game
+ * 
+ */
+typedef enum {NORMAL, HEALER, WEAPON, ARMOR, TRAP} Tag;
+
+/**
  * @brief It stores the id and name of an object
  *
  */
@@ -64,6 +70,24 @@ Id object_get_id(Object *obj);
 Status object_set_id(Object *obj, Id id);
 
 /**
+ * @brief Gets the tag of an ocject
+ * @author Juan Ibáñez
+ * 
+ * @param obj Pointer to the object
+ * @return Tag of the object
+ */
+Tag object_get_tag(Object *obj);
+
+/**
+ * @brief Sets the tag of an object
+ * 
+ * @param obj Pointer to the object
+ * @param tag New tag for the object
+ * @return ERROR if the object does not exist, OK otherwise
+ */
+Status object_set_tag(Object *obj, Tag tag);
+
+/**
  * @brief Gets the name of an object
  * @author Juan Ibáñez
  *
@@ -102,23 +126,23 @@ char *object_get_desc(Object *obj);
 Status object_set_desc(Object *obj, char *desc);
 
 /**
- * @brief Gets the health of an object
+ * @brief Gets the use_value of an object
  * @author Alina Datsko
  *
  * @param obj Pointer to the object
- * @return Health of the object
+ * @return Use value of the object
  */
-int object_get_health(Object *obj);
+int object_get_use_value(Object *obj);
 
 /**
- * @brief Sets the health of an object
+ * @brief Sets the use_value of an object
  * @author Alina Datsko
  *
  * @param obj Pointer to the object
- * @param health New health value
+ * @param use_value New use value
  * @return OK if everything went well, ERROR if the object does not exist
  */
-Status object_set_health(Object *obj, int health);
+Status object_set_use_value(Object *obj, int use_value);
 
 /**
  * @brief Gets the dependency of an object

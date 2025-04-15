@@ -24,6 +24,8 @@ struct _Character {
   char name[WORD_SIZE + 1];    /*!< Name of the character */
   char gdesc[CHR_GD_SZ + 1];   /*!< Graphic description of the character*/
   char message[MESG_SIZE + 1]; /*!< Message of the character*/
+  Id weapon;                   /*!< Id of the object that serves as weapon */
+  Id armor;                    /*!< Id of the object that serves as armor */
   int health;                  /*!< Health of the character*/
   Bool friendly; /*!< The friendlyness of a character. True if friendly, False otherwise*/
 };
@@ -120,6 +122,36 @@ Status character_set_message(Character *charr, char *message) {
   return OK;
 }
 
+/*Gets the weapon equipped by the character*/
+Id character_get_weapon(Character *charr){
+  if(!charr) return NO_ID;
+
+  return charr->weapon;
+}
+
+/*Sets the armor equipped by the character*/
+Status character_set_weapon(Character *charr, Id weapon_id){
+  if(!charr || weapon_id == NO_ID) return ERROR;
+
+  charr->weapon = weapon_id;
+  return OK;
+}
+
+/*Gets the armor equipped by the character*/
+Id character_get_armor(Character *charr){
+  if(!charr) return NO_ID;
+
+  return charr->armor;
+}
+
+/*Sets the armor equipped by the character*/
+Status character_set_armor(Character *charr, Id armor_id){
+  if(!charr || armor_id == NO_ID) return ERROR;
+
+  charr->armor = armor_id;
+  return OK;
+}
+
 /*It gets the health of a character*/
 int character_get_health(Character *charr) {
   if (!charr) return -1;
@@ -162,6 +194,8 @@ Status character_print(Character *charr) {
   fprintf(stdout, "=> Character id: %ld\n", charr->id);
   fprintf(stdout, "=> Character name: %s\n", charr->name);
   fprintf(stdout, "=> Character health: %d\n", charr->health);
+  fprintf(stdout, "=> Character equipped weapon: %ld\n", charr->weapon);
+  fprintf(stdout, "=> Character equipped armor: %ld\n", charr->armor);
   fprintf(stdout, "=> Character graphic description: %s\n", charr->gdesc);
   fprintf(stdout, "=> Character message: %s\n", charr->message);
   fprintf(stdout, "=> Character friendly: %s\n",

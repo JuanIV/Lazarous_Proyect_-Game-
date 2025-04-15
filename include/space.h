@@ -174,6 +174,24 @@ Bool space_is_full(Space *space);
 int space_get_num_objects(Space *space);
 
 /**
+ * @brief Gets the id of the trap currently set on a space
+ * @author Juan Ibáñez
+ * 
+ * @param space Pointer the space
+ * @return Id of the trap in the space
+ */
+Id space_get_trap(Space *space);
+
+/**
+ * @brief Sets a trap in a space
+ * 
+ * @param space Pointer to the space
+ * @param trap Id of the new trap
+ * @return ERROR if space does not exist, OK otherwise
+ */
+Status space_set_trap(Space *space, Id trap);
+
+/**
  * @brief Sets the character of the space to a certain id
  * @author Juan Ibáñez
  *

@@ -22,8 +22,9 @@
 struct _Space {
   Id id;                    /*!< Id number of the space, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the space */
-  char gdesc[SP_GD_HGHT][SP_GD_WTH + 1]; /*!< Graphic description of the space*/
+  char gdesc[SP_GD_HGHT][SP_GD_WTH + 1]; /*!< Graphic description of the space */
   Set *objects;                          /*!< Set of the objects in the space */
+  Id trap;      /*!< Id of the trap currently set on the space */
   Id character; /*!< Id of the character in the space */
   Bool discovered; /*!< Bool to know if the space has been discovered */
 };
@@ -184,6 +185,26 @@ int space_get_num_objects(Space *space){
 
   return set_get_num_ids(space->objects);
 }
+
+/**
+ * ***************  Trap management  ********************
+ */
+
+/*Gets the id of the trap currently set on a space*/
+Id space_get_trap(Space *space){
+  if(!space) return NO_ID;
+
+  return space->trap;
+}
+
+/*Sets a trap in a space*/
+Status space_set_trap(Space *space, Id trap){
+  if(!space) return ERROR;
+
+  space->trap = trap;
+  return OK;
+}
+
 /**
  * ***************  Character management  ***************
  */ 

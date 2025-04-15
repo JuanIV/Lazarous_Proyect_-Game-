@@ -130,6 +130,44 @@ char *character_get_message(Character *charr);
 Status character_set_message(Character *charr, char *message);
 
 /**
+ * @brief Gets the weapon equipped by the character
+ * @author Juan Ibáñez
+ * 
+ * @param charr Pointer to the character
+ * @return Id of the object that serves as weapon
+ */
+Id character_get_weapon(Character *charr);
+
+/**
+ * @brief Sets the armor equipped by the character
+ * @author Juan Ibáñez
+ * 
+ * @param charr Pointer to the character
+ * @param weapon_id Id of the new weapon
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status character_set_weapon(Character *charr, Id weapon_id);
+
+/**
+ * @brief Gets the armor equipped by the character
+ * @author Juan Ibáñez
+ * 
+ * @param charr Pointer to the character
+ * @return Id of the object that serves as armor
+ */
+Id character_get_armor(Character *charr);
+
+/**
+ * @brief Sets the armor equipped by the character
+ * @author Juan Ibáñez
+ * 
+ * @param charr Pointer to the character
+ * @param armor_id Id of the new armor
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status character_set_armor(Character *charr, Id armor_id);
+
+/**
  * @brief It gets the health of a character
  * @author Tiago Oselka
  *

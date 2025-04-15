@@ -120,6 +120,53 @@ void game_actions_chat(Game *game);
 void game_actions_inspect(Game *game);
 
 /**
+ * @brief It defines the action of using an object
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ */
+void game_actions_use(Game *game);
+
+/**
+ * @brief Action of using a healing item
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param obj Pointer to the object that is the healer
+ * @param trg Pointer to the character being healed
+ */
+void game_actions_use_healer(Game *game, Object *obj, Character *trg);
+
+/**
+ * @brief Action of equipping an armor
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param obj Pointer to the object that is the armor
+ * @param trg Pointer to the character that will have the armor
+ */
+void game_actions_equip_armor(Game *game, Object *obj, Character *trg);
+
+/**
+ * @brief Action of equipping a weapon
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param obj Pointer to the object that is the weapon
+ * @param trg Pointer to the character that will have the weapon
+ */
+void game_actions_equip_weapon(Game *game, Object *obj, Character *trg);
+
+/**
+ * @brief Action of setting a trap on current space
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param obj Pointer to the object that is the trap
+ */
+void game_actions_set_trap(Game *game, Object *obj);
+
+/**
      Game actions implementation
 */
 
@@ -193,6 +240,8 @@ void game_actions_move(Game *game) {
   Direction direction = UNK_DIR;
   Id cur_space = NO_ID, dest_space = NO_ID;
   Space *space = NULL;
+  Object *trap = NULL;
+  int curr_health, new_health;
   extern char *dir_to_str[N_DIR][N_DIRT];
   char *dir = NULL;
   int i = 0;
@@ -231,6 +280,19 @@ void game_actions_move(Game *game) {
 
   space = game_get_space(game, game_get_player_location(game));
   space_set_discovered(space, TRUE);
+
+  /*Explode the trap if there is one*/
+  if(space_get_trap(space) != NO_ID){
+    trap = game_get_object(game, space_get_trap(space));
+  } if(trap && /*ACTIVAR SOLO SI LA TRAMPA ES DEL EQUIPO OPUESTO(FALTA IMPLEMENTACION DE EQUIPOS)*/){
+    curr_health = player_get_health(player);
+    new_health = curr_health - object_get_use_value(trap);
+
+    if(new_health <= 0) player_set_health(player, 0);
+    else player_set_health(player,new_health);
+
+    game_set_last_message(game, "A trap was activated! Ouch!");
+  }
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -461,5 +523,165 @@ void game_actions_inspect(Game *game){
 
   game_set_last_message(game, desc);
 
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_use(Game *game){
+  Command *last_cmd = NULL;
+  char *cmd_desc = NULL, *toks = NULL;
+  char *name = NULL, *target = NULL;
+  Id obj_id = NO_ID, charr_id = NO_ID;
+  Tag obj_tag = NORMAL;
+  Character *charr = NULL;
+  Object *obj = NULL;
+
+  if (!game) return; 
+  
+  /*Gets the description of the last cmd*/
+  if (!(last_cmd = game_get_last_command(game))) return;
+
+  if (!(cmd_desc = command_get_desc(last_cmd))) return;
+
+  toks = strtok(cmd_desc," \r\n");
+  if(!toks) return;
+  name = toks;
+
+  toks = strtok(cmd_desc," \r\n");
+  if(toks){
+    if(strcmp(toks,"over")){
+      toks = strtok(cmd_desc," \r\n");
+      if(!toks) return;
+      target = toks;
+    }
+  }
+
+  /*Get the object from the given name*/
+  obj_id = game_get_obj_id_from_name(game, name);
+  if (obj_id == NO_ID) return;
+
+  obj = game_get_object(game, obj_id);
+  if(!obj) return;
+
+  obj_tag = object_get_tag(obj);
+
+  /*Get the character if a name is given*/
+  if(target){
+    charr_id = game_get_charr_id_from_name(game,target);
+    if(charr_id == NO_ID) return;
+
+    charr = game_get_character(game, charr_id);
+    if(!charr) return;
+  }
+
+  switch(obj_tag){
+    case NORMAL:
+      break;
+    case HEALER:
+      game_actions_use_healer(game,obj,charr);
+      break;
+    case WEAPON:
+      game_actions_equip_weapon(game,obj,charr);
+      break;
+    case ARMOR:
+      game_actions_equip_armor(game,obj,charr);
+      break;
+    case TRAP:
+      game_actions_set_trap(game,obj);
+      break;
+    default:
+      break;
+  }
+}
+
+void game_actions_use_healer(Game *game, Object *obj, Character *trg){
+  int current_health = 0, new_health = 0;
+  Player *player = NULL;
+
+  if(!game || !obj) return;
+
+  if(trg){
+    current_health = character_get_health(trg);
+
+    if(current_health <= 0) return;
+
+    new_health = current_health + object_get_use_value(obj);
+    if(new_health <= 0) character_set_health(trg, 0);
+    else character_set_health(trg, new_health);
+  } else {
+    player = game_get_player(game);
+    if(!player) return;
+
+    current_health = player_get_health(player);
+
+    if(current_health <= 0) return;
+
+    new_health = current_health + object_get_use_value(obj);
+    if(new_health <= 0) player_set_health(player, 0);
+    else player_set_health(player, new_health);
+  }
+
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_equip_armor(Game *game, Object *obj, Character *trg){
+  Id obj_id = NO_ID;
+  Player *player = NULL;
+
+  if(!game || !obj) return;
+
+  obj_id = object_get_id(obj);
+  player = game_get_player(game);
+  if(!player || obj_id == NO_ID) return;
+
+  if(trg){
+    if(character_set_armor(trg,obj_id)==ERROR) return;
+    if(player_delete_object(player,obj_id) == ERROR) return;
+  } else {
+    if(player_set_armor(player,obj_id)==ERROR) return;
+    if(player_delete_object(player,obj_id) == ERROR) return;
+  }
+
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_equip_weapon(Game *game, Object *obj, Character *trg){
+  Id obj_id = NO_ID;
+  Player *player = NULL;
+
+  if(!game || !obj) return;
+
+  obj_id = object_get_id(obj);
+  player = game_get_player(game);
+  if(!player || obj_id == NO_ID) return;
+
+  if(trg){
+    if(character_set_weapon(trg,obj_id)==ERROR) return;
+    if(player_delete_object(player,obj_id) == ERROR) return;
+  } else {
+    if(player_set_weapon(player,obj_id)==ERROR) return;
+    if(player_delete_object(player,obj_id) == ERROR) return;
+  }
+
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_set_trap(Game *game, Object *obj){
+  Id obj_id = NO_ID;
+  Player *player = NULL;
+  Space *curr_sp = NULL;
+
+  if(!game || !obj) return;
+
+  obj_id = object_get_id(obj);
+  player = game_get_player(game);
+  curr_sp = game_get_space(game, game_get_player_location(game));
+  if(!player || obj_id == NO_ID || !curr_sp) return;
+
+  /*If there is already a trap, we cant set another one*/
+  if(space_get_trap(curr_sp) != NO_ID) return;
+
+  if(space_set_trap(curr_sp,obj_id) == ERROR) return;
+  if(player_delete_object(player,obj_id) == ERROR) return;
+  
   if (game_set_last_status(game, OK) == ERROR) return;
 }

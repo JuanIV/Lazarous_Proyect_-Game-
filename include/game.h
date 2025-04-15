@@ -355,6 +355,16 @@ Id game_get_character_location(Game *game, Id id);
 Status game_set_character_location(Game *game, Id charr, Id loc);
 
 /**
+ * @brief It gets a character's id from its name
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param name Name of the character
+ * @return Id of the character or NO_ID if it wasnt found
+ */
+Id game_get_charr_id_from_name(Game *game, char *name);
+
+/**
  * @brief Gets the character in a position of the array of objects
  * @author Tiago Oselka
  * 
