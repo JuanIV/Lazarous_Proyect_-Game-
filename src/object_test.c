@@ -66,6 +66,38 @@ int main(int argc, char **argv) {
   if (all || test == 15) test1_object_set_desc();
   if (all || test == 16) test2_object_set_desc();
 
+  if (all || test == 17) test1_object_get_health();
+  if (all || test == 18) test2_object_get_health();
+
+  if (all || test == 19) test1_object_set_health();
+  if (all || test == 20) test2_object_set_health();
+
+  if (all || test == 21) test1_object_get_dependency();
+  if (all || test == 22) test2_object_get_dependency();
+
+  if (all || test == 23) test1_object_set_dependency();
+  if (all || test == 24) test2_object_set_dependency();
+
+  if (all || test == 25) test1_object_get_open();
+  if (all || test == 26) test2_object_get_open();
+
+  if (all || test == 27) test1_object_set_open();
+  if (all || test == 28) test2_object_set_open();
+
+  if (all || test == 29) test1_object_get_movable();
+  if (all || test == 30) test2_object_get_movable();
+
+  if (all || test == 31) test1_object_set_movable();
+  if (all || test == 32) test2_object_set_movable();
+
+  if (all || test == 33) test1_object_get_luck();
+  if (all || test == 34) test2_object_get_luck();
+
+  if (all || test == 35) test1_object_set_luck();
+  if (all || test == 36) test2_object_set_luck();
+
+
+
   PRINT_PASSED_PERCENTAGE;
 
   return 0;
@@ -163,4 +195,117 @@ void test2_object_set_desc() {
   PRINT_TEST_RESULT(object_set_desc(obj, "A shiny sword.") == ERROR);
 }
 
+void test1_object_get_health() {
+  Object *obj = object_create(1);
+  object_set_health(obj, 100);
+  PRINT_TEST_RESULT(object_get_health(obj) == 100);
+  object_destroy(obj);
+}
 
+void test2_object_get_health() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_get_health(obj) == ERROR);
+}
+
+void test1_object_set_health() {
+  Object *obj = object_create(1);
+  PRINT_TEST_RESULT(object_set_health(obj, 100) == OK);
+  object_destroy(obj);
+}
+
+void test2_object_set_health() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_set_health(obj, 100) == ERROR);
+}
+
+void test1_object_get_dependency() {
+  Object *obj = object_create(1);
+  object_set_dependency(obj, 2);
+  PRINT_TEST_RESULT(object_get_dependency(obj) == 2);
+  object_destroy(obj);
+}
+
+void test2_object_get_dependency() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_get_dependency(obj) == NO_ID);
+}
+
+void test1_object_set_dependency() {
+  Object *obj = object_create(1);
+  PRINT_TEST_RESULT(object_set_dependency(obj, 2) == OK);
+  object_destroy(obj);
+}
+
+void test2_object_set_dependency() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_set_dependency(obj, 2) == ERROR);
+}
+
+void test1_object_get_open() {
+  Object *obj = object_create(1);
+  object_set_open(obj, TRUE);
+  PRINT_TEST_RESULT(object_get_open(obj) == TRUE);
+  object_destroy(obj);
+}
+
+void test2_object_get_open() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_get_open(obj) == NO_ID);
+}
+
+void test1_object_set_open() {
+  Object *obj = object_create(1);
+  PRINT_TEST_RESULT(object_set_open(obj, TRUE) == OK);
+  object_destroy(obj);
+}
+
+void test2_object_set_open() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_set_open(obj, TRUE) == ERROR);
+}
+
+void test1_object_get_movable() {
+  Object *obj = object_create(1);
+  object_set_movable(obj, TRUE);
+  PRINT_TEST_RESULT(object_get_movable(obj) == TRUE);
+  object_destroy(obj);
+}
+
+void test2_object_get_movable() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_get_movable(obj) == ERROR);
+}
+
+void test1_object_set_movable() {
+  Object *obj = object_create(1);
+  PRINT_TEST_RESULT(object_set_movable(obj, TRUE) == OK);
+  object_destroy(obj);
+}
+
+void test2_object_set_movable() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_set_movable(obj, TRUE) == ERROR);
+}
+
+void test1_object_get_luck() {
+  Object *obj = object_create(1);
+  object_set_luck(obj, 50);
+  PRINT_TEST_RESULT(object_get_luck(obj) == 50);
+  object_destroy(obj);
+}
+
+void test2_object_get_luck() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_get_luck(obj) == ERROR);
+}
+
+void test1_object_set_luck() {
+  Object *obj = object_create(1);
+  PRINT_TEST_RESULT(object_set_luck(obj, 50) == OK);
+  object_destroy(obj);
+}
+
+void test2_object_set_luck() {
+  Object *obj = NULL;
+  PRINT_TEST_RESULT(object_set_luck(obj, 50) == ERROR);
+}

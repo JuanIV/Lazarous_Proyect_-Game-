@@ -23,6 +23,11 @@ struct _Object {
   Id id;                    /*!< Id number of the space, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the space */
   char desc[OBJ_DESC_MX + 1]; /*!< Description of the object*/
+  int health;               /*!< Health that the object gives or takes to the player */
+  Bool movable;             /*!< True if the object is movable or False if not */
+  Id depedency;             /*!< Id of the object that is needed to use this one */
+  Id open;                  /*!< Id of the link that this object can open */
+  int luck;                /*!< Luck that it gives or takes to the player*/
 };
 
 /*Creates a new object by allocating memmory for it and initialazing its members*/
@@ -35,6 +40,11 @@ Object *object_create(Id id) {
   obj->id = id;
   obj->name[0] = '\0';
   obj->desc[0] = '\0';
+  obj->health = 0;
+  obj->movable = FALSE;
+  obj->depedency = NO_ID;
+  obj->open = NO_ID;
+  obj->luck = 0;
 
   return obj;
 }
@@ -95,12 +105,99 @@ Status object_set_desc(Object *obj, char *desc) {
   return OK;
 }
 
+/*Gets the health of an object*/
+int object_get_health(Object *obj) {
+  if (!obj) return 0;
+
+  return obj->health;
+}
+
+/*Sets the health of an object*/
+Status object_set_health(Object *obj, int health) {
+  if (!obj) return ERROR;
+
+  obj->health = health;
+
+  return OK;
+}
+
+/*Gets the movable property of an object*/
+Bool object_get_movable(Object *obj) {
+  if (!obj) return FALSE;
+
+  return obj->movable;
+}
+
+/*Sets the movable property of an object*/
+Status object_set_movable(Object *obj, Bool movable) {
+  if (!obj) return ERROR;
+
+  obj->movable = movable;
+
+  return OK;
+}
+
+/*Gets the dependency of an object*/
+Id object_get_dependency(Object *obj) {
+  if (!obj) return NO_ID;
+
+  return obj->depedency;
+}
+
+/*Sets the dependency of an object*/
+Status object_set_dependency(Object *obj, Id depedency) {
+  if (!obj) return ERROR;
+
+  obj->depedency = depedency;
+
+  return OK;
+}
+
+/*Gets the open property of an object*/
+Id object_get_open(Object *obj) {
+  if (!obj) return NO_ID;
+
+  return obj->open;
+}
+
+/*Sets the open property of an object*/
+Status object_set_open(Object *obj, Id open) {
+  if (!obj) return ERROR;
+
+  obj->open = open;
+
+  return OK;
+}
+
+/*Gets the luck property of an object*/
+int object_get_luck(Object *obj) {
+  if (!obj) return FALSE;
+
+  return obj->luck;
+}
+
+/*Sets the luck property of an object*/
+Status object_set_luck(Object *obj, int luck) {
+  if (!obj) return ERROR;
+
+  obj->luck = luck;
+
+  return OK;
+}
+
 /*Prints all information about an object*/
 Status object_print(Object *obj) {
   if (!obj) return ERROR;
 
   fprintf(stdout, "--> Object id: %d\n", (int)obj->id);
   fprintf(stdout, "--> Object name: %s\n", obj->name);
+  fprintf(stdout, "--> Object description: %s\n", obj->desc);
+  fprintf(stdout, "--> Object health: %d\n", obj->health);
+  fprintf(stdout, "--> Object movable: %d\n", (int)obj->movable);
+  fprintf(stdout, "--> Object dependency: %d\n", (int)obj->depedency);
+  fprintf(stdout, "--> Object open: %d\n", (int)obj->open);
+  fprintf(stdout, "--> Object luck: %d\n", obj->luck);
+  fprintf(stdout, "\n");
 
   return OK;
 }

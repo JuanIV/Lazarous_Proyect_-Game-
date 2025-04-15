@@ -117,6 +117,146 @@ void test2_object_get_desc();
 void test1_object_set_desc();
 
 /**
+ * @test Test getting object health
+ * @pre Non NULL pointer to object
+ * @post Output == Expected health
+ */
+void test1_object_get_health();
+
+/**
+ * @test Test getting object health with NULL pointer
+ * @pre NULL pointer to object
+ * @post Output == ERROR
+ */
+void test2_object_get_health();
+
+/**
+ * @test Test setting object health
+ * @pre Non NULL pointer to object 
+ * @post Output == OK
+ */
+void test1_object_set_health();
+
+/**
+ * @test Test setting object health with NULL pointer
+ * @pre NULL pointer to object
+ * @post Output == ERROR
+ */
+void test2_object_set_health();
+
+/** 
+ * @test Test getting object dependency
+ * @pre Non NULL pointer to object
+ * @post Output == Expected dependency
+ */
+void test1_object_get_dependency();
+
+/**
+ * @test Test getting object dependency with NULL pointer
+ * @pre NULL pointer to object
+ * @post Output == NO_ID
+ */
+void test2_object_get_dependency();
+
+/**
+ * @test Test setting object dependency
+ * @pre Non NULL pointer to object 
+ * @post Output == OK
+ */
+void test1_object_set_dependency();
+
+/**
+ * @test Test setting object dependency with NULL pointer
+ * @pre NULL pointer to object
+ * @post Output == ERROR
+ */
+void test2_object_set_dependency();
+
+/**
+ * @test Test getting object open property
+ * @pre Non NULL pointer to object
+ * @post Output == Expected open property
+ */
+void test1_object_get_open();
+
+/**
+ * @test Test getting object open property with NULL pointer
+ * @pre NULL pointer to object
+ * @post Output == NO_ID
+ */
+void test2_object_get_open();
+
+/**
+ * @test Test setting object open property
+ * @pre Non NULL pointer to object 
+ * @post Output == OK
+ */
+void test1_object_set_open();
+
+/**
+ * @test Test setting object open property
+ * @pre NULL pointer to object 
+ * @post Output == ERROR
+ */
+void test2_object_set_open();
+
+/**
+ * @test Test getting object movable
+ * @pre Non NULL pointer to object
+ * @post Output = OK
+ */
+void test1_object_get_movable();
+
+/** 
+ * @test Test getting object movable
+ * @pre NULL pointer to object
+ * @post Output = OK
+ */
+void test2_object_get_movable();
+
+/**
+ * @test Test setting object movable property
+ * @pre Non NULL pointer to object 
+ * @post Output == OK
+ */
+void test1_object_set_movable();
+
+/**
+ * @test Test setting object movable property
+ * @pre NULL pointer to object 
+ * @post Output == ERROR
+ */
+void test2_object_set_movable();
+
+/**
+ * @test Test getting object luck
+ * @pre Non NULL pointer to object
+ * @post Output = OK
+ */
+void test1_object_get_luck();
+
+/** 
+ * @test Test getting object luck
+ * @pre NULL pointer to object
+ * @post Output = OK
+ */
+void test2_object_get_luck();
+
+/**
+ * @test Test setting object luck  property
+ * @pre Non NULL pointer to object 
+ * @post Output == OK
+ */
+void test1_object_set_luck();
+
+/**
+ * @test Test setting object luck property
+ * @pre NULL pointer to object 
+ * @post Output == ERROR
+ */
+void test2_object_set_luck();
+
+/**
  * @test Test setting object description with NULL pointer
  * @pre NULL pointer to object
  * @post Output == ERROR

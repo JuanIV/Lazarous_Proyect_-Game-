@@ -102,6 +102,101 @@ char *object_get_desc(Object *obj);
 Status object_set_desc(Object *obj, char *desc);
 
 /**
+ * @brief Gets the health of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @return Health of the object
+ */
+int object_get_health(Object *obj);
+
+/**
+ * @brief Sets the health of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @param health New health value
+ * @return OK if everything went well, ERROR if the object does not exist
+ */
+Status object_set_health(Object *obj, int health);
+
+/**
+ * @brief Gets the dependency of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @return Id of the object it depends on
+ */
+Id object_get_dependency(Object *obj);
+
+/**
+ * @brief Sets the dependency of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @param depedency New dependency id
+ * @return OK if everything went well, ERROR if the object does not exist
+ */
+Status object_set_dependency(Object *obj, Id depedency);
+
+/**
+ * @brief Gets the open property of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @return Id of the object it opens
+ */
+Id object_get_open(Object *obj);
+
+/**
+ * @brief Sets the open property of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @param opens New open id
+ * @return OK if everything went well, ERROR if the object does not exist
+ */ 
+Status object_set_open(Object *obj, Id opens);
+
+/**
+ * @brief Gets the movable property of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @return TRUE if the object is movable, FALSE otherwise
+ */
+Bool object_get_movable(Object *obj);
+
+/**
+ * @brief Sets the movable property of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @param movable New movable value
+ * @return OK if everything went well, ERROR if the object does not exist
+ */
+Status object_set_movable(Object *obj, Bool movable);
+
+/**
+ * @brief Gets the luck property of an object
+ * @author Alina Datsko
+ * 
+ * @param obj Pointer to the object
+ * @return Luck of the object
+ */
+int object_get_luck(Object *obj);
+
+/**
+ * @brief Sets the luck property of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @param luck New luck value
+ * @return OK if everything went well, ERROR if the object does not exist
+ */
+Status object_set_luck(Object *obj, int luck);
+
+/**
  * @brief Prints all information about an object
  * @author Juan Ibáñez
  *
