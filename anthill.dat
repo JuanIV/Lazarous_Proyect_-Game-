@@ -9,11 +9,16 @@
 #s:13|Pantry|  ___    | l+**l`*m| l**+l   |  TTT m+'|         |
 #s:14|Hole|  ***  * |**/\ **  | /  \/ \ |*********|#     # #|
 
-#o:21|Branch|122|You found a Branch, don't eat it with ranch|
-#o:55|Grain|11|You found Grain, but lost your brain|
-#o:22|Leaf|11|You found a Leaf, fly away with it|
-#o:23|Nut|121|You found a Nut, make sure is not bad|
-#o:24|Donut|121|You found a Donut, time to glow up|
+#K:21|0|Branch|You found a Branch, don't eat it with ranch|0|1|-1|-1|0
+#K:55|0|Grain|You found Grain, but lost your brain|0|1|-1|-1|0
+#K:22|0|Leaf|You found a Leaf, fly away with it|0|1|-1|-1|0
+#K:23|0|Nut|You found a Nut, make sure is not bad|0|1|-1|-1|0
+#K:24|0|Donut|You found a Donut, time to glow up|0|1|-1|-1|0
+#k:70|1|Vandage|Vandages are usefull for healing|5|1|-1|-1|0
+
+#o:21|21|11
+#o:23|23|11
+#o:24|70|11
 
 #p:0|Ant|mO^|11|5|3|
 #p:1|Person|(0_0)|121|5|4|

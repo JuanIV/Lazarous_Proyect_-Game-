@@ -25,6 +25,15 @@
 Status game_reader_load_links(Game *game, char *filename);
 
 /**
+ * @brief Loads the classes from a file to a game
+ * 
+ * @param game Pointer to the game where the spaces will be stored
+ * @param filename Name of the file with the data
+ * @return OK if the classes loaded correctly, ERROR if there was any mistake
+ */
+Status game_reader_load_classes(Game *game, char *filename);
+
+/**
  * @brief function used in game_create_from_file to load the objects from
  * a file to a game
  *

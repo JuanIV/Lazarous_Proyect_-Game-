@@ -47,6 +47,8 @@ struct _Game {
   int n_spaces;								/*!< Number of spaces in the game*/
   Link *links[MAX_LINKS];     /*!< Array of links that connect the spaces*/
   int n_links;                /*!< Number of links in the game*/
+  Class *class[MAX_CLASS]; /*!< Array of classes of objects in the game*/
+  int n_classes;              /*!< Number of classes in the game*/
   Object *object[MAX_OBJ];		/*!< Array of objects in the game*/
   int n_objects;							/*!< Number of objects in the game*/
   Character *characters[MAX_CHARR];	/*!< Array of characters in the game*/
@@ -203,6 +205,7 @@ Status game_create_from_file(Game *game, char *filename) {
   the objects, players and characters to each space*/
   if (game_reader_load_spaces(game, filename) == ERROR) return ERROR;
   if (game_reader_load_links(game, filename) == ERROR) return ERROR;
+  if (game_reader_load_classes(game, filename) == ERROR) return ERROR;
   if (game_reader_load_objects(game, filename) == ERROR) return ERROR;
   if (game_reader_load_characters(game, filename) == ERROR) return ERROR;
   if (game_reader_load_players(game, filename) == ERROR) return ERROR;
@@ -499,6 +502,53 @@ Bool game_connection_is_open(Game *game, Id orig_space, Direction dir) {
   }
 
   return FALSE;
+}
+
+/**
+ * ***************  Classes management  ***************
+*/
+
+/*Adds a class to the game*/
+Status game_add_class(Game *game, Class *class){
+  if(!game || !class) return ERROR;
+
+  if(game->n_classes >= MAX_CLASS) return ERROR;
+
+  game->class[game->n_classes] = class;
+  game->n_classes++;
+
+  return OK;
+}
+
+/*Gets the pointer to a class*/
+Class *game_get_class(Game *game, Id id){
+  int i=0;
+
+  if(!game || id == NO_ID) return NULL;
+
+  for(i=0; i< game->n_classes; i++){
+    if(id == object_class_get_id(game->class[i])) return game->class[i];
+  }
+
+  return NULL;
+}
+
+/*Gets the number of classes of a game*/
+int game_get_n_classes(Game *game) {
+  if (!game) return -1;
+
+  if (game->n_classes < 0) return -1;
+
+  return game->n_classes;
+}
+
+/*It gets the class in a position of the array*/
+Class *game_get_class_at_pos(Game *game, int pos) {
+  if (!game) return NULL;
+
+  if (pos >= game->n_classes) return NULL;
+
+  return game->class[pos];
 }
 
 /**

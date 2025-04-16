@@ -14,16 +14,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/************ Declaration of private functions *****************/
-
-/**
- * Implementation of the private funtions
- */
-
-/**
- * Implementation of the public funtions
- */
-
 /*Function used in game_create_from_file to load the links from a file to a game*/
 Status game_reader_load_links(Game *game, char *filename) {
   FILE *file = NULL;
@@ -84,17 +74,90 @@ Status game_reader_load_links(Game *game, char *filename) {
   return OK;
 }
 
+/*Loads the classes from a file to a game*/
+Status game_reader_load_classes(Game *game, char *filename){
+  FILE *file = NULL;
+  char line[WORD_SIZE + 1] = "";
+  char name[WORD_SIZE + 1] = "";
+  char desc[OBJ_DESC_MX + 1] = "";
+  char *toks = NULL;
+  Tag tag;
+  Bool movable;
+  Id class_id, dependency, open;
+  Class *class = NULL;
+  int use_value, luck;
+  Status st = OK;
+
+  if(!game || !filename) return ERROR;
+
+  if(!(file = fopen(filename, "r"))) return ERROR;
+
+  /*
+  reads data from the file acording to the next structure:
+  #k:<id>|<tag>|<name>|<description>|<use_value>|<movable>|<dependency>|<open>|<luck>
+  */
+  while(fgets(line, WORD_SIZE, file)){
+    if(strncmp("#k:", line, 3) == 0) {
+      toks = strtok(line + 3, "|");
+      class_id = atol(toks);
+      toks = strtok(NULL, "|");
+      tag = atol(toks);
+      toks = strtok(NULL, "|");
+      sprintf(name, "%.*s",WORD_SIZE, toks);
+      toks = strtok(NULL, "|");
+      sprintf(desc, "%.*s",OBJ_DESC_MX, toks);
+      toks = strtok(NULL, "|");
+      use_value = atol(toks);
+      toks = strtok(NULL, "|");
+      movable = atol(toks);
+      toks = strtok(NULL, "|");
+      dependency = atol(toks);
+      toks = strtok(NULL, "|");
+      open = atol(toks);
+      toks = strtok(NULL, "|");
+      luck = atol(toks);
+
+      class = object_class_create(class_id);
+      if(!class){
+        fclose(file);
+        return ERROR;
+      } 
+
+      if(object_class_set_tag(class, tag) == ERROR) st = ERROR;
+      if(object_class_set_name(class, name) == ERROR) st = ERROR;
+      if(object_class_set_desc(class, desc) == ERROR) st = ERROR;
+      if(object_class_set_use_value(class, use_value) == ERROR) st = ERROR;
+      if(object_class_set_movable(class,movable) == ERROR) st = ERROR;
+      if(object_class_set_dependency(class,dependency) == ERROR) st = ERROR;
+      if(object_class_set_open(class, open) == ERROR) st = ERROR;
+      if(object_class_set_luck(class, luck) == ERROR) st = ERROR;
+
+      if(st == ERROR){
+        object_class_destroy(class);
+        fclose(file);
+        return ERROR;
+      }
+
+      if(game_add_class(game, class) == ERROR){
+        object_class_destroy(class);
+        fclose(file);
+        return ERROR;
+      }
+    }
+  }
+  fclose(file);
+  return OK;
+}
+
 /*Function used in game_create_from_file to load the objects from a file to a game*/
 Status game_reader_load_objects(Game *game, char *filename) {
   FILE *file = NULL;
   char line[WORD_SIZE] = "";
-  char name[WORD_SIZE] = "";
-  char message[OBJ_DESC_MX + 1] = "";
   char *toks = NULL;
-  Id id_obj, id_location;
+  Id obj_id, class_id, location_id;
+  Class *class = NULL;
   Object *object = NULL;
   Space *space = NULL;
-  Status st = OK;
 
   if (!filename || !game) return ERROR;
 
@@ -102,35 +165,50 @@ Status game_reader_load_objects(Game *game, char *filename) {
 
   /*
   reads data from the file acording to the next structure:
-  #o:<id>|<name>|<initial pos>|<message>
+  #o:<id>|<class_id>|<initial pos>
   */
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#o:", line, 3) == 0) {
       toks = strtok(line + 3, "|");
-      id_obj = atol(toks);
+      obj_id = atol(toks);
       toks = strtok(NULL, "|");
-      strcpy(name, toks);
+      class_id = atol(toks);
       toks = strtok(NULL, "|");
-      id_location = atol(toks);
-      toks = strtok(NULL, "|");
-      sprintf(message,"%.*s", OBJ_DESC_MX, toks);
+      location_id = atol(toks);
 
       /*creates a new object with the read data, adds it to the array of objects
       and to the set of objects inside its corresponding space */
-      object = object_create(id_obj);
-      if (!object) return ERROR;
-      if (object_set_name(object, name) == ERROR) st = ERROR;
-      if (object_set_desc(object, message) == ERROR) st = ERROR;
-
-      if(st == ERROR) {
+      
+      if (!(object = object_create(obj_id))){
+        fclose(file);
+        return ERROR;
+      }
+      if(!(class = game_get_class(game, class_id))){
+        object_destroy(object);
+        fclose(file);
+        return ERROR;
+      }
+      if(object_set_class(object,class) == ERROR) {
         object_destroy(object);
         fclose(file);
         return ERROR;
       }
 
-      if (game_add_object(game, object) == ERROR) return ERROR;
-      if (!(space = game_get_space(game, id_location))) return ERROR;
-      if (space_add_object(space, id_obj) == ERROR) return ERROR;
+      if (game_add_object(game, object) == ERROR) {
+        object_destroy(object);
+        fclose(file);
+        return ERROR;
+      } 
+      if (!(space = game_get_space(game, location_id))) {
+        object_destroy(object);
+        fclose(file);
+        return ERROR;
+      } 
+      if (space_add_object(space, obj_id) == ERROR) {
+        object_destroy(object);
+        fclose(file);
+        return ERROR;
+      } 
     }
   }
 
@@ -177,7 +255,10 @@ Status game_reader_load_players(Game *game, char *filename) {
       /*creates a new player with the read data, adds it to the array of players
       and sets its location to the corresponding space */
       play = player_create(id_play);
-      if (!play) return ERROR;
+      if (!play) {
+        fclose(file);
+        return ERROR;
+      } 
       if (player_set_name(play, name) == ERROR) st = ERROR;
       if (player_set_gdesc(play, desc) == ERROR) st = ERROR;
       if (player_set_health(play, health) == ERROR) st = ERROR;
@@ -189,11 +270,27 @@ Status game_reader_load_players(Game *game, char *filename) {
         return ERROR;
       }
 
-      if (game_add_player(game, play) == ERROR) return ERROR;
-      if (!(space = game_get_space(game, id_location))) return ERROR;
-      if (player_set_location(play, id_location) == ERROR) return ERROR;
+      if (game_add_player(game, play) == ERROR) {
+        player_destroy(play);
+        fclose(file);
+        return ERROR;
+      }
+      if (!(space = game_get_space(game, id_location))) {
+        player_destroy(play);
+        fclose(file);
+        return ERROR;
+      }
+      if (player_set_location(play, id_location) == ERROR) {
+        player_destroy(play);
+        fclose(file);
+        return ERROR;
+      }
 
-      if(space_set_discovered(space, TRUE) == ERROR) return ERROR;
+      if(space_set_discovered(space, TRUE) == ERROR) {
+        player_destroy(play);
+        fclose(file);
+        return ERROR;
+      }
     }
   }
 
@@ -243,7 +340,10 @@ Status game_reader_load_characters(Game *game, char *filename) {
       /*creates a new character with the read data, adds it to the array of characters
       and sets its location to the corresponding space */
       charr = character_create(id_charr);
-      if (!charr) return ERROR;
+      if (!charr) {
+        fclose(file);
+        return ERROR;
+      }
       if (character_set_name(charr, name) == ERROR) st = ERROR;
       if (character_set_gdesc(charr, desc) == ERROR) st = ERROR;
       if (character_set_health(charr, health) == ERROR) st = ERROR;
@@ -256,9 +356,17 @@ Status game_reader_load_characters(Game *game, char *filename) {
         return ERROR;
       }
 
-      if (!game_get_space(game, id_location)) return ERROR;
+      if (!game_get_space(game, id_location)) {
+        character_destroy(charr);
+        fclose(file);
+        return ERROR;
+      }
 
-      if (game_add_character(game, charr, id_location) == ERROR) return ERROR;
+      if (game_add_character(game, charr, id_location) == ERROR) {
+        character_destroy(charr);
+        fclose(file);
+        return ERROR;
+      }
     }
   }
 

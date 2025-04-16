@@ -29,6 +29,13 @@
  *
  */
 #define MAX_LINKS (4 * MAX_SPACES)
+
+/**
+ * @brief Maximum ammount of classes of objects for a game
+ * 
+ */
+#define MAX_CLASS 100
+
 /**
  * @brief Maximum amount of objects that a game can have
  * 
@@ -234,6 +241,48 @@ Status game_set_n_spaces(Game *game, int n_spaces);
  * space does not exist
  */
 Status game_add_space(Game *game, Space *space);
+
+
+
+
+/**
+ * @brief Adds a class to the game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param class Pointer to the class being added
+ * @return OK if the class was added correctly, ERROR otherwise
+ */
+Status game_add_class(Game *game, Class *class);
+
+/**
+ * @brief Gets the pointer to a class
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param id Id of the class wanted
+ * @return Pointer to the class wanted
+ */
+Class *game_get_class(Game *game, Id id);
+
+/**
+ * @brief Gets the number of classes of a game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return Int number of classes in the game
+ */
+int game_get_n_classes(Game *game);
+
+/**
+ * @brief It gets the class in a position of the array
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param pos Position in the array
+ * @return Pointer to the class in that position
+ */
+Class *game_get_class_at_pos(Game *game, int pos);
 
 
 
