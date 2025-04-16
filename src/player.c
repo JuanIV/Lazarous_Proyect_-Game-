@@ -27,6 +27,7 @@
  */
 struct _Player {
   Id id;                    /*!< Id number of the player, it must be unique */
+  Role role;                /*!< Role of the player in the game*/
   char name[WORD_SIZE + 1]; /*!< Name of the player */
   Id weapon;                /*!< Id of the object that serves as weapon */
   Id armor;                 /*!< Id of the object that serves as armor */
@@ -44,6 +45,7 @@ Player *player_create(Id id) {
   if (!(play = (Player *)malloc(sizeof(Player)))) return NULL;
 
   play->id = id;
+  play->role = UNDEFINED;
   play->name[0] = '\0';
   play->weapon = 0;
   play->armor = 0;
@@ -81,6 +83,22 @@ Status player_set_id(Player *play, Id id) {
   if (!play) return ERROR;
 
   play->id = id;
+
+  return OK;
+}
+
+/*It gets the role of a player*/
+Role player_get_role(Player *play) {
+  if (!play) return NO_ROLE;
+
+  return play->role;
+}
+
+/*It sets the role of a player*/
+Status player_set_role(Player *play, Role role) {
+  if (!play || role == NO_ROLE) return ERROR;
+
+  play->role = role;
 
   return OK;
 }
@@ -229,12 +247,14 @@ Status player_set_gdesc(Player *play, char *gdesc) {
 
 /*It prints the player information*/
 Status player_print(Player *play) {
+  /*extern char *role_to_str[N_ROLES];*/
   if (!play) return ERROR;
 
 
   fprintf(stdout, "\n\n-------------\n\n");
   fprintf(stdout, "=> Player id: %ld\n", play->id);
   fprintf(stdout, "=> Player name: %s\n", play->name);
+  /*fprintf(stdout, "=> Player role: %s\n", role_to_str[play->role - NO_ROLE]);*/
   fprintf(stdout, "=> Player health: %d\n", play->health);
   fprintf(stdout, "=> Player equipped weapon: %ld\n", play->weapon);
   fprintf(stdout, "=> Player equipped armor: %ld\n", play->armor);

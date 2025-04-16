@@ -29,6 +29,13 @@
  *
  */
 #define MAX_LINKS (4 * MAX_SPACES)
+
+/**
+ * @brief Maximum ammount of classes of objects for a game
+ * 
+ */
+#define MAX_CLASS 100
+
 /**
  * @brief Maximum amount of objects that a game can have
  * 
@@ -156,6 +163,23 @@ Status game_set_player_location(Game *game, Id id);
  */
 Status game_add_player (Game *game, Player *play);
 
+/**
+ * @brief Gets the number of characters that follow a player
+ * 
+ * @param game Pointer to the game
+ * @param player Pointer to the player
+ * @return The number of followers and -1 in case of error
+ */
+int game_get_num_followers(Game *game, Player *player);
+
+/**
+ * @brief Gets a set with the Ids of the followers that a player has
+ * 
+ * @param game Pointer to the game
+ * @param player Pointer to the player
+ * @return A set with the ids and NULL in case of error
+ */
+Set *game_get_followers(Game *game, Player *player);
 
 
 /**
@@ -218,6 +242,46 @@ Status game_set_n_spaces(Game *game, int n_spaces);
  */
 Status game_add_space(Game *game, Space *space);
 
+
+
+/**
+ * @brief Adds a class to the game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param class Pointer to the class being added
+ * @return OK if the class was added correctly, ERROR otherwise
+ */
+Status game_add_class(Game *game, Class *class);
+
+/**
+ * @brief Gets the pointer to a class
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param id Id of the class wanted
+ * @return Pointer to the class wanted
+ */
+Class *game_get_class(Game *game, Id id);
+
+/**
+ * @brief Gets the number of classes of a game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return Int number of classes in the game
+ */
+int game_get_n_classes(Game *game);
+
+/**
+ * @brief It gets the class in a position of the array
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param pos Position in the array
+ * @return Pointer to the class in that position
+ */
+Class *game_get_class_at_pos(Game *game, int pos);
 
 
 
@@ -315,14 +379,25 @@ Object *game_get_object_at_pos(Game *game, int pos);
 Status game_add_character(Game *game, Character *charr, Id location);
 
 /**
- * @brief Gets the pointer to a character
+ * @brief Gets the pointer to a character from its Id
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
  * @param id Id of the character
- * @return Pointer to the character wanted
+ * @return Pointer to the wanted character 
  */
-Character *game_get_character(Game *game, Id id);
+Character *game_get_character_from_id(Game *game, Id id);
+
+/**
+ * @brief Gets the pointer to a character from its name
+ * @author Tiago oselka
+ * 
+ * @param game Pointer to the game
+ * @param name Name of the character
+ * @return Pointer to the wanted character
+ */
+Character *game_get_character_from_name(Game *game, char *name);
+
 
 /**
  * @brief Gets the number of characters in a game
@@ -374,6 +449,17 @@ Id game_get_charr_id_from_name(Game *game, char *name);
  */
 Character *game_get_character_at_pos(Game *game, int pos);
 
+
+/**
+ * @brief Given two roles in the game, returns wether their relationship is friendly or not
+ * 
+ * @param role1 a rola
+ * @param role2 another role with which we want to see the relationship 
+ * @param relationship Pointer to a bool 
+ * @return Ok if everything went well, ERROR if the space is full or there was a mistake
+ *  exit value of relationship: TRUE if their relationship is friendly and FALSE otherwise
+ */
+Status game_get_friendly(Role role1, Role role2, Bool *relationship); 
 
 
 /**

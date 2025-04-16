@@ -8,8 +8,8 @@
  * @copyright GNU Public License
  */
 
-#include "types.h"
 #include "link.h"
+#include "types.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,12 +29,12 @@ char *dir_to_str[N_DIR][N_DIRT] = {
  * 
  */
 struct _Link {
-  Id id;                    /*!< Id number of the link, it must be unique */
-  char name[WORD_SIZE + 1];     /*!< Name of the link */
-  Id orig;                  /*!< Id number of the space of origin*/
-  Id destination;           /*!< Id number of the destination space*/
-  Direction direction;      /*!< The direction of the link (N, S, E, W, UNK_DIR)*/
-  Bool open;                /*!< A boolean that represents if the link is open or not*/
+  Id id;                      /*!< Id number of the link, it must be unique */
+  char name[WORD_SIZE + 1];   /*!< Name of the link */
+  Id orig;                    /*!< Id number of the space of origin*/
+  Id destination;             /*!< Id number of the destination space*/
+  Direction direction;        /*!< The direction of the link (N, S, E, W, UNK_DIR)*/
+  Bool open;                  /*!< A boolean that represents if the link is open or not*/
 };
 
 /** *************** Link data management ***************

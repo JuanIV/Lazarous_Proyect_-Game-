@@ -72,6 +72,25 @@ Id character_get_id(Character *charr);
 Status character_set_id(Character *charr, Id id);
 
 /**
+ * @brief It gets the role of a character
+ * @author Tiago Oselka
+ *
+ * @param charr a pointer to the character
+ * @return the role of the character
+ */
+Role character_get_role(Character *charr);
+
+/**
+ * @brief It sets the role of a character
+ * @author Tiago Oselka
+ *
+ * @param charr a pointer to the character
+ * @param role the role to be assigned to the character
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status character_set_role(Character *charr, Role role);
+
+/**
  * @brief It gets the name of a character
  * @author Tiago Oselka
  *
@@ -109,6 +128,25 @@ char *character_get_gdesc(Character *charr);
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status character_set_gdesc(Character *charr, char *gdesc);
+
+/**
+ * @brief It gets the id of the player the character is following
+ * @author Tiago Oselka
+ * 
+ * @param charr Pointer to a character
+ * @return The Id of said player and NO_ID in casa of error or if the character is not following anyone
+ */
+Id character_get_following(Character *charr);
+
+/**
+ * @brief It sets the id of the player the character is following
+ * @author Tiago Oselka
+ * 
+ * @param charr Pointer to a character
+ * @param id Id of the player the character will be following
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status character_set_following(Character *charr, Id id);
 
 /**
  * @brief It gets the message of a character

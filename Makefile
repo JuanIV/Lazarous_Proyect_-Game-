@@ -4,6 +4,7 @@ SRCDIR = ./src
 INCDIR = ./include
 LIBDIR = ./lib
 OBJDIR = ./obj
+EXEDIR = ./exe
 LDFLAGS = -L$(LIBDIR) -lscreen
 files = $(OBJDIR)/command.o $(OBJDIR)/set.o $(OBJDIR)/character.o $(OBJDIR)/space.o $(OBJDIR)/player.o $(OBJDIR)/inventory.o $(OBJDIR)/object.o $(OBJDIR)/link.o $(OBJDIR)/game.o $(OBJDIR)/game_actions.o $(OBJDIR)/graphic_engine.o $(OBJDIR)/game_reader.o $(OBJDIR)/game_loop.o
 vpath %.h $(INCDIR)
@@ -13,42 +14,48 @@ set_test_files = $(OBJDIR)/set_test.o $(OBJDIR)/set.o
 space_test_files = $(OBJDIR)/space_test.o $(OBJDIR)/space.o $(OBJDIR)/set.o $(OBJDIR)/link.o
 character_test_files = $(OBJDIR)/character_test.o $(OBJDIR)/character.o
 link_test_files = $(OBJDIR)/link_test.o $(OBJDIR)/link.o
-inventory_test_files = $(OBJDIR)/inventory_test.o $(OBJDIR)/inventory.o set.o
+inventory_test_files = $(OBJDIR)/inventory_test.o $(OBJDIR)/inventory.o $(OBJDIR)/set.o
 player_test_files = $(OBJDIR)/player_test.o $(OBJDIR)/player.o $(OBJDIR)/inventory.o $(OBJDIR)/set.o
 object_test_files = $(OBJDIR)/object_test.o $(OBJDIR)/object.o 
-.PHONY: project run_tests $(tests) clean run runv 
+.PHONY: prepare project run_tests $(tests) clean run runv
+all : project tests
 tests: set_test character_test space_test link_test inventory_test player_test object_test
 
 
 # *************** GAME ***************
 
-project : $(files)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+project : prepare $(files)
+	$(CC) $(CFLAGS) $(files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
 
 # ************** TESTS ***************
 
-set_test : $(set_test_files)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+set_test : prepare $(set_test_files)
+	$(CC) $(CFLAGS) $(set_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
-character_test : $(character_test_files)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+character_test : prepare $(character_test_files)
+	$(CC) $(CFLAGS) $(set_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
-space_test : $(space_test_files)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+space_test : prepare $(space_test_files)
+	$(CC) $(CFLAGS) $(space_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
-link_test : $(link_test_files)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+link_test : prepare $(link_test_files)
+	$(CC) $(CFLAGS) $(link_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
-inventory_test : $(inventory_test_files)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+inventory_test : prepare $(inventory_test_files)
+	$(CC) $(CFLAGS) $(inventory_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
-player_test : $(player_test_files)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+player_test : prepare $(player_test_files)
+	$(CC) $(CFLAGS) $(player_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
-object_test : $(object_test_files)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+object_test : prepare $(object_test_files)
+	$(CC) $(CFLAGS) $(object_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
+
+# ************** FOLDERS *************
+
+prepare :
+	@mkdir -p $(EXEDIR) $(OBJDIR)
 
 # .o:
 
@@ -79,7 +86,7 @@ $(OBJDIR)/link.o: $(SRCDIR)/link.c $(INCDIR)/link.h $(INCDIR)/types.h
 $(OBJDIR)/game.o: $(SRCDIR)/game.c $(INCDIR)/game.h $(INCDIR)/command.h $(INCDIR)/types.h $(INCDIR)/space.h $(INCDIR)/object.h $(INCDIR)/player.h $(INCDIR)/set.h $(INCDIR)/character.h $(INCDIR)/link.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/game_actions.o: $(SRCDIR)/game_actions.c $(INCDIR)/game_actions.h $(INCDIR)/command.h $(INCDIR)/types.h $(INCDIR)/game.h $(INCDIR)/space.h
+$(OBJDIR)/game_actions.o: $(SRCDIR)/game_actions.c $(INCDIR)/game_actions.h $(INCDIR)/command.h $(INCDIR)/types.h $(INCDIR)/game.h $(INCDIR)/space.h $(INCDIR)/character.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/graphic_engine.o: $(SRCDIR)/graphic_engine.c $(INCDIR)/graphic_engine.h $(INCDIR)/game.h $(INCDIR)/command.h $(INCDIR)/types.h $(INCDIR)/space.h $(INCDIR)/libscreen.h
@@ -119,41 +126,41 @@ $(OBJDIR)/object_test.o: $(SRCDIR)/object_test.c $(INCDIR)/object_test.h $(INCDI
 	$(CC) $(CFLAGS) -c $< -o $@
 
 run_set_test:
-	./set_test
+	./$(EXEDIR)/set_test
 
 run_character_test:
-	./character_test
+	./$(EXEDIR)/character_test
 
 run_space_test:
-	./space_test
+	./$(EXEDIR)/space_test
 
 run_link_test:
-	./link_test
+	./$(EXEDIR)/link_test
 
 run_inventory_test:
-	./inventory_test
+	./$(EXEDIR)/inventory_test
 
 run_player_test:
-	./player_test
+	./$(EXEDIR)/player_test
 
 run_object_test:
-	./object_test
+	./$(EXEDIR)/object_test
 
 run_tests:
 	@echo "Running set_test"
-	./set_test
+	./$(EXEDIR)/set_test
 	@echo "Running character_test"
-	./character_test
+	./$(EXEDIR)/character_test
 	@echo "Running space_test"
-	./space_test
+	./$(EXEDIR)/space_test
 	@echo "Running link_test"
-	./link_test
+	./$(EXEDIR)/link_test
 	@echo "Running inventory_test"
-	./inventory_test
+	./$(EXEDIR)/inventory_test
 	@echo "Running player_test"
-	./player_test
+	./$(EXEDIR)/player_test
 	@echo "Running object_test"
-	./object_test
+	./$(EXEDIR)/object_test
 
 # ****************************************
 
@@ -162,22 +169,22 @@ run_tests:
 run :
 	@echo "Running project"
 	@echo "Remember to assign a valid position to the characters"
-	./project anthill.dat
+	./$(EXEDIR)/project anthill.dat
 
 runv :
 	@echo "Running Valgrind"
-	valgrind --leak-check=full --track-origins=yes ./project anthill.dat
+	valgrind --leak-check=full --track-origins=yes ./$(EXEDIR)/project anthill.dat
 
 runl :
 	@echo "Running Log"
-	./project anthill.dat -l logFile
+	./$(EXEDIR)/project anthill.dat -l logFile
 
 run_test:
 	@echo "Running global test"
-	./project anthill.dat -l output <game1.cmd
+	./$(EXEDIR)/project anthill.dat -l output <game1.cmd
 
 run_test2:
-	./project anthill.dat -l output <game2.cmd
+	./$(EXEDIR)/project anthill.dat -l output <game2.cmd
 
 doxygen:
 	@echo "Generating html documentation"
@@ -188,6 +195,6 @@ clean_doxygen :
 	rm -rf ./doc/html ./doc/latex
 
 clean :
-	rm -rf $(OBJDIR)/*.o project set_test character_test space_test link_test inventory_test player_test object_test 
+	rm -rf $(OBJDIR) $(EXEDIR)
 
 

@@ -11,7 +11,6 @@
 #ifndef GAME_ACTIONS_H
 #define GAME_ACTIONS_H
 
-#include "command.h"
 #include "game.h"
 #include "types.h"
 

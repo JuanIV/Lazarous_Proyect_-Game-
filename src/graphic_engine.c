@@ -200,7 +200,7 @@ void graphic_engine_map_print_row(Game *game, Graphic_engine *ge, Id left, Id ce
   for(i=0, count = 0; i<3;i++){
     if(space[i]){
       if(discovered[i]){
-        charr = game_get_character(game,space_get_character(space[i]));
+        charr = game_get_character_from_id(game,space_get_character_at_pos(space[i], 0));
         if (charr && character_get_health(charr) > 0) {
           sprintf(charr_gdesc, "%*.*s", CHR_GD_SZ,CHR_GD_SZ,character_get_gdesc(charr));
         } else sprintf(charr_gdesc, "%*s", CHR_GD_SZ,"");
@@ -476,9 +476,9 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
 
   /* Paint in the help area */
   screen_area_clear(ge->help);
-  sprintf(str, " The commands you can use are:");
+  sprintf(str, " The commands you can use are:  move or m (N,S,E,W), exit or e, take or t, ");
   screen_area_puts(ge->help, str);
-  sprintf(str," move or m (N,S,E,W), exit or e, take or t, drop or d, attack or a, chat or c, inspect or i");
+  sprintf(str," drop or d, attack or at, chat or c, inspect or i, recruit or r, abandon or ab and use or u");
   screen_area_puts(ge->help, str);
 
   /* Paint in the feedback area */

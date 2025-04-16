@@ -20,13 +20,13 @@
  * 
  */
 struct _Space {
-  Id id;                    /*!< Id number of the space, it must be unique */
-  char name[WORD_SIZE + 1]; /*!< Name of the space */
-  char gdesc[SP_GD_HGHT][SP_GD_WTH + 1]; /*!< Graphic description of the space */
-  Set *objects;                          /*!< Set of the objects in the space */
-  Id trap;      /*!< Id of the trap currently set on the space */
-  Id character; /*!< Id of the character in the space */
-  Bool discovered; /*!< Bool to know if the space has been discovered */
+  Id id;                                  /*!< Id number of the space, it must be unique */
+  char name[WORD_SIZE + 1];               /*!< Name of the space */
+  char gdesc[SP_GD_HGHT][SP_GD_WTH + 1];  /*!< Graphic description of the space */
+  Set *objects;                           /*!< Set of the objects in the space */
+  Id trap;                                /*!< Id of the trap currently set on the space */
+  Set *characters;                        /*!< Set of the characters in the space */
+  Bool discovered;                        /*!< Bool to know if the space has been discovered */
 };
 
 /** *************** Space data management ***************
@@ -49,9 +49,18 @@ Space *space_create(Id id) {
   for (i = 0; i < SP_GD_HGHT; i++) {
     newSpace->gdesc[i][0] = '\0';
   }
+
   newSpace->discovered = FALSE;
-  if (!(newSpace->objects = set_create())) return NULL;
-  newSpace->character = NO_ID;
+
+  if (!(newSpace->objects = set_create())) {
+    space_destroy(newSpace);
+    return NULL;
+  }
+
+  if(!(newSpace->characters = set_create())) {
+    space_destroy(newSpace);
+    return NULL;
+  }
 
   return newSpace;
 }
@@ -150,30 +159,33 @@ Bool space_get_discovered(Space *space) {
 /*It adds an object to the space*/
 Status space_add_object(Space *space, Id obj) {
   if (!space) return ERROR;
+
   return set_add(space->objects, obj);
 } /*Error check inside set_add()*/
 
 /*It removes an object from a space*/
 Status space_remove_object(Space *space, Id obj) {
   if (!space) return ERROR;
+
   return set_remove(space->objects, obj);
 } /*Error check inside set_remove()*/
 
 /*It gets whether the space has an object or not*/
 Bool space_find_object(Space *space, Id obj) {
   if (!space) return FALSE;
+
   return set_find(space->objects, obj);
 } /*Error check inside set_find()*/
 
 /*It gets the id of the object at a certain position inside the space*/
 Id space_get_object_at_pos(Space *space, int pos) {
   if (!space) return NO_ID;
-  if(pos<0 || pos>SET_MX_CAP) return NO_ID;
+
   return set_get_id_at_pos(space->objects, pos);
 } /*Error check inside set_get_object_at_pos()*/
 
 /*It gets whether the set in a space is full*/
-Bool space_is_full(Space *space) {
+Bool space_objects_is_full(Space *space) {
   if (!space) return TRUE;
 
   return set_is_full(space->objects);
@@ -209,19 +221,46 @@ Status space_set_trap(Space *space, Id trap){
  * ***************  Character management  ***************
  */ 
 
-/*Sets the character of the space to a certain id*/
-Status space_set_character(Space *space, Id charr) {
-  if (!space) return ERROR;
+/*Adds a character to the set of characters of the space*/
+Status space_add_character(Space *space, Id charr) {
+  if(!space || charr == NO_ID) return ERROR;
 
-  space->character = charr;
-  return OK;
+  return set_add(space->characters, charr);
 }
 
-/*Gets the id of the character in the space*/
-Id space_get_character(Space *space) {
-  if (!space) return NO_ID;
+/*Removes a character from the set of characters of the space*/
+Status space_remove_character(Space *space, Id charr) {
+  if(!space || charr == NO_ID) return ERROR;
+  
+  return set_remove(space->characters, charr);
+}
 
-  return space->character;
+/*It gets whether the space has a certain character or not*/
+Bool space_find_character(Space *space, Id charr) {
+  if(!space || charr == NO_ID) return FALSE;
+
+  return set_find(space->characters, charr);
+}
+
+/*It gets the id of the character at a certain position inside the space*/
+Id space_get_character_at_pos(Space *space, int pos) {
+  if(!space) return NO_ID;
+
+  return set_get_id_at_pos(space->characters, pos);
+}
+
+/*Checks whether the set of characters is full*/
+Bool space_characters_is_full(Space *space) {
+  if(!space) return TRUE;
+
+  return set_is_full(space->characters);
+}
+
+/*It gets the number of characters contained in a space*/
+int space_get_num_characters(Space *space) {
+  if(!space) return -1;
+
+  return set_get_num_ids(space->characters);
 }
 
 /**
@@ -230,8 +269,6 @@ Id space_get_character(Space *space) {
 
 /*It prints the space information*/
 Status space_print(Space *space) {
-  Bool discovered = FALSE;
-  Id idaux = NO_ID;
   int i;
 
   /* Error Control */
@@ -242,9 +279,8 @@ Status space_print(Space *space) {
 
   
 
-  /* 2. Print if the direction has been discovered */
-  discovered = space_get_discovered(space);
-  if (discovered == TRUE) {
+  /* 2. Print if the space has been discovered */
+  if (space_get_discovered(space) == TRUE) {
     fprintf(stdout, "---> The space has been discovered.\n");
   } else {
     fprintf(stdout, "---> The space has not been discovered.\n");
@@ -253,10 +289,8 @@ Status space_print(Space *space) {
   /* 3. Print the list of objects in the space*/
   set_print(space->objects);
 
-  /* 4. Print the character*/
-  if ((idaux = space_get_character(space)) != NO_ID) {
-    fprintf(stdout, "---> Character Id: %d\n", (int)idaux);
-  }
+  /* 4. Print the list of characters in the space*/
+  set_print(space->characters);
 
   /* 5. Print the graphic description*/
   fprintf(stdout, "---> Graphic description:\n");

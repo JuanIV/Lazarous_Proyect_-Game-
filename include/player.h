@@ -66,6 +66,25 @@ Id player_get_id(Player *play);
 Status player_set_id(Player *play, Id id);
 
 /**
+ * @brief It gets the role of a player
+ * @author Tiago Oselka
+ *
+ * @param play a pointer to the player
+ * @return the role of the player
+ */
+Role player_get_role(Player *play);
+
+/**
+ * @brief It sets the role of a player
+ * @author Tiago Oselka
+ *
+ * @param play a pointer to the player
+ * @param role the role to be assigned to the player
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status player_set_role(Player *play, Role role);
+
+/**
  * @brief It gets the name of a player
  * @author Tiago Oselka
  *

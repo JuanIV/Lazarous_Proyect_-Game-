@@ -20,14 +20,15 @@
  * 
  */
 struct _Character {
-  Id id; /*!< Id number of the character, it must be unique */
+  Id id;                       /*!< Id number of the character, it must be unique */
+  Role role;                   /*!< Role of the character in the game*/
   char name[WORD_SIZE + 1];    /*!< Name of the character */
   char gdesc[CHR_GD_SZ + 1];   /*!< Graphic description of the character*/
   char message[MESG_SIZE + 1]; /*!< Message of the character*/
+  Id following;                /*!< Id of the player it's following*/
   Id weapon;                   /*!< Id of the object that serves as weapon */
   Id armor;                    /*!< Id of the object that serves as armor */
   int health;                  /*!< Health of the character*/
-  Bool friendly; /*!< The friendlyness of a character. True if friendly, False otherwise*/
 };
 
 /*It creates a new character by allocating its memory and initializing its members*/
@@ -37,11 +38,14 @@ Character *character_create(Id id) {
   if (!(character = (Character *)malloc(sizeof(Character)))) return NULL;
 
   character->id = id;
+  character->role = UNDEFINED;
   character->name[0] = '\0';
   character->gdesc[0] = '\0';
   character->message[0] = '\0';
+  character->following = NO_ID;
+  character->weapon = NO_ID;
+  character->armor = NO_ID;
   character->health = 0;
-  character->friendly = TRUE;
 
   return character;
 }
@@ -68,6 +72,22 @@ Status character_set_id(Character *charr, Id id) {
   if (!charr) return ERROR;
 
   charr->id = id;
+
+  return OK;
+}
+
+/*It gets the role of a character*/
+Role character_get_role(Character *charr) {
+  if (!charr) return NO_ROLE;
+
+  return charr->role;
+}
+
+/*It sets the role of a character*/
+Status character_set_role(Character *charr, Role role) {
+  if (!charr) return ERROR;
+
+  charr->role = role;
 
   return OK;
 }
@@ -100,6 +120,22 @@ Status character_set_gdesc(Character *charr, char *gdesc) {
   if (!charr || !gdesc) return ERROR;
 
   sprintf(charr->gdesc, "%.*s", CHR_GD_SZ, gdesc);
+
+  return OK;
+}
+
+/*It gets the id of the player the character is following*/
+Id character_get_following(Character *charr) {
+  if(!charr) return NO_ID;
+
+  return charr->following;
+}
+
+/*It sets the id of the player the character is following*/
+Status character_set_following(Character *charr, Id id) {
+  if(!charr) return ERROR;
+
+  charr->following = id;
 
   return OK;
 }
@@ -170,36 +206,20 @@ Status character_set_health(Character *charr, int health) {
   return OK;
 }
 
-/*It gets the friendlyness (ally/enemy) of a character*/
-Bool character_get_friendly(Character *charr) {
-  if (!charr) return FALSE;
-
-  return charr->friendly;
-}
-
-/*It sets the friendlyness of a character*/
-Status character_set_friendly(Character *charr, Bool friendly) {
-  if (!charr) return ERROR;
-
-  charr->friendly = friendly;
-
-  return OK;
-}
-
 /*It prints the character information*/
 Status character_print(Character *charr) {
+  /*extern char *role_to_str[N_ROLES]*/
   if (!charr) return ERROR;
 
   fprintf(stdout, "\n\n-------------\n\n");
   fprintf(stdout, "=> Character id: %ld\n", charr->id);
   fprintf(stdout, "=> Character name: %s\n", charr->name);
+  /*fprintf(stdout, "=> Character role: %s\n", role_to_str[charr->role - NO_ROLE]);*/
   fprintf(stdout, "=> Character health: %d\n", charr->health);
   fprintf(stdout, "=> Character equipped weapon: %ld\n", charr->weapon);
   fprintf(stdout, "=> Character equipped armor: %ld\n", charr->armor);
   fprintf(stdout, "=> Character graphic description: %s\n", charr->gdesc);
   fprintf(stdout, "=> Character message: %s\n", charr->message);
-  fprintf(stdout, "=> Character friendly: %s\n",
-          (charr->friendly == TRUE) ? "True" : "False");
 
   return OK;
 }

@@ -52,14 +52,6 @@ void game_actions_move(Game *game);
 void game_actions_next(Game *game);
 
 /**
- * @brief It defines the action that the "Back" command executes
- * @author Profesores PProg
- *
- * @param game pointer to the game
- */
-void game_actions_back(Game *game);
-
-/**
  * @brief It defines the action of taking an object from the players current
  * space
  * @author Tiago Oselka
@@ -118,6 +110,22 @@ void game_actions_chat(Game *game);
  * @param game Pointer to the game
  */
 void game_actions_inspect(Game *game);
+
+/**
+ * @brief It defines the action of recruiting a character
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ */
+void game_actions_recruit(Game *game);
+
+/**
+ * @brief It defines the action of abandoning a character
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ */
+void game_actions_abandon(Game *game);
 
 /**
  * @brief It defines the action of using an object
@@ -216,6 +224,18 @@ Status game_actions_update(Game *game, Command *command) {
       game_actions_inspect(game);
       break;
 
+    case RECRUIT:
+      game_actions_recruit(game);
+      break;
+
+    case ABANDON:
+      game_actions_abandon(game);
+      break;
+
+    case USE:
+      game_actions_use(game);
+      break;
+
     default:
       break;
   }
@@ -238,13 +258,13 @@ void game_actions_move(Game *game) {
   Command *last_cmd = NULL;
   Player *player = NULL;
   Direction direction = UNK_DIR;
-  Id cur_space = NO_ID, dest_space = NO_ID;
-  Space *space = NULL;
   Object *trap = NULL;
-  int curr_health, new_health;
+  Set *followers = NULL;
+  Id cur_id = NO_ID, dest_id = NO_ID, player_id = NO_ID, charr_id = NO_ID;
+  Space *cur_space = NULL, *dest_space = NULL;
   extern char *dir_to_str[N_DIR][N_DIRT];
   char *dir = NULL;
-  int i = 0;
+  int i = 0, n_followers = -1, cur_health = -1, new_health;
 
   if(!game) return;
 
@@ -265,33 +285,69 @@ void game_actions_move(Game *game) {
   if(direction == UNK_DIR) return;
 
   if(!(player = game_get_player(game))) return;
-  if((cur_space = player_get_location(player)) == NO_ID) return;
+  if((player_id = player_get_id(player)) == NO_ID) return;
+  if((cur_id = player_get_location(player)) == NO_ID) return;
 
   /* checks if the connection exists and then whether it's opened  */
-  dest_space = game_get_connection(game, cur_space, direction);
-  if(dest_space == NO_ID) return;
-  if(game_connection_is_open(game, cur_space, direction) == FALSE) {
+  dest_id = game_get_connection(game, cur_id, direction);
+  if(dest_id == NO_ID) return;
+  if(game_connection_is_open(game, cur_id, direction) == FALSE) {
     game_set_last_message(game, "The path is blocked...");
     return;
   }
 
+  if(!(dest_space = game_get_space(game, dest_id))) return;
+  if(space_set_discovered(dest_space, TRUE) == ERROR) return;
+
   /* moves the player to the destination */
-  if(player_set_location(player, dest_space) == ERROR) return;
+  if(player_set_location(player, dest_id) == ERROR) return;
+  fprintf(stdout, "mueve al player");
+  /* moves the characters that follow the player if there are any*/
+  if((n_followers = game_get_num_followers(game, game_get_player(game))) == -1) return;
+  if(n_followers == 0) {
+    if (game_set_last_status(game, OK) == ERROR) return;
+    return;
+  }
 
-  space = game_get_space(game, game_get_player_location(game));
-  space_set_discovered(space, TRUE);
+  if(!(cur_space = game_get_space(game, cur_id))) return;
+  if(!(followers = game_get_followers(game, player))) return;
+  if((n_followers = set_get_num_ids(followers)) == -1) {
+    set_destroy(followers);
+    return;
+  }
 
-  /*Explode the trap if there is one*/
-  if(space_get_trap(space) != NO_ID){
-    trap = game_get_object(game, space_get_trap(space));
-  } if(trap && /*ACTIVAR SOLO SI LA TRAMPA ES DEL EQUIPO OPUESTO(FALTA IMPLEMENTACION DE EQUIPOS)*/){
-    curr_health = player_get_health(player);
-    new_health = curr_health - object_get_use_value(trap);
+  for(i = 0; i < n_followers; i++) {
+    if((charr_id = set_get_id_at_pos(followers, i)) == NO_ID) {
+      set_destroy(followers);
+      return;
+    }
+    if(space_remove_character(cur_space, charr_id) == ERROR) {
+      set_destroy(followers);
+      return;
+    }
+    if(space_add_character(dest_space, charr_id) == ERROR) {
+      set_destroy(followers);
+      return;
+    }
+  }
+  set_destroy(followers);
 
-    if(new_health <= 0) player_set_health(player, 0);
-    else player_set_health(player,new_health);
+  /*Explodes the trap if there is one*/
+  if(space_get_trap(dest_space) != NO_ID){
+    trap = game_get_object(game, space_get_trap(dest_space));
 
-    game_set_last_message(game, "A trap was activated! Ouch!");
+    if(trap && (object_get_role(trap) != player_get_role(player))){
+      cur_health = player_get_health(player);
+      new_health = cur_health - object_get_use_value(trap);
+      
+      /*Damages the player*/
+      if(player_set_health(player, new_health) == ERROR) return;
+      
+      /*Eliminates the trap from the space*/
+      if((space_set_trap(dest_space, NO_ID)) == ERROR) return;
+
+      if(game_set_last_message(game, "A trap was activated! Ouch!")) return;
+    }
   }
 
   if (game_set_last_status(game, OK) == ERROR) return;
@@ -319,16 +375,16 @@ void game_actions_take(Game *game) {
   if (obj_id == NO_ID) return;
   
 
-  /*Gets their location*/
+  /*Gets their location and error check inside game_get_space*/
   play_location = game_get_player_location(game);
+  cur_space = game_get_space(game, play_location);
+  if (!cur_space) return;
+
   obj_location = game_get_object_location(game, obj_id);
 
   if (play_location == NO_ID || obj_location == NO_ID) return;
 
   if (play_location != obj_location) return;
-
-  cur_space = game_get_space(game, play_location);
-  if (!cur_space) return;
   
   if (player_add_object(player, obj_id) == ERROR) return;
 
@@ -371,7 +427,7 @@ void game_actions_drop(Game *game) {
   if (!cur_space) return;
 
 
-  if (space_is_full(cur_space) == TRUE) return;
+  if (space_objects_is_full(cur_space) == TRUE) return;
   if (space_add_object(cur_space, obj_id) == ERROR) return;
   if (player_delete_object(player,obj_id) == ERROR) return;
 
@@ -380,41 +436,52 @@ void game_actions_drop(Game *game) {
 
 void game_actions_attack(Game *game) {
   Space *current_space = NULL;
-  Character *charr = NULL;
-  Player *play = NULL;
-  int dice, charr_health, player_health;
+  Character *charr = NULL, *follower = NULL;
+  Command *last_cmd = NULL;
+  Player *player = NULL;
+  Set *followers = NULL;
+  Bool friendly = FALSE;
+  Id charr_id = NO_ID, damaged_follower = NO_ID, player_loc = NO_ID;
+  char *charr_name = NULL, message[MESG_SIZE];
+  int dice, charr_health, follower_health, player_health, num_followers = -1, damaged = -1;
 
   if (!game) return;
 
-  /*Error checking inside game_get_space and game_get_player_location*/
-  current_space = game_get_space(game, game_get_player_location(game));
-  if (!current_space) return;
+  if (!(last_cmd = game_get_last_command(game))) return;
+  if (!(charr_name = command_get_desc(last_cmd))) return;
 
-  /*Cheking for NO_ID character or any error inside game_get_character*/
-  /*If there si no character at the players location nothing happens*/
-  charr = game_get_character(game, space_get_character(current_space));
-  if (!charr) return;
+  /*Chacks if the character exists and if its alive*/
+  if (!(charr = game_get_character_from_name(game, charr_name))) return;
+  if (character_get_health(charr) <= 0) return;
+  if((charr_id = character_get_id(charr)) == NO_ID) return;
+  if (!(player = game_get_player(game))) return;
 
-  /*Error check inside game_get_player*/
-  play = game_get_player(game);
-  if (!play) return;
-
-  /*Attack happens only if the character is not friendly and alive*/
-
-  if (character_get_friendly(charr) == TRUE) {
-    game_set_last_message(game, "It seems friendly. No reason to fight.");
+  /*Checks if the character and the player are in the same space*/
+  if ((player_loc = player_get_location(player)) == NO_ID) return;
+  if (!(current_space = game_get_space(game, player_loc))) return;
+  if(space_find_character(current_space, charr_id) == FALSE) {
+    if (game_set_last_message(game, "This character is out of reach...") == ERROR)return;
     return;
   }
 
-  if (character_get_health(charr) <= 0) return;
+  /*Attack happens only if the character is not friendly and alive*/
+  if (game_get_friendly(player_get_role(player), character_get_role(charr), &friendly) == ERROR) return;
+  if (friendly == TRUE) {
+    if (game_set_last_message(game, "It seems friendly... No need to fight") == ERROR) return;
+    return;
+  }
 
   dice = rand() % ATK_RNG;
 
-  /*If we get a number high enough, the character gets damaged. Else, the
-   * player does*/
+  /*Checks how many followers the player has*/
+  if((num_followers = game_get_num_followers(game, game_get_player(game))) == -1) return;
+  
+  /*Depending on the number the player or the character looses*/
   if (dice >= ATK_WIN) {
+    /*If the character looses, it looses one point of life for each follower that the player has, on top
+    of the point lost from the player*/
     if((charr_health = character_get_health(charr)) == -1) return;
-    if (character_set_health(charr, charr_health - 1) == ERROR) return;
+    if (character_set_health(charr, charr_health - (num_followers + 1)) == ERROR) return;
     if(character_get_health(charr) > 0) {
       switch (rand() % 4){
       case 0:
@@ -433,6 +500,7 @@ void game_actions_attack(Game *game) {
         break;
       }
     }else {
+      if(space_remove_character(current_space, charr_id) == ERROR) return;
       switch (rand() % 4){
       case 0:
         if(game_set_last_message(game, "Aw! You are dead, with your body the      worms will be fed'")== ERROR) return;
@@ -452,20 +520,62 @@ void game_actions_attack(Game *game) {
     }
 
   } else {
-    if((player_health = player_get_health(play)) == -1) return;
-    if (player_set_health(play, player_health - 1) == ERROR) return;
+    /*If the player looses, the player or a character that follows him is damaged randomly*/
+    damaged = rand() % (num_followers + 1);
 
-    if(player_get_health(play) > 0) {
-      switch (rand() % 2){
-      case 0:
-        if(game_set_last_message(game, "You got attacked by something strange...  Try to get revenge!!")== ERROR) return;
-        break;
-      case 1:
-        if(game_set_last_message(game, "You just took a blow, it seems that you   were too slow")== ERROR) return;
-      default:
-        break;
+    if(damaged == num_followers) {
+      if ((player_health = player_get_health(player)) == -1) return;
+      if (player_set_health(player, player_health - 1) == ERROR) return;
+
+      if(player_get_health(player) > 0) {
+        switch (rand() % 2){
+        case 0:
+          if(game_set_last_message(game, "You got attacked by something strange...  Try to get revenge!!")== ERROR) return;
+          break;
+        case 1:
+          if(game_set_last_message(game, "You just took a blow, it seems that you   were too slow")== ERROR) return;
+        default:
+          break;
+        }
+      } else {
+        if(game_set_last_message(game, "YOU ARE DEAD")== ERROR) return;
       }
-    }      
+
+    } else {
+      /*Else, one of the followers is damaged*/
+      if (!(followers = game_get_followers(game, game_get_player(game)))) return;
+
+      if((damaged_follower = set_get_id_at_pos(followers, damaged)) == NO_ID) {
+        set_destroy(followers);
+        return;
+      }
+      if (!(follower = game_get_character_from_id(game, damaged_follower))) {
+        set_destroy(followers);
+        return;
+      }
+
+      if ((follower_health = character_get_health(follower)) == -1) {
+        set_destroy(followers);
+        return;
+      }
+      if (character_set_health(follower, follower_health - 1) == ERROR) {
+        set_destroy(followers);
+        return;
+      }
+
+      set_destroy(followers);
+      
+      /*If the character dies, it must stop following the player and a message is shown*/
+      if ((follower_health-1) <= 0) {
+        if (character_set_following(charr, NO_ID) == ERROR) return;
+        if (space_remove_character(current_space, damaged_follower) == ERROR) return;
+        sprintf(message, "Sadly your subordinate %s has passed away", character_get_name(follower));
+        if (game_set_last_message(game, message) == ERROR) return;
+      } else {
+        sprintf(message, "Your subordinate %s has been damaged!", character_get_name(follower));
+        if (game_set_last_message(game, message) == ERROR) return;
+      }
+    }    
   }
 
   if (game_set_last_status(game, OK) == ERROR) return;
@@ -474,6 +584,10 @@ void game_actions_attack(Game *game) {
 void game_actions_chat(Game *game) {
   Space *current_space = NULL;
   Character *charr = NULL;
+  Command *last_cmd = NULL;
+  Bool friendly = FALSE;
+  Id charr_id = NO_ID, player_loc = NO_ID;
+  char *name = NULL;
 
   if (!game) return;
 
@@ -481,19 +595,31 @@ void game_actions_chat(Game *game) {
   current_space = game_get_space(game, game_get_player_location(game));
   if (!current_space) return;
 
-  /*Cheking for NO_ID character or any error inside game_get_character*/
-  /*If there si no character at the players location nothing happens*/
-  charr = game_get_character(game, space_get_character(current_space));
-  if (!charr) return;
+  /*Gets the name of the character to chat from the description of the last cmd*/
+  if (!(last_cmd = game_get_last_command(game))) return;
+  if (!(name = command_get_desc(last_cmd))) return;
 
-  /*Something happens only if the character is friendly*/
-  if (character_get_friendly(charr) == FALSE) {
+  /*Checks if the character exists and if its alive*/
+  if (!(charr = game_get_character_from_name(game, name))) return;
+  if(character_get_health(charr) <= 0) return;
+  if((charr_id = character_get_id(charr)) == NO_ID) return;
+ 
+  /*Checks if the character and the player are in the same space*/
+  if ((player_loc = game_get_player_location(game)) == NO_ID) return;
+  if (!(current_space = game_get_space(game, player_loc))) return;
+  if(space_find_character(current_space, charr_id) == FALSE) {
+    game_set_last_message(game, "This character is out of reach...");
+    return;
+  }
+
+  /*Chatting happens only if the character is friendly*/
+  if(game_get_friendly(player_get_role(game_get_player(game)), character_get_role(charr), &friendly) == ERROR) return;
+  if (friendly == FALSE) {
     game_set_last_message(game, "I dont think its friendly...");
     return;
   }
 
-  if (game_set_last_message(game, character_get_message(charr)) == ERROR)
-    return;
+  if (game_set_last_message(game, character_get_message(charr)) == ERROR) return;
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
@@ -522,6 +648,73 @@ void game_actions_inspect(Game *game){
   if(!desc) return;
 
   game_set_last_message(game, desc);
+
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_recruit(Game *game) {
+  Id charr_location = NO_ID, player_id = NO_ID;
+  Id play_location = NO_ID;
+  Command *last_cmd = NULL;
+  Bool friendly = FALSE;
+  Character *charr = NULL;
+  char *charr_name = NULL;
+
+  if (!game) return; 
+  
+  /*Gets the name of the character to recruit from the description of the last cmd*/
+  if (!(last_cmd = game_get_last_command(game))) return;
+  if (!(charr_name = command_get_desc(last_cmd))) return;
+  if(charr_name[0] == '\0') return;
+
+  if((player_id = player_get_id(game_get_player(game))) == NO_ID) return;
+  
+  /*Gets the character and checks whether its friendly*/
+  if(!(charr = game_get_character_from_name(game, charr_name))) return;
+  if(game_get_friendly(player_get_role(game_get_player(game)), character_get_role(charr), &friendly) == ERROR) return;
+  if(friendly == FALSE) return;
+  if(character_get_following(charr) != NO_ID) return;
+
+  /*Gets their location and checks if they are at the same space*/
+  play_location = game_get_player_location(game);
+  charr_location = game_get_character_location(game, character_get_id(charr));
+  if (play_location == NO_ID || charr_location == NO_ID) return;
+  if (play_location != charr_location) return;
+
+
+  /*Sets the id of the player the character is going to follow*/
+  if(character_set_following(charr, player_id) == ERROR) return;
+
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_abandon(Game *game) {
+  Id player_id = NO_ID;
+  Command *last_cmd = NULL;
+  Character *charr = NULL;
+  char *charr_name = NULL, message[MESG_SIZE];
+
+  if (!game) return; 
+  
+  /*Gets the name of the character to abandon from the description of the last cmd*/
+  if (!(last_cmd = game_get_last_command(game))) return;
+  if (!(charr_name = command_get_desc(last_cmd))) return;
+  if(charr_name[0] == '\0') return;
+
+  if((player_id = player_get_id(game_get_player(game))) == NO_ID) return;
+  
+  /*Gets the character and checks whether its alive and if it is following the player*/
+  if(!(charr = game_get_character_from_name(game, charr_name))) return;
+  if(character_get_health(charr) <= 0) return;
+  if(character_get_following(charr) != player_id) {
+    message[0] = '\0';
+    sprintf(message, "%s wasn't following you", charr_name);
+    game_set_last_message(game, message);
+    return;
+  }
+
+  /*Sets the Id of the player being followed to NO_ID*/
+  if(character_set_following(charr, NO_ID) == ERROR) return;
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -569,7 +762,7 @@ void game_actions_use(Game *game){
     charr_id = game_get_charr_id_from_name(game,target);
     if(charr_id == NO_ID) return;
 
-    charr = game_get_character(game, charr_id);
+    charr = game_get_character_from_id(game, charr_id);
     if(!charr) return;
   }
 
@@ -679,8 +872,11 @@ void game_actions_set_trap(Game *game, Object *obj){
 
   /*If there is already a trap, we cant set another one*/
   if(space_get_trap(curr_sp) != NO_ID) return;
-
   if(space_set_trap(curr_sp,obj_id) == ERROR) return;
+
+  /*Sets the trap as one from the player's team*/
+  if(object_set_role(obj, player_get_role(player)) == ERROR) return;
+
   if(player_delete_object(player,obj_id) == ERROR) return;
   
   if (game_set_last_status(game, OK) == ERROR) return;
