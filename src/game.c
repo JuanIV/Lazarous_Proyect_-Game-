@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 #include "game_reader.h"
 
@@ -309,6 +310,58 @@ Status game_add_player (Game *game, Player *play) {
   return st;
 }
 
+int game_get_num_followers(Game *game, Player *player) {
+  int i, count = 0;
+  Id player_id = NO_ID;
+
+  if(!game || !player) return -1;
+
+  if((player_id = player_get_id(player)) == NO_ID) return -1;
+
+  for(i = 0; i < game->n_characters; i++) {
+    if(!game->characters[i]) return -1;
+    if(player_id == character_get_following(game->characters[i])) {
+      count++;
+    }
+  }
+
+  return count;
+}
+
+Set *game_get_followers(Game *game, Player *player) {
+  int i;
+  Id player_id = NO_ID, charr_id = NO_ID;
+  Set *followers = NULL;
+
+  if(!game || !player) return NULL;
+
+  if((player_id = player_get_id(player)) == NO_ID) return NULL;
+
+  followers = set_create();
+  if(!followers) return NULL;
+
+  for(i = 0; i < game->n_characters; i++) {
+    if(!game->characters[i]) {
+      set_destroy(followers);
+      return NULL;
+    }
+
+    if((player_id == character_get_following(game->characters[i])) && (character_get_health(game->characters[i]) > 0)) {
+      if((charr_id = character_get_id(game->characters[i])) == NO_ID) {
+        set_destroy(followers);
+        return NULL;
+      }
+
+      if(set_add(followers, charr_id) == ERROR) {
+        set_destroy(followers);
+        return NULL;
+      }
+    }
+  }
+
+  return followers;
+}
+
 /**
  * ***************  Turn management  ***************
  */
@@ -593,26 +646,44 @@ Status game_add_character(Game *game, Character *charr, Id location) {
   charr_space = game_get_space(game, location);
   if (!charr_space) return ERROR;
 
-  if (space_get_character(charr_space) != NO_ID) return ERROR;
+  if (space_characters_is_full(charr_space) == TRUE) return ERROR;
 
   id_charr = character_get_id(charr);
   if (id_charr == NO_ID) return ERROR;
 
-  if (space_set_character(charr_space, id_charr) == ERROR) return ERROR;
+  if (space_add_character(charr_space, id_charr) == ERROR) return ERROR;
 
   return OK;
 }
 
 /*Gets the pointer to a character*/
-Character *game_get_character(Game *game, Id id) {
+Character *game_get_character_from_id(Game *game, Id id) {
   int i = 0;
 
-  if (!game) return NULL;
+  if (!game || id == NO_ID) return NULL;
 
   if (id == NO_ID) return NULL;
 
   for (i = 0; i < game->n_characters; i++) {
     if (id == character_get_id(game->characters[i])) return game->characters[i];
+  }
+
+  return NULL;
+}
+
+Character *game_get_character_from_name(Game *game, char *name) {
+  int i;
+  char *aux_name = NULL;
+  if(!game || !name) return NULL;
+  if(game->n_characters <= 0) return NULL;
+
+  for(i = 0; i < game->n_characters; i++) {
+    aux_name = character_get_name(game->characters[i]);
+    if(!aux_name) return NULL;
+
+    if(strcasecmp(aux_name, name) == 0) {
+      return game->characters[i];
+    }
   }
 
   return NULL;
@@ -634,8 +705,7 @@ Id game_get_character_location(Game *game, Id id) {
   if (id == NO_ID || !game) return ERROR;
 
   for (i = 0; i < game->n_spaces; i++) {
-    if (space_get_character(game->spaces[i]) == id)
-      return space_get_id(game->spaces[i]);
+    if (space_find_character(game->spaces[i], id) == TRUE) return space_get_id(game->spaces[i]);
   }
 
   return NO_ID;
@@ -644,52 +714,20 @@ Id game_get_character_location(Game *game, Id id) {
 /*Sets a character to a certain space*/
 Status game_set_character_location(Game *game, Id charr, Id loc) {
   Space *space = NULL;
-  if (!game) return ERROR;
+  if (!game || charr == NO_ID || loc == NO_ID) return ERROR;
 
-  space = game_get_space(game, loc);
-  if (space) return ERROR;
-
-  if (space_get_character(space) != NO_ID) return ERROR;
-
-  if (space_set_character(space, charr) == ERROR) return ERROR;
+  if(!(space = game_get_space(game, loc))) return ERROR;
+  if(space_characters_is_full(space) == TRUE) return ERROR;
+  
+  if (space_add_character(space, charr) == ERROR) return ERROR;
   return OK;
 }
 
-/*It gets a character's id from its name*/
-Id game_get_charr_id_from_name(Game *game, char *charr_name){
-  int i, n_charr, name_length;
-  Id charr_id = NO_ID;
-  char *aux_name = NULL;
-
-  if (!game || !charr_name) return NO_ID;
-  
-  name_length = strlen(charr_name);
-  
-  if (((n_charr = game->n_characters) <= 0) || name_length > WORD_SIZE || name_length < MIN_ESPECIF)
-    return NO_ID;
-  
-  for (i = 0; i < n_charr; i++) {
-    if (!(aux_name = character_get_name(game->characters[i]))) continue;
-
-    /*Strstr allows us to get an character from  a fraction of its name, but we set
-     * the minimum as 2 characters */
-    if (strstr(charr_name, aux_name) != NULL && aux_name[0] == charr_name[0]) {
-      charr_id = character_get_id(game->characters[i]);
-      
-      if (charr_id == NO_ID) return NO_ID;
-
-      return charr_id;
-    }
-  }
-  
-  return NO_ID;
-}
-
-/*Gets the character in a position of the array of characters*/
+/*Gets the character in a position of the array of objects*/
 Character *game_get_character_at_pos(Game *game, int pos) {
   if (!game) return NULL;
 
-  if (pos >= game->n_characters) return NULL;
+  if (pos < 0 || pos >= game->n_characters) return NULL;
 
   return game->characters[pos];
 }

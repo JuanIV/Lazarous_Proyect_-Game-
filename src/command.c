@@ -23,8 +23,8 @@
 
 char *cmd_to_str[N_CMD][N_CMDT] = {
     {"", "No command"}, {"", "Unknown"}, {"e", "exit"},
-    {"m", "move"},      {"t", "take"},   {"d", "drop"},
-    {"a", "attack"},    {"c", "chat"},   {"i", "inspect"}};
+    {"m", "move"},      {"t", "take"},    {"d", "drop"},  {"at", "attack"},
+    {"c", "chat"},   {"i", "inspect"}, {"r", "recruit"},  {"ab", "abandon"}};
 
 /**
  * @brief Struct that stores the information of a command: code, cmd_desc and status
