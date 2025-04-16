@@ -138,10 +138,11 @@ Status space_add_object(Space *space, Id obj);
 Status space_remove_object(Space *space, Id obj);
 
 /**
- * @brief It gets whether the space has an object or not
+ * @brief It gets whether the space has a certain object or not
  * @author Juan Ibáñez
  *
  * @param space a pointer to the space
+ * @param obj Id of the object to be
  * @return TRUE if the space has the object, FALSE if not
  */
 Bool space_find_object(Space *space, Id obj);
@@ -151,7 +152,7 @@ Bool space_find_object(Space *space, Id obj);
  * @author Juan Ibáñez
  *
  * @param space Pointer to the space
- * @param pos Position of the space set of objects
+ * @param pos Position of the object inside of the space
  * @return Id of the object at the determined position
  */
 Id space_get_object_at_pos(Space *space, int pos);
@@ -163,10 +164,11 @@ Id space_get_object_at_pos(Space *space, int pos);
  * @param space a pointer to the space
  * @return TRUE if the space is full, FALSE if not
  */
-Bool space_is_full(Space *space);
+Bool space_objects_is_full(Space *space);
 
 /**
  * @brief It gets the number of objects contained in a space
+ * @author Juan Ibáñez
  * 
  * @param space Pointer to the space
  * @return Number of objects in the space
@@ -174,36 +176,66 @@ Bool space_is_full(Space *space);
 int space_get_num_objects(Space *space);
 
 /**
- * @brief Gets the id of the trap currently set on a space
- * @author Juan Ibáñez
- * 
- * @param space Pointer the space
- * @return Id of the trap in the space
- */
-Id space_get_trap(Space *space);
-
-/**
- * @brief Sets a trap in a space
- * 
- * @param space Pointer to the space
- * @param trap Id of the new trap
- * @return ERROR if space does not exist, OK otherwise
- */
-Status space_set_trap(Space *space, Id trap);
-
-/**
- * @brief Sets the character of the space to a certain id
- * @author Juan Ibáñez
+ * @brief Adds a character to the set of characters of the space
+ * @author Tiago Oselka
  *
  * @param space Pointer to the space
- * @param charr Id of the character being set
- * @return ERROR if the space is null, OK if not
+ * @param charr Id of the character being added
+ * @return OK if everything goes well, ERROR if there was some mistake
  */
-Status space_set_character(Space *space, Id charr);
+Status space_add_character(Space *space, Id charr);
+
+/**
+ * @brief Removes a character from the set of characters of the space
+ * @author Tiago Oselka
+ *
+ * @param space Pointer to the space
+ * @param charr Id of the character being removed
+ * @return OK if everything goes well, ERROR if there was some mistake
+ */
+Status space_remove_character(Space *space, Id charr);
+
+/**
+ * @brief It gets whether the space has a certain character or not
+ * @author Tiago Oselka
+ *
+ * @param space a pointer to the space
+ * @param charr Id of the character to be found
+ * @return TRUE if the space has the object, FALSE if not
+ */
+Bool space_find_character(Space *space, Id charr);
+
+/**
+ * @brief It gets the id of the character at a certain position inside the space
+ * @author Tiago Oselka
+ *
+ * @param space Pointer to the space
+ * @param pos Position of the set of characters inside of the space
+ * @return Id of the object at the determined position
+ */
+Id space_get_character_at_pos(Space *space, int pos);
+
+/**
+ * @brief Checks whether the set of characters is full
+ * @author Tiago Oselka
+ * 
+ * @param space Pointer to a space
+ * @return The state of the set of characters and TRUE in case of error
+ */
+Bool space_characters_is_full(Space *space);
+
+/**
+ * @brief It gets the number of characters contained in a space
+ * @author Tiago Oselka
+ * 
+ * @param space Pointer to the space
+ * @return Number of characters in the space
+ */
+int space_get_num_characters(Space *space);
 
 /**
  * @brief Gets the id of the character in the space
- * @author Juan Ibáñez
+ * @author Tiago Oselka
  *
  * @param space Pointer to the space
  * @return Id of the character in the space
@@ -212,10 +244,11 @@ Id space_get_character(Space *space);
 
 /**
  * @brief It prints the space information
- * @author Profesores PPROG (modified by Tiago Oselka) (modified by Juan Ibáñez)
+ * @author LM Tiago Oselka
  *
- * This fucntion shows the id and name of the space, the spaces that surrounds
- * it and the Id of the object in the space, if there is any.
+ * This fucntion shows the id and name of the space, whether the space is discovered,
+ * the list of objects and characters and its graphic description
+ * 
  * @param space a pointer to the space
  * @return OK, if everything goes well or ERROR if there was some mistake
  */

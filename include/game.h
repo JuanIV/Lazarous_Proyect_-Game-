@@ -156,6 +156,23 @@ Status game_set_player_location(Game *game, Id id);
  */
 Status game_add_player (Game *game, Player *play);
 
+/**
+ * @brief Gets the number of characters that follow a player
+ * 
+ * @param game Pointer to the game
+ * @param player Pointer to the player
+ * @return The number of followers and -1 in case of error
+ */
+int game_get_num_followers(Game *game, Player *player);
+
+/**
+ * @brief Gets a set with the Ids of the followers that a player has
+ * 
+ * @param game Pointer to the game
+ * @param player Pointer to the player
+ * @return A set with the ids and NULL in case of error
+ */
+Set *game_get_followers(Game *game, Player *player);
 
 
 /**
@@ -315,14 +332,24 @@ Object *game_get_object_at_pos(Game *game, int pos);
 Status game_add_character(Game *game, Character *charr, Id location);
 
 /**
- * @brief Gets the pointer to a character
+ * @brief Gets the pointer to a character from its Id
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
  * @param id Id of the character
- * @return Pointer to the character wanted
+ * @return Pointer to the wanted character 
  */
-Character *game_get_character(Game *game, Id id);
+Character *game_get_character_from_id(Game *game, Id id);
+
+/**
+ * @brief Gets the pointer to a character from its name
+ * @author Tiago oselka
+ * 
+ * @param game Pointer to the game
+ * @param name Name of the character
+ * @return Pointer to the wanted character
+ */
+Character *game_get_character_from_name(Game *game, char *name);
 
 /**
  * @brief Gets the number of characters in a game
@@ -353,16 +380,6 @@ Id game_get_character_location(Game *game, Id id);
  * @return Ok if everything went well, ERROR if the space is full or there was a mistake
  */
 Status game_set_character_location(Game *game, Id charr, Id loc);
-
-/**
- * @brief It gets a character's id from its name
- * @author Juan Ibáñez
- * 
- * @param game Pointer to the game
- * @param name Name of the character
- * @return Id of the character or NO_ID if it wasnt found
- */
-Id game_get_charr_id_from_name(Game *game, char *name);
 
 /**
  * @brief Gets the character in a position of the array of objects

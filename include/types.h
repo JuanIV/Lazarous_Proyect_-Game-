@@ -49,4 +49,16 @@ typedef enum { ERROR, OK } Status;
  */
 typedef enum { UNK_DIR = -1, N, S, E, W } Direction;
 
+
+typedef enum { 
+    NO_ROLE = -1,   /*We define this as the error role*/
+    UNDEFINED,      /*Predefined team*/
+    SCIENTIST,      /*Part of the scientists*/
+    MONSTER,        /*Part of the monsters*/
+    PEACEFUL,       /*Peaceful towards everyone*/
+    HOSTILE,        /*Hostile towards everyone*/
+    DEFECTOR1,      /*Some might rebel against their own team*/
+    DEFECTOR2
+} Role;
+
 #endif

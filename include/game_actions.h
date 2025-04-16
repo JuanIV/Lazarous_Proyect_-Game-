@@ -13,6 +13,7 @@
 
 #include "command.h"
 #include "game.h"
+#include "character.h"
 #include "types.h"
 
 /**

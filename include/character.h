@@ -111,6 +111,25 @@ char *character_get_gdesc(Character *charr);
 Status character_set_gdesc(Character *charr, char *gdesc);
 
 /**
+ * @brief It gets the id of the player the character is following
+ * @author Tiago Oselka
+ * 
+ * @param charr Pointer to a character
+ * @return The Id of said player and NO_ID in casa of error or if the character is not following anyone
+ */
+Id character_get_following(Character *charr);
+
+/**
+ * @brief It sets the id of the player the character is following
+ * @author Tiago Oselka
+ * 
+ * @param charr Pointer to a character
+ * @param id Id of the player the character will be following
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status character_set_following(Character *charr, Id id);
+
+/**
  * @brief It gets the message of a character
  * @author Juan Ibáñez
  *
@@ -211,8 +230,8 @@ Status character_set_friendly(Character *charr, Bool friendly);
  * @brief It prints the character information
  * @author Tiago Oselka
  *
- * This function shows the id, name and location of the character, as well as
- * the Id of the object being carried.
+ * This function shows the id, name, graphic description, message, health and friendliness, as
+ * well as the id of the player being followed 
  * @param charr a pointer to the character
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
