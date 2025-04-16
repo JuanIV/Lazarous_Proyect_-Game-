@@ -244,7 +244,6 @@ Status game_add_space(Game *game, Space *space);
 
 
 
-
 /**
  * @brief Adds a class to the game
  * @author Juan Ibáñez
@@ -283,7 +282,6 @@ int game_get_n_classes(Game *game);
  * @return Pointer to the class in that position
  */
 Class *game_get_class_at_pos(Game *game, int pos);
-
 
 
 
@@ -400,6 +398,7 @@ Character *game_get_character_from_id(Game *game, Id id);
  */
 Character *game_get_character_from_name(Game *game, char *name);
 
+
 /**
  * @brief Gets the number of characters in a game
  * @author Juan Ibáñez
@@ -431,6 +430,16 @@ Id game_get_character_location(Game *game, Id id);
 Status game_set_character_location(Game *game, Id charr, Id loc);
 
 /**
+ * @brief It gets a character's id from its name
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param name Name of the character
+ * @return Id of the character or NO_ID if it wasnt found
+ */
+Id game_get_charr_id_from_name(Game *game, char *name);
+
+/**
  * @brief Gets the character in a position of the array of objects
  * @author Tiago Oselka
  * 
@@ -440,6 +449,17 @@ Status game_set_character_location(Game *game, Id charr, Id loc);
  */
 Character *game_get_character_at_pos(Game *game, int pos);
 
+
+/**
+ * @brief Given two roles in the game, returns wether their relationship is friendly or not
+ * 
+ * @param role1 a rola
+ * @param role2 another role with which we want to see the relationship 
+ * @param relationship Pointer to a bool 
+ * @return Ok if everything went well, ERROR if the space is full or there was a mistake
+ *  exit value of relationship: TRUE if their relationship is friendly and FALSE otherwise
+ */
+Status game_get_friendly(Role role1, Role role2, Bool *relationship); 
 
 
 /**

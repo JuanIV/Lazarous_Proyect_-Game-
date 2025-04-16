@@ -24,6 +24,12 @@
 #define NO_ID -1
 
 /**
+ * @brief Defines the number of roles in the game
+ *
+ */
+#define N_ROLES 8
+
+/**
  * @brief Defines the type Id as a long
  *
  */
@@ -49,16 +55,22 @@ typedef enum { ERROR, OK } Status;
  */
 typedef enum { UNK_DIR = -1, N, S, E, W } Direction;
 
-
-typedef enum { 
-    NO_ROLE = -1,   /*We define this as the error role*/
-    UNDEFINED,      /*Predefined team*/
-    SCIENTIST,      /*Part of the scientists*/
-    MONSTER,        /*Part of the monsters*/
-    PEACEFUL,       /*Peaceful towards everyone*/
-    HOSTILE,        /*Hostile towards everyone*/
-    DEFECTOR1,      /*Some might rebel against their own team*/
-    DEFECTOR2
+/**
+ * @brief Defines all possible teams. This replaces friendly
+ *
+ */
+typedef enum {
+  NO_ROLE = -1, /*We define this as the error role*/
+  UNDEFINED,    /*Predefined team*/
+  SCIENTIST,    /*Part of the scientists*/
+  MONSTER,      /*Part of the monsters*/
+  PEACEFUL,     /*Peaceful towards everyone*/
+  HOSTILE,      /*Hostile towards everyone*/
+  DEFECTOR1,    /*Some might rebel against their own team*/
+  DEFECTOR2
 } Role;
+
+/*char *role_to_str[N_ROLES] = {"No role",   "Undefined", "Scientist", "Monster",   
+  "Peaceful",  "Hostile", "Defector1", "Defector2"};*/
 
 #endif

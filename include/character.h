@@ -72,6 +72,25 @@ Id character_get_id(Character *charr);
 Status character_set_id(Character *charr, Id id);
 
 /**
+ * @brief It gets the role of a character
+ * @author Tiago Oselka
+ *
+ * @param charr a pointer to the character
+ * @return the role of the character
+ */
+Role character_get_role(Character *charr);
+
+/**
+ * @brief It sets the role of a character
+ * @author Tiago Oselka
+ *
+ * @param charr a pointer to the character
+ * @param role the role to be assigned to the character
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status character_set_role(Character *charr, Role role);
+
+/**
  * @brief It gets the name of a character
  * @author Tiago Oselka
  *
@@ -230,8 +249,8 @@ Status character_set_friendly(Character *charr, Bool friendly);
  * @brief It prints the character information
  * @author Tiago Oselka
  *
- * This function shows the id, name, graphic description, message, health and friendliness, as
- * well as the id of the player being followed 
+ * This function shows the id, name and location of the character, as well as
+ * the Id of the object being carried.
  * @param charr a pointer to the character
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
