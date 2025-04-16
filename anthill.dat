@@ -9,29 +9,29 @@
 #s:13|Pantry|  ___    | l+**l`*m| l**+l   |  TTT m+'|         |
 #s:14|Hole|  ***  * |**/\ **  | /  \/ \ |*********|#     # #|
 
-#K:21|0|Branch|You found a Branch, don't eat it with ranch|0|1|-1|-1|0
-#K:55|0|Grain|You found Grain, but lost your brain|0|1|-1|-1|0
-#K:22|0|Leaf|You found a Leaf, fly away with it|0|1|-1|-1|0
-#K:23|0|Nut|You found a Nut, make sure is not bad|0|1|-1|-1|0
-#K:24|0|Donut|You found a Donut, time to glow up|0|1|-1|-1|0
+#k:21|0|Branch|You found a Branch, don't eat it with ranch|0|1|-1|-1|0
+#k:55|0|Grain|You found Grain, but lost your brain|0|1|-1|-1|0
+#k:22|0|Leaf|You found a Leaf, fly away with it|0|1|-1|-1|0
+#k:23|0|Nut|You found a Nut, make sure is not bad|0|1|-1|-1|0
+#k:24|0|Donut|You found a Donut, time to glow up|0|1|-1|-1|0
 #k:70|1|Vandage|Vandages are usefull for healing|5|1|-1|-1|0
 
 #o:21|21|11
 #o:23|23|11
 #o:24|70|11
 
-#p:0|Ant|mO^|11|5|3|
-#p:1|Person|(0_0)|121|5|4|
-#p:2|Robot|[*-*]|123|5|3|
-#p:3|Pig|^(oo)^|124|5|3|
-#p:4|Cat|=^o^=|125|5|3|
-#p:5|Duck|(_*<|126|5|3|
-#p:6|Fish|><(*>|127|5|3|
-#p:7|Mouse|<:3--|122|5|3|
+#p:0|Ant|2|mO^|11|5|3|
+#p:1|Person|1|(0_0)|121|5|4|
+#p:2|Robot|1|[*-*]|123|5|3|
+#p:3|Pig|3|^(oo)^|124|5|3|
+#p:4|Cat|3|=^o^=|125|5|3|
+#p:5|Duck|4|(_*<|126|5|3|
+#p:6|Fish|4|><(*>|127|5|3|
+#p:7|Mouse|2|<:3--|122|5|3|
 
-#c:0|spider|/\oo/\|123|5|0|I won't talk to you!|
-#c:1|snake|>--00|124|3|0|I will kill you|
-#c:2|mamen|m0-|125|1|1|Good luck! I believe in you|
+#c:0|spider|2|/\oo/\|123|5|0|I won't talk to you!|
+#c:1|snake|4|>--00|124|3|0|I will kill you|
+#c:2|mamen|1|m0-|125|1|1|Good luck! I believe in you|
 
 #l:111|Entry|11|121|1|1|
 #l:1210|Corridor|121|11|0|1|
