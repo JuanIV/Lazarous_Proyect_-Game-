@@ -20,12 +20,13 @@
  * 
  */
 struct _Space {
-  Id id;                                 /*!< Id number of the space, it must be unique */
-  char name[WORD_SIZE + 1];              /*!< Name of the space */
-  char gdesc[SP_GD_HGHT][SP_GD_WTH + 1]; /*!< Graphic description of the space*/
-  Set *objects;                          /*!< Set of the objects in the space */
+  Id id;                                  /*!< Id number of the space, it must be unique */
+  char name[WORD_SIZE + 1];               /*!< Name of the space */
+  char gdesc[SP_GD_HGHT][SP_GD_WTH + 1];  /*!< Graphic description of the space */
+  Set *objects;                           /*!< Set of the objects in the space */
+  Id trap;                                /*!< Id of the trap currently set on the space */
   Set *characters;                        /*!< Set of the characters in the space */
-  Bool discovered;                       /*!< Bool to know if the space has been discovered */
+  Bool discovered;                        /*!< Bool to know if the space has been discovered */
 };
 
 /** *************** Space data management ***************
@@ -69,7 +70,6 @@ Status space_destroy(Space *space) {
   if (!space) return ERROR;
 
   if (space->objects) set_destroy(space->objects);
-  if (space->characters) set_destroy(space->characters);
 
   free(space);
   space = NULL;
@@ -159,7 +159,7 @@ Bool space_get_discovered(Space *space) {
 /*It adds an object to the space*/
 Status space_add_object(Space *space, Id obj) {
   if (!space) return ERROR;
-  
+
   return set_add(space->objects, obj);
 } /*Error check inside set_add()*/
 
@@ -196,6 +196,25 @@ int space_get_num_objects(Space *space){
   if(!space) return 0;
 
   return set_get_num_ids(space->objects);
+}
+
+/**
+ * ***************  Trap management  ********************
+ */
+
+/*Gets the id of the trap currently set on a space*/
+Id space_get_trap(Space *space){
+  if(!space) return NO_ID;
+
+  return space->trap;
+}
+
+/*Sets a trap in a space*/
+Status space_set_trap(Space *space, Id trap){
+  if(!space) return ERROR;
+
+  space->trap = trap;
+  return OK;
 }
 
 /**

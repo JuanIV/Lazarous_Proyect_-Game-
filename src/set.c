@@ -20,8 +20,8 @@
  * 
  */
 struct _Set {
-  Id ids[SET_MX_CAP]; /*!< Array of ids */
-  int n_ids;      /*!< Number of ids in the array*/
+  Id ids[SET_MX_CAP];     /*!< Array of ids */
+  int n_ids;              /*!< Number of ids in the array*/
 };
 
 /*Creates a new set of ids initialazing its members*/
@@ -90,7 +90,8 @@ int set_get_num_ids(Set *set) {
 
 /*Gets the id in the given position*/
 Id set_get_id_at_pos(Set *set, int pos) {
-  if (!set || pos < 0 || pos >= set->n_ids) return NO_ID;
+  if (!set) return NO_ID;
+  if (pos < 0 || pos > set->n_ids) return NO_ID;
 
   return set->ids[pos];
 }

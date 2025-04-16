@@ -20,11 +20,12 @@
  * 
  */
 struct _Character {
-  Id id; /*!< Id number of the character, it must be unique */
+  Id id;                       /*!< Id number of the character, it must be unique */
+  Role role;                   /*!< Role of the character in the game*/
   char name[WORD_SIZE + 1];    /*!< Name of the character */
-  Id following;                /*!< Id of the player it's following*/
   char gdesc[CHR_GD_SZ + 1];   /*!< Graphic description of the character*/
   char message[MESG_SIZE + 1]; /*!< Message of the character*/
+  Id following;                /*!< Id of the player it's following*/
   Id weapon;                   /*!< Id of the object that serves as weapon */
   Id armor;                    /*!< Id of the object that serves as armor */
   int health;                  /*!< Health of the character*/
@@ -37,10 +38,11 @@ Character *character_create(Id id) {
   if (!(character = (Character *)malloc(sizeof(Character)))) return NULL;
 
   character->id = id;
+  character->role = UNDEFINED;
   character->name[0] = '\0';
   character->gdesc[0] = '\0';
-  character->following = NO_ID;
   character->message[0] = '\0';
+  character->following = NO_ID;
   character->weapon = NO_ID;
   character->armor = NO_ID;
   character->health = 0;
@@ -70,6 +72,22 @@ Status character_set_id(Character *charr, Id id) {
   if (!charr) return ERROR;
 
   charr->id = id;
+
+  return OK;
+}
+
+/*It gets the role of a character*/
+Role character_get_role(Character *charr) {
+  if (!charr) return NO_ROLE;
+
+  return charr->role;
+}
+
+/*It sets the role of a character*/
+Status character_set_role(Character *charr, Role role) {
+  if (!charr) return ERROR;
+
+  charr->role = role;
 
   return OK;
 }
@@ -140,6 +158,36 @@ Status character_set_message(Character *charr, char *message) {
   return OK;
 }
 
+/*Gets the weapon equipped by the character*/
+Id character_get_weapon(Character *charr){
+  if(!charr) return NO_ID;
+
+  return charr->weapon;
+}
+
+/*Sets the armor equipped by the character*/
+Status character_set_weapon(Character *charr, Id weapon_id){
+  if(!charr || weapon_id == NO_ID) return ERROR;
+
+  charr->weapon = weapon_id;
+  return OK;
+}
+
+/*Gets the armor equipped by the character*/
+Id character_get_armor(Character *charr){
+  if(!charr) return NO_ID;
+
+  return charr->armor;
+}
+
+/*Sets the armor equipped by the character*/
+Status character_set_armor(Character *charr, Id armor_id){
+  if(!charr || armor_id == NO_ID) return ERROR;
+
+  charr->armor = armor_id;
+  return OK;
+}
+
 /*It gets the health of a character*/
 int character_get_health(Character *charr) {
   if (!charr) return -1;
@@ -160,13 +208,13 @@ Status character_set_health(Character *charr, int health) {
 
 /*It prints the character information*/
 Status character_print(Character *charr) {
+  /*extern char *role_to_str[N_ROLES]*/
   if (!charr) return ERROR;
 
   fprintf(stdout, "\n\n-------------\n\n");
   fprintf(stdout, "=> Character id: %ld\n", charr->id);
-  
   fprintf(stdout, "=> Character name: %s\n", charr->name);
-  fprintf(stdout, "=> Id of the player being followed: %ld\n", charr->following);
+  /*fprintf(stdout, "=> Character role: %s\n", role_to_str[charr->role - NO_ROLE]);*/
   fprintf(stdout, "=> Character health: %d\n", charr->health);
   fprintf(stdout, "=> Character equipped weapon: %ld\n", charr->weapon);
   fprintf(stdout, "=> Character equipped armor: %ld\n", charr->armor);

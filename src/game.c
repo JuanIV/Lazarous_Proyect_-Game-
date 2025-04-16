@@ -220,6 +220,10 @@ Status game_destroy(Game *game) {
     space_destroy(game->spaces[i]);
   }
 
+  for (i = 0; i < game->n_classes; i++) {
+    object_class_destroy(game->class[i]);
+  }
+
   for (i = 0; i < game->n_objects; i++) {
     object_destroy(game->object[i]);
   }
@@ -313,6 +317,7 @@ Status game_add_player (Game *game, Player *play) {
   return st;
 }
 
+/*Gets the number of characters that follow a player*/
 int game_get_num_followers(Game *game, Player *player) {
   int i, count = 0;
   Id player_id = NO_ID;
@@ -331,6 +336,7 @@ int game_get_num_followers(Game *game, Player *player) {
   return count;
 }
 
+/*Gets a set with the Ids of the followers that a player has*/
 Set *game_get_followers(Game *game, Player *player) {
   int i;
   Id player_id = NO_ID, charr_id = NO_ID;
@@ -706,13 +712,11 @@ Status game_add_character(Game *game, Character *charr, Id location) {
   return OK;
 }
 
-/*Gets the pointer to a character*/
+/*Gets the pointer to a character from its id*/
 Character *game_get_character_from_id(Game *game, Id id) {
   int i = 0;
 
   if (!game || id == NO_ID) return NULL;
-
-  if (id == NO_ID) return NULL;
 
   for (i = 0; i < game->n_characters; i++) {
     if (id == character_get_id(game->characters[i])) return game->characters[i];
@@ -721,6 +725,7 @@ Character *game_get_character_from_id(Game *game, Id id) {
   return NULL;
 }
 
+/*Gets the pointer to a character from its name*/
 Character *game_get_character_from_name(Game *game, char *name) {
   int i;
   char *aux_name = NULL;
@@ -767,19 +772,109 @@ Status game_set_character_location(Game *game, Id charr, Id loc) {
   if (!game || charr == NO_ID || loc == NO_ID) return ERROR;
 
   if(!(space = game_get_space(game, loc))) return ERROR;
+
   if(space_characters_is_full(space) == TRUE) return ERROR;
-  
   if (space_add_character(space, charr) == ERROR) return ERROR;
+
   return OK;
 }
 
-/*Gets the character in a position of the array of objects*/
+/*It gets a character's id from its name*/
+Id game_get_charr_id_from_name(Game *game, char *charr_name){
+  int i, n_charr, name_length;
+  Id charr_id = NO_ID;
+  char *aux_name = NULL;
+
+  if (!game || !charr_name) return NO_ID;
+  
+  name_length = strlen(charr_name);
+  
+  if (((n_charr = game->n_characters) <= 0) || name_length > WORD_SIZE || name_length < MIN_ESPECIF)
+    return NO_ID;
+  
+  for (i = 0; i < n_charr; i++) {
+    if (!(aux_name = character_get_name(game->characters[i]))) continue;
+
+    /*Strstr allows us to get an character from  a fraction of its name, but we set
+     * the minimum as 2 characters */
+    if (strstr(charr_name, aux_name) != NULL && aux_name[0] == charr_name[0]) {
+      charr_id = character_get_id(game->characters[i]);
+      
+      if (charr_id == NO_ID) return NO_ID;
+
+      return charr_id;
+    }
+  }
+  
+  return NO_ID;
+}
+
+/*Gets the character in a position of the array of characters*/
 Character *game_get_character_at_pos(Game *game, int pos) {
   if (!game) return NULL;
 
   if (pos < 0 || pos >= game->n_characters) return NULL;
 
   return game->characters[pos];
+}
+
+/**
+ ****************** Interactions management*****************
+*/
+
+/*Given two roles in the game, returns wether their relationship is friendly or not*/
+Status game_get_friendly(Role role1, Role role2, Bool *relationship) {
+  if((role1) == NO_ROLE || (role2) == NO_ROLE) {
+    *relationship = FALSE;
+    return ERROR;
+  }
+
+  if((role1) == UNDEFINED || (role2) == UNDEFINED) {
+    *relationship = TRUE;
+    return OK;
+  }
+
+  switch (role1) {
+    case PEACEFUL:
+      *relationship = TRUE;
+      return OK;
+      break;
+    
+    case HOSTILE:
+      if(role2 == PEACEFUL) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+
+    case SCIENTIST:
+      if(role2 == SCIENTIST || role2 == PEACEFUL || role2 == DEFECTOR2) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+
+    case MONSTER:
+      if(role2 == MONSTER || role2 == PEACEFUL || role2 == DEFECTOR1) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+
+    case DEFECTOR1:
+      if(role2 == DEFECTOR1 || role2 == MONSTER || role2 == PEACEFUL) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+    
+    case DEFECTOR2:
+      if(role2 == DEFECTOR2 || role2 == SCIENTIST || role2 == PEACEFUL) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+    default:
+      break;
+  }
+
+  *relationship = FALSE;
+  return ERROR;
 }
 
 /**

@@ -27,7 +27,10 @@
  */
 struct _Player {
   Id id;                    /*!< Id number of the player, it must be unique */
+  Role role;                /*!< Role of the player in the game*/
   char name[WORD_SIZE + 1]; /*!< Name of the player */
+  Id weapon;                /*!< Id of the object that serves as weapon */
+  Id armor;                 /*!< Id of the object that serves as armor */
   Inventory *backpack;     /*!< Inventory that the player carries */
   int health;               /*!< The player's health */
   Id location;              /*!< Id number of the space where the player is currently located*/
@@ -42,7 +45,10 @@ Player *player_create(Id id) {
   if (!(play = (Player *)malloc(sizeof(Player)))) return NULL;
 
   play->id = id;
+  play->role = UNDEFINED;
   play->name[0] = '\0';
+  play->weapon = 0;
+  play->armor = 0;
   play->backpack = inventory_create();
 	inventory_set_max_objects(play->backpack,INIT_BAG_SIZE);
   play->health = 10;
@@ -81,6 +87,22 @@ Status player_set_id(Player *play, Id id) {
   return OK;
 }
 
+/*It gets the role of a player*/
+Role player_get_role(Player *play) {
+  if (!play) return NO_ROLE;
+
+  return play->role;
+}
+
+/*It sets the role of a player*/
+Status player_set_role(Player *play, Role role) {
+  if (!play || role == NO_ROLE) return ERROR;
+
+  play->role = role;
+
+  return OK;
+}
+
 /*It gets the name of a player*/
 char *player_get_name(Player *play) {
   if (!play) return NULL;
@@ -94,6 +116,36 @@ Status player_set_name(Player *play, char *name) {
 
   sprintf(play->name, "%.*s", WORD_SIZE, name);
 
+  return OK;
+}
+
+/*Gets the weapon equipped by a player*/
+Id player_get_weapon(Player *play){
+  if(!play) return NO_ID;
+
+  return play->weapon;
+}
+
+/*Sets the armor equipped by a player*/
+Status player_set_weapon(Player *play, Id weapon_id){
+  if(!play || weapon_id == NO_ID) return ERROR;
+
+  play->weapon = weapon_id;
+  return OK;
+}
+
+/*Gets the armor equipped by a player*/
+Id player_get_armor(Player *play){
+  if(!play) return NO_ID;
+
+  return play->armor;
+}
+
+/*Sets the armor equipped by a player*/
+Status player_set_armor(Player *play, Id armor_id){
+  if(!play || armor_id == NO_ID) return ERROR;
+
+  play->armor = armor_id;
   return OK;
 }
 
@@ -195,12 +247,17 @@ Status player_set_gdesc(Player *play, char *gdesc) {
 
 /*It prints the player information*/
 Status player_print(Player *play) {
+  /*extern char *role_to_str[N_ROLES];*/
   if (!play) return ERROR;
 
 
   fprintf(stdout, "\n\n-------------\n\n");
   fprintf(stdout, "=> Player id: %ld\n", play->id);
   fprintf(stdout, "=> Player name: %s\n", play->name);
+  /*fprintf(stdout, "=> Player role: %s\n", role_to_str[play->role - NO_ROLE]);*/
+  fprintf(stdout, "=> Player health: %d\n", play->health);
+  fprintf(stdout, "=> Player equipped weapon: %ld\n", play->weapon);
+  fprintf(stdout, "=> Player equipped armor: %ld\n", play->armor);
   fprintf(stdout, "=> Player gdesc: %s\n", play->gdesc);
   fprintf(stdout, "=> Player backpack: \n");
 	set_print(inventory_get_objects(play->backpack));

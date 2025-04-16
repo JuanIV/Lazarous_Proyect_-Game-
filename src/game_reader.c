@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 /*Function used in game_create_from_file to load the links from a file to a game*/
 Status game_reader_load_links(Game *game, char *filename) {
   FILE *file = NULL;
@@ -224,6 +225,7 @@ Status game_reader_load_players(Game *game, char *filename) {
   char desc[WORD_SIZE] = ""; 
   char *toks = NULL;
   Id id_play = NO_ID, id_location = NO_ID;
+  Role role = NO_ROLE;
   int health = 0, inventory_size = 0;
   Player *play = NULL;
   Space *space = NULL;
@@ -235,7 +237,7 @@ Status game_reader_load_players(Game *game, char *filename) {
 
   /*
   reads data from the file acording to the next structure:
-  #p:<id>|<name>|<graphic description>|<location>|<health>|<backpack size>
+  #p:<id>|<name>|<role>|<graphic description>|<location>|<health>|<backpack size>
   */
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#p:", line, 3) == 0) {
@@ -243,6 +245,8 @@ Status game_reader_load_players(Game *game, char *filename) {
       id_play = atol(toks);
       toks = strtok(NULL, "|");
       strcpy(name, toks);
+      toks = strtok(NULL, "|");
+      role = atoi(toks);
       toks = strtok(NULL, "|");
       strcpy(desc, toks); 
       toks = strtok(NULL, "|");
@@ -260,6 +264,7 @@ Status game_reader_load_players(Game *game, char *filename) {
         return ERROR;
       } 
       if (player_set_name(play, name) == ERROR) st = ERROR;
+      if (player_set_role(play, role) == ERROR) st = ERROR;
       if (player_set_gdesc(play, desc) == ERROR) st = ERROR;
       if (player_set_health(play, health) == ERROR) st = ERROR;
       if (player_set_inventory_size(play, inventory_size) == ERROR) st = ERROR;
@@ -308,7 +313,7 @@ Status game_reader_load_characters(Game *game, char *filename) {
   char *toks = NULL;
   Id id_charr = NO_ID, id_location = NO_ID;
   int health = 0;
-  Bool friendly = FALSE;
+  Role role = NO_ROLE;
   Character *charr = NULL;
   Status st = OK;
 
@@ -318,7 +323,7 @@ Status game_reader_load_characters(Game *game, char *filename) {
 
   /*
   reads data from the file acording to the next structure:
-  #c:<id>|<name>|<graphic description>|<location>|<health>|<friendly or not>|<message>
+  #c:<id>|<name>|<role>|<graphic description>|<location>|<health>|<message>
   */
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#c:", line, 3) == 0) {
@@ -327,13 +332,13 @@ Status game_reader_load_characters(Game *game, char *filename) {
       toks = strtok(NULL, "|");
       strcpy(name, toks);
       toks = strtok(NULL, "|");
+      role = atoi(toks);
+      toks = strtok(NULL, "|");
       strcpy(desc, toks); 
       toks = strtok(NULL, "|");
       id_location = atol(toks);
       toks = strtok(NULL, "|");
       health = atoi(toks);
-      toks = strtok(NULL, "|");
-      friendly = atoi(toks);
       toks = strtok(NULL, "|");
       strcpy(message, toks);
 
@@ -347,7 +352,7 @@ Status game_reader_load_characters(Game *game, char *filename) {
       if (character_set_name(charr, name) == ERROR) st = ERROR;
       if (character_set_gdesc(charr, desc) == ERROR) st = ERROR;
       if (character_set_health(charr, health) == ERROR) st = ERROR;
-      if (character_set_friendly(charr, friendly) == ERROR) st = ERROR;
+      if (character_set_role(charr, role) == ERROR) st = ERROR;
       if (character_set_message(charr, message) == ERROR) st = ERROR;
 
       if(st == ERROR) {
@@ -402,22 +407,41 @@ Status game_reader_load_spaces(Game *game, char *filename) {
     /*creates a new space with the read data and adds it to the game spaces
     list*/
     space = space_create(id);
-    if (!space) return ERROR;
+    if (!space) {
+      fclose(file);
+      return ERROR;
+    }
 
-    space_set_name(space, name);
+    if (space_set_name(space, name) == ERROR) {
+      space_destroy(space);
+      fclose(file);
+      return ERROR;
+    }
 
     for (i = 0; i < SP_GD_HGHT; i++) {
       toks = strtok(NULL, "|");
 
       if (toks) {
-        if (space_set_gdesc_at(space, toks, i) == ERROR) return ERROR;
+        if (space_set_gdesc_at(space, toks, i) == ERROR) {
+          space_destroy(space);
+          fclose(file);
+          return ERROR;
+        }
       } else {
-        if (space_set_gdesc_at(space, " ", i) == ERROR) return ERROR;
+        if (space_set_gdesc_at(space, " ", i) == ERROR) {
+          space_destroy(space);
+          fclose(file);
+          return ERROR;
+        }
       }
     }
     
 
-    if (game_add_space(game, space) == ERROR) return ERROR;
+    if (game_add_space(game, space) == ERROR) {
+      space_destroy(space);
+      fclose(file);
+      return ERROR;
+    }
   }
   
   fclose(file);
