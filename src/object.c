@@ -38,7 +38,8 @@ struct _Class {
  */
 struct _Object {
   Class *class;  /*!< Class of the object*/
-  Id id;            /*!< Unique id for the specific object*/
+  Id id;         /*!< Unique id for the specific object*/
+  Role role;     /*!< Role to which the object is friendly (only for traps)*/
 };
 
 /**
@@ -53,7 +54,7 @@ Class *object_class_create(Id id){
   if (!(class = (Class *)malloc(sizeof(Class)))) return NULL;
 
   class->id = id;
-  class->tag = NORMAL;
+  class->tag = NO_TAG;
   class->name[0] = '\0';
   class->desc[0] = '\0';
   class->use_value = 0;
@@ -66,7 +67,7 @@ Class *object_class_create(Id id){
 }
 
 /*It destroys a class freeing allocated memory*/
-Status *object_class_destroy(Class *class){
+Status object_class_destroy(Class *class){
   if(!class) return ERROR;
 
   free(class);
@@ -91,14 +92,14 @@ Status object_class_set_id(Class *class, Id id) {
 
 /*Gets the tag of a class*/
 Tag object_class_get_tag(Class *class){
-  if(!class) return NORMAL;
+  if(!class) return NO_TAG;
 
   return class->tag;
 }
 
 /*Sets the tag of a class*/
 Status object_class_set_tag(Class *class, Tag tag){
-  if(!class) return ERROR;
+  if(!class || tag == NO_TAG) return ERROR;
 
   class->tag = tag;
   return OK;
@@ -222,6 +223,8 @@ Status object_class_print(Class *class){
   fprintf(stdout, "--> Class dependency: %d\n", (int)class->depedency);
   fprintf(stdout, "--> Class open: %d\n", (int)class->open);
   fprintf(stdout, "--> Class luck: %d\n", class->luck);
+
+  return OK;
 }
 
 
@@ -288,7 +291,7 @@ Id object_get_class_id(Object *obj) {
 
 /*Gets the tag of an object*/
 Tag object_get_tag(Object *obj) {
-  if (!obj) return NORMAL;
+  if (!obj) return NO_TAG;
 
   return object_class_get_tag(obj->class);
 }
@@ -340,6 +343,19 @@ int object_get_luck(Object *obj) {
   if (!obj) return FALSE;
 
   return object_class_get_luck(obj->class);
+}
+
+Role object_get_role(Object *obj){
+  if(!obj) return NO_ROLE;
+
+  return obj->role;
+}
+
+Status object_set_role(Object *obj, Role role){
+  if(!obj || role == NO_ROLE) return ERROR;
+
+  obj->role = role;
+  return OK;
 }
 
 /*Prints all information about an object*/

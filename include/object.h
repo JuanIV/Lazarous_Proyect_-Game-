@@ -23,7 +23,7 @@
  * @brief It defines the type of objects there are in the game
  *
  */
-typedef enum { NORMAL, HEALER, WEAPON, ARMOR, TRAP } Tag;
+typedef enum { NO_TAG = -1, NORMAL, HEALER, WEAPON, ARMOR, TRAP } Tag;
 
 typedef struct _Class Class;
 
@@ -49,7 +49,7 @@ Class *object_class_create(Id id);
  * @param class Pointer to the class
  * @return ERROR if class doesnt exist, OK otherwise
  */
-Status *object_class_destroy(Class *class);
+Status object_class_destroy(Class *class);
 
 /**
  * @brief It gets the id of a class
@@ -370,6 +370,23 @@ Bool object_get_movable(Object *obj);
  * @return Luck of the object
  */
 int object_get_luck(Object *obj);
+
+/**
+ * @brief Gets the role of a trap
+ * 
+ * @param obj Pointer to the object
+ * @return Role of the object
+ */
+Role object_get_role(Object *obj);
+
+/**
+ * @brief Sets the role of a trap
+ * 
+ * @param obj Pointer to the object
+ * @param role New role for the trap
+ * @return ERROR if obj or role dont exist, OK otherwise
+ */
+Status object_set_role(Object *obj, Role role);
 
 /**
  * @brief Prints all information about an object
