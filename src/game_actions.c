@@ -260,6 +260,7 @@ void game_actions_move(Game *game) {
   Direction direction = UNK_DIR;
   Object *trap = NULL;
   Set *followers = NULL;
+  Bool open = FALSE;
   Id cur_id = NO_ID, dest_id = NO_ID, player_id = NO_ID, charr_id = NO_ID;
   Space *cur_space = NULL, *dest_space = NULL;
   extern char *dir_to_str[N_DIR][N_DIRT];
@@ -291,7 +292,8 @@ void game_actions_move(Game *game) {
   /* checks if the connection exists and then whether it's opened  */
   dest_id = game_get_connection(game, cur_id, direction);
   if(dest_id == NO_ID) return;
-  if(game_connection_is_open(game, cur_id, direction) == FALSE) {
+  if(game_connection_is_open(game, cur_id, direction, &open) == ERROR) return;
+  if(open == FALSE) {
     game_set_last_message(game, "The path is blocked...");
     return;
   }

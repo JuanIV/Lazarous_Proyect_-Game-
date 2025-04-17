@@ -97,7 +97,7 @@ Status space_set_name(Space *space, char *name) {
 }
 
 /*It gets the name of a space*/
-const char *space_get_name(Space *space) {
+char *space_get_name(Space *space) {
   if (!space) return NULL;
 
   return space->name;
@@ -146,10 +146,12 @@ Status space_set_discovered(Space *space, Bool discovered) {
 }
 
 /*It gets the discovered status of a space*/
-Bool space_get_discovered(Space *space) {
-  if (!space) return FALSE;
+Status space_get_discovered(Space *space, Bool *bool) {
+  if (!space || !bool) return ERROR;
 
-  return space->discovered;
+  *bool = space->discovered;
+
+  return ERROR;
 }
 
 /**
@@ -280,7 +282,7 @@ Status space_print(Space *space) {
   
 
   /* 2. Print if the space has been discovered */
-  if (space_get_discovered(space) == TRUE) {
+  if (space->discovered == TRUE) {
     fprintf(stdout, "---> The space has been discovered.\n");
   } else {
     fprintf(stdout, "---> The space has not been discovered.\n");

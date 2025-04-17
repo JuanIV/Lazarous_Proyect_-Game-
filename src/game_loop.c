@@ -17,7 +17,7 @@
 #include "command.h"
 #include "game.h"
 #include "game_actions.h"
-#include "game_reader.h"
+#include "game_management.h"
 #include "graphic_engine.h"
 
 /**

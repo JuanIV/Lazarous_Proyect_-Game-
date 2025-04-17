@@ -1,15 +1,15 @@
 /**
  * @brief It allows to load games saved from files
  *
- * @file game_reader.h
+ * @file game_management.h
  * @author Juan Ibáñez
  * @version 0
  * @date 03-02-2025
  * @copyright GNU Public License
  */
 
-#ifndef GAME_READER_H
-#define GAME_READER_H
+#ifndef GAME_MANAGEMENT_H
+#define GAME_MANAGEMENT_H
 
 #include "game.h"
 #include "types.h"
@@ -22,7 +22,7 @@
  * @param filename Name of the file
  * @return OK if the links loaded correctly, ERROR if there was any mistake
  */
-Status game_reader_load_links(Game *game, char *filename);
+Status game_management_load_links(Game *game, char *filename);
 
 /**
  * @brief Loads the classes from a file to a game
@@ -31,7 +31,7 @@ Status game_reader_load_links(Game *game, char *filename);
  * @param filename Name of the file with the data
  * @return OK if the classes loaded correctly, ERROR if there was any mistake
  */
-Status game_reader_load_classes(Game *game, char *filename);
+Status game_management_load_classes(Game *game, char *filename);
 
 /**
  * @brief function used in game_create_from_file to load the objects from
@@ -41,7 +41,7 @@ Status game_reader_load_classes(Game *game, char *filename);
  * @param filename Name of the file
  * @return OK if the objects loaded correctly, ERROR if there was any mistake
  */
-Status game_reader_load_objects(Game *game, char *filename);
+Status game_management_load_objects(Game *game, char *filename);
 
 /**
  * @brief function used in game_create_from_file to load the players from
@@ -52,7 +52,7 @@ Status game_reader_load_objects(Game *game, char *filename);
  * @param filename Name of the file
  * @return OK if the players loaded correctly, ERROR if there was any mistake
  */
-Status game_reader_load_players(Game *game, char *filename);
+Status game_management_load_players(Game *game, char *filename);
 
 /**
  * @brief function used in game_create_from_file to load the characters from
@@ -63,7 +63,7 @@ Status game_reader_load_players(Game *game, char *filename);
  * @param filename Name of the file
  * @return OK if the characters loaded correctly, ERROR if there was any mistake
  */
-Status game_reader_load_characters(Game *game, char *filename);
+Status game_management_load_characters(Game *game, char *filename);
 
 
 /**
@@ -75,5 +75,5 @@ Status game_reader_load_characters(Game *game, char *filename);
  * @param filename Name of the file
  * @return OK if the space loaded correctly, ERROR if there was any mistake
  */
-Status game_reader_load_spaces(Game *game, char *filename);
+Status game_management_load_spaces(Game *game, char *filename);
 #endif

@@ -15,7 +15,7 @@
 #include <string.h>
 #include <strings.h>
 
-#include "game_reader.h"
+#include "game_management.h"
 
 /**
  * @brief Minimum number of characters of an objects name you need to write to try 
@@ -203,12 +203,12 @@ Status game_create_from_file(Game *game, char *filename) {
 
   /*we first load the spaces and then the rest in order to directly add 
   the objects, players and characters to each space*/
-  if (game_reader_load_spaces(game, filename) == ERROR) return ERROR;
-  if (game_reader_load_links(game, filename) == ERROR) return ERROR;
-  if (game_reader_load_classes(game, filename) == ERROR) return ERROR;
-  if (game_reader_load_objects(game, filename) == ERROR) return ERROR;
-  if (game_reader_load_characters(game, filename) == ERROR) return ERROR;
-  if (game_reader_load_players(game, filename) == ERROR) return ERROR;
+  if (game_management_load_spaces(game, filename) == ERROR) return ERROR;
+  if (game_management_load_links(game, filename) == ERROR) return ERROR;
+  if (game_management_load_classes(game, filename) == ERROR) return ERROR;
+  if (game_management_load_objects(game, filename) == ERROR) return ERROR;
+  if (game_management_load_characters(game, filename) == ERROR) return ERROR;
+  if (game_management_load_players(game, filename) == ERROR) return ERROR;
   return OK;
 }
 
@@ -421,6 +421,15 @@ Space *game_get_space(Game *game, Id id) {
   return NULL;
 }
 
+/*It gets a space in a position of the array of spaces*/
+Space *game_get_space_at_pos(Game *game, int pos) {
+  if(!game || pos < 0 || pos >= game->n_spaces) return NULL;
+
+  if(!game->spaces[pos]) return NULL;
+
+  return game->spaces[pos];
+}
+
 /*Gets the number of spaces in a game*/
 int game_get_n_spaces(Game *game) {
   if (!game) return -1;
@@ -470,6 +479,24 @@ Status game_add_link(Game *game, Link *link) {
   return OK;
 }
 
+/*It gets a link in a position of the array of links*/
+Link *game_get_link_at_pos(Game *game, int pos) {
+  if(!game || pos < 0 || pos >= game->n_links) return NULL;
+
+  if(!game->links[pos]) return NULL;
+
+  return game->links[pos];
+}
+
+/*Gets the number of links in a game*/
+int game_get_n_links(Game *game) {
+  if (!game) return -1;
+
+  if (game->n_links < 0) return -1;
+
+  return game->n_links;
+}
+
 /*Given the Id of a space and a direction returns the Id of the space linked in that direction*/
 Id game_get_connection(Game *game, Id orig_space, Direction dir) {
   Id dest = NO_ID;
@@ -493,21 +520,22 @@ Id game_get_connection(Game *game, Id orig_space, Direction dir) {
 }
 
 /*Checks wether a connection is opened given a space and a desired direction*/
-Bool game_connection_is_open(Game *game, Id orig_space, Direction dir) {
+Status game_connection_is_open(Game *game, Id orig_space, Direction dir, Bool *bool) {
   int i = 0;
 
-  if(!game || orig_space == NO_ID || dir == UNK_DIR) return NO_ID;
+  if(!game || orig_space == NO_ID || dir == UNK_DIR || !bool) return ERROR;
 
   for(i = 0; i < game->n_links; i++) {
     /* Error check link == NULL donde in link_get_orig */
     if(orig_space != link_get_orig(game->links[i])) continue;
 
     if(dir == link_get_direction(game->links[i])) {
-      return link_get_open(game->links[i]);
+      return link_get_open(game->links[i], bool);;
     }
   }
 
-  return FALSE;
+  *bool = FALSE;
+  return ERROR;
 }
 
 /**
@@ -548,7 +576,7 @@ int game_get_n_classes(Game *game) {
   return game->n_classes;
 }
 
-/*It gets the class in a position of the array*/
+/*It gets the class in a position of the array of classes*/
 Class *game_get_class_at_pos(Game *game, int pos) {
   if (!game) return NULL;
 
@@ -914,6 +942,7 @@ Status game_get_last_status(Game *game) {
   return command_get_status(game->data[game->turn]->last_cmds[0]);
 }
 
+/*It gets the status at a position of the interface data struct of commands*/
 Status game_get_last_status_at_pos(Game *game, int pos) {
   if(!game || pos < 0 || pos >= NUM_CMDS) return ERROR;
 
@@ -935,18 +964,6 @@ Status game_set_last_status(Game *game, Status status) {
   return command_set_status(interfaceData->last_cmds[0], status);;
 }
 
-Status game_set_last_status_at_pos(Game *game, Status status, int pos) {
-  InterfaceData *interfaceData = NULL;
-  if(!game || pos < 0 || pos >= NUM_CMDS) return ERROR;
-
-  if(game->turn < 0 || game->turn >= game->n_players) return ERROR;
-
-  interfaceData = game->data[game->turn];
-  if(!interfaceData) return ERROR;
-
-  return command_set_status(interfaceData->last_cmds[pos], status);
-}
-
 /*It gets the last command from the game struct*/
 Command *game_get_last_command(Game *game) { 
   if(!game) return NULL;
@@ -956,6 +973,7 @@ Command *game_get_last_command(Game *game) {
   return (game->data[game->turn])->last_cmds[0]; 
 }
 
+/*It gets the last command at a desired position from the game struct*/
 Command *game_get_last_command_at_pos(Game *game, int pos) { 
   if(!game || pos < 0 || pos >= NUM_CMDS) return NULL;
 

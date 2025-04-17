@@ -27,14 +27,14 @@
  */
 struct _Player {
   Id id;                    /*!< Id number of the player, it must be unique */
-  Role role;                /*!< Role of the player in the game*/
   char name[WORD_SIZE + 1]; /*!< Name of the player */
-  Id weapon;                /*!< Id of the object that serves as weapon */
-  Id armor;                 /*!< Id of the object that serves as armor */
-  Inventory *backpack;     /*!< Inventory that the player carries */
-  int health;               /*!< The player's health */
-  Id location;              /*!< Id number of the space where the player is currently located*/
+  Role role;                /*!< Role of the player in the game*/
   char gdesc[PLY_GD_SZ + 1];/*!< Graphic description of the player*/
+  Id location;              /*!< Id number of the space where the player is currently located*/
+  int health;               /*!< The player's health */
+  Id armor;                 /*!< Id of the object that serves as armor */
+  Id weapon;                /*!< Id of the object that serves as weapon */
+  Inventory *backpack;     /*!< Inventory that the player carries */
 };
 
 /*It creates a new player by allocating its memory and initializing its members*/
@@ -128,7 +128,7 @@ Id player_get_weapon(Player *play){
 
 /*Sets the armor equipped by a player*/
 Status player_set_weapon(Player *play, Id weapon_id){
-  if(!play || weapon_id == NO_ID) return ERROR;
+  if(!play) return ERROR;
 
   play->weapon = weapon_id;
   return OK;
@@ -143,7 +143,7 @@ Id player_get_armor(Player *play){
 
 /*Sets the armor equipped by a player*/
 Status player_set_armor(Player *play, Id armor_id){
-  if(!play || armor_id == NO_ID) return ERROR;
+  if(!play) return ERROR;
 
   play->armor = armor_id;
   return OK;
@@ -158,7 +158,7 @@ Inventory *player_get_backpack(Player *play) {
 
 /*It adds the object to the player's inventory*/
 Status player_add_object(Player *play, Id id_obj) {
-  if (!play || id_obj == NO_ID) return ERROR;
+  if (!play || id_obj == NO_ID || id_obj == 0) return ERROR;
 
   if (inventory_add_object(play->backpack, id_obj) == ERROR) return ERROR;
 
@@ -190,7 +190,7 @@ Bool player_inventory_is_full(Player *play) {
 
 /*It sets the size of the backpack of the player*/
 Status player_set_inventory_size(Player *play, int size) {
-  if (!play) return ERROR;
+  if (!play || size < 0 || size > SET_MX_CAP) return ERROR;
 
   if (inventory_set_max_objects(play->backpack, size) == ERROR) return ERROR;
 
