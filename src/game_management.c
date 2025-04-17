@@ -523,6 +523,8 @@ Status game_management_save_spaces(Game *game, char *filename) {
     if (space_get_discovered(space, &discovered) == ERROR) st = ERROR;
     if(st == ERROR) break;
 
+    if (st == ERROR) break;
+
     /*Saved as #s:<id>|<name>|<trap_id>|<discovered>|*/
     len += sprintf(line, "#s:");
     len += sprintf(line + len, "%ld|", space_id);
@@ -617,7 +619,7 @@ Status game_management_save_players(Game *game, char *filename) {
     if ((health = player_get_health(player)) == -1) st = ERROR;
     if (!(backpack = player_get_backpack(player))) st = ERROR;
     if ((max_back_size = inventory_get_max_objects(backpack)) == -1) st = ERROR;
-    if ((back_n_objs = inventory_get_num_objects(backpack)) == -1) st = FALSE;
+    if ((back_n_objs = inventory_get_num_objects(backpack)) == -1) st = ERROR;
 
     if(st == ERROR) break;
 
@@ -646,6 +648,134 @@ Status game_management_save_players(Game *game, char *filename) {
 
   fprintf(file, "\n");
   
+  fclose(file);
+
+  return st;
+}
+
+Status game_management_save_characters(Game *game, char *filename) {
+  FILE *file = NULL;
+  Status st = OK;
+  Character *character = NULL;
+  Role role = NO_ROLE;
+  Id character_id = NO_ID, location = NO_ID;
+  char line[CHARACTER_LINE], *name = NULL, *gdesc = NULL, *message = NULL;
+  int i = 0, num_characters = -1, len = 0, health = -1;
+
+  if(!(file = fopen(filename, "a"))) st = ERROR;
+  if((num_characters = game_get_n_characters(game)) == -1) st = ERROR;
+
+  /*#c:<id>|<name>|<role>|<graphic description>|<location>|<health>|<message>*/
+  for(i = 0; i < num_characters && st == OK; i++) {
+    if (!(character = game_get_character_at_pos(game, i))) st = ERROR;
+    if ((character_id = character_get_id(character)) == NO_ID) st = ERROR;
+    if (!(name = character_get_name(character))) st = ERROR;
+    if ((role = character_get_role(character)) == NO_ROLE) st = ERROR;
+    if (!(gdesc = character_get_gdesc(character))) st = ERROR;
+    if ((location = game_get_character_location(game, character_id)) == NO_ID) st = ERROR;
+    if ((health = character_get_health(character)) == -1) st = ERROR;
+    if (!(message = character_get_message(character))) st = ERROR;
+
+    if(st == ERROR) break;
+
+    len += sprintf(line, "#c:");
+    len += sprintf(line + len, "%ld|", character_id);
+    len += sprintf(line + len, "%s|", name);
+    len += sprintf(line + len, "%d|", role);
+    len += sprintf(line + len, "%s|", gdesc);
+    len += sprintf(line + len, "%ld|", location);
+    len += sprintf(line + len, "%d|", health);
+    len += sprintf(line + len, "%s|", message);
+
+    fprintf(file, "%s\n", line);
+  }
+
+  fprintf(file, "\n");
+  
+  fclose(file);
+
+  return st;
+}
+
+Status game_management_save_objects(Game *game, char *filename) {
+  FILE *file = NULL;
+  Status st = OK;
+  Object *object = NULL;
+  Id object_id = NO_ID, class_id = NO_ID, location_id = NO_ID;
+  char line[OBJECT_LINE];
+  int i = 0, num_objects = -1, len = 0;
+
+  if(!(file = fopen(filename, "a"))) st = ERROR;
+  if((num_objects = game_get_n_objects(game)) == -1) st = ERROR;
+
+  /*#o:<id>|<class_id>|<initial pos>*/
+  for(i = 0; i < num_objects && st == OK; i++) {
+    if (!(object = game_get_object_at_pos(game, i))) st = ERROR;
+    if ((object_id = object_get_id(object)) == NO_ID) st = ERROR;
+    if ((class_id = object_get_class_id(object)) == NO_ID) st = ERROR;
+    if ((location_id = game_get_object_location(game, object_id)) == NO_ID) st = ERROR;
+
+    if(st == ERROR) break;
+
+    len += sprintf(line, "#o:");
+    len += sprintf(line + len, "%ld|", object_id);
+    len += sprintf(line + len, "%ld|", class_id);
+    len += sprintf(line + len, "%ld|", location_id);
+
+    fprintf(file, "%s\n", line);
+  }
+
+  fprintf(file, "\n");
+  
+  fclose(file);
+
+  return st;
+}
+
+Status game_management_save_classes(Game *game, char *filename) {
+  FILE *file = NULL;
+  Status st = OK;
+  Class *class = NULL;
+  Id class_id = NO_ID, dependency = NO_ID, open = NO_ID;
+  char line[CLASS_LINE], *name = NULL, *desc = NULL;
+  Tag tag;
+  Bool movable = FALSE;
+  int i = 0, num_classes = -1, len = 0, use_value = -1, luck = -1;
+
+  if (!(file = fopen(filename, "a"))) st = ERROR;
+  if ((num_classes = game_get_n_classes(game)) == -1) st = ERROR;
+
+  /*#k:<id>|<tag>|<name>|<description>|<use_value>|<movable>|<dependency>|<open>|<luck>*/
+  for (i = 0; i < num_classes && st == OK; i++) {
+    if (!(class = game_get_class_at_pos(game, i))) st = ERROR;
+    if ((class_id = object_class_get_id(class)) == NO_ID) st = ERROR;
+    if ((tag = object_class_get_tag(class)) == NO_TAG) st = ERROR;
+    if (!(name = object_class_get_name(class))) st = ERROR;
+    if (!(desc = object_class_get_desc(class))) st = ERROR;
+    if ((use_value = object_class_get_use_value(class)) == -1) st = ERROR;
+    if ((movable = object_class_get_movable(class)) == FALSE && st == OK) st = OK;
+    if ((dependency = object_class_get_dependency(class)) == NO_ID) st = ERROR;
+    if ((open = object_class_get_open(class)) == NO_ID) st = ERROR;
+    if ((luck = object_class_get_luck(class)) == -1) st = ERROR;
+
+    if (st == ERROR) break;
+
+    len += sprintf(line, "#k:");
+    len += sprintf(line + len, "%ld|", class_id);
+    len += sprintf(line + len, "%d|", tag);
+    len += sprintf(line + len, "%s|", name);
+    len += sprintf(line + len, "%s|", desc);
+    len += sprintf(line + len, "%d|", use_value);
+    len += sprintf(line + len, "%d|", movable);
+    len += sprintf(line + len, "%ld|", dependency);
+    len += sprintf(line + len, "%ld|", open);
+    len += sprintf(line + len, "%d|", luck);
+
+    fprintf(file, "%s\n", line);
+  }
+
+  fprintf(file, "\n");
+
   fclose(file);
 
   return st;

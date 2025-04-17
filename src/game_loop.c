@@ -54,8 +54,8 @@ void game_loop_cleanup(Game *game, Graphic_engine *gengine);
 int main(int argc, char *argv[]) {
   Game *game = NULL;
   Graphic_engine *gengine;
-  FILE *log_file = NULL;
-  int log_implemented = 0;
+  FILE *log_file = NULL, *load_file = NULL;
+  int log_implemented = 0, load_implemented = 0;
   char filename[WORD_SIZE];
   srand(time(NULL));
 
@@ -75,17 +75,38 @@ int main(int argc, char *argv[]) {
     log_implemented = 1;
   }
 
+  if (argc == 4 && strcmp(argv[2], "-lo") == 0) {
+    strcpy(filename, argv[3]);
+    strcat(filename, ".dat");
+    load_file = fopen(filename, "r");
+    if (!load_file) {
+      fprintf(stderr, "Error opening the saved file.\n");
+      return 1;
+    }
+    load_implemented = 1;
+  }
+
   if ((game = game_create()) == NULL) {
     if (log_file) fclose(log_file);
+    if (load_file) fclose(load_file);
     return -1;
   }
 
-  if (!game_loop_init(game, &gengine, argv[1])) {
-    game_loop_run(game, gengine, log_file, log_implemented);
-    game_loop_cleanup(game, gengine);
+  if (load_implemented == 1) {
+    if (!game_loop_init(game, &gengine, filename)) {
+      game_loop_run(game, gengine, log_file, log_implemented);
+      game_loop_cleanup(game, gengine);
+    }
+  }
+  else {
+    if (!game_loop_init(game, &gengine, argv[1])) {
+      game_loop_run(game, gengine, log_file, log_implemented);
+      game_loop_cleanup(game, gengine);
+    }
   }
 
   if (log_file) fclose(log_file);
+  if (load_file) fclose(load_file);
 
   return 0;
 }
@@ -112,7 +133,7 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
   Status last_status;
   char last_desc[WORD_SIZE];
   Player *player = NULL;
-  char *name = NULL, message[MESG_SIZE];
+  char *name = NULL, message[MESG_SIZE], save_file[WORD_SIZE];
   int turn;
   extern char *cmd_to_str[N_CMD][N_CMDT];
 
@@ -164,6 +185,14 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
           fprintf(log_file, "%s: ERROR\n", cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
         }
       }
+    }
+
+    if (command_get_code(last_cmd) == SAVE) {
+      strcpy(save_file, command_get_desc(last_cmd));
+      strcat(save_file, ".dat");
+      if (game_save(game, save_file) == ERROR) return;
+      sprintf(message, "Game saved in %s", save_file);
+      game_set_last_message(game, message);
     }
 
     if (game_get_n_players(game) > 1) {

@@ -369,13 +369,15 @@ void game_actions_take(Game *game) {
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(name = command_get_desc(last_cmd))) return;
 
-  /*Checks wheter the inventory of the player is full or not*/
+  /*Checks whether the inventory of the player is full or not*/
   if (!(player = game_get_player(game))) return;
   if (player_inventory_is_full(player) == TRUE) return;
 
   obj_id = game_get_obj_id_from_name(game, name);
   if (obj_id == NO_ID) return;
   
+  /*Checks whether the object is movable or not*/
+  if (object_get_movable(game_get_object(game, obj_id)) == FALSE) return;
 
   /*Gets their location and error check inside game_get_space*/
   play_location = game_get_player_location(game);

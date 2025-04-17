@@ -519,7 +519,7 @@ Id game_get_connection(Game *game, Id orig_space, Direction dir) {
   return dest;
 }
 
-/*Checks wether a connection is opened given a space and a desired direction*/
+/*Checks wHether a connection is opened given a space and a desired direction*/
 Status game_connection_is_open(Game *game, Id orig_space, Direction dir, Bool *bool) {
   int i = 0;
 
@@ -1012,6 +1012,45 @@ Status game_set_finished(Game *game, Bool finished) {
   if (!game) return ERROR;
 
   game->finished = finished;
+
+  return OK;
+}
+
+/**
+ * ***************  Saved management  ***************
+ */
+Status game_save(Game *game, char *filename) {
+  FILE *file_info = NULL;
+
+  if (!game || !filename) return ERROR;
+
+  file_info = fopen(filename, "w");
+  if (!file_info) return ERROR;
+
+  if (game_management_save_spaces(game, file_info) == ERROR) {
+    fclose(file_info);
+    return ERROR;
+  }
+  if (game_management_save_links(game, file_info) == ERROR) {
+    fclose(file_info);
+    return ERROR;
+  }
+  if (game_management_save_classes(game, file_info) == ERROR) {
+    fclose(file_info);
+    return ERROR;
+  }
+  if (game_management_save_objects(game, file_info) == ERROR) {
+    fclose(file_info);
+    return ERROR;
+  }
+  if (game_management_save_characters(game, file_info) == ERROR) {
+    fclose(file_info);
+    return ERROR;
+  }
+  if (game_management_save_players(game, file_info) == ERROR) {
+    fclose(file_info);
+    return ERROR;
+  }
 
   return OK;
 }
