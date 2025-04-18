@@ -134,9 +134,11 @@ Status character_set_gdesc(Character *charr, char *gdesc);
  * @author Tiago Oselka
  * 
  * @param charr Pointer to a character
- * @return The Id of said player and NO_ID in casa of error or if the character is not following anyone
+ * @param following Pointer where the id of the player being followed will be stored
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ * following: The Id of said player and NO_ID if the character is not following anyone
  */
-Id character_get_following(Character *charr);
+Status character_get_following(Character *charr, Id *following);
 
 /**
  * @brief It sets the id of the player the character is following
@@ -172,9 +174,11 @@ Status character_set_message(Character *charr, char *message);
  * @author Juan Ibáñez
  * 
  * @param charr Pointer to the character
- * @return Id of the object that serves as weapon
+ * @param weapon Pointer where the id of the weapon will be stored
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ * weapon: Id of the object that serves as weapon
  */
-Id character_get_weapon(Character *charr);
+Status character_get_weapon(Character *charr, Id *weapon);
 
 /**
  * @brief Sets the armor equipped by the character
@@ -191,9 +195,11 @@ Status character_set_weapon(Character *charr, Id weapon_id);
  * @author Juan Ibáñez
  * 
  * @param charr Pointer to the character
- * @return Id of the object that serves as armor
+ * @param armor Pointer where the id of the armor will be stored
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ * Id of the object that serves as armor
  */
-Id character_get_armor(Character *charr);
+Status character_get_armor(Character *charr, Id *armor);
 
 /**
  * @brief Sets the armor equipped by the character

@@ -71,8 +71,8 @@ Status set_remove(Set *set, Id id) {
       for(j=i; j<(set->n_ids - 1); j++){
         set->ids[j] = set->ids[j+1];
       }
-      set->ids[set->n_ids] = NO_ID;
       set->n_ids--;
+      set->ids[set->n_ids] = NO_ID;
 
       return OK;
     }

@@ -120,10 +120,12 @@ Status player_set_name(Player *play, char *name) {
 }
 
 /*Gets the weapon equipped by a player*/
-Id player_get_weapon(Player *play){
-  if(!play) return NO_ID;
+Status player_get_weapon(Player *play, Id *weapon){
+  if(!play || !weapon) return ERROR;
 
-  return play->weapon;
+  *weapon = play->weapon;
+
+  return OK;
 }
 
 /*Sets the armor equipped by a player*/
@@ -131,14 +133,17 @@ Status player_set_weapon(Player *play, Id weapon_id){
   if(!play) return ERROR;
 
   play->weapon = weapon_id;
+
   return OK;
 }
 
 /*Gets the armor equipped by a player*/
-Id player_get_armor(Player *play){
-  if(!play) return NO_ID;
+Status player_get_armor(Player *play, Id *armor){
+  if(!play || !armor) return ERROR;
 
-  return play->armor;
+  *armor = play->armor;
+
+  return OK;
 }
 
 /*Sets the armor equipped by a player*/
