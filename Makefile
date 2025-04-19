@@ -34,7 +34,7 @@ set_test : prepare $(set_test_files)
 	$(CC) $(CFLAGS) $(set_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
 character_test : prepare $(character_test_files)
-	$(CC) $(CFLAGS) $(set_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(character_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
 space_test : prepare $(space_test_files)
 	$(CC) $(CFLAGS) $(space_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)

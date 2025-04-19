@@ -145,30 +145,32 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
       graphic_engine_paint_game(gengine, game);
       return;
     }
+
     /*If the LOG is enabled it prints the last action and status*/
     if (log_implemented == 1 && log_file) {
       last_cmd_code = command_get_code(last_cmd);
       if (last_cmd_code == NO_CMD) return;
       last_status = game_get_last_status(game);
       strcpy(last_desc, command_get_desc(last_cmd));
+      turn =game_get_turn(game);
       if (last_desc[0] != '\0') {
         if (last_status == OK) {
-          fprintf(log_file, "%s (%s): OK\n", cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
+          fprintf(log_file, "Player %d:%s (%s): OK\n", turn+1,cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
         } else {
-          fprintf(log_file, "%s (%s): ERROR\n", cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
+          fprintf(log_file, "Player %d:%s (%s): ERROR\n", turn+1,cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
         }
       } else {
         if (last_status == OK) {
-          fprintf(log_file, "%s: OK\n", cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
+          fprintf(log_file, "Player %d:%s: OK\n", turn+1,cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
         } else {
-          fprintf(log_file, "%s: ERROR\n", cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
+          fprintf(log_file, "Player %d:%s: ERROR\n", turn+1,cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
         }
       }
     }
 
     if (game_get_n_players(game) > 1) {
       graphic_engine_paint_game(gengine, game);
-      if (command_get_code(last_cmd) == MOVE || command_get_code(last_cmd) == EXIT) {
+      if ((command_get_code(last_cmd) == MOVE || command_get_code(last_cmd) == EXIT) && command_get_status(last_cmd) == OK) {
         sleep(3);
         game_next_turn(game);
       }
