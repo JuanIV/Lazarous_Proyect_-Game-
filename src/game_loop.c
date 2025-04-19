@@ -115,6 +115,7 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
   char *name = NULL, message[MESG_SIZE];
   int turn;
   extern char *cmd_to_str[N_CMD][N_CMDT];
+  Id id_player;
 
   if (!gengine) return;
 
@@ -153,17 +154,23 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
       last_status = game_get_last_status(game);
       strcpy(last_desc, command_get_desc(last_cmd));
       turn =game_get_turn(game);
+      if (turn < 0) return;
+      player = game_get_player(game);
+      if (!player) return;
+      id_player = player_get_id(player);
+      if (id_player == NO_ID) return;
+
       if (last_desc[0] != '\0') {
         if (last_status == OK) {
-          fprintf(log_file, "Player %d:%s (%s): OK\n", turn+1,cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
+          fprintf(log_file, "Player %d (%ld):%s (%s): OK\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
         } else {
-          fprintf(log_file, "Player %d:%s (%s): ERROR\n", turn+1,cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
+          fprintf(log_file, "Player %d (%ld):%s (%s): ERROR\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
         }
       } else {
         if (last_status == OK) {
-          fprintf(log_file, "Player %d:%s: OK\n", turn+1,cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
+          fprintf(log_file, "Player %d (%ld):%s: OK\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
         } else {
-          fprintf(log_file, "Player %d:%s: ERROR\n", turn+1,cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
+          fprintf(log_file, "Player %d (%ld):%s: ERROR\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
         }
       }
     }
