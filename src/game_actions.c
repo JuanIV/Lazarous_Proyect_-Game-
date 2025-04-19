@@ -72,22 +72,6 @@ void game_actions_take(Game *game);
 void game_actions_drop(Game *game);
 
 /**
- * @brief It defines the action of going to the east space
- * @author Juan Ibáñez
- *
- * @param game Pointer to the game
- */
-void game_actions_right(Game *game);
-
-/**
- * @brief It defines the action of going to the west space
- * @author Juan Ibáñez
- *
- * @param game Pointer tp the game
- */
-void game_actions_left(Game *game);
-
-/**
  * @brief It defines the action of attacking an enemy on your space
  * @author Juan Ibáñez
  *
@@ -173,6 +157,22 @@ void game_actions_equip_weapon(Game *game, Object *obj, Character *trg);
  * @param obj Pointer to the object that is the trap
  */
 void game_actions_set_trap(Game *game, Object *obj);
+
+/**
+ * @brief It defines the action of saving the game
+ * @author Alina Datsko
+ *
+ * @param game Pointer to the game
+ */
+void game_actions_save(Game *game);
+
+/**
+ * @brief It defines the action of loading a game
+ * @author Alina Datsko
+ *
+ * @param game Pointer to the game
+ */
+void game_actions_load(Game *game);
 
 /**
      Game actions implementation

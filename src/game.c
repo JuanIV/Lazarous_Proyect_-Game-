@@ -1021,60 +1021,29 @@ Status game_set_finished(Game *game, Bool finished) {
  * ***************  Saved management  ***************
  */
 Status game_save(Game *game, char *filename) {
-  FILE *file_info = NULL;
-
   if (!game || !filename) return ERROR;
 
-  file_info = fopen(filename, "w");
-  if (!file_info) return ERROR;
-
-  if (game_management_save_spaces(game, file_info) == ERROR) {
-    fclose(file_info);
-    return ERROR;
-  }
-  if (game_management_save_links(game, file_info) == ERROR) {
-    fclose(file_info);
-    return ERROR;
-  }
-  if (game_management_save_classes(game, file_info) == ERROR) {
-    fclose(file_info);
-    return ERROR;
-  }
-  if (game_management_save_objects(game, file_info) == ERROR) {
-    fclose(file_info);
-    return ERROR;
-  }
-  if (game_management_save_characters(game, file_info) == ERROR) {
-    fclose(file_info);
-    return ERROR;
-  }
-  if (game_management_save_players(game, file_info) == ERROR) {
-    fclose(file_info);
-    return ERROR;
-  }
+  if (game_management_save_spaces(game, filename) == ERROR) return ERROR;
+  if (game_management_save_links(game, filename) == ERROR) return ERROR;
+  if (game_management_save_classes(game, filename) == ERROR) return ERROR;
+  if (game_management_save_objects(game, filename) == ERROR) return ERROR;
+  if (game_management_save_characters(game, filename) == ERROR) return ERROR;
+  if (game_management_save_players(game, filename) == ERROR) return ERROR;
 
   return OK;
 }
 
 Status game_load(Game *game, char *filename) {
-  FILE *file_info = NULL;
-
   if (!game || !filename) return ERROR;
 
-  file_info = fopen(filename, "r");
-  if (!file_info) return ERROR;
+  /*First creates the new game and checks if it is correct*/
+  if (game_create_from_file(game, filename) == ERROR) return ERROR;
 
-  if (game_destroy(game) == ERROR) {
-    fclose(file_info);
-    return ERROR;
-  }
+  /*Then deletes all the game completely*/
+  if (game_destroy(game) == ERROR) return ERROR;
 
-  if (game_create_from_file(game, filename) == ERROR) {
-    fclose(file_info);
-    return ERROR;
-  }
-
-  fclose(file_info);
+  /*Finally creates the game again with the new data*/
+  if (game_create_from_file(game, filename) == ERROR) return ERROR;
 
   return OK;
 }

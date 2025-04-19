@@ -112,7 +112,7 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
   Status last_status;
   char last_desc[WORD_SIZE];
   Player *player = NULL;
-  char *name = NULL, message[MESG_SIZE], save_file[WORD_SIZE];
+  char *name = NULL, message[MESG_SIZE];
   int turn;
   extern char *cmd_to_str[N_CMD][N_CMDT];
 
