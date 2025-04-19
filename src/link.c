@@ -154,10 +154,15 @@ Status link_set_direction(Link *link, Direction direction) {
  */
 
 /*It gets the state of the link, TRUE if it's opened or FALSE if its closed*/
-Bool link_get_open(Link *link) {
-  if(!link) return FALSE;
+Status link_get_open(Link *link, Bool *bool) {
+  if(!bool) return ERROR;
+  if(!link) {
+    *bool = FALSE;
+    return ERROR;
+  }
+  *bool = link->open;
 
-  return link->open;
+  return OK;
 }
 
 /*It sets the state of the link, TRUE if it's opened or FALSE if its closed*/
