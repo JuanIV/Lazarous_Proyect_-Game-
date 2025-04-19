@@ -44,14 +44,6 @@ void game_actions_exit(Game *game);
 void game_actions_move(Game *game);
 
 /**
- * @brief It defines the action that the "Next" command executes
- * @author Profesores PProg
- *
- * @param game pointer to the game
- */
-void game_actions_next(Game *game);
-
-/**
  * @brief It defines the action of taking an object from the players current
  * space
  * @author Tiago Oselka
@@ -70,22 +62,6 @@ void game_actions_take(Game *game);
  * @param name name of the object to drop
  */
 void game_actions_drop(Game *game);
-
-/**
- * @brief It defines the action of going to the east space
- * @author Juan Ibáñez
- *
- * @param game Pointer to the game
- */
-void game_actions_right(Game *game);
-
-/**
- * @brief It defines the action of going to the west space
- * @author Juan Ibáñez
- *
- * @param game Pointer tp the game
- */
-void game_actions_left(Game *game);
 
 /**
  * @brief It defines the action of attacking an enemy on your space
@@ -175,6 +151,24 @@ void game_actions_equip_weapon(Game *game, Object *obj, Character *trg);
 void game_actions_set_trap(Game *game, Object *obj);
 
 /**
+ * @brief Tries to open a link with or whithout an object
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param dir Direction in which is the link 
+ */
+void game_actions_open_link(Game *game);
+
+/**
+ * @brief Closes a link
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param dir Direction in which is the link that will close
+ */
+void game_actions_close_link(Game *game);
+
+/**
      Game actions implementation
 */
 
@@ -236,6 +230,14 @@ Status game_actions_update(Game *game, Command *command) {
       game_actions_use(game);
       break;
 
+    case OPEN:
+      game_actions_open_link(game);
+      break;
+
+    case CLOSE:
+      game_actions_close_link(game);
+      break;
+
     default:
       break;
   }
@@ -260,9 +262,9 @@ void game_actions_move(Game *game) {
   Direction direction = UNK_DIR;
   Object *trap = NULL;
   Set *followers = NULL;
-  Bool open = FALSE;
   Id cur_id = NO_ID, dest_id = NO_ID, player_id = NO_ID, charr_id = NO_ID;
   Space *cur_space = NULL, *dest_space = NULL;
+  Link *link = NULL;
   extern char *dir_to_str[N_DIR][N_DIRT];
   char *dir = NULL;
   int i = 0, n_followers = -1, cur_health = -1, new_health;
@@ -289,21 +291,27 @@ void game_actions_move(Game *game) {
   if((player_id = player_get_id(player)) == NO_ID) return;
   if((cur_id = player_get_location(player)) == NO_ID) return;
 
-  /* checks if the connection exists and then whether it's opened  */
-  dest_id = game_get_connection(game, cur_id, direction);
-  if(dest_id == NO_ID) return;
-  if(game_connection_is_open(game, cur_id, direction, &open) == ERROR) return;
-  if(open == FALSE) {
+  /* checks if the connection exists and then whether it's opened or can be used */
+  link = game_get_link(game, cur_id, direction);
+  if(!link) return;
+
+  if(link_get_use_role(link) != player_get_role(game_get_player(game))){
+    game_set_last_message(game, "I cant go trough this path...");
+    return;
+  }
+
+  if(link_get_open(link) == FALSE){
     game_set_last_message(game, "The path is blocked...");
     return;
   }
+  dest_id = link_get_dest(link);
 
   if(!(dest_space = game_get_space(game, dest_id))) return;
   if(space_set_discovered(dest_space, TRUE) == ERROR) return;
 
   /* moves the player to the destination */
   if(player_set_location(player, dest_id) == ERROR) return;
-  fprintf(stdout, "mueve al player");
+
   /* moves the characters that follow the player if there are any*/
   if((n_followers = game_get_num_followers(game, game_get_player(game))) == -1) return;
   if(n_followers == 0) {
@@ -726,6 +734,7 @@ void game_actions_use(Game *game){
   char *cmd_desc = NULL, *toks = NULL;
   char *name = NULL, *target = NULL;
   Id obj_id = NO_ID, charr_id = NO_ID;
+  Bool friendly = FALSE;
   Tag obj_tag = NORMAL;
   Character *charr = NULL;
   Object *obj = NULL;
@@ -743,7 +752,7 @@ void game_actions_use(Game *game){
 
   toks = strtok(cmd_desc," \r\n");
   if(toks){
-    if(strcmp(toks,"over")){
+    if(!strcmp(toks,"over")){
       toks = strtok(cmd_desc," \r\n");
       if(!toks) return;
       target = toks;
@@ -751,7 +760,7 @@ void game_actions_use(Game *game){
   }
 
   /*Get the object from the given name*/
-  obj_id = game_get_obj_id_from_name(game, name);
+  obj_id = game_get_object_from_player(game, name);
   if (obj_id == NO_ID) return;
 
   obj = game_get_object(game, obj_id);
@@ -766,6 +775,17 @@ void game_actions_use(Game *game){
 
     charr = game_get_character_from_id(game, charr_id);
     if(!charr) return;
+
+    /*If the character is unreachable or not friendly, nothing happens*/
+    if(game_get_character_location(game,charr_id) != game_get_player_location(game)){
+      game_set_last_message(game, "Im too far to do that...");
+      return;
+    }
+    if(game_get_friendly(character_get_role(charr),player_get_role(game_get_player(game)),&friendly) == ERROR) return;
+    if(friendly == FALSE){
+      game_set_last_message(game, "I cant use this on an enemy...");
+      return;
+    }
   }
 
   switch(obj_tag){
@@ -880,6 +900,133 @@ void game_actions_set_trap(Game *game, Object *obj){
   if(object_set_role(obj, player_get_role(player)) == ERROR) return;
 
   if(player_delete_object(player,obj_id) == ERROR) return;
+  
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_open_link(Game *game){
+  Command *last_cmd = NULL;
+  char *cmd_desc = NULL, *toks = NULL;
+  char *key = NULL;
+  Direction typed_dir = UNK_DIR;
+  Link *link = NULL;
+  Id obj_id = NO_ID, cur_id = NO_ID;
+  Object *obj = NULL;
+  Role play_role = UNDEFINED;
+  int i = 0;
+
+  if (!game) return; 
+  
+  /*Gets the description of the last cmd*/
+  if (!(last_cmd = game_get_last_command(game))) return;
+
+  if (!(cmd_desc = command_get_desc(last_cmd))) return;
+
+  toks = strtok(cmd_desc," \r\n");
+  if(!toks) return;
+
+  /* compares the command description to any known directions */
+  while(typed_dir == UNK_DIR && i < N_DIR) {
+    if(!strcasecmp(toks, dir_to_str[i][DIRS]) || !strcasecmp(toks, dir_to_str[i][DIRL])) {
+      typed_dir = i + UNK_DIR;
+    }else {
+      i++;
+    }
+  }
+  /* if no valid direction is found, the function ends */
+  if(typed_dir == UNK_DIR) return;
+
+  /*Gets the current space of the player and the link wanted to open*/
+  cur_id = game_get_player_location(game);
+
+  link = game_get_link(game, cur_id, typed_dir);
+  if(!link) return;
+
+  /*If the player is not allowed to open this link, the function ends*/
+  play_role = player_get_role(game_get_player(game));
+  if(play_role == DEFECTOR1) play_role = SCIENTIST;
+  if(play_role == DEFECTOR2) play_role = MONSTER;
+  if(link_get_open_role(link) != play_role){
+    game_set_last_message(game, "I cant open this type of lock...");
+    return;
+  }
+
+  toks = strtok(cmd_desc," \r\n");
+  if(toks){
+    if(!strcmp(toks,"with")){
+      toks = strtok(cmd_desc," \r\n");
+      if(!toks) return;
+      key = toks;
+    }
+  }
+
+  if(link_get_locked(link) == TRUE){
+    /*Get the object from the given name*/
+    if(!key){
+      game_set_last_message(game, "This door is locked. I need a key.");
+      return;
+    }
+
+    obj_id = game_get_object_from_player(game, key);
+    obj = game_get_object(game, obj_id);
+    if(!obj) return;
+
+    if(object_get_open(obj) == link_get_id(link)){
+      if(link_set_locked(link, FALSE) == ERROR) return;
+      if(link_set_open(link, TRUE) == ERROR) return;
+    } else {
+      game_set_last_message(game, "I cant open the door with that...");
+      return;
+    }
+  } else {
+    if(link_set_open(link, TRUE) == ERROR) return;
+  }
+  
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_close_link(Game *game){
+  Command *last_cmd = NULL;
+  char *cmd_desc = NULL;
+  Direction typed_dir = UNK_DIR;
+  Link *link = NULL;
+  Role play_role = UNDEFINED;
+  Id cur_id = NO_ID;
+  int i = 0;
+
+  if (!game) return; 
+  
+  /*Gets the description of the last cmd*/
+  if (!(last_cmd = game_get_last_command(game))) return;
+
+  if (!(cmd_desc = command_get_desc(last_cmd))) return;
+
+  /* compares the command description to any known directions */
+  while(typed_dir == UNK_DIR && i < N_DIR) {
+    if(!strcasecmp(cmd_desc, dir_to_str[i][DIRS]) || !strcasecmp(cmd_desc, dir_to_str[i][DIRL])) {
+      typed_dir = i + UNK_DIR;
+    }else {
+      i++;
+    }
+  }
+  /* if no valid direction is found, the function ends */
+  if(typed_dir == UNK_DIR) return;
+
+  /*Gets the current space of the player and the link wanted to close*/
+  cur_id = game_get_player_location(game);
+
+  link = game_get_link(game, cur_id, typed_dir);
+  if(!link) return;
+
+  /*If the player is not allowed to close this link, the function ends*/
+  if(play_role == DEFECTOR1) play_role = SCIENTIST;
+  if(play_role == DEFECTOR2) play_role = MONSTER;
+  if(link_get_open_role(link) != player_get_role(game_get_player(game))){
+    game_set_last_message(game, "I cant close this type of lock...");
+    return;
+  }
+
+  if(link_set_open(link, FALSE) == ERROR) return;
   
   if (game_set_last_status(game, OK) == ERROR) return;
 }

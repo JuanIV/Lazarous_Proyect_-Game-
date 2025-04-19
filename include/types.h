@@ -66,8 +66,8 @@ typedef enum {
   MONSTER,      /*Part of the monsters*/
   PEACEFUL,     /*Peaceful towards everyone*/
   HOSTILE,      /*Hostile towards everyone*/
-  DEFECTOR1,    /*Some might rebel against their own team*/
-  DEFECTOR2
+  DEFECTOR1,    /*Scientists rebeled against their own*/
+  DEFECTOR2     /*Monsters rebeled against their own*/
 } Role;
 
 /*char *role_to_str[N_ROLES] = {"No role",   "Undefined", "Scientist", "Monster",   
