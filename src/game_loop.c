@@ -168,9 +168,10 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
 
     if (game_get_n_players(game) > 1) {
       graphic_engine_paint_game(gengine, game);
-      if (command_get_code(last_cmd) != EXIT) sleep(3);
-      /*We pass to the next turn*/
-      game_next_turn(game);
+      if (command_get_code(last_cmd) == MOVE || command_get_code(last_cmd) == EXIT) {
+        sleep(3);
+        game_next_turn(game);
+      }
     }
 
   } while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(game) == FALSE));
