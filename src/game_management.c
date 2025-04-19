@@ -68,6 +68,7 @@ Status game_management_load_links(Game *game, char *filename) {
   Bool open = FALSE;
   Link *link = NULL;
   Status st = OK;
+  Bool link_loaded = FALSE;
 
   if (!filename || !game) return ERROR;
 
@@ -110,10 +111,15 @@ Status game_management_load_links(Game *game, char *filename) {
       }
 
       if (game_add_link(game, link) == ERROR) return ERROR;
+
+      link_loaded = TRUE;
     }
   }
 
   fclose(file);
+
+  if (link_loaded == FALSE) return ERROR;
+
   return OK;
 }
 
@@ -189,6 +195,7 @@ Status game_management_load_classes(Game *game, char *filename){
     }
   }
   fclose(file);
+
   return OK;
 }
 
@@ -272,6 +279,7 @@ Status game_management_load_players(Game *game, char *filename) {
   Player *play = NULL;
   Space *space = NULL;
   Status st = OK;
+  Bool player_loaded = FALSE;
 
   if (!filename || !game) return ERROR;
 
@@ -349,9 +357,13 @@ Status game_management_load_players(Game *game, char *filename) {
       st = ERROR;
       break;
     }
+
+    player_loaded = TRUE;
   }
 
   fclose(file);
+
+  if (player_loaded == FALSE) st = ERROR;
 
   return st;
 }
@@ -443,6 +455,7 @@ Status game_management_load_spaces(Game *game, char *filename) {
   Space *space = NULL;
   Status st = OK; 
   int i = 0;
+  Bool space_loaded = FALSE;
 
   if (!filename || !game) return ERROR;
 
@@ -497,9 +510,12 @@ Status game_management_load_spaces(Game *game, char *filename) {
       fclose(file);
       return ERROR;
     }
+    space_loaded = TRUE;
   }
   
   fclose(file);
+
+  if (space_loaded == FALSE) return ERROR;
   return OK;
 }
 

@@ -209,6 +209,7 @@ Status game_create_from_file(Game *game, char *filename) {
   if (game_management_load_objects(game, filename) == ERROR) return ERROR;
   if (game_management_load_characters(game, filename) == ERROR) return ERROR;
   if (game_management_load_players(game, filename) == ERROR) return ERROR;
+
   return OK;
 }
 
@@ -1051,6 +1052,29 @@ Status game_save(Game *game, char *filename) {
     fclose(file_info);
     return ERROR;
   }
+
+  return OK;
+}
+
+Status game_load(Game *game, char *filename) {
+  FILE *file_info = NULL;
+
+  if (!game || !filename) return ERROR;
+
+  file_info = fopen(filename, "r");
+  if (!file_info) return ERROR;
+
+  if (game_destroy(game) == ERROR) {
+    fclose(file_info);
+    return ERROR;
+  }
+
+  if (game_create_from_file(game, filename) == ERROR) {
+    fclose(file_info);
+    return ERROR;
+  }
+
+  fclose(file_info);
 
   return OK;
 }
