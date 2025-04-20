@@ -145,9 +145,11 @@ Status link_set_direction(Link *link, Direction direction);
  * @author Tiago Oselka
  *
  * @param link a pointer to the link
+ * @param bool pointer to a Bool where the function will store the result
  * @return the state of the link
+ * bool: TRUE if the connection is opened or FALSE if it isn't opened
  */
-Bool link_get_open(Link *link);
+Status link_get_open(Link *link, Bool *bool);
 
 /**
  * @brief It sets the state of the link, TRUE if it's opened or FALSE if its closed

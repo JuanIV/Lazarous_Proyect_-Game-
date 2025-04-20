@@ -17,7 +17,7 @@
 #include "command.h"
 #include "game.h"
 #include "game_actions.h"
-#include "game_reader.h"
+#include "game_management.h"
 #include "graphic_engine.h"
 
 /**
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
     log_implemented = 1;
   }
 
-  if ((game = game_create()) == NULL) {
+  if (!(game = game_create())) {
     if (log_file) fclose(log_file);
     return -1;
   }
@@ -128,7 +128,7 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
     last_cmd = game_get_last_command_at_pos(game, NUM_CMDS - 1);
 
     if (game_set_last_command(game, last_cmd) == ERROR) return;
-    command_get_user_input(last_cmd);
+    if (command_get_user_input(last_cmd) == ERROR) return;
 
     player = game_get_player(game);
     if (!player) return;

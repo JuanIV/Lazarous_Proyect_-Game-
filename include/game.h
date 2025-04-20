@@ -213,6 +213,16 @@ Status game_next_turn(Game *game);
 Space *game_get_space(Game *game, Id id);
 
 /**
+ * @brief It gets a space in a position of the array of spaces
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param pos desired position inside the array of spaces
+ * @return A pointer to the desired space 
+ */
+Space *game_get_space_at_pos(Game *game, int pos);
+
+/**
  * @brief Gets the number of spaces in a game
  * @author Tiago Oselka
  * 
@@ -274,7 +284,7 @@ Class *game_get_class(Game *game, Id id);
 int game_get_n_classes(Game *game);
 
 /**
- * @brief It gets the class in a position of the array
+ * @brief It gets the class in a position of the array of classes
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
@@ -473,6 +483,25 @@ Status game_get_friendly(Role role1, Role role2, Bool *relationship);
 Status game_add_link(Game *game, Link *link);
 
 /**
+ * @brief It gets a link in a position of the array of links
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param pos desired position inside the array of links
+ * @return A pointer to the desired space 
+ */
+Link *game_get_link_at_pos(Game *game, int pos);
+
+/**
+ * @brief Gets the number of links in a game
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @return Number of links in the game
+ */
+int game_get_n_links(Game *game);
+
+/**
  * @brief Given the Id of a space and a direction returns the Id of the space linked in that direction
  * @author Tiago Oselka
  * 
@@ -490,9 +519,11 @@ Id game_get_connection(Game *game, Id cur_space, Direction dir);
  * @param game pointer to the game
  * @param cur_space the id of the origin spce
  * @param dir direction to be followed
- * @return TRUE if the connection is opened or FALSE if it isn't opened/ doesn't exist
+ * @param bool pointer to a Bool where the function will store the result 
+ * @return OK if everything went well, ERROR if there was a mistake
+ * bool: TRUE if the connection is opened or FALSE if it isn't opened
  */
-Bool game_connection_is_open(Game *game, Id cur_space, Direction dir);
+Status game_connection_is_open(Game *game, Id cur_space, Direction dir, Bool *bool);
 
 /**
  * @brief Gets the last message displayed by a chat
@@ -592,7 +623,25 @@ Bool game_get_finished(Game *game);
  */
 Status game_set_finished(Game *game, Bool finished);
 
+/**
+ * @brief Saves the game to a file
+ * @author Alina Datsko
+ *
+ * @param game pointer to the game
+ * @param filename name of the file where the game will be saved
+ * @return OK if everything went well, ERROR if there was any mistake
+ */
+Status game_save(Game *game, char *filename);
 
+/**
+ * @brief Loads a game from a file
+ * @author Alina Datsko
+ *
+ * @param game pointer to the game
+ * @param filename name of the file where the game will be loaded from
+ * @return OK if everything went well, ERROR if there was any mistake
+ */
+Status game_load(Game *game, char *filename);
 
 /**
  * @brief Prints information about every space in the game and the object and

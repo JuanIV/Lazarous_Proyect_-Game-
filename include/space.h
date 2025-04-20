@@ -76,7 +76,7 @@ Status space_set_name(Space *space, char *name);
  * @param space a pointer to the space
  * @return  a string with the name of the space
  */
-const char *space_get_name(Space *space);
+char *space_get_name(Space *space);
 
 /**
  * @brief Sets the graphic description of a space
@@ -115,7 +115,7 @@ Status space_set_discovered(Space *space, Bool discovered);
  * @param space a pointer to the space
  * @return the discovered status of the space
  */
-Bool space_get_discovered(Space *space);
+Status space_get_discovered(Space *space, Bool *bool);
 
 /**
  * @brief It adds an object to the space

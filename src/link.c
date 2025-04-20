@@ -160,6 +160,7 @@ Status link_get_open(Link *link, Bool *bool) {
     *bool = FALSE;
     return ERROR;
   }
+
   *bool = link->open;
 
   return OK;

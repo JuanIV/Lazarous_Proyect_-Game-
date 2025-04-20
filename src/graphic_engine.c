@@ -162,7 +162,7 @@ void graphic_engine_map_print_cross(Game *game, Graphic_engine *ge, Id center);
 void graphic_engine_map_print_row(Game *game, Graphic_engine *ge, Id left, Id center, Id right) {
   Id ids[3], obj_id = NO_ID;
   Space *space[3] = {NULL};
-  Bool discovered[3] = {FALSE, FALSE, FALSE};
+  Bool discovered[3] = {FALSE, FALSE, FALSE}, open = FALSE;
   Character *charr = NULL;
   Object *obj = NULL;
   char charr_gdesc[CHR_GD_SZ + 1], space_gdesc[SP_GD_WTH + 1];
@@ -177,7 +177,7 @@ void graphic_engine_map_print_row(Game *game, Graphic_engine *ge, Id left, Id ce
 
   for(i=0;i<3;i++){
     space[i] = game_get_space(game,ids[i]);
-    if(space[i]) discovered[i] = space_get_discovered(space[i]);
+    if(space[i]) space_get_discovered(space[i], discovered + i);
   }
 
   for(i=0, count =0;i<3;i++){
@@ -223,7 +223,8 @@ void graphic_engine_map_print_row(Game *game, Graphic_engine *ge, Id left, Id ce
 
         if((j==2) && (ids[i] == game_get_player_location(game))){
           if(game_get_connection(game, ids[i], W) != NO_ID){
-            if(game_connection_is_open(game,ids[i],W) == TRUE) movement_sign = '<';
+            game_connection_is_open(game,ids[i],W, &open);
+            if(open == TRUE) movement_sign = '<';
             else movement_sign = 'X';
           } else movement_sign = ' ';
         } else movement_sign = ' ';
@@ -236,7 +237,8 @@ void graphic_engine_map_print_row(Game *game, Graphic_engine *ge, Id left, Id ce
       
         if((j==2) && (ids[i] == game_get_player_location(game))){
           if(game_get_connection(game, ids[i], E) != NO_ID){
-            if(game_connection_is_open(game,ids[i],E) == TRUE) movement_sign = '>';
+            game_connection_is_open(game,ids[i],E, &open);
+            if(open == TRUE) movement_sign = '>';
             else movement_sign = 'X';
           } else movement_sign = ' ';
         } else movement_sign = ' ';
@@ -280,6 +282,7 @@ void graphic_engine_map_print_row(Game *game, Graphic_engine *ge, Id left, Id ce
 
 void graphic_engine_map_print_cross(Game *game, Graphic_engine *ge, Id center) {
 	Id ids[CROSS_NUM-1];
+  Bool open = FALSE;
   char line[WIDTH_MAP + 1];
 
   if(!game || !ge || center == NO_ID) return;
@@ -295,7 +298,8 @@ void graphic_engine_map_print_cross(Game *game, Graphic_engine *ge, Id center) {
 
   if(ids[0] != NO_ID){
     if(game_get_connection(game,center,N) != NO_ID){
-      if(game_connection_is_open(game,center,N) == TRUE){
+      game_connection_is_open(game,center,N, &open);
+      if(open == TRUE){
         sprintf(line,"%*s         ^         %*s",SQ_SZ,"",SQ_SZ,"");
         screen_area_puts(ge->map, line);
       } else {
@@ -310,7 +314,8 @@ void graphic_engine_map_print_cross(Game *game, Graphic_engine *ge, Id center) {
 
   if(ids[2] != NO_ID){
     if(game_get_connection(game,center,S) != NO_ID){
-      if(game_connection_is_open(game,center,S) == TRUE){
+      game_connection_is_open(game,center,N, &open);
+      if(open == TRUE){
         sprintf(line,"%*s         v         %*s",SQ_SZ,"",SQ_SZ,"");
         screen_area_puts(ge->map, line);
       } else {
