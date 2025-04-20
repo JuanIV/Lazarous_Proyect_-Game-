@@ -22,10 +22,10 @@
 #define CMD_LENGHT 500
 
 char *cmd_to_str[N_CMD][N_CMDT] = {
-    {"", "No command"}, {"", "Unknown"},  {"e", "exit"},     {"m", "move"},
-    {"t", "take"},      {"d", "drop"},    {"at", "attack"},  {"ch", "chat"},
-    {"i", "inspect"},   {"r", "recruit"}, {"ab", "abandon"}, {"u", "use"},
-    {"o", "open"},      {"cl", "close"}};
+  {"", "No command"}, {"", "Unknown"}, {"e", "exit"},   {"m", "move"},
+  {"t", "take"},    {"d", "drop"},  {"at", "attack"},   {"c", "chat"},
+  {"i", "inspect"}, {"r", "recruit"},  {"ab", "abandon"}, {"u", "use"},
+  {"s", "save"}, {"lo", "load"},    {"o", "open"},      {"cl", "close"}};
 
 /**
  * @brief Struct that stores the information of a command: code, cmd_desc and

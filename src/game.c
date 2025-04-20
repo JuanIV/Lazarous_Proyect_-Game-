@@ -209,6 +209,7 @@ Status game_create_from_file(Game *game, char *filename) {
   if (game_management_load_objects(game, filename) == ERROR) return ERROR;
   if (game_management_load_characters(game, filename) == ERROR) return ERROR;
   if (game_management_load_players(game, filename) == ERROR) return ERROR;
+
   return OK;
 }
 
@@ -320,7 +321,7 @@ Status game_add_player (Game *game, Player *play) {
 /*Gets the number of characters that follow a player*/
 int game_get_num_followers(Game *game, Player *player) {
   int i, count = 0;
-  Id player_id = NO_ID;
+  Id player_id = NO_ID, following = NO_ID;
 
   if(!game || !player) return -1;
 
@@ -328,7 +329,8 @@ int game_get_num_followers(Game *game, Player *player) {
 
   for(i = 0; i < game->n_characters; i++) {
     if(!game->characters[i]) return -1;
-    if(player_id == character_get_following(game->characters[i])) {
+    if(character_get_following(game->characters[i], &following) == ERROR) return -1;
+    if(player_id == following) {
       count++;
     }
   }
@@ -339,7 +341,8 @@ int game_get_num_followers(Game *game, Player *player) {
 /*Gets a set with the Ids of the followers that a player has*/
 Set *game_get_followers(Game *game, Player *player) {
   int i;
-  Id player_id = NO_ID, charr_id = NO_ID;
+  Id player_id = NO_ID, charr_id = NO_ID, following = NO_ID;
+  Status st = OK;
   Set *followers = NULL;
 
   if(!game || !player) return NULL;
@@ -349,22 +352,19 @@ Set *game_get_followers(Game *game, Player *player) {
   followers = set_create();
   if(!followers) return NULL;
 
-  for(i = 0; i < game->n_characters; i++) {
-    if(!game->characters[i]) {
-      set_destroy(followers);
-      return NULL;
+  for(i = 0; i < game->n_characters && st == OK; i++) {
+    if(!game->characters[i]) st = ERROR;
+    if (character_get_following(game->characters[i], &following) == ERROR) st = ERROR;
+
+    if((player_id == following) && (character_get_health(game->characters[i]) > 0) && (st == OK)) {
+      if((charr_id = character_get_id(game->characters[i])) == NO_ID) st = ERROR;
+      if(set_add(followers, charr_id) == ERROR) st = ERROR;
     }
 
-    if((player_id == character_get_following(game->characters[i])) && (character_get_health(game->characters[i]) > 0)) {
-      if((charr_id = character_get_id(game->characters[i])) == NO_ID) {
-        set_destroy(followers);
-        return NULL;
-      }
-
-      if(set_add(followers, charr_id) == ERROR) {
-        set_destroy(followers);
-        return NULL;
-      }
+    if(st == ERROR) {
+      set_destroy(followers);
+      followers = NULL;
+      break;
     }
   }
 
@@ -1054,6 +1054,37 @@ Status game_set_finished(Game *game, Bool finished) {
   if (!game) return ERROR;
 
   game->finished = finished;
+
+  return OK;
+}
+
+/**
+ * ***************  Saved management  ***************
+ */
+Status game_save(Game *game, char *filename) {
+  if (!game || !filename) return ERROR;
+
+  if (game_management_save_spaces(game, filename) == ERROR) return ERROR;
+  if (game_management_save_links(game, filename) == ERROR) return ERROR;
+  if (game_management_save_classes(game, filename) == ERROR) return ERROR;
+  if (game_management_save_objects(game, filename) == ERROR) return ERROR;
+  if (game_management_save_characters(game, filename) == ERROR) return ERROR;
+  if (game_management_save_players(game, filename) == ERROR) return ERROR;
+
+  return OK;
+}
+
+Status game_load(Game *game, char *filename) {
+  if (!game || !filename) return ERROR;
+
+  /*First creates the new game and checks if it is correct*/
+  if (game_create_from_file(game, filename) == ERROR) return ERROR;
+
+  /*Then deletes all the game completely*/
+  if (game_destroy(game) == ERROR) return ERROR;
+
+  /*Finally creates the game again with the new data*/
+  if (game_create_from_file(game, filename) == ERROR) return ERROR;
 
   return OK;
 }

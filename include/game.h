@@ -643,7 +643,25 @@ Bool game_get_finished(Game *game);
  */
 Status game_set_finished(Game *game, Bool finished);
 
+/**
+ * @brief Saves the game to a file
+ * @author Alina Datsko
+ *
+ * @param game pointer to the game
+ * @param filename name of the file where the game will be saved
+ * @return OK if everything went well, ERROR if there was any mistake
+ */
+Status game_save(Game *game, char *filename);
 
+/**
+ * @brief Loads a game from a file
+ * @author Alina Datsko
+ *
+ * @param game pointer to the game
+ * @param filename name of the file where the game will be loaded from
+ * @return OK if everything went well, ERROR if there was any mistake
+ */
+Status game_load(Game *game, char *filename);
 
 /**
  * @brief Prints information about every space in the game and the object and

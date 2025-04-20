@@ -125,10 +125,12 @@ Status character_set_gdesc(Character *charr, char *gdesc) {
 }
 
 /*It gets the id of the player the character is following*/
-Id character_get_following(Character *charr) {
-  if(!charr) return NO_ID;
+Status character_get_following(Character *charr, Id *following) {
+  if(!charr || !following) return ERROR;
 
-  return charr->following;
+  *following = charr->following;
+
+  return OK;
 }
 
 /*It sets the id of the player the character is following*/
@@ -159,30 +161,34 @@ Status character_set_message(Character *charr, char *message) {
 }
 
 /*Gets the weapon equipped by the character*/
-Id character_get_weapon(Character *charr){
-  if(!charr) return NO_ID;
+Status character_get_weapon(Character *charr, Id *weapon){
+  if(!charr || !weapon) return ERROR;
 
-  return charr->weapon;
+  *weapon = charr->weapon;
+
+  return OK;
 }
 
 /*Sets the armor equipped by the character*/
 Status character_set_weapon(Character *charr, Id weapon_id){
-  if(!charr || weapon_id == NO_ID) return ERROR;
+  if(!charr) return ERROR;
 
   charr->weapon = weapon_id;
   return OK;
 }
 
 /*Gets the armor equipped by the character*/
-Id character_get_armor(Character *charr){
-  if(!charr) return NO_ID;
+Status character_get_armor(Character *charr, Id *armor){
+  if(!charr || !armor) return ERROR;
 
-  return charr->armor;
+  *armor = charr->armor;
+
+  return OK;
 }
 
 /*Sets the armor equipped by the character*/
 Status character_set_armor(Character *charr, Id armor_id){
-  if(!charr || armor_id == NO_ID) return ERROR;
+  if(!charr) return ERROR;
 
   charr->armor = armor_id;
   return OK;
