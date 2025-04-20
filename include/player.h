@@ -109,9 +109,11 @@ Status player_set_name(Player *play, char *name);
  * @author Juan Ibáñez
  * 
  * @param play Pointer to the player
- * @return Id of the object that serves as weapon
+ * @param weapon Pointer where the id of the weapon is stored
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ * weapon: Id of the object that serves as weapon
  */
-Id player_get_weapon(Player *play);
+Status player_get_weapon(Player *play, Id *weapon);
 
 /**
  * @brief Sets the weapon equipped by a player
@@ -128,9 +130,11 @@ Status player_set_weapon(Player *play, Id weapon_id);
  * @author Juan Ibáñez
  * 
  * @param play Pointer to the player
- * @return Id of the object that serves as armor
+ * @param armor Pointer where the id of the armor is stored
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ * armor: Id of the object that serves as armor
  */
-Id player_get_armor(Player *play);
+Status player_get_armor(Player *play, Id *armor);
 
 /**
  * @brief Sets the armor equipped by a player

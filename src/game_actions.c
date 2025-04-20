@@ -311,7 +311,6 @@ void game_actions_move(Game *game) {
 
   /* moves the player to the destination */
   if(player_set_location(player, dest_id) == ERROR) return;
-  fprintf(stdout, "mueve al player");
   /* moves the characters that follow the player if there are any*/
   if((n_followers = game_get_num_followers(game, game_get_player(game))) == -1) return;
   if(n_followers == 0) {
@@ -666,7 +665,7 @@ void game_actions_inspect(Game *game){
 
 void game_actions_recruit(Game *game) {
   Id charr_location = NO_ID, player_id = NO_ID;
-  Id play_location = NO_ID;
+  Id play_location = NO_ID, following = NO_ID;
   Command *last_cmd = NULL;
   Bool friendly = FALSE;
   Character *charr = NULL;
@@ -685,7 +684,8 @@ void game_actions_recruit(Game *game) {
   if(!(charr = game_get_character_from_name(game, charr_name))) return;
   if(game_get_friendly(player_get_role(game_get_player(game)), character_get_role(charr), &friendly) == ERROR) return;
   if(friendly == FALSE) return;
-  if(character_get_following(charr) != NO_ID) return;
+  if(character_get_following(charr, &following) == ERROR) return;
+  if(following != NO_ID) return;
 
   /*Gets their location and checks if they are at the same space*/
   play_location = game_get_player_location(game);
@@ -704,6 +704,7 @@ void game_actions_abandon(Game *game) {
   Id player_id = NO_ID;
   Command *last_cmd = NULL;
   Character *charr = NULL;
+  Id following = NO_ID;
   char *charr_name = NULL, message[MESG_SIZE];
 
   if (!game) return; 
@@ -718,7 +719,8 @@ void game_actions_abandon(Game *game) {
   /*Gets the character and checks whether its alive and if it is following the player*/
   if(!(charr = game_get_character_from_name(game, charr_name))) return;
   if(character_get_health(charr) <= 0) return;
-  if(character_get_following(charr) != player_id) {
+  if(character_get_following(charr, &following) == ERROR) return;
+  if(following != player_id) {
     message[0] = '\0';
     sprintf(message, "%s wasn't following you", charr_name);
     game_set_last_message(game, message);
