@@ -65,7 +65,6 @@ Status game_management_load_players(Game *game, char *filename);
  */
 Status game_management_load_characters(Game *game, char *filename);
 
-
 /**
  * @brief function used in game_create_from_file to load the space from 
  * a file to a game
@@ -76,4 +75,65 @@ Status game_management_load_characters(Game *game, char *filename);
  * @return OK if the space loaded correctly, ERROR if there was any mistake
  */
 Status game_management_load_spaces(Game *game, char *filename);
+
+/**
+ * @brief function used in game_save to save the links from a game to a file
+ * @author Juan Ibáñez
+ *
+ * @param game Pointer to the game where the spaces will be stored
+ * @param filename Name of the file
+ * @return OK if the links saved correctly, ERROR if there was any mistake
+ */
+Status game_management_save_links(Game *game, char *filename);
+
+/**
+ * @brief function used in game_save to save the classes from a game to a file
+ * @author Alina Datsko
+ *
+ * @param game Pointer to the game where the spaces will be stored
+ * @param filename Name of the file
+ * @return OK if the classes saved correctly, ERROR if there was any mistake
+ */
+Status game_management_save_classes(Game *game, char *filename);
+
+/**
+ * @brief function used in game_save to save the objects from a game to a file
+ * @author Alina Datsko
+ *
+ * @param game Pointer to the game where the spaces will be stored
+ * @param filename Name of the file
+ * @return OK if the objects saved correctly, ERROR if there was any mistake
+ */
+Status game_management_save_objects(Game *game, char *filename);
+
+/**
+ * @brief function used in game_save to save the players from a game to a file
+ * @author Juan Ibáñez
+ *
+ * @param game Pointer to the game where the players will be stored
+ * @param filename Name of the file
+ * @return OK if the players saved correctly, ERROR if there was any mistake
+ */
+Status game_management_save_players(Game *game, char *filename);
+
+/**
+ * @brief function used in game_save to save the characters from a game to a file
+ * @author Alina Datsko 
+ *
+ * @param game Pointer to the game where the characters will be stored
+ * @param filename Name of the file
+ * @return OK if the characters saved correctly, ERROR if there was any mistake
+ */
+Status game_management_save_characters(Game *game, char *filename);
+
+/**
+ * @brief function used in game_save to save the space from a game to a file
+ * @author Juan Ibáñez
+ *
+ * @param game Pointer to the game where the spaces will be stored
+ * @param filename Name of the file
+ * @return OK if the space saved correctly, ERROR if there was any mistake
+ */
+Status game_management_save_spaces(Game *game, char *filename);
+
 #endif

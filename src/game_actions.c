@@ -72,22 +72,6 @@ void game_actions_take(Game *game);
 void game_actions_drop(Game *game);
 
 /**
- * @brief It defines the action of going to the east space
- * @author Juan Ibáñez
- *
- * @param game Pointer to the game
- */
-void game_actions_right(Game *game);
-
-/**
- * @brief It defines the action of going to the west space
- * @author Juan Ibáñez
- *
- * @param game Pointer tp the game
- */
-void game_actions_left(Game *game);
-
-/**
  * @brief It defines the action of attacking an enemy on your space
  * @author Juan Ibáñez
  *
@@ -175,6 +159,22 @@ void game_actions_equip_weapon(Game *game, Object *obj, Character *trg);
 void game_actions_set_trap(Game *game, Object *obj);
 
 /**
+ * @brief It defines the action of saving the game
+ * @author Alina Datsko
+ *
+ * @param game Pointer to the game
+ */
+void game_actions_save(Game *game);
+
+/**
+ * @brief It defines the action of loading a game
+ * @author Alina Datsko
+ *
+ * @param game Pointer to the game
+ */
+void game_actions_load(Game *game);
+
+/**
      Game actions implementation
 */
 
@@ -234,6 +234,14 @@ Status game_actions_update(Game *game, Command *command) {
 
     case USE:
       game_actions_use(game);
+      break;
+
+    case SAVE:
+      game_actions_save(game);
+      break;
+
+    case LOAD:
+      game_actions_load(game);
       break;
 
     default:
@@ -368,13 +376,15 @@ void game_actions_take(Game *game) {
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(name = command_get_desc(last_cmd))) return;
 
-  /*Checks wheter the inventory of the player is full or not*/
+  /*Checks whether the inventory of the player is full or not*/
   if (!(player = game_get_player(game))) return;
   if (player_inventory_is_full(player) == TRUE) return;
 
   obj_id = game_get_obj_id_from_name(game, name);
   if (obj_id == NO_ID) return;
   
+  /*Checks whether the object is movable or not*/
+  if (object_get_movable(game_get_object(game, obj_id)) == FALSE) return;
 
   /*Gets their location and error check inside game_get_space*/
   play_location = game_get_player_location(game);
@@ -763,7 +773,7 @@ void game_actions_use(Game *game){
 
   /*Get the character if a name is given*/
   if(target){
-    charr_id = game_get_charr_id_from_name(game,target);
+    charr_id = game_get_charr_id_from_name(game, target);
     if(charr_id == NO_ID) return;
 
     charr = game_get_character_from_id(game, charr_id);
@@ -774,16 +784,16 @@ void game_actions_use(Game *game){
     case NORMAL:
       break;
     case HEALER:
-      game_actions_use_healer(game,obj,charr);
+      game_actions_use_healer(game, obj, charr);
       break;
     case WEAPON:
-      game_actions_equip_weapon(game,obj,charr);
+      game_actions_equip_weapon(game, obj, charr);
       break;
     case ARMOR:
-      game_actions_equip_armor(game,obj,charr);
+      game_actions_equip_armor(game, obj, charr);
       break;
     case TRAP:
-      game_actions_set_trap(game,obj);
+      game_actions_set_trap(game, obj);
       break;
     default:
       break;
@@ -852,10 +862,10 @@ void game_actions_equip_weapon(Game *game, Object *obj, Character *trg){
   if(!player || obj_id == NO_ID) return;
 
   if(trg){
-    if(character_set_weapon(trg,obj_id)==ERROR) return;
+    if(character_set_weapon(trg,obj_id) == ERROR) return;
     if(player_delete_object(player,obj_id) == ERROR) return;
   } else {
-    if(player_set_weapon(player,obj_id)==ERROR) return;
+    if(player_set_weapon(player,obj_id) == ERROR) return;
     if(player_delete_object(player,obj_id) == ERROR) return;
   }
 
@@ -882,6 +892,54 @@ void game_actions_set_trap(Game *game, Object *obj){
   if(object_set_role(obj, player_get_role(player)) == ERROR) return;
 
   if(player_delete_object(player,obj_id) == ERROR) return;
+  
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_save(Game *game) {
+  Command *last_cmd = NULL;
+  char *cmd_desc = NULL;
+  char file_save[WORD_SIZE];
+  int len = 0;
+
+  if (!game) return; 
+  
+  /*Gets the description of the last cmd to name the file*/
+  if (!(last_cmd = game_get_last_command(game))) return;
+  if (!(cmd_desc = command_get_desc(last_cmd))) return;
+
+  if (len >= 4 && strcmp(cmd_desc + len - 4, ".dat") != 0) {
+    sprintf(file_save, "%s.dat", cmd_desc);
+  }
+  else {
+    sprintf(file_save, "%s.dat", cmd_desc);
+  }
+
+  if (game_save(game, file_save) == ERROR) return;
+
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_load(Game *game) {
+  Command *last_cmd = NULL;
+  char *cmd_desc = NULL;
+  char file_load[WORD_SIZE];
+  int len = 0;
+
+  if (!game) return; 
+  
+  /*Gets the description of the last cmd to load the file*/
+  if (!(last_cmd = game_get_last_command(game))) return;
+  if (!(cmd_desc = command_get_desc(last_cmd))) return;
+
+  if (len >= 4 && strcmp(cmd_desc + len - 4, ".dat") != 0) {
+    sprintf(file_load, "%s.dat", cmd_desc);
+  }
+  else {
+    sprintf(file_load, "%s.dat", cmd_desc);
+  }
+
+  if(game_load(game, file_load) == ERROR) return;
   
   if (game_set_last_status(game, OK) == ERROR) return;
 }

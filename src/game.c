@@ -209,6 +209,7 @@ Status game_create_from_file(Game *game, char *filename) {
   if (game_management_load_objects(game, filename) == ERROR) return ERROR;
   if (game_management_load_characters(game, filename) == ERROR) return ERROR;
   if (game_management_load_players(game, filename) == ERROR) return ERROR;
+
   return OK;
 }
 
@@ -518,7 +519,7 @@ Id game_get_connection(Game *game, Id orig_space, Direction dir) {
   return dest;
 }
 
-/*Checks wether a connection is opened given a space and a desired direction*/
+/*Checks wHether a connection is opened given a space and a desired direction*/
 Status game_connection_is_open(Game *game, Id orig_space, Direction dir, Bool *bool) {
   int i = 0;
 
@@ -1011,6 +1012,37 @@ Status game_set_finished(Game *game, Bool finished) {
   if (!game) return ERROR;
 
   game->finished = finished;
+
+  return OK;
+}
+
+/**
+ * ***************  Saved management  ***************
+ */
+Status game_save(Game *game, char *filename) {
+  if (!game || !filename) return ERROR;
+
+  if (game_management_save_spaces(game, filename) == ERROR) return ERROR;
+  if (game_management_save_links(game, filename) == ERROR) return ERROR;
+  if (game_management_save_classes(game, filename) == ERROR) return ERROR;
+  if (game_management_save_objects(game, filename) == ERROR) return ERROR;
+  if (game_management_save_characters(game, filename) == ERROR) return ERROR;
+  if (game_management_save_players(game, filename) == ERROR) return ERROR;
+
+  return OK;
+}
+
+Status game_load(Game *game, char *filename) {
+  if (!game || !filename) return ERROR;
+
+  /*First creates the new game and checks if it is correct*/
+  if (game_create_from_file(game, filename) == ERROR) return ERROR;
+
+  /*Then deletes all the game completely*/
+  if (game_destroy(game) == ERROR) return ERROR;
+
+  /*Finally creates the game again with the new data*/
+  if (game_create_from_file(game, filename) == ERROR) return ERROR;
 
   return OK;
 }

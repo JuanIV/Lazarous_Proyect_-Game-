@@ -79,40 +79,39 @@ Status game_management_load_links(Game *game, char *filename) {
   #l:<id>|<name>|<origin id>|<destination id>|<direction>|<open or closed>|
   */
   while (fgets(line, WORD_SIZE, file)) {
-    if (strncmp("#l:", line, 3) == 0) {
-      toks = strtok(line + 3, "|");
-      id = atol(toks);
-      toks = strtok(NULL, "|");
-      strcpy(name, toks);
-      toks = strtok(NULL, "|");
-      orig = atol(toks);
-      toks = strtok(NULL, "|");
-      dest = atol(toks);
-      toks = strtok(NULL, "|");
-      dir = atol(toks);
-      toks = strtok(NULL, "|");
-      open = atol(toks);
+    if (strncmp("#l:", line, 3) != 0) continue;
+    toks = strtok(line + 3, "|");
+    id = atol(toks);
+    toks = strtok(NULL, "|");
+    strcpy(name, toks);
+    toks = strtok(NULL, "|");
+    orig = atol(toks);
+    toks = strtok(NULL, "|");
+    dest = atol(toks);
+    toks = strtok(NULL, "|");
+    dir = atol(toks);
+    toks = strtok(NULL, "|");
+    open = atol(toks);
 
-      /*creates a new space with the read data and adds it to the game spaces
-        list*/
-      link = link_create(id);
-      if (!link) return ERROR;
-      if (link_set_name(link, name) == ERROR) st = ERROR;
-      if (link_set_orig(link, orig) == ERROR) st = ERROR;
-      if (link_set_dest(link, dest) == ERROR) st = ERROR;
-      if (link_set_direction(link, dir) == ERROR) st = ERROR;
-      if (link_set_open(link, open) == ERROR) st = ERROR;
+    /*creates a new space with the read data and adds it to the game spaces
+      list*/
+    link = link_create(id);
+    if (!link) return ERROR;
+    if (link_set_name(link, name) == ERROR) st = ERROR;
+    if (link_set_orig(link, orig) == ERROR) st = ERROR;
+    if (link_set_dest(link, dest) == ERROR) st = ERROR;
+    if (link_set_direction(link, dir) == ERROR) st = ERROR;
+    if (link_set_open(link, open) == ERROR) st = ERROR;
 
-      if (st == ERROR) {
-        link_destroy(link);
-        break;
-      }
+    if (st == ERROR) {
+      link_destroy(link);
+      break;
+    }
 
-      if (game_add_link(game, link) == ERROR) {
-        link_destroy(link);
-        st = ERROR;
-        break;
-      }
+    if (game_add_link(game, link) == ERROR) {
+      link_destroy(link);
+      st = ERROR;
+      break;
     }
   }
 
@@ -202,6 +201,7 @@ Status game_management_load_objects(Game *game, char *filename) {
   char *toks = NULL;
   Id obj_id, class_id, location_id;
   Status st = OK;
+  Role role = NO_ROLE;
   Class *class = NULL;
   Object *object = NULL;
   Space *space = NULL;
@@ -212,7 +212,7 @@ Status game_management_load_objects(Game *game, char *filename) {
 
   /*
   reads data from the file acording to the next structure:
-  #o:<id>|<class_id>|<initial pos>
+  #o:<id>|<class_id>|<initial pos>|<role>
   */
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#o:", line, 3) != 0) continue;
@@ -222,6 +222,8 @@ Status game_management_load_objects(Game *game, char *filename) {
     class_id = atol(toks);
     toks = strtok(NULL, "|");
     location_id = atol(toks);
+    toks = strtok(NULL, "|");
+    role = atoi(toks);
 
     /*creates a new object with the read data, adds it to the array of objects
     and to the set of objects inside its corresponding space */
@@ -237,6 +239,7 @@ Status game_management_load_objects(Game *game, char *filename) {
       if (!(space = game_get_space(game, location_id))) st = ERROR;
       if (space_add_object(space, obj_id) == ERROR) st = ERROR;
     }
+    if(object_set_role(object, role) == ERROR) st = ERROR;
 
     if (st == ERROR) {
       object_destroy(object);
@@ -434,6 +437,7 @@ Status game_management_load_spaces(Game *game, char *filename) {
   Space *space = NULL;
   Status st = OK; 
   int i = 0;
+  Bool space_loaded = FALSE;
 
   if (!filename || !game) return ERROR;
 
@@ -487,6 +491,7 @@ Status game_management_load_spaces(Game *game, char *filename) {
       st = ERROR;
       break;
     }
+    space_loaded = TRUE;
   }
   
   fclose(file);
@@ -706,10 +711,11 @@ Status game_management_save_objects(Game *game, char *filename) {
   if(!(file = fopen(filename, "a"))) st = ERROR;
   if((num_objects = game_get_n_objects(game)) == -1) st = ERROR;
 
-  /*#o:<id>|<class_id>|<initial pos>*/
+  /*#o:<id>|<class_id>|<initial pos>|<role>*/
   for(i = 0; i < num_objects && st == OK; i++) {
     if (!(obj = game_get_object_at_pos(game, i))) st = ERROR;
     if ((obj_id = object_get_id(obj)) == NO_ID) st = ERROR;
+    if ((class_id = object_get_class_id(obj)) == NO_ID) st = ERROR;
     loc = game_get_object_location(game, obj_id);
     if ((role = object_get_role(obj)) == NO_ROLE) st = ERROR;
 
