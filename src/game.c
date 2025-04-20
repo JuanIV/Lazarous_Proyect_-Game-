@@ -371,6 +371,30 @@ Set *game_get_followers(Game *game, Player *player) {
   return followers;
 }
 
+/*Gets an object with a certain name from the players backpack*/
+Id game_get_object_from_player(Game *game, char *name){
+  Player *player = NULL;
+  Inventory *inv = NULL;
+  Id obj_id = NO_ID;
+  Object *obj = NULL;
+  int i=0;
+
+  if(!game) return NO_ID;
+  player = game_get_player(game);
+
+  inv = player_get_backpack(player);
+
+  for(i=0;i<inventory_get_num_objects(inv);i++){
+    obj_id = inventory_get_object_at_pos(inv, i);
+    obj = game_get_object(game,obj_id);
+    if(!obj) continue;
+    
+    if(!strcmp(object_get_name(obj),name)) return obj_id;
+  }
+
+  return NO_ID;
+}
+
 /**
  * ***************  Turn management  ***************
  */
@@ -519,7 +543,25 @@ Id game_get_connection(Game *game, Id orig_space, Direction dir) {
   return dest;
 }
 
-/*Checks wHether a connection is opened given a space and a desired direction*/
+/*Given the Id of a space and a direction returns the link in that direction*/
+Link *game_get_link(Game *game, Id orig_space, Direction dir) {
+  int i = 0;
+
+  if(!game || orig_space == NO_ID || dir == UNK_DIR) return NO_ID;
+
+  for(i = 0; i < game->n_links; i++) {
+    /* Error check link == NULL in link_get_orig */
+    if(orig_space != link_get_orig(game->links[i])) continue;
+
+    if((long)dir == (long)link_get_direction(game->links[i])) {
+      return game->links[i];
+    }
+  }
+
+  return NULL;
+}
+
+/*Checks wether a connection is opened given a space and a desired direction*/
 Status game_connection_is_open(Game *game, Id orig_space, Direction dir, Bool *bool) {
   int i = 0;
 

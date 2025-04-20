@@ -23,7 +23,7 @@
  * @brief Total number of commands that can be executed
  *
  */
-#define N_CMD 14
+#define N_CMD 16
 
 /**
  * @brief Defines the ways a command can be written (short, long)
@@ -49,7 +49,9 @@ typedef enum {
   ABANDON,
   USE,
   SAVE,
-  LOAD
+  LOAD,
+  OPEN,
+  CLOSE
 } CommandCode;
 
 /**

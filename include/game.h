@@ -181,6 +181,15 @@ int game_get_num_followers(Game *game, Player *player);
  */
 Set *game_get_followers(Game *game, Player *player);
 
+/**
+ * @brief Gets an object with a certain name from the players backpack
+ * 
+ * @param game Pointer to the game
+ * @param name Name of the object wanted
+ * @return Id of the object if it is found, NO_ID if it is not found
+ */
+Id game_get_object_from_player(Game *game, char *name);
+
 
 /**
  * @brief Gets the the turn of the game
@@ -511,6 +520,17 @@ int game_get_n_links(Game *game);
  * @return The id of the space located in the desired direction or NO_ID if there was a mistake
  */
 Id game_get_connection(Game *game, Id cur_space, Direction dir);
+
+/**
+ * @brief Gets a link from a origin space and a direction
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param orig_space Origin space of the link
+ * @param dir Direction of the desired link
+ * @return Pointer to the link if it exists, NULL if it doesnt
+ */
+Link *game_get_link(Game *game, Id orig_space, Direction dir);
 
 /**
  * @brief Checks wether a connection is opened given a space and a desired direction

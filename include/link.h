@@ -11,7 +11,7 @@
 #ifndef LINK_H
 #define LINK_H
 
-#include"types.h"
+#include "types.h"
 
 /**
  * @brief Defines the number of ways a direction can be written
@@ -141,7 +141,8 @@ Direction link_get_direction(Link *link);
 Status link_set_direction(Link *link, Direction direction);
 
 /**
- * @brief It gets the state of the link, TRUE if it's opened or FALSE if its closed
+ * @brief It gets the state of the link, TRUE if it's opened or FALSE if its
+ * closed
  * @author Tiago Oselka
  *
  * @param link a pointer to the link
@@ -152,22 +153,79 @@ Status link_set_direction(Link *link, Direction direction);
 Status link_get_open(Link *link, Bool *bool);
 
 /**
- * @brief It sets the state of the link, TRUE if it's opened or FALSE if its closed
+ * @brief It sets the state of the link, TRUE if it's opened or FALSE if its
+ * closed
  * @author Tiago Oselka
  *
  * @param link a pointer to the link
  * @param bool boolean that represents the state of the link
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status link_set_open(Link * link, Bool bool);
+Status link_set_open(Link *link, Bool bool);
+
+/**
+ * @brief Gets if the link needs a key or not to be opened
+ * @author Juan Ibáñez
+ * 
+ * @param link Pointer to the link
+ * @return TRUE if the link is locked, FALSE if its not
+ */
+Bool link_get_locked(Link *link);
+
+/**
+ * @brief Sets if the link needs a key or not to be opened
+ * @author Juan Ibáñez
+ * 
+ * @param link Pointer to the link
+ * @param bool New state of the lock
+ * @return ERROR if link doesnt exist, OK otherwise
+ */
+Status link_set_locekd(Link * link, Bool bool);
+
+/**
+ * @brief Gets the role that can open or close the link
+ * @author Juan Ibáñez
+ *
+ * @param link Pointer to the link
+ * @return Role that can open and close the link
+ */
+Role link_get_open_role(Link *link);
+
+/**
+ * @brief Sets the role that can open the link
+ * @author Juan Ibáñez
+ *
+ * @param link Pointer to the link
+ * @param role New role for the link
+ * @return ERROR if link or role are invalid, OK otherwise
+ */
+Status link_set_open_role(Link *link, Role role);
+
+/**
+ * @brief Gets the role that can use the link
+ * @author Juan Ibáñez
+ *
+ * @param link Pointer to the link
+ * @return Only role that can use this link
+ */
+Role link_get_use_role(Link *link);
+
+/**
+ * @brief Sets the only role that can use the link
+ * @author Juan Ibáñez
+ *
+ * @param link Pointer to the link
+ * @param role New role that can use it
+ * @return ERROR if link or role are invalid, OK otherwise
+ */
+Status link_set_use_role(Link *link, Role role);
 
 /**
  * @brief It prints the link information
- * 
+ *
  * @param link a pointer to the link
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status link_print(Link *link);
 
 #endif
-
