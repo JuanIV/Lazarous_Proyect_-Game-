@@ -115,6 +115,7 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
   char *name = NULL, message[MESG_SIZE];
   int turn;
   extern char *cmd_to_str[N_CMD][N_CMDT];
+  Id id_player;
 
   if (!gengine) return;
 
@@ -145,32 +146,41 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
       graphic_engine_paint_game(gengine, game);
       return;
     }
+
     /*If the LOG is enabled it prints the last action and status*/
     if (log_implemented == 1 && log_file) {
       last_cmd_code = command_get_code(last_cmd);
       if (last_cmd_code == NO_CMD) return;
       last_status = game_get_last_status(game);
       strcpy(last_desc, command_get_desc(last_cmd));
+      turn =game_get_turn(game);
+      if (turn < 0) return;
+      player = game_get_player(game);
+      if (!player) return;
+      id_player = player_get_id(player);
+      if (id_player == NO_ID) return;
+
       if (last_desc[0] != '\0') {
         if (last_status == OK) {
-          fprintf(log_file, "%s (%s): OK\n", cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
+          fprintf(log_file, "Player %d (%ld):%s (%s): OK\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
         } else {
-          fprintf(log_file, "%s (%s): ERROR\n", cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
+          fprintf(log_file, "Player %d (%ld):%s (%s): ERROR\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
         }
       } else {
         if (last_status == OK) {
-          fprintf(log_file, "%s: OK\n", cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
+          fprintf(log_file, "Player %d (%ld):%s: OK\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
         } else {
-          fprintf(log_file, "%s: ERROR\n", cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
+          fprintf(log_file, "Player %d (%ld):%s: ERROR\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
         }
       }
     }
 
     if (game_get_n_players(game) > 1) {
       graphic_engine_paint_game(gengine, game);
-      if (command_get_code(last_cmd) != EXIT) sleep(3);
-      /*We pass to the next turn*/
-      game_next_turn(game);
+      if ((command_get_code(last_cmd) == MOVE || command_get_code(last_cmd) == EXIT) && command_get_status(last_cmd) == OK) {
+        sleep(3);
+        game_next_turn(game);
+      }
     }
 
   } while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(game) == FALSE));
