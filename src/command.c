@@ -36,8 +36,7 @@ char *cmd_to_str[N_CMD][N_CMDT] = {
 struct _Command {
   CommandCode code;          /*!< Name of the command */
   char cmd_desc[CMD_LENGHT]; /*!< Information about the command */
-  Status
-      status; /*!< Status of the command: OK if it went well, ERROR otherwise*/
+  Status status;             /*!< Status of the command: OK if it went well, ERROR otherwise*/
 };
 
 /*It creates a new command, allocating memory and initializing its members*/
@@ -146,6 +145,7 @@ Status command_get_user_input(Command *command) {
       if (!strcasecmp(token, cmd_to_str[i][CMDS]) ||
           !strcasecmp(token, cmd_to_str[i][CMDL])) {
         cmd = i + NO_CMD;
+        printf("%s", cmd_to_str[i][CMDL]);
       } else {
         i++;
       }

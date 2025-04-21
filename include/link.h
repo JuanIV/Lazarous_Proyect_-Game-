@@ -168,9 +168,11 @@ Status link_set_open(Link *link, Bool bool);
  * @author Juan Ibáñez
  * 
  * @param link Pointer to the link
- * @return TRUE if the link is locked, FALSE if its not
+ * @param bool pointer to a Bool where the function will store the result
+ * @return the state of the link
+ * bool: TRUE if the connection is opened or FALSE if it isn't opened
  */
-Bool link_get_locked(Link *link);
+Status link_get_locked(Link *link, Bool *bool);
 
 /**
  * @brief Sets if the link needs a key or not to be opened
@@ -180,7 +182,7 @@ Bool link_get_locked(Link *link);
  * @param bool New state of the lock
  * @return ERROR if link doesnt exist, OK otherwise
  */
-Status link_set_locekd(Link * link, Bool bool);
+Status link_set_locked(Link * link, Bool bool);
 
 /**
  * @brief Gets the role that can open or close the link

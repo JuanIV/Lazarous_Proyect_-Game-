@@ -70,6 +70,7 @@ Status space_destroy(Space *space) {
   if (!space) return ERROR;
 
   if (space->objects) set_destroy(space->objects);
+  if (space->characters) set_destroy(space->characters);
 
   free(space);
   space = NULL;
@@ -151,7 +152,7 @@ Status space_get_discovered(Space *space, Bool *bool) {
 
   *bool = space->discovered;
 
-  return ERROR;
+  return OK;
 }
 
 /**
@@ -205,10 +206,12 @@ int space_get_num_objects(Space *space){
  */
 
 /*Gets the id of the trap currently set on a space*/
-Id space_get_trap(Space *space){
-  if(!space) return NO_ID;
+Status space_get_trap(Space *space, Id *trap){
+  if(!space || !trap) return ERROR;
 
-  return space->trap;
+  *trap = space->trap;
+
+  return OK;
 }
 
 /*Sets a trap in a space*/

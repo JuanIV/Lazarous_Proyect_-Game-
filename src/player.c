@@ -20,6 +20,9 @@
  */
 #define INIT_BAG_SIZE 8
 
+char *role_to_str[N_ROLES] = {"No role",   "Undefined", "Scientist", "Monster",   
+  "Peaceful",  "Hostile", "Defector1", "Defector2"};
+  
 /**
  * @brief Struct that stores the information of a player: Id, name, its backpack, its health, location and graphic description
  * @author Tiago Oselka
@@ -252,14 +255,13 @@ Status player_set_gdesc(Player *play, char *gdesc) {
 
 /*It prints the player information*/
 Status player_print(Player *play) {
-  /*extern char *role_to_str[N_ROLES];*/
   if (!play) return ERROR;
 
 
   fprintf(stdout, "\n\n-------------\n\n");
   fprintf(stdout, "=> Player id: %ld\n", play->id);
   fprintf(stdout, "=> Player name: %s\n", play->name);
-  /*fprintf(stdout, "=> Player role: %s\n", role_to_str[play->role - NO_ROLE]);*/
+  fprintf(stdout, "=> Player role: %s\n", role_to_str[play->role - NO_ROLE]);
   fprintf(stdout, "=> Player health: %d\n", play->health);
   fprintf(stdout, "=> Player equipped weapon: %ld\n", play->weapon);
   fprintf(stdout, "=> Player equipped armor: %ld\n", play->armor);

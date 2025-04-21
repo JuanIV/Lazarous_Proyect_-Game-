@@ -158,43 +158,43 @@ Status game_interface_data_print(InterfaceData *interfaceData) {
  */
 
 /*It creates a new game, initializing the spaces and its other members*/
-Game *game_create() {
-  Game *game = NULL;
-  int i;
+Status game_create(Game **game) {
+  int i = 0;
+  if(!game) return ERROR;
 
-  if ((game = (Game *)calloc(1, sizeof(Game))) == NULL) return NULL;
+  if (((*game) = (Game *)calloc(1, sizeof(Game))) == NULL) return ERROR;
 
   /*Initialize spaces*/
   for (i = 0; i < MAX_SPACES; i++) {
-    game->spaces[i] = NULL;
+    (*game)->spaces[i] = NULL;
   }
-  game->n_spaces = 0;
+  (*game)->n_spaces = 0;
 
   /*Initialize objects*/
   for (i = 0; i < MAX_OBJ; i++) {
-    game->object[i] = NULL;
+    (*game)->object[i] = NULL;
   }
-  game->n_objects = 0;
+  (*game)->n_objects = 0;
 
   /*Initialize characters*/
   for (i = 0; i < MAX_CHARR; i++) {
-    game->characters[i] = NULL;
+    (*game)->characters[i] = NULL;
   }
-  game->n_characters = 0;
+  (*game)->n_characters = 0;
 
   /*Initialize players*/
   for (i = 0; i < MAX_PLAY; i++) {
-    game->players[i] = NULL;
+    (*game)->players[i] = NULL;
 
-    game->data[i] = NULL;
+    (*game)->data[i] = NULL;
   }
-  game->n_players = 0;
+  (*game)->n_players = 0;
 
-  game->turn = 0;
+  (*game)->turn = 0;
 
-  game->finished = FALSE;
+  (*game)->finished = FALSE;
 
-  return game;
+  return OK;
 }
 
 /*It reads a games data from a file*/
@@ -547,7 +547,7 @@ Id game_get_connection(Game *game, Id orig_space, Direction dir) {
 Link *game_get_link(Game *game, Id orig_space, Direction dir) {
   int i = 0;
 
-  if(!game || orig_space == NO_ID || dir == UNK_DIR) return NO_ID;
+  if(!game || orig_space == NO_ID || dir == UNK_DIR) return NULL;
 
   for(i = 0; i < game->n_links; i++) {
     /* Error check link == NULL in link_get_orig */
@@ -1062,10 +1062,18 @@ Status game_set_finished(Game *game, Bool finished) {
  * ***************  Saved management  ***************
  */
 Status game_save(Game *game, char *filename) {
+  FILE *create_file = NULL;
+
   if (!game || !filename) return ERROR;
 
+  create_file = fopen(filename, "w");
+  fclose(create_file);
+
+  printf("Entra a game_save: %s\n", filename);
   if (game_management_save_spaces(game, filename) == ERROR) return ERROR;
+  fprintf(stdout, "Saves spaces\n");
   if (game_management_save_links(game, filename) == ERROR) return ERROR;
+  fprintf(stdout, "Saves links");
   if (game_management_save_classes(game, filename) == ERROR) return ERROR;
   if (game_management_save_objects(game, filename) == ERROR) return ERROR;
   if (game_management_save_characters(game, filename) == ERROR) return ERROR;
@@ -1123,6 +1131,13 @@ Status game_print(Game *game) {
     fprintf(stdout, "\n-> Player %d:\n", i);
     player_print(game->players[i]);
     game_interface_data_print(game->data[i]);
+  }
+
+  fprintf(stdout, "=> Chracters: \n");
+  for (i = 0; i < game->n_characters; i++) {
+    fprintf(stdout, "\n-> Character %d:\n", i);
+    character_print(game->characters[i]);
+    fprintf(stdout, "--> Character location: %d\n", (int)game_get_character_location(game, character_get_id(game->characters[i])));
   }
 
   return OK;

@@ -123,11 +123,10 @@ Status set_print(Set *set) {
   int i;
   if (!set) return ERROR;
 
-  fprintf(stdout, "\n\n-------------\n\n");
   fprintf(stdout, "=> Set n_ids: %d\n", set->n_ids);
 
   for (i = 0; i < set->n_ids; i++) {
-    fprintf(stdout, "=> Set id[%d]: %d\n", i, (int)set->ids[i]);
+    fprintf(stdout, "--> Set id[%d]: %d\n", i, (int)set->ids[i]);
   }
   return OK;
 }

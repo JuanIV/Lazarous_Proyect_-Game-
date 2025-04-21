@@ -82,7 +82,7 @@ typedef struct _Game Game;
  * @param game a pointer to the game
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Game *game_create();
+Status game_create(Game **game);
 
 /**
  * @brief It reads a games data from a file

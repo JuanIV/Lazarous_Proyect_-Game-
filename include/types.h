@@ -70,7 +70,5 @@ typedef enum {
   DEFECTOR2     /*Monsters rebeled against their own*/
 } Role;
 
-/*char *role_to_str[N_ROLES] = {"No role",   "Undefined", "Scientist", "Monster",   
-  "Peaceful",  "Hostile", "Defector1", "Defector2"};*/
 
 #endif

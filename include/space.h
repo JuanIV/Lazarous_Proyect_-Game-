@@ -238,9 +238,11 @@ int space_get_num_characters(Space *space);
  * @author Juan Ibáñez
  * 
  * @param space Pointer the space
- * @return Id of the trap in the space
+ * @param trap Pointer where the function will store the result
+ * @return ERROR if there was any mistake, OK otherwise
+ * trap: Id of the trap in the space
  */
-Id space_get_trap(Space *space);
+Status space_get_trap(Space *space, Id *trap);
 
 /**
  * @brief Sets a trap in a space

@@ -286,9 +286,11 @@ void game_actions_move(Game *game) {
   Direction direction = UNK_DIR;
   Object *trap = NULL;
   Set *followers = NULL;
-  Id cur_id = NO_ID, dest_id = NO_ID, player_id = NO_ID, charr_id = NO_ID;
+  Role link_role = NO_ROLE, player_role = NO_ROLE;
+  Id cur_id = NO_ID, dest_id = NO_ID, player_id = NO_ID, charr_id = NO_ID, trap_id = NO_ID;
   Space *cur_space = NULL, *dest_space = NULL;
   Link *link = NULL;
+  Bool open = FALSE, allowed = FALSE;
   extern char *dir_to_str[N_DIR][N_DIRT];
   char *dir = NULL;
   int i = 0, n_followers = -1, cur_health = -1, new_health;
@@ -319,12 +321,16 @@ void game_actions_move(Game *game) {
   link = game_get_link(game, cur_id, direction);
   if(!link) return;
 
-  if(link_get_use_role(link) != player_get_role(game_get_player(game))){
+  if((link_role = link_get_use_role(link)) == NO_ROLE) return;
+  if((player_role = player_get_role(game_get_player(game))) == NO_ROLE) return;
+  if(game_get_friendly(player_role, link_role, &allowed) == ERROR) return;
+  if(allowed == FALSE){
     game_set_last_message(game, "I cant go trough this path...");
     return;
   }
 
-  if(link_get_open(link) == FALSE){
+  if(link_get_open(link, &open) == ERROR) return;
+  if(open == FALSE){
     game_set_last_message(game, "The path is blocked...");
     return;
   }
@@ -367,8 +373,9 @@ void game_actions_move(Game *game) {
   set_destroy(followers);
 
   /*Explodes the trap if there is one*/
-  if(space_get_trap(dest_space) != NO_ID){
-    trap = game_get_object(game, space_get_trap(dest_space));
+  if(space_get_trap(dest_space, &trap_id) == ERROR) return;
+  if(trap_id != NO_ID){
+    trap = game_get_object(game, trap_id);
 
     if(trap && (object_get_role(trap) != player_get_role(player))){
       cur_health = player_get_health(player);
@@ -393,6 +400,7 @@ void game_actions_take(Game *game) {
   Player *player = NULL;
   Space *cur_space = NULL;
   Command *last_cmd = NULL;
+  Bool movable = FALSE;
   char *name = NULL;
 
   if (!game) return; 
@@ -409,7 +417,8 @@ void game_actions_take(Game *game) {
   if (obj_id == NO_ID) return;
   
   /*Checks whether the object is movable or not*/
-  if (object_get_movable(game_get_object(game, obj_id)) == FALSE) return;
+  if (object_get_movable(game_get_object(game, obj_id), &movable) == ERROR) return;
+  if (movable == FALSE) return;
 
   /*Gets their location and error check inside game_get_space*/
   play_location = game_get_player_location(game);
@@ -910,7 +919,7 @@ void game_actions_equip_weapon(Game *game, Object *obj, Character *trg){
 }
 
 void game_actions_set_trap(Game *game, Object *obj){
-  Id obj_id = NO_ID;
+  Id obj_id = NO_ID, trap_id = NO_ID;
   Player *player = NULL;
   Space *curr_sp = NULL;
 
@@ -922,7 +931,8 @@ void game_actions_set_trap(Game *game, Object *obj){
   if(!player || obj_id == NO_ID || !curr_sp) return;
 
   /*If there is already a trap, we cant set another one*/
-  if(space_get_trap(curr_sp) != NO_ID) return;
+  if(space_get_trap(curr_sp, &trap_id) == ERROR) return;
+  if(trap_id != NO_ID) return;
   if(space_set_trap(curr_sp,obj_id) == ERROR) return;
 
   /*Sets the trap as one from the player's team*/
@@ -941,16 +951,16 @@ void game_actions_save(Game *game) {
   int len = 0;
 
   if (!game) return; 
-  
   /*Gets the description of the last cmd to name the file*/
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
-
+  len = strlen(cmd_desc);
+  
   if (len >= 4 && strcmp(cmd_desc + len - 4, ".dat") != 0) {
-    sprintf(file_save, "%s.dat", cmd_desc);
+    sprintf(file_save /*+ strlen(file_save)*/, "%s.dat", cmd_desc);
   }
   else {
-    sprintf(file_save, "%s.dat", cmd_desc);
+    sprintf(file_save, "%s", cmd_desc);
   }
 
   if (game_save(game, file_save) == ERROR) return;
@@ -965,7 +975,7 @@ void game_actions_load(Game *game) {
   int len = 0;
 
   if (!game) return; 
-  
+  fprintf(stdout, "Enters command load\n");
   /*Gets the description of the last cmd to load the file*/
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
@@ -974,7 +984,7 @@ void game_actions_load(Game *game) {
     sprintf(file_load, "%s.dat", cmd_desc);
   }
   else {
-    sprintf(file_load, "%s.dat", cmd_desc);
+    sprintf(file_load, "%s", cmd_desc);
   }
 
   if(game_load(game, file_load) == ERROR) return;
@@ -986,11 +996,13 @@ void game_actions_open_link(Game *game){
   Command *last_cmd = NULL;
   char *cmd_desc = NULL, *toks = NULL;
   char *key = NULL;
+  extern char *dir_to_str[N_DIR][N_DIRT];
   Direction typed_dir = UNK_DIR;
   Link *link = NULL;
-  Id obj_id = NO_ID, cur_id = NO_ID;
+  Id obj_id = NO_ID, cur_id = NO_ID, obj_open = NO_ID;
   Object *obj = NULL;
-  Role play_role = UNDEFINED;
+  Role play_role = NO_ROLE, link_role = NO_ROLE;
+  Bool open = TRUE, locked = TRUE, ally = FALSE;
   int i = 0;
 
   if (!game) return; 
@@ -1020,11 +1032,19 @@ void game_actions_open_link(Game *game){
   link = game_get_link(game, cur_id, typed_dir);
   if(!link) return;
 
+  /* Checks if the link is already opened */
+  if(link_get_open(link, &open) == ERROR) return;
+  if(open == TRUE) {
+    game_set_last_message(game, "The door is already opened");
+    return;
+  }
   /*If the player is not allowed to open this link, the function ends*/
   play_role = player_get_role(game_get_player(game));
-  if(play_role == DEFECTOR1) play_role = SCIENTIST;
-  if(play_role == DEFECTOR2) play_role = MONSTER;
-  if(link_get_open_role(link) != play_role){
+  link_role = link_get_open_role(link);
+  /*if(play_role == DEFECTOR1) play_role = SCIENTIST;
+  if(play_role == DEFECTOR2) play_role = MONSTER;*/
+  if(game_get_friendly(play_role, link_role, &ally) == ERROR) return;
+  if(ally == FALSE){
     game_set_last_message(game, "I cant open this type of lock...");
     return;
   }
@@ -1038,7 +1058,8 @@ void game_actions_open_link(Game *game){
     }
   }
 
-  if(link_get_locked(link) == TRUE){
+  if(link_get_locked(link, &locked) == ERROR) return;
+  if (locked == TRUE){
     /*Get the object from the given name*/
     if(!key){
       game_set_last_message(game, "This door is locked. I need a key.");
@@ -1049,7 +1070,9 @@ void game_actions_open_link(Game *game){
     obj = game_get_object(game, obj_id);
     if(!obj) return;
 
-    if(object_get_open(obj) == link_get_id(link)){
+    if(object_get_open(obj, &obj_open) == ERROR) return;
+    if(obj_open == NO_ID) return;
+    if(obj_open == link_get_id(link)){
       if(link_set_locked(link, FALSE) == ERROR) return;
       if(link_set_open(link, TRUE) == ERROR) return;
     } else {
@@ -1068,7 +1091,9 @@ void game_actions_close_link(Game *game){
   char *cmd_desc = NULL;
   Direction typed_dir = UNK_DIR;
   Link *link = NULL;
-  Role play_role = UNDEFINED;
+  Role play_role = NO_ROLE, link_role = NO_ROLE;
+  Bool open = TRUE, ally = FALSE;
+  extern char *dir_to_str[N_DIR][N_DIRT];
   Id cur_id = NO_ID;
   int i = 0;
 
@@ -1096,11 +1121,21 @@ void game_actions_close_link(Game *game){
   link = game_get_link(game, cur_id, typed_dir);
   if(!link) return;
 
+  /* Checks if the link is already closed */
+  if(link_get_open(link, &open) == ERROR) return;
+  if(open == FALSE) {
+    game_set_last_message(game, "The door is already closed");
+    return;
+  }
+
   /*If the player is not allowed to close this link, the function ends*/
-  if(play_role == DEFECTOR1) play_role = SCIENTIST;
-  if(play_role == DEFECTOR2) play_role = MONSTER;
-  if(link_get_open_role(link) != player_get_role(game_get_player(game))){
-    game_set_last_message(game, "I cant close this type of lock...");
+  play_role = player_get_role(game_get_player(game));
+  link_role = link_get_open_role(link);
+  /*if(play_role == DEFECTOR1) play_role = SCIENTIST;
+  if(play_role == DEFECTOR2) play_role = MONSTER;*/
+  if(game_get_friendly(play_role, link_role, &ally) == ERROR) return;
+  if(ally == FALSE){
+    game_set_last_message(game, "I cant open this type of lock...");
     return;
   }
 
