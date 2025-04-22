@@ -127,6 +127,8 @@ Status game_management_load_spaces(Game *game, char *filename) {
   
   fclose(file);
 
+  if (game_get_n_spaces(game) <= 0) st = ERROR;
+
   return st;
 }
 
@@ -195,6 +197,8 @@ Status game_management_load_links(Game *game, char *filename) {
   }
 
   fclose(file);
+
+  if (game_get_n_links(game) <= 0) st = ERROR;
 
   return st;
 }
@@ -270,6 +274,8 @@ Status game_management_load_classes(Game *game, char *filename){
 
   fclose(file);
 
+  if (game_get_n_classes(game) <= 0) st = ERROR;
+
   return st;
 }
 
@@ -334,6 +340,8 @@ Status game_management_load_objects(Game *game, char *filename) {
   }
 
   fclose(file);
+
+  if (game_get_n_objects(game) <= 0) st = ERROR;
 
   return st;
 }
@@ -531,6 +539,8 @@ Status game_management_load_players(Game *game, char *filename) {
   }
 
   fclose(file);
+
+  if (game_get_n_players(game) <= 0) st = ERROR;
 
   return st;
 }
@@ -732,6 +742,8 @@ Status game_management_save_players(Game *game, char *filename) {
   fprintf(file, "\n");
   
   fclose(file);
+
+  if (num_players <= 0) st = ERROR;
 
   return st;
 }
