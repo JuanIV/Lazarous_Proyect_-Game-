@@ -15,11 +15,11 @@
 #include "inventory.h"
 
 /**
- * @brief Defines the size in players of the graphic description of a
+ * @brief Defines the size in characters of the graphic description of a
  * player
  *
  */
-#define PLY_GD_SZ 8
+#define PLY_GD_SZ 5
 
 /**
  * @brief It stores a players ID, name, location and object being carried

@@ -36,6 +36,7 @@ struct _Link {
   Direction direction; /*!< The direction of the link (N, S, E, W, UNK_DIR)*/
   Bool open;     /*!< A boolean that represents if the link is open or not*/
   Bool locked;   /*!< Represents if the link needs a key to be opened*/
+  Bool connected; /*!< Represents if the two spaces are the same room */
   Role op_role;  /*!< Role of the only people who can open this link */
   Role use_role; /*!< Role of the only people who can use this link */
 };
@@ -57,6 +58,8 @@ Link *link_create(Id id) {
   newlink->destination = NO_ID;
   newlink->direction = UNK_DIR;
   newlink->open = FALSE;
+  newlink->locked = FALSE;
+  newlink->connected = FALSE;
   newlink->op_role = UNDEFINED;
   newlink->use_role = UNDEFINED;
 
@@ -197,6 +200,27 @@ Status link_set_locked(Link *link, Bool bool) {
   if (!link) return ERROR;
 
   link->locked = bool;
+
+  return OK;
+}
+
+/** ***************  Connected management  ***************
+ */
+
+ /*Gets if the two spaces are connected*/
+Status link_get_connected(Link *link, Bool *bool) {
+  if(!link || !bool) return ERROR;
+
+  *bool = link->connected;
+
+  return OK;
+}
+
+/*Sets if the two spaces are connected*/
+Status link_set_connected(Link *link, Bool bool) {
+  if(!link) return ERROR;
+
+  link->connected = bool;
 
   return OK;
 }

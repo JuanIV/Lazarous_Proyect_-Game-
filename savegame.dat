@@ -34,7 +34,7 @@
 #k:22|0|Leaf|You found a Leaf, fly away with it|0|1|-1|-1|0|
 #k:23|0|Nut|You found a Nut, make sure is not bad|0|1|-1|-1|0|
 #k:24|0|Donut|You found a Donut, time to glow up|0|1|-1|-1|0|
-#k:70|1|Bandage|Bandages are usefull for healing|5|1|-1|-1|0|
+#k:70|1|Bandage|Bandages are usefull for healing!|5|1|-1|-1|0|
 
 #o:21|21|-1|0|
 #o:23|23|-1|0|

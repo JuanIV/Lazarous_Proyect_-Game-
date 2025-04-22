@@ -170,7 +170,7 @@ Status link_set_open(Link *link, Bool bool);
  * @param link Pointer to the link
  * @param bool pointer to a Bool where the function will store the result
  * @return the state of the link
- * bool: TRUE if the connection is opened or FALSE if it isn't opened
+ * bool: TRUE if the connection is opened or FALSE if its closed
  */
 Status link_get_locked(Link *link, Bool *bool);
 
@@ -183,6 +183,26 @@ Status link_get_locked(Link *link, Bool *bool);
  * @return ERROR if link doesnt exist, OK otherwise
  */
 Status link_set_locked(Link * link, Bool bool);
+
+/**
+ * @brief Gets if the two spaces are connected
+ * @author Juan Ibáñez
+ * 
+ * @param link Pointer to the link
+ * @param bool Pointer to a boolean to store the result
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status link_get_connected(Link *link, Bool *bool);
+
+/**
+ * @brief Sets the state of conexion between the spaces
+ * @author Juan Ibáñez
+ * 
+ * @param link Pointer to the link
+ * @param bool New state of conexion (True or False)
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status link_set_connected(Link *link, Bool bool);
 
 /**
  * @brief Gets the role that can open or close the link

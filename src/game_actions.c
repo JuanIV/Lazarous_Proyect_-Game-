@@ -853,6 +853,9 @@ void game_actions_use_healer(Game *game, Object *obj, Character *trg){
 
   if(!game || !obj) return;
 
+  player = game_get_player(game);
+  if(!player) return;
+
   if(trg){
     current_health = character_get_health(trg);
 
@@ -862,9 +865,6 @@ void game_actions_use_healer(Game *game, Object *obj, Character *trg){
     if(new_health <= 0) character_set_health(trg, 0);
     else character_set_health(trg, new_health);
   } else {
-    player = game_get_player(game);
-    if(!player) return;
-
     current_health = player_get_health(player);
 
     if(current_health <= 0) return;
@@ -874,11 +874,12 @@ void game_actions_use_healer(Game *game, Object *obj, Character *trg){
     else player_set_health(player, new_health);
   }
 
+  if(player_delete_object(player, object_get_id(obj)) == ERROR) return;
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
 void game_actions_equip_armor(Game *game, Object *obj, Character *trg){
-  Id obj_id = NO_ID;
+  Id obj_id = NO_ID, armor = NO_ID;
   Player *player = NULL;
 
   if(!game || !obj) return;
@@ -888,18 +889,26 @@ void game_actions_equip_armor(Game *game, Object *obj, Character *trg){
   if(!player || obj_id == NO_ID) return;
 
   if(trg){
+    if(player_delete_object(player,obj_id) == ERROR) return;
+
+    if(character_get_armor(trg,&armor) == ERROR) return;
+    if(armor != NO_ID) player_add_object(player, armor);
     if(character_set_armor(trg,obj_id)==ERROR) return;
-    if(player_delete_object(player,obj_id) == ERROR) return;
+    
   } else {
-    if(player_set_armor(player,obj_id)==ERROR) return;
     if(player_delete_object(player,obj_id) == ERROR) return;
+
+    if(player_get_armor(player, &armor) == ERROR) return;
+    if(armor != NO_ID) player_add_object(player,armor);
+    if(player_set_armor(player,obj_id)==ERROR) return;
+    
   }
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
 void game_actions_equip_weapon(Game *game, Object *obj, Character *trg){
-  Id obj_id = NO_ID;
+  Id obj_id = NO_ID, weapon = NO_ID;
   Player *player = NULL;
 
   if(!game || !obj) return;
@@ -909,11 +918,19 @@ void game_actions_equip_weapon(Game *game, Object *obj, Character *trg){
   if(!player || obj_id == NO_ID) return;
 
   if(trg){
+    if(player_delete_object(player,obj_id) == ERROR) return;
+
+    if(character_get_weapon(trg,&weapon) == ERROR) return;
+    if(weapon != NO_ID) player_add_object(player,weapon);
     if(character_set_weapon(trg,obj_id) == ERROR) return;
-    if(player_delete_object(player,obj_id) == ERROR) return;
+    
   } else {
-    if(player_set_weapon(player,obj_id) == ERROR) return;
     if(player_delete_object(player,obj_id) == ERROR) return;
+
+    if(player_get_weapon(player,&weapon) == ERROR) return;
+    if(weapon != NO_ID) player_add_object(player,weapon);
+    if(player_set_weapon(player,obj_id) == ERROR) return;
+    
   }
 
   if (game_set_last_status(game, OK) == ERROR) return;
