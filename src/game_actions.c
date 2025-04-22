@@ -162,9 +162,9 @@ void game_actions_save(Game *game);
  * @brief It defines the action of loading a game
  * @author Alina Datsko
  *
- * @param game Pointer to the game
+ * @param game Double pointer to the game
  */
-void game_actions_load(Game *game);
+void game_actions_load(Game **game);
 
 /**
  * @brief Tries to open a link with or whithout an object
@@ -189,65 +189,66 @@ void game_actions_close_link(Game *game);
 */
 
 /*Sets a given command as last command and executes its corresponding action*/
-Status game_actions_update(Game *game, Command *command) {
+Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code) {
   CommandCode cmd;
 
-  if(!game || !command) return ERROR;
+  if(!game || !(*game) || !command || !cmd_code) return ERROR;
 
   /*The message shown must be blank except in case it is required by the last command*/
-  if (game_set_last_message(game, " ") == ERROR) return ERROR;
+  if (game_set_last_message(*game, " ") == ERROR) return ERROR;
 
-  if (game_set_last_status(game, ERROR) == ERROR) return ERROR;
+  if (game_set_last_status(*game, ERROR) == ERROR) return ERROR;
 
   cmd = command_get_code(command);
+  *cmd_code = cmd;
 
   switch (cmd) {
     case UNKNOWN:
-      game_actions_unknown(game);
+      game_actions_unknown(*game);
       break;
 
     case EXIT:
-      game_actions_exit(game);
+      game_actions_exit(*game);
       break;
 
     case MOVE:
-      game_actions_move(game);
+      game_actions_move(*game);
       break;
 
     case TAKE:
-      game_actions_take(game);
+      game_actions_take(*game);
       break;
 
     case DROP:
-      game_actions_drop(game);
+      game_actions_drop(*game);
       break;
 
     case ATTACK:
-      game_actions_attack(game);
+      game_actions_attack(*game);
       break;
 
     case CHAT:
-      game_actions_chat(game);
+      game_actions_chat(*game);
       break;
     
     case INSPECT:
-      game_actions_inspect(game);
+      game_actions_inspect(*game);
       break;
 
     case RECRUIT:
-      game_actions_recruit(game);
+      game_actions_recruit(*game);
       break;
 
     case ABANDON:
-      game_actions_abandon(game);
+      game_actions_abandon(*game);
       break;
 
     case USE:
-      game_actions_use(game);
+      game_actions_use(*game);
       break;
 
     case SAVE:
-      game_actions_save(game);
+      game_actions_save(*game);
       break;
 
     case LOAD:
@@ -255,11 +256,11 @@ Status game_actions_update(Game *game, Command *command) {
       break;
       
     case OPEN:
-      game_actions_open_link(game);
+      game_actions_open_link(*game);
       break;
 
     case CLOSE:
-      game_actions_close_link(game);
+      game_actions_close_link(*game);
       break;
 
     default:
@@ -968,19 +969,20 @@ void game_actions_save(Game *game) {
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
-void game_actions_load(Game *game) {
+void game_actions_load(Game **game) {
   Command *last_cmd = NULL;
   char *cmd_desc = NULL;
   char file_load[WORD_SIZE];
   int len = 0;
 
   if (!game) return; 
-  fprintf(stdout, "Enters command load\n");
+  
   /*Gets the description of the last cmd to load the file*/
-  if (!(last_cmd = game_get_last_command(game))) return;
+  if (!(last_cmd = game_get_last_command(*game))) return;
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
+  len = strlen(cmd_desc);
 
-  if (len >= 4 && strcmp(cmd_desc + len - 4, ".dat") != 0) {
+  if ((len >= 4) && strcmp(cmd_desc + len - 4, ".dat") != 0) {
     sprintf(file_load, "%s.dat", cmd_desc);
   }
   else {
@@ -989,7 +991,7 @@ void game_actions_load(Game *game) {
 
   if(game_load(game, file_load) == ERROR) return;
   
-  if (game_set_last_status(game, OK) == ERROR) return;
+  if (game_set_last_status(*game, OK) == ERROR) return;
 }
 
 void game_actions_open_link(Game *game){

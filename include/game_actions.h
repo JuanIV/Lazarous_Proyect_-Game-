@@ -31,11 +31,12 @@
  * action
  * @author Profesores PPROG
  *
- * @param game pointer to the game
+ * @param game double pointer to the game
  * @param cmd command of the desired action
+ * @param cmd_code the code of the command entered
  * @return ERROR if there is any mistake while executing the action or setting
  * the last command, OK if everything goes well
  */
-Status game_actions_update(Game *game, Command *cmd);
+Status game_actions_update(Game **game, Command *cmd, CommandCode *cmd_code);
 
 #endif

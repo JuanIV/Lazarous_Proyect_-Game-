@@ -79,10 +79,9 @@ typedef struct _Game Game;
  * @brief It creates a new game, initializing the spaces and its other members
  * @author Tiago Oselka
  *
- * @param game a pointer to the game
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @return said game, initialized
  */
-Status game_create(Game **game);
+Game *game_create();
 
 /**
  * @brief It reads a games data from a file
@@ -192,13 +191,22 @@ Id game_get_object_from_player(Game *game, char *name);
 
 
 /**
- * @brief Gets the the turn of the game
+ * @brief Gets the position of the player who has the turn of the game
  * @author Alina Datsko Yaskerska
  *
- * @param game pointer to the game
- * @return returns number of the turn
+ * @param game Pointer to the game
+ * @return Returns number of the turn
  */
 int game_get_turn(Game *game);
+
+/**
+ * @brief Sets the position of the player who has the turn of the game
+ * 
+ * @param game Pointer to the game
+ * @param turn Turn to be set
+ * @return Ok if everything went well, ERROR if there was any mistake 
+ */
+Status game_set_turn(Game *game, int turn);
 
 /**
  * @brief Sets the next turn
@@ -546,6 +554,27 @@ Link *game_get_link(Game *game, Id orig_space, Direction dir);
 Status game_connection_is_open(Game *game, Id cur_space, Direction dir, Bool *bool);
 
 /**
+ * @brief It gets a command from a desided position of the interface data of a player at a desired position
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param cmd_pos Desired position inside interfaceData array of commands
+ * @return Pointer to said command
+ */
+Command *game_get_command_at_pos(Game *game, int play_pos, int cmd_pos);
+
+/**
+ * @brief It gets the last message of the interface data of a player at a desired position
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @return Pointer to said command
+ */
+char *game_get_msg_at_pos(Game *game, int play_pos);
+
+/**
  * @brief Gets the last message displayed by a chat
  * @author Juan Ibáñez
  * 
@@ -563,6 +592,17 @@ char *game_get_last_message(Game *game);
  * @return OK if everything went well, ERROR if there was a mistake
  */
 Status game_set_last_message(Game *game, char *message);
+
+/**
+ * @brief Sets the last displayed message at a desired position 
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param message String to be set as the message
+ * @return OK if the last_cmd was successfull, ERROR otherwise 
+ */
+Status game_set_last_message_at_pos(Game *game, int play_pos, char *message);
 
 /**
  * @brief It gets the last command from the game struct
@@ -655,13 +695,13 @@ Status game_save(Game *game, char *filename);
 
 /**
  * @brief Loads a game from a file
- * @author Alina Datsko
+ * @author Tiago Oselka
  *
- * @param game pointer to the game
+ * @param game Double pointer to the game
  * @param filename name of the file where the game will be loaded from
  * @return OK if everything went well, ERROR if there was any mistake
  */
-Status game_load(Game *game, char *filename);
+Status game_load(Game **game, char *filename);
 
 /**
  * @brief Prints information about every space in the game and the object and

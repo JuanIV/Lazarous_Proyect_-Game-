@@ -37,11 +37,11 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
  * updating game action
  *
  * @param game game struct being used
- * @param gengine pointer to the graphic engine
+ * @param gengine double pointer to the graphic engine
  * @param log_file the file where the log is going to be printed
  * @param log_implemented 1 if there should be a log 0 if not
  */
-void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_implemented);
+void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented);
 
 /**
  * @brief destroys both the game and the graphic engine
@@ -75,13 +75,13 @@ int main(int argc, char *argv[]) {
     log_implemented = 1;
   }
 
-  if (game_create(&game) == ERROR) {
+  if (!(game = game_create())) {
     if (log_file) fclose(log_file);
     return -1;
   }
 
   if (!game_loop_init(game, &gengine, argv[1])) {
-    game_loop_run(game, gengine, log_file, log_implemented);
+    game_loop_run(&game, gengine, log_file, log_implemented);
     game_loop_cleanup(game, gengine);
   }
 
@@ -106,7 +106,7 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
   return 0;
 }
 
-void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_implemented) {
+void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented) {
   Command *last_cmd;
   CommandCode last_cmd_code;
   Status last_status;
@@ -119,31 +119,32 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
 
   if (!gengine) return;
 
-  if (game_get_finished(game) == TRUE) return;
+  if (game_get_finished(*game) == TRUE) return;
   message[0] = '\0';
-  game_print(game);
+  game_print(*game);
   do {
-    graphic_engine_paint_game(gengine, game);
+    graphic_engine_paint_game(gengine, *game);
 
-    last_cmd = game_get_last_command_at_pos(game, NUM_CMDS - 1);
+    last_cmd = game_get_last_command_at_pos(*game, NUM_CMDS - 1);
 
-    if (game_set_last_command(game, last_cmd) == ERROR) return;
+    if (game_set_last_command(*game, last_cmd) == ERROR) return;
     if (command_get_user_input(last_cmd) == ERROR) return;
 
-    player = game_get_player(game);
+    player = game_get_player(*game);
     if (!player) return;
     if (player_get_health(player) <= 0) return;
 
-    game_actions_update(game, last_cmd);
+    game_actions_update(game, last_cmd, &last_cmd_code); 
+    if (last_cmd_code == LOAD) continue;
 
     if (player_get_health(player) <= 0) {
       name = player_get_name(player);
       if (!name) return;
-      turn = game_get_turn(game) + 1;
+      turn = game_get_turn(*game) + 1;
       if (turn == 0) return;
       sprintf(message, "Heaven or hell? What will my future       depare%36sSadly Player %d: %s passed away           End of the game", "", turn, name);
-      game_set_last_message(game, message);
-      graphic_engine_paint_game(gengine, game);
+      game_set_last_message(*game, message);
+      graphic_engine_paint_game(gengine, *game);
       return;
     }
 
@@ -151,11 +152,11 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
     if (log_implemented == 1 && log_file) {
       last_cmd_code = command_get_code(last_cmd);
       if (last_cmd_code == NO_CMD) return;
-      last_status = game_get_last_status(game);
+      last_status = game_get_last_status(*game);
       strcpy(last_desc, command_get_desc(last_cmd));
-      turn =game_get_turn(game);
+      turn =game_get_turn(*game);
       if (turn < 0) return;
-      player = game_get_player(game);
+      player = game_get_player(*game);
       if (!player) return;
       id_player = player_get_id(player);
       if (id_player == NO_ID) return;
@@ -175,15 +176,15 @@ void game_loop_run(Game *game, Graphic_engine *gengine, FILE *log_file, int log_
       }
     }
 
-    if (game_get_n_players(game) > 1) {
+    if (game_get_n_players(*game) > 1) {
       if ((command_get_code(last_cmd) == MOVE)  && command_get_status(last_cmd) == OK) {
-        graphic_engine_paint_game(gengine, game);
+        graphic_engine_paint_game(gengine, *game);
         sleep(3);
-        game_next_turn(game);
+        game_next_turn(*game);
       }
     }
 
-  } while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(game) == FALSE));
+  } while ((last_cmd_code != EXIT) && (game_get_finished(*game) == FALSE));
 }
 
 void game_loop_cleanup(Game *game, Graphic_engine *gengine) {

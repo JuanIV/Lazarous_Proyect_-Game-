@@ -426,10 +426,12 @@ Status game_management_load_players(Game *game, char *filename) {
   char *toks = NULL;
   Id id_play = NO_ID, id_location = NO_ID, obj_id = NO_ID, armor_id = NO_ID, weapon_id = NO_ID;
   Role role = NO_ROLE;
-  int health = 0, inventory_size = 0, num_objs, i;
+  int health = 0, inventory_size = 0, num_objs, i, n_players = 0;
   Player *play = NULL;
   Space *space = NULL;
-  Status st = OK;
+  Command *cmd = NULL;
+  CommandCode cmd_code = NO_CMD;
+  Status st = OK, cmd_status = ERROR;
 
   if (!filename || !game) return ERROR;
 
@@ -507,11 +509,54 @@ Status game_management_load_players(Game *game, char *filename) {
       st = ERROR;
       break;
     }
+    n_players++;
+
+    toks = strtok(NULL, "|");
+    if (!toks) {
+      if (game_set_last_message_at_pos(game, n_players - 1, " ") == ERROR) st = ERROR;
+    }else {
+      if (game_set_last_message_at_pos(game, n_players - 1, toks) == ERROR) st = ERROR;
+    }
+
+    for (i = 0; i < NUM_CMDS && st == OK; i++) {
+      if (!(cmd = game_get_command_at_pos(game, n_players - 1, i))) st = ERROR;
+      toks = strtok(NULL, "|");
+      cmd_code = atoi(toks);
+      toks = strtok(NULL, "|");
+      cmd_status = atoi(toks);
+
+      if(command_set_code(cmd, cmd_code) == ERROR) st = ERROR;
+      if (command_set_status(cmd, cmd_status) == ERROR) st = ERROR;
+    }
   }
 
   fclose(file);
 
   return st;
+}
+
+Status game_management_load_turn(Game *game, char *filename) {
+  FILE *file = NULL;
+  int turn = 0;
+  char line[WORD_SIZE] = "";
+  char *toks = NULL;
+
+  if (!filename || !game) return ERROR;
+
+  if (!(file = fopen(filename, "r"))) return ERROR;
+
+  while(fgets(line, WORD_SIZE, file)) {
+    if (strncmp("#t:", line, 3) != 0) continue; 
+    toks = strtok(line + 3, "|");
+    turn = atoi(toks);
+
+    fclose(file);
+    return game_set_turn(game, turn);
+  }
+
+  fclose(file);
+
+  return ERROR;
 }
 
 /*############################ GAME SAVING FUNCTIONS ############################*/
@@ -525,7 +570,7 @@ Status game_management_save_spaces(Game *game, char *filename) {
   char line[SPACE_LINE], *name = NULL, *gdesc_line = NULL;
   int i = 0, j = 0, num_spaces = -1, len = 0;
 
-  if(!(file = fopen(filename, "a"))) st = ERROR;
+  if(!(file = fopen(filename, "a"))) return ERROR;
   if((num_spaces = game_get_n_spaces(game)) == -1) st = ERROR;
 
   for(i = 0; i < num_spaces && st == OK; i++) {
@@ -573,7 +618,7 @@ Status game_management_save_links(Game *game, char *filename) {
   char line[LINK_LINE], *name = NULL;
   int i = 0, num_links = -1, len = 0;
 
-  if(!(file = fopen(filename, "a"))) st = ERROR;
+  if(!(file = fopen(filename, "a"))) return ERROR;
   if((num_links = game_get_n_links(game)) == -1) st = ERROR;
 
   /*#l:<id>|<name>|<origin id>|<destination id>|<direction>|<open or closed>|*/
@@ -613,16 +658,18 @@ Status game_management_save_links(Game *game, char *filename) {
 
 Status game_management_save_players(Game *game, char *filename) {
   FILE *file = NULL;
-  Status st = OK;
+  Status st = OK, cmd_status = ERROR;
   Player *player = NULL;
   Inventory *backpack = NULL;
   Role role = NO_ROLE;
+  Command *cmd = NULL; 
+  CommandCode cmd_code = NO_CMD;
   Id player_id = NO_ID, location = NO_ID, weapon_id = NO_ID, armor_id = NO_ID, obj_id = NO_ID;
-  char line[PLAYER_LINE], *name = NULL, *gdesc = NULL;
+  char line[PLAYER_LINE], *name = NULL, *gdesc = NULL, *msg = NULL;
   int i = 0, j = 0, num_players = -1, len = 0, health = -1, 
   max_back_size = -1, back_n_objs = -1;
 
-  if(!(file = fopen(filename, "a"))) st = ERROR;
+  if(!(file = fopen(filename, "a"))) return ERROR;
   if((num_players = game_get_n_players(game)) == -1) st = ERROR;
 
   /*#p:<id>|<name>|<role>|<graphic description>|<location>|<health>|<armor>|<weapon>|<backpack size>|<num backpack items>|<item1>|<item2>|...*/
@@ -662,6 +709,22 @@ Status game_management_save_players(Game *game, char *filename) {
       len += sprintf(line + len, "%ld|", obj_id);
     }
 
+    msg = game_get_msg_at_pos(game, i);
+    if(!msg) {
+      len += sprintf(line + len, " |");
+    }else {
+      len += sprintf(line + len, "%s|", msg);
+    }
+
+    for (j = 0; j < NUM_CMDS; j++) {
+      if (!(cmd = game_get_command_at_pos(game, i, j))) st = ERROR;
+      if ((cmd_code = command_get_code(cmd)) == NO_CMD) st = ERROR;
+      cmd_status = command_get_status(cmd);
+
+      len += sprintf(line + len, "%d|", cmd_code);
+      len += sprintf(line + len, "%d|", cmd_status);
+    }
+
     fprintf(file, "%s\n", line);
     len = 0;
   }
@@ -684,7 +747,7 @@ Status game_management_save_classes(Game *game, char *filename) {
   Bool movable = FALSE;
 
 
-  if(!(file = fopen(filename, "a"))) st = ERROR;
+  if(!(file = fopen(filename, "a"))) return ERROR;
   if((num_classes = game_get_n_classes(game)) == -1) st = ERROR;
 
   /*#k:<id>|<tag>|<name>|<description>|<use_value>|<movable>|<dependency>|<open>|<luck>*/
@@ -734,7 +797,7 @@ Status game_management_save_objects(Game *game, char *filename) {
   int i = 0, num_objects = -1, len = 0;
 
 
-  if(!(file = fopen(filename, "a"))) st = ERROR;
+  if(!(file = fopen(filename, "a"))) return ERROR;
   if((num_objects = game_get_n_objects(game)) == -1) st = ERROR;
 
   /*#o:<id>|<class_id>|<initial pos>|<role>*/
@@ -773,7 +836,7 @@ Status game_management_save_characters(Game *game, char *filename) {
   char line[CHARACTER_LINE], *name = NULL, *gdesc = NULL, *msg = NULL;
   int i = 0, num_characters = -1, len = 0, health = -1;
 
-  if(!(file = fopen(filename, "a"))) st = ERROR;
+  if(!(file = fopen(filename, "a"))) return ERROR;
   if((num_characters = game_get_n_characters(game)) == -1) st = ERROR;
   
   /*#c:<id>|<name>|<role>|<graphic description>|<location>|<health>|<following>|<weapon>|<armor>|<message>*/
@@ -810,6 +873,24 @@ Status game_management_save_characters(Game *game, char *filename) {
 
   fprintf(file, "\n");
   
+  fclose(file);
+
+  return st;
+}
+
+Status game_management_save_turn(Game *game, char *filename) {
+  FILE *file = NULL;
+  Status st = OK;
+  int turn = 0;
+
+  if(!game || !filename) return ERROR;
+
+  if(!(file = fopen(filename, "a"))) return ERROR;
+
+  if ((turn = game_get_turn(game)) == -1) st = ERROR;
+
+  if (st == OK) fprintf(file, "#t:%d|\n\n", turn);
+
   fclose(file);
 
   return st;

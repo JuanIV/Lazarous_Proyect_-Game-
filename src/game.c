@@ -158,43 +158,43 @@ Status game_interface_data_print(InterfaceData *interfaceData) {
  */
 
 /*It creates a new game, initializing the spaces and its other members*/
-Status game_create(Game **game) {
-  int i = 0;
-  if(!game) return ERROR;
+Game *game_create() {
+  Game *game = NULL;
+  int i;
 
-  if (((*game) = (Game *)calloc(1, sizeof(Game))) == NULL) return ERROR;
+  if ((game = (Game *)calloc(1, sizeof(Game))) == NULL) return NULL;
 
   /*Initialize spaces*/
   for (i = 0; i < MAX_SPACES; i++) {
-    (*game)->spaces[i] = NULL;
+    game->spaces[i] = NULL;
   }
-  (*game)->n_spaces = 0;
+  game->n_spaces = 0;
 
   /*Initialize objects*/
   for (i = 0; i < MAX_OBJ; i++) {
-    (*game)->object[i] = NULL;
+    game->object[i] = NULL;
   }
-  (*game)->n_objects = 0;
+  game->n_objects = 0;
 
   /*Initialize characters*/
   for (i = 0; i < MAX_CHARR; i++) {
-    (*game)->characters[i] = NULL;
+    game->characters[i] = NULL;
   }
-  (*game)->n_characters = 0;
+  game->n_characters = 0;
 
   /*Initialize players*/
   for (i = 0; i < MAX_PLAY; i++) {
-    (*game)->players[i] = NULL;
+    game->players[i] = NULL;
 
-    (*game)->data[i] = NULL;
+    game->data[i] = NULL;
   }
-  (*game)->n_players = 0;
+  game->n_players = 0;
 
-  (*game)->turn = 0;
+  game->turn = 0;
 
-  (*game)->finished = FALSE;
+  game->finished = FALSE;
 
-  return OK;
+  return game;
 }
 
 /*It reads a games data from a file*/
@@ -209,6 +209,7 @@ Status game_create_from_file(Game *game, char *filename) {
   if (game_management_load_objects(game, filename) == ERROR) return ERROR;
   if (game_management_load_characters(game, filename) == ERROR) return ERROR;
   if (game_management_load_players(game, filename) == ERROR) return ERROR;
+  if (game_management_load_turn(game, filename) == ERROR) return ERROR;
 
   return OK;
 }
@@ -216,6 +217,7 @@ Status game_create_from_file(Game *game, char *filename) {
 /*It destroys a game freeing every allocated data (destroys space data and the last command)*/
 Status game_destroy(Game *game) {
   int i = 0;
+  if(!game) return ERROR;
 
   for (i = 0; i < game->n_spaces; i++) {
     space_destroy(game->spaces[i]);
@@ -406,6 +408,16 @@ int game_get_turn(Game *game) {
   if(game->turn < 0 || game->turn >= game->n_players) return -1;
 
   return (game->turn);
+}
+
+Status game_set_turn(Game *game, int turn) {
+  if(!game) return ERROR;
+
+  if(turn < 0 || turn >= game->n_players) return ERROR;
+
+  game->turn = turn;
+
+  return OK;
 }
 
 /*Sets the next turn*/
@@ -971,6 +983,17 @@ Status game_set_last_message(Game *game, char *message) {
   return OK;
 }
 
+/*Sets the last displayed message at a desired position */
+Status game_set_last_message_at_pos(Game *game, int play_pos, char *message) {
+  if (!game || !message) return ERROR;
+
+  if(play_pos < 0 || play_pos >= game->n_players) return ERROR;
+
+  sprintf((game->data[play_pos])->last_msg, "%.*s", MESG_SIZE, message);
+
+  return OK;
+}
+
 /**
  * ***************  Command management  ***************
  */
@@ -982,6 +1005,24 @@ Status game_get_last_status(Game *game) {
   if(game->turn < 0 || game->turn >= game->n_players) return ERROR;
 
   return command_get_status(game->data[game->turn]->last_cmds[0]);
+}
+
+/*It gets a command from a desided position of the interface data of a player at a desired position*/
+Command *game_get_command_at_pos(Game *game, int play_pos, int cmd_pos) {
+  if(!game) return NULL;
+
+  if(play_pos < 0 || play_pos >= game->n_players || cmd_pos < 0 || cmd_pos >= NUM_CMDS) return NULL;
+
+  return game->data[play_pos]->last_cmds[cmd_pos];
+}
+
+/*It gets the last message of the interface data of a player at a desired position*/
+char *game_get_msg_at_pos(Game *game, int play_pos) {
+  if(!game) return NULL;
+
+  if(play_pos < 0 || play_pos >= game->n_players) return NULL;
+
+  return game->data[play_pos]->last_msg;
 }
 
 /*It gets the status at a position of the interface data struct of commands*/
@@ -1069,32 +1110,40 @@ Status game_save(Game *game, char *filename) {
   create_file = fopen(filename, "w");
   fclose(create_file);
 
-  printf("Entra a game_save: %s\n", filename);
   if (game_management_save_spaces(game, filename) == ERROR) return ERROR;
-  fprintf(stdout, "Saves spaces\n");
   if (game_management_save_links(game, filename) == ERROR) return ERROR;
-  fprintf(stdout, "Saves links");
   if (game_management_save_classes(game, filename) == ERROR) return ERROR;
   if (game_management_save_objects(game, filename) == ERROR) return ERROR;
   if (game_management_save_characters(game, filename) == ERROR) return ERROR;
   if (game_management_save_players(game, filename) == ERROR) return ERROR;
+  if (game_management_save_turn(game, filename) == ERROR) return ERROR;
 
   return OK;
 }
 
-Status game_load(Game *game, char *filename) {
-  if (!game || !filename) return ERROR;
+Status game_load(Game **game, char *filename) {
+  Status st = OK;
+  FILE *file = NULL;
+  if (!game || !(*game) || !filename) return ERROR;
 
-  /*First creates the new game and checks if it is correct*/
-  if (game_create_from_file(game, filename) == ERROR) return ERROR;
+  /* We first check if the file exists */
+  if(!(file = fopen(filename, "r"))) return ERROR;
+  fclose(file);
+  
+  /* In order to load a new game, we save it in savetoload.dat. This way, in case of error we reload the game from here */
+  if (game_save(*game, "savetoload.dat") == ERROR) return ERROR;
+  game_destroy(*game);
 
-  /*Then deletes all the game completely*/
-  if (game_destroy(game) == ERROR) return ERROR;
+  if (!((*game) = game_create())) st = ERROR;
+  if (game_create_from_file(*game, filename) == ERROR) st = ERROR;
 
-  /*Finally creates the game again with the new data*/
-  if (game_create_from_file(game, filename) == ERROR) return ERROR;
+  /* In case of error, we try to reload the game. The second check is in order to avoid loops */
+  if ((st = ERROR) && strcmp(filename, "savetoload.dat") != 0) {
+    game_load(game, "savetoload.dat");
+    return ERROR;
+  }
 
-  return OK;
+  return st;
 }
 
 /**
