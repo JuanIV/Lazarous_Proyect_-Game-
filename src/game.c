@@ -1021,7 +1021,7 @@ Status game_set_last_close_up(Game *game, char closeup[POV_HGHT][POV_WDTH + 1]) 
   if(game->turn < 0 || game->turn >= game->n_players) return ERROR;
 
   for(i=0;i<POV_HGHT;i++){
-    sprintf(game->data[game->turn]->last_closeup[i], "%.*s", POV_WDTH, closeup[i]);
+    sprintf(game->data[game->turn]->last_closeup[i], "%-.*s", POV_WDTH, closeup[i]);
   }
 
   return OK;  
@@ -1036,7 +1036,7 @@ Status game_set_last_close_up_at_pos(Game *game, char closeup[POV_HGHT][POV_WDTH
   if(pos < 0 || pos >= game->n_players) return ERROR;
 
   for(i=0;i<POV_HGHT;i++){
-    sprintf(game->data[pos]->last_closeup[i], "%.*s", POV_WDTH, closeup[i]);
+    sprintf(game->data[pos]->last_closeup[i], "%-.*s", POV_WDTH, closeup[i]);
   }
 
   return OK;  

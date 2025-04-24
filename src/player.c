@@ -286,7 +286,7 @@ Status player_set_closeup_at(Player *play, int pos,char *closeup) {
 
   if(!closeup) play->close_up[pos][0] = '\0';
 
-  sprintf(play->close_up[pos], "%*.*s", POV_WDTH,POV_WDTH, closeup);
+  sprintf(play->close_up[pos], "%-*.*s", POV_WDTH,POV_WDTH, closeup);
 
   /*We prevent from saving a line break in the gdesc*/
   for (i = 0; i < POV_WDTH; i++) {

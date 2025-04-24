@@ -168,7 +168,7 @@ Status object_class_set_closeup_at_pos(Class *class, int pos, char *closeup) {
 
   if(!closeup) class->close_up[pos][0] = '\0';
 
-  sprintf(class->close_up[pos], "%*.*s", POV_WDTH,POV_WDTH, closeup);
+  sprintf(class->close_up[pos], "%-*.*s", POV_WDTH,POV_WDTH, closeup);
 
   /*We prevent from saving a line break in the gdesc*/
   for (i = 0; i < POV_WDTH; i++) {

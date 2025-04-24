@@ -19,6 +19,10 @@
 #include "space.h"
 #include "types.h"
 
+/**********************************************************
+ * ***************** AREA SIZES DEFINITION ****************
+ * ********************************************************/
+
 /**
  * @brief Width of the map area of the screen
  *
@@ -26,28 +30,63 @@
 #define WIDTH_MAP (3*SQ_SZ+4)
 
 /**
- * @brief Width of the description area of the screen
- *
- */
-#define WIDTH_MSG 42
-
-/**
  * @brief Height of the map area of the screen
  *
  */
-#define HEIGHT_MAP 32
+#define HEIGHT_MAP 34
+
+/**
+ * @brief Width of the description area of the screen
+ *
+ */
+#define WIDTH_MSG 120
 
 /**
  * @brief Height of the message area of the screen
  *
  */
-#define HEIGHT_MSG 15
+#define HEIGHT_MSG (POV_HGHT + HEIGHT_FDB + 1)
+
+/**
+ * @brief Width of the player info area
+ * 
+ */
+#define WIDTH_PINF 30
+
+/**
+ * @brief Height of the player info area
+ * 
+ */
+#define HEIGHT_PINF (HEIGHT_MAP)
+
+/**
+ * @brief Width of the feedback area of the screen
+ * 
+ */
+#define WIDTH_FDB (POV_WDTH)
 
 /**
  * @brief Height of the feedback area of the screen
  *
  */
 #define HEIGHT_FDB 3
+
+/**
+ * @brief Width of the description area
+ * 
+ */
+#define WIDTH_DESC ((WIDTH_MSG + POV_WDTH + 1)-(WIDTH_MAP + WIDTH_PINF + 2))
+
+/**
+ * @brief Height of the description area
+ * 
+ */
+#define HEIGHT_DESC (HEIGHT_MAP)
+
+
+/** *********************************************************
+ * **************** PRINTING INFO MACROS ********************
+ * **********************************************************/
 
 /**
  * @brief Ammount of characters from the space id that will be printed in the map
@@ -586,13 +625,12 @@ Graphic_engine *graphic_engine_create() {
   ge = (Graphic_engine *)malloc(sizeof(Graphic_engine));
   if (ge == NULL) return NULL;
   
-  ge->player_inf = screen_area_init(1, 1, POV_WDTH, (HEIGHT_MAP + HEIGHT_MSG + 1)-((POV_HGHT + 1)+ (HEIGHT_FDB + 1)));
-  ge->pov = screen_area_init(1, (HEIGHT_MAP + HEIGHT_MSG + 1)-((POV_HGHT + 1)+ (HEIGHT_FDB + 1)) + 1, POV_WDTH, POV_HGHT);
-  ge->feedback = screen_area_init(1, (HEIGHT_MAP + HEIGHT_MSG + 1)-HEIGHT_FDB, POV_WDTH, HEIGHT_FDB);
+  ge->player_inf = screen_area_init(1, 1, WIDTH_PINF, HEIGHT_PINF);
+  ge->map = screen_area_init(WIDTH_PINF + 2, 1, WIDTH_MAP, HEIGHT_MAP);
+  ge->descript = screen_area_init(WIDTH_PINF + WIDTH_MAP + 3, 1, WIDTH_DESC, HEIGHT_DESC);
 
-  ge->map = screen_area_init(POV_WDTH + 2, 1, WIDTH_MAP, HEIGHT_MAP);
-  ge->descript = screen_area_init(POV_WDTH + WIDTH_MAP + 3, 1, WIDTH_MSG - WIDTH_MAP - 1, HEIGHT_MAP);
-  
+  ge->pov = screen_area_init(1, HEIGHT_PINF + 2, POV_WDTH, POV_HGHT);
+  ge->feedback = screen_area_init(1, POV_HGHT + HEIGHT_PINF + 3, WIDTH_FDB, HEIGHT_FDB);
   ge->message = screen_area_init(POV_WDTH + 2, HEIGHT_MAP + 2, WIDTH_MSG, HEIGHT_MSG);
   
   return ge;
@@ -755,8 +793,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   /* Paint in the close up area */
   screen_area_clear(ge->pov);
   for(i=0;i<POV_HGHT;i++){
-    if(!game_get_last_close_up_at(game, i)) sprintf(str, "%*s", POV_WDTH, "");
-    else sprintf(str, "%.*s", POV_WDTH, game_get_last_close_up_at(game, i));
+    if(!game_get_last_close_up_at(game, i)) sprintf(str, "%-*s", POV_WDTH, "");
+    else sprintf(str, "%-*.*s", POV_WDTH,POV_WDTH, game_get_last_close_up_at(game, i));
     screen_area_puts(ge->pov, str);
   }
 
