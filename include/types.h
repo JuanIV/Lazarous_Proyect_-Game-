@@ -18,6 +18,18 @@
 #define WORD_SIZE 1000
 
 /**
+ * @brief Size in characters of the visible POV of the player
+ * 
+ */
+#define POV_WDTH 25
+
+/**
+ * @brief Size in lines of the visible POV of the player
+ * 
+ */
+#define POV_HGHT 10
+
+/**
  * @brief Defines the value associated as a non existing id
  *
  */

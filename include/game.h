@@ -605,6 +605,37 @@ Status game_set_last_message(Game *game, char *message);
 Status game_set_last_message_at_pos(Game *game, int play_pos, char *message);
 
 /**
+ * @brief Gets a line from the last close up shown
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param pos Position of the line wanted
+ * @return String with the line wanted
+ */
+char *game_get_last_close_up_at(Game *game, int pos);
+
+/**
+ * @brief Sets the last close up
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param closeup New last close up 
+ * @return ERROR if there was any mistake, OK otherwise
+ */
+Status game_set_last_close_up(Game *game, char closeup[POV_HGHT][POV_WDTH + 1]);
+
+/**
+ * @brief Sets the last close up of a specific player
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param closeup New last close up 
+ * @param pos Position of the array of players
+ * @return ERROR if there was any mistake, OK otherwise
+ */
+Status game_set_last_close_up_at_pos(Game *game, char closeup[POV_HGHT][POV_WDTH + 1], int pos);
+
+/**
  * @brief It gets the last command from the game struct
  * @author Tiago Oselka
  *

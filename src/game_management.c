@@ -214,7 +214,7 @@ Status game_management_load_classes(Game *game, char *filename){
   Bool movable;
   Id class_id, dependency, open;
   Class *class = NULL;
-  int use_value, luck;
+  int i, use_value, luck;
   Status st = OK;
 
   if(!game || !filename) return ERROR;
@@ -223,7 +223,7 @@ Status game_management_load_classes(Game *game, char *filename){
 
   /*
   reads data from the file acording to the next structure:
-  #k:<id>|<tag>|<name>|<description>|<use_value>|<movable>|<dependency>|<open>|<luck>
+  #k:<id>|<tag>|<name>|<description>|<use_value>|<movable>|<dependency>|<open>|<luck>|<close_up> 
   */
   while(fgets(line, WORD_SIZE, file)){
     if (strncmp("#k:", line, 3) != 0) continue;
@@ -259,6 +259,17 @@ Status game_management_load_classes(Game *game, char *filename){
     if (object_class_set_dependency(class, dependency) == ERROR) st = ERROR;
     if (object_class_set_open(class, open) == ERROR) st = ERROR;
     if (object_class_set_luck(class, luck) == ERROR) st = ERROR;
+
+    for (i = 0; i < POV_HGHT && st == OK; i++) {
+      printf("(%d)",(int)st);
+      toks = strtok(NULL, "|");
+
+      if (toks) {
+        if (object_class_set_closeup_at_pos(class, i, toks) == ERROR) st = ERROR;
+      } else {
+        if (object_class_set_closeup_at_pos(class, i, " ") == ERROR) st = ERROR;
+      }
+    }
 
     if (st == ERROR) {
       object_class_destroy(class);
@@ -355,7 +366,7 @@ Status game_management_load_characters(Game *game, char *filename) {
   char message[WORD_SIZE] = "";
   char *toks = NULL;
   Id id_charr = NO_ID, id_location = NO_ID, following = NO_ID, armor = NO_ID, weapon = NO_ID;
-  int health = 0;
+  int i, health = 0;
   Role role = NO_ROLE;
   Character *charr = NULL;
   Status st = OK;
@@ -366,7 +377,7 @@ Status game_management_load_characters(Game *game, char *filename) {
 
   /*
   reads data from the file acording to the next structure:
-  #c:<id>|<name>|<role>|<graphic description>|<location>|<health>|<message>
+  #c:<id>|<name>|<role>|<graphic description>|<location>|<health>|<message>|<closeup>
   */
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#c:", line, 3) == 0) {
@@ -406,6 +417,16 @@ Status game_management_load_characters(Game *game, char *filename) {
       if (character_set_armor(charr, armor) == ERROR) st = ERROR;
       if (character_set_weapon(charr, weapon) == ERROR) st = ERROR;
       if (character_set_message(charr, message) == ERROR) st = ERROR;
+
+      for (i = 0; i < POV_HGHT && st == OK; i++) {
+        toks = strtok(NULL, "|");
+  
+        if (toks) {
+          if (character_set_closeup_at_pos(charr, i, toks) == ERROR) st = ERROR;
+        } else {
+          if (character_set_closeup_at_pos(charr, i, " ") == ERROR) st = ERROR;
+        }
+      }
       
       if(st == ERROR) {
         character_destroy(charr);
@@ -447,7 +468,7 @@ Status game_management_load_players(Game *game, char *filename) {
 
   /*
   reads data from the file acording to the next structure:
-  #p:<id>|<name>|<role>|<graphic description>|<location>|<health>|<armor>|<weapon>|<backpack size>|<num backpack items>|<item1>|<item2>|...
+  #p:<id>|<name>|<role>|<graphic description>|<location>|<health>|<armor>|<weapon>|<backpack size>|<num backpack items>|<item1>|<item2>|...|<close up>|
   */
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#p:", line, 3) != 0) continue;
@@ -535,6 +556,16 @@ Status game_management_load_players(Game *game, char *filename) {
 
       if(command_set_code(cmd, cmd_code) == ERROR) st = ERROR;
       if (command_set_status(cmd, cmd_status) == ERROR) st = ERROR;
+    }
+
+    for (i = 0; i < POV_HGHT && st == OK; i++) {
+      toks = strtok(NULL, "|");
+
+      if (toks) {
+        if (player_set_closeup_at(play, i, toks) == ERROR) st = ERROR;
+      } else {
+        if (player_set_closeup_at(play, i, " ") == ERROR) st = ERROR;
+      }
     }
   }
 

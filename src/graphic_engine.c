@@ -29,13 +29,7 @@
  * @brief Width of the description area of the screen
  *
  */
-#define WIDTH_DES 42
-
-/**
- * @brief Width of the banner area of the screen
- *
- */
-#define WIDTH_BAN 23
+#define WIDTH_MSG 42
 
 /**
  * @brief Height of the map area of the screen
@@ -44,16 +38,10 @@
 #define HEIGHT_MAP 32
 
 /**
- * @brief Height of the banner area of the screen
+ * @brief Height of the message area of the screen
  *
  */
-#define HEIGHT_BAN 1
-
-/**
- * @brief Height of the help area of the screen
- *
- */
-#define HEIGHT_HLP 2
+#define HEIGHT_MSG 15
 
 /**
  * @brief Height of the feedback area of the screen
@@ -127,7 +115,7 @@
  * 
  */
 struct _Graphic_engine {
-  Area *map, *descript, *banner, *help, *feedback;
+  Area *map, *descript, *player_inf, *pov, *message, *feedback;
 };
 
 /*
@@ -395,8 +383,10 @@ void graphic_engine_map_print_square(Game *game, Graphic_engine *ge, char lines[
         charr = game_get_character_from_id(game, charr_id);
         if(!charr) continue;
 
-        count += sprintf(line, "%-*.*s", CHR_GD_SZ, CHR_GD_SZ, character_get_gdesc(charr));
-        strcat(lines[3], line);
+        if(character_get_health(charr) > 0){
+          count += sprintf(line, "%-*.*s", CHR_GD_SZ, CHR_GD_SZ, character_get_gdesc(charr));
+          strcat(lines[3], line);
+        }
       }
       if(space_get_num_characters(space) > NUM_CHARR_PRINT){
         strcat(lines[3], "...");
@@ -592,17 +582,19 @@ Graphic_engine *graphic_engine_create() {
 
   if (ge) return ge;
 
-  screen_init(HEIGHT_MAP + HEIGHT_BAN + HEIGHT_HLP + HEIGHT_FDB + 4,
-              WIDTH_MAP + WIDTH_DES + 3);
+  screen_init(HEIGHT_MAP + HEIGHT_MSG + 3, POV_WDTH + WIDTH_MSG + 3);
   ge = (Graphic_engine *)malloc(sizeof(Graphic_engine));
   if (ge == NULL) return NULL;
+  
+  ge->player_inf = screen_area_init(1, 1, POV_WDTH, (HEIGHT_MAP + HEIGHT_MSG + 1)-((POV_HGHT + 1)+ (HEIGHT_FDB + 1)));
+  ge->pov = screen_area_init(1, (HEIGHT_MAP + HEIGHT_MSG + 1)-((POV_HGHT + 1)+ (HEIGHT_FDB + 1)) + 1, POV_WDTH, POV_HGHT);
+  ge->feedback = screen_area_init(1, (HEIGHT_MAP + HEIGHT_MSG + 1)-HEIGHT_FDB, POV_WDTH, HEIGHT_FDB);
 
-  ge->map = screen_area_init(1, 1, WIDTH_MAP, HEIGHT_MAP);
-  ge->descript = screen_area_init(WIDTH_MAP + 2, 1, WIDTH_DES, HEIGHT_MAP);
-  ge->banner = screen_area_init((int)((WIDTH_MAP + WIDTH_DES + 1 - WIDTH_BAN) / 2), HEIGHT_MAP + 2, WIDTH_BAN, HEIGHT_BAN);
-  ge->help = screen_area_init(1, HEIGHT_MAP + HEIGHT_BAN + 2, WIDTH_MAP + WIDTH_DES + 1, HEIGHT_HLP);
-  ge->feedback = screen_area_init(1, HEIGHT_MAP + HEIGHT_BAN + HEIGHT_HLP + 3, WIDTH_MAP + WIDTH_DES + 1, HEIGHT_FDB);
-
+  ge->map = screen_area_init(POV_WDTH + 2, 1, WIDTH_MAP, HEIGHT_MAP);
+  ge->descript = screen_area_init(POV_WDTH + WIDTH_MAP + 3, 1, WIDTH_MSG - WIDTH_MAP - 1, HEIGHT_MAP);
+  
+  ge->message = screen_area_init(POV_WDTH + 2, HEIGHT_MAP + 2, WIDTH_MSG, HEIGHT_MSG);
+  
   return ge;
 }
 
@@ -612,8 +604,9 @@ void graphic_engine_destroy(Graphic_engine *ge) {
 
   screen_area_destroy(ge->map);
   screen_area_destroy(ge->descript);
-  screen_area_destroy(ge->banner);
-  screen_area_destroy(ge->help);
+  screen_area_destroy(ge->pov);
+  screen_area_destroy(ge->player_inf);
+  screen_area_destroy(ge->message);
   screen_area_destroy(ge->feedback);
 
   screen_destroy();
@@ -630,121 +623,142 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   int i, aux_health, turn, index_convert[9] = {0,1,2,7,-1,3,6,5,4};
   Object *aux_obj = NULL;
   Character *aux_charr = NULL;
-  Player *aux_player = NULL;
-  Id aux_obj_id = NO_ID, aux_charr_id = NO_ID;
+  Space *sp = NULL;
+  Player *act_player = NULL, *aux_player = NULL;
+  Role role = NO_ROLE;
+  Id aux_obj_id = NO_ID, aux_charr_id = NO_ID, weapon = NO_ID, armor = NO_ID;
+  Bool friendly = FALSE;
+  Inventory *inventory = NULL;
+
+  id_act = game_get_player_location(game);
+  if(id_act == NO_ID) return;
+  sp = game_get_space(game, id_act);
+  act_player = game_get_player(game);
+  if(!act_player || !sp) return;
+  role = player_get_role(act_player);
+  if(role == NO_ROLE) return;
 
   /* Paint the in the map area */
   screen_area_clear(ge->map);
-  if ((id_act = game_get_player_location(game)) != NO_ID) {
-    graphic_engine_get_surroundings(game, id_act,neighbors);
-    for(i=0;i<9;i++){
-      if(i==4){
-        map_spaces[i] = id_act;
-        continue;
-      }
-      map_spaces[i] = neighbors[index_convert[i]];
+  graphic_engine_get_surroundings(game, id_act,neighbors);
+  for(i=0;i<9;i++){
+    if(i==4){
+      map_spaces[i] = id_act;
+      continue;
     }
-    graphic_engine_map_print_map(game,ge,map_spaces);
+    map_spaces[i] = neighbors[index_convert[i]];
   }
+  graphic_engine_map_print_map(game,ge,map_spaces);
 
-  /* Paint in the description area */
+  /* Paint the description area */
   screen_area_clear(ge->descript);
+
+  /*PLAYERS*/
+  sprintf(str, " Quest-mates:");
+  screen_area_puts(ge->descript, str);
+
+  for(i = 0; i<game_get_n_players(game);i++){
+    aux_player = game_get_player_at(game, i);
+    if(!aux_player) continue;
+
+    game_get_friendly(role, player_get_role(aux_player), &friendly);
+    if(friendly == FALSE) continue;
+    
+    aux_health = player_get_health(aux_player);
+    if(aux_health < 0) continue;
+
+    sprintf(str, "  %-*.*s %*.*s: %-*d (%d)", DESC_NAMES_SZ,DESC_NAMES_SZ,player_get_name(aux_player), PLY_GD_SZ, PLY_GD_SZ, player_get_gdesc(aux_player), DESC_ID_SZ, (int)player_get_location(aux_player), aux_health);
+    screen_area_puts(ge->descript, str);
+  }
+  sprintf(str, " ");
+  screen_area_puts(ge->descript, str);
 
   /*OBJECTS*/
   sprintf(str, " Objects:");
   screen_area_puts(ge->descript, str);
-  for (i = 0; i < game_get_n_objects(game); i++) {
-    aux_obj = game_get_object_at_pos(game, i);
-    if (!aux_obj) continue;
-
-    aux_obj_id = object_get_id(aux_obj);
+  for(i=0; i<space_get_num_objects(sp);i++){
+    aux_obj_id = space_get_object_at_pos(sp, i);
     if (aux_obj_id == NO_ID) continue;
 
-    if (player_has_object(game_get_player(game), aux_obj_id) || game_get_object_location(game,aux_obj_id) == NO_ID) {
-      continue;
-    }
+    aux_obj = game_get_object(game, aux_obj_id);
+    if(!aux_obj) continue;
 
-    sprintf(str, "  %-*.*s: %-*d", DESC_NAMES_SZ,DESC_NAMES_SZ, object_get_name(aux_obj), DESC_ID_SZ,(int)game_get_object_location(game, aux_obj_id));
+    sprintf(str, "  %-*.*s", DESC_NAMES_SZ,DESC_NAMES_SZ, object_get_name(aux_obj));
     screen_area_puts(ge->descript, str);
   }
-
   sprintf(str, " ");
   screen_area_puts(ge->descript, str);
   
   /*CHARACTERS*/
   sprintf(str, " Characters:");
   screen_area_puts(ge->descript, str);
-  for (i = 0; i < game_get_n_characters(game); i++) {
-    aux_charr = game_get_character_at_pos(game, i);
-    if (!aux_charr) continue;
-
-    aux_charr_id = character_get_id(aux_charr);
+  for(i=0; i<space_get_num_characters(sp);i++){
+    aux_charr_id = space_get_character_at_pos(sp, i);
     if (aux_charr_id == NO_ID) continue;
+
+    aux_charr = game_get_character_from_id(game, aux_charr_id);
+    if(!aux_charr) continue;
 
     aux_health = character_get_health(aux_charr);
     if (aux_health <= 0) continue;
 
-    sprintf(str, "  %-*.*s: %-*d (%d)", DESC_NAMES_SZ,DESC_NAMES_SZ, character_get_gdesc(aux_charr),DESC_ID_SZ, (int)game_get_character_location(game, aux_charr_id), aux_health);
+    sprintf(str, "  %-*.*s (%d)", DESC_NAMES_SZ,DESC_NAMES_SZ, character_get_gdesc(aux_charr), aux_health);
     screen_area_puts(ge->descript, str);
   }
 
-  sprintf(str, " ");
-  screen_area_puts(ge->descript, str);
-
-  /*PLAYERS*/
-  sprintf(str, " Players:");
-  screen_area_puts(ge->descript, str);
-  for(i = 0; i<game_get_n_players(game);i++){
-    aux_player = game_get_player_at(game, i);
-    if(!aux_player) continue;
-    
-    aux_health = player_get_health(aux_player);
-    if(aux_health < 0) continue;
-
-    sprintf(str, "  %-*.*s: %-*d (%d)", DESC_NAMES_SZ,DESC_NAMES_SZ,player_get_name(aux_player), DESC_ID_SZ, (int)player_get_location(aux_player), aux_health);
-    screen_area_puts(ge->descript, str);
-  }
-
-  sprintf(str, " ");
-  screen_area_puts(ge->descript, str);
+  /* Paint the player info area */
+  screen_area_clear(ge->player_inf);
 
   /*INVENTORY*/
   sprintf(str, " Inventory:");
-  screen_area_puts(ge->descript, str);
-  for (i = 0; i < game_get_n_objects(game); i++) {
+  screen_area_puts(ge->player_inf, str);
 
-    aux_obj = game_get_object_at_pos(game, i);
-    if (!aux_obj) continue;
+  player_get_armor(act_player, &armor);
+  player_get_weapon(act_player, &weapon);
 
-    aux_obj_id = object_get_id(aux_obj);
-    if (aux_obj_id == NO_ID) continue;
+  inventory = player_get_backpack(act_player);
+  if(inventory){
+    for (i = 0; i < inventory_get_num_objects(inventory); i++) {
 
-    if (player_has_object(game_get_player(game), aux_obj_id)){
+      aux_obj_id = inventory_get_object_at_pos(inventory, i);
+      if (aux_obj_id == NO_ID || aux_obj_id ==  armor|| aux_obj_id == weapon) continue;
+
+      aux_obj = game_get_object(game, aux_obj_id);
+      if(!aux_obj) continue;
+  
       sprintf(str, "  %-*.*s", DESC_NAMES_SZ,DESC_NAMES_SZ, object_get_name(aux_obj));
-      screen_area_puts(ge->descript, str);
+      screen_area_puts(ge->player_inf, str); 
     }
-
-    
   }
-
   sprintf(str, " ");
-  screen_area_puts(ge->descript, str);
+  screen_area_puts(ge->player_inf, str);
 
-  /*MESSAGE*/
-  sprintf(str, " Message:");
-  screen_area_puts(ge->descript, str);
+  if(armor == NO_ID) sprintf(str, " Armor: (no armor) DEF: 0");
+  else {
+    aux_obj = game_get_object(game, armor);
+    if(aux_obj) sprintf(str, " Armor: %*.*s DEF: %d", DESC_NAMES_SZ,DESC_NAMES_SZ,object_get_name(aux_obj), (int)object_get_use_value(aux_obj));
+  }
+  screen_area_puts(ge->player_inf, str);
+
+  if(weapon == NO_ID) sprintf(str, " Weapon: (no weapon) ATK: 0");
+  else {
+    aux_obj = game_get_object(game, weapon);
+    if(aux_obj) sprintf(str, " Weapon: %*.*s ATK: %d", DESC_NAMES_SZ,DESC_NAMES_SZ,object_get_name(aux_obj), (int)object_get_use_value(aux_obj));
+  }
+  screen_area_puts(ge->player_inf, str);
+
+  /* Paint the message area */
+  screen_area_clear(ge->message);
   sprintf(str, "  %s", game_get_last_message(game));
-  screen_area_puts(ge->descript, str);
+  screen_area_puts(ge->message, str);
 
-  /* Paint in the banner area */
-  screen_area_puts(ge->banner, "    The anthill game ");
-
-  /* Paint in the help area */
-  screen_area_clear(ge->help);
-  sprintf(str, " The commands you can use are:  move or m (N,S,E,W), exit or e, take or t, ");
-  screen_area_puts(ge->help, str);
-  sprintf(str," drop or d, attack or at, chat or c, inspect or i, recruit or r, abandon or ab and use or u");
-  screen_area_puts(ge->help, str);
+  /* Paint in the close up area */
+  screen_area_clear(ge->pov);
+  for(i=0;i<POV_HGHT;i++){
+    if(!game_get_last_close_up_at(game, i)) sprintf(str, "%*s", POV_WDTH, "");
+    else sprintf(str, "%.*s", POV_WDTH, game_get_last_close_up_at(game, i));
+    screen_area_puts(ge->pov, str);
+  }
 
   /* Paint in the feedback area */
   for(i = 1; i<=NUM_CMDS; i++) {

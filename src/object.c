@@ -24,6 +24,7 @@ struct _Class {
   Tag tag;                    /*!< Represents the type of object that it is */
   char name[WORD_SIZE + 1];   /*!< Name of the space */
   char desc[OBJ_DESC_MX + 1]; /*!< Description of the class */
+  char close_up[POV_HGHT][POV_WDTH + 1]; /*!< Close up aspect of the object*/ 
   int use_value; /*!< Value for its specific action (damage of a wapon, defence of an armor...) */
   Bool movable;  /*!< True if the objects of thie class are movable or False if not */
   Id depedency;  /*!< Id of the object class that is needed to use this one */
@@ -132,6 +133,49 @@ Status object_class_set_desc(Class *class, char *desc) {
   if (!class || !desc) return ERROR;
 
   if (sprintf(class->desc, "%.*s", OBJ_DESC_MX, desc) < 0) return ERROR;
+  return OK;
+}
+
+/*Gets the close up aspect of a class*/
+char *object_class_get_closeup_at_pos(Class *class, int pos) {
+  if(!class) return NULL;
+
+  if(pos<0 || pos>=POV_HGHT) return NULL;
+
+  return class->close_up[pos];
+}
+
+/*Gets the full close up of a class*/
+Status object_class_get_closeup(Class *class, char closeup[POV_HGHT][POV_WDTH + 1]){
+  int i;
+
+  if(!class || !closeup) return ERROR;
+
+  for(i=0;i<POV_HGHT;i++){
+    sprintf(closeup[i], "%.*s", POV_WDTH, class->close_up[i]);
+  }
+
+  return OK;
+}
+
+/*Sets the close up aspect of a class*/
+Status object_class_set_closeup_at_pos(Class *class, int pos, char *closeup) {
+  int i;
+
+  if(!class) return ERROR;
+
+  if(pos<0 || pos>=POV_HGHT) return ERROR;
+
+  if(!closeup) class->close_up[pos][0] = '\0';
+
+  sprintf(class->close_up[pos], "%*.*s", POV_WDTH,POV_WDTH, closeup);
+
+  /*We prevent from saving a line break in the gdesc*/
+  for (i = 0; i < POV_WDTH; i++) {
+    if ((class->close_up[pos][i] == '\n') || (class->close_up[pos][i] == '\r'))
+      class->close_up[pos][i] = ' ';
+  }
+
   return OK;
 }
 
@@ -315,6 +359,20 @@ char *object_get_desc(Object *obj) {
   if (!obj) return NULL;
 
   return object_class_get_desc(obj->class);
+}
+
+/*Gets the close up aspect of a class*/
+char *object_get_closeup_at_pos(Object *obj, int pos) {
+  if(!obj) return NULL;
+
+  return object_class_get_closeup_at_pos(obj->class, pos);
+}
+
+/*Gets the full close up of an object*/
+Status object_get_closeup(Object *obj, char closeup[POV_HGHT][POV_WDTH +1]) {
+  if(!obj) return ERROR;
+
+  return object_class_get_closeup(obj->class, closeup);
 }
 
 /*Gets the use_value of an object*/

@@ -274,4 +274,35 @@ char *player_get_gdesc(Player *play);
  */
 Status player_set_gdesc(Player *play, char *gdesc);
 
+/**
+ * @brief Gets a line of the close up aspcet of a player
+ * @author Juan Ibáñez
+ * 
+ * @param play Pointer to the player
+ * @param pos Number of the line wanted
+ * @return Group of strings with the visuals of the aspect
+ */
+char *player_get_closeup_at(Player *play, int pos);
+
+/**
+ * @brief Gets the full close up aspect of the player
+ * @author Juan Ibáñez
+ * 
+ * @param play Pointer to the player
+ * @param closeup Group of strings to store the close up
+ * @return OK if everything went well, ERROR otherwise
+ */
+Status player_get_closeup(Player *play, char closeup[POV_HGHT][POV_WDTH + 1]);
+
+/**
+ * @brief Sets a line of the close up aspect of the player
+ * @author Juan Ibáñez
+ * 
+ * @param play Pointer to the player
+ * @param pos Number of the line wanted to replace
+ * @param closeup New line
+ * @return OK if everything went well, ERROR otherwise
+ */
+Status player_set_closeup_at(Player *play, int pos, char *closeup);
+
 #endif

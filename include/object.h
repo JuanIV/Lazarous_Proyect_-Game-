@@ -128,6 +128,35 @@ char *object_class_get_desc(Class *class);
 Status object_class_set_desc(Class *class, char *desc);
 
 /**
+ * @brief Gets a line of the close up aspect of a class
+ * @author Juan Ibáñez
+ * 
+ * @param pos Number of the line wanted
+ * @return String with the visuals
+ */
+char *object_class_get_closeup_at_pos(Class *class, int pos);
+
+/**
+ * @brief Gets the full close up aspect of a class
+ * @author Juan Ibáñez
+ * 
+ * @param class Pointer to the class
+ * @param closeup Group of strings to store the close up
+ * @return ERROR if class or desc doesnt exist, OK otherwise
+ */
+Status object_class_get_closeup(Class *class, char closeup[POV_HGHT][POV_WDTH + 1]);
+
+/**
+ * @brief Sets a line of the close up aspect of a class
+ * @author Juan Ibáñez
+ * 
+ * @param pos Number of the line wanted
+ * @param closeup New line
+ * @return OK if everything went well, ERROR otherwise
+ */
+Status object_class_set_closeup_at_pos(Class *class, int pos, char *closeup);
+
+/**
  * @brief Gets the use value of a class
  * @author Juan Ibáñez
  *
@@ -331,6 +360,26 @@ char *object_get_name(Object *obj);
  * @return String with the description of the object
  */
 char *object_get_desc(Object *obj);
+
+/**
+ * @brief Gets the close up aspect of an object
+ * @author Juan Ibáñez
+ * 
+ * @param obj Pointer to the object
+ * @param pos Number of the line wanted
+ * @return String with the visuals
+ */
+char *object_get_closeup_at_pos(Object *obj, int pos);
+
+/**
+ * @brief Gets the full close up aspect of an object
+ * @author Juan Ibáñez
+ * 
+ * @param obj Pointer to the object
+ * @param closeup Group of strings to store the close up
+ * @return Pointer to a group of strings with the visuals
+ */
+Status object_get_closeup(Object *obj, char closeup[POV_HGHT][POV_WDTH +1]);
 
 /**
  * @brief Gets the use_value of an object

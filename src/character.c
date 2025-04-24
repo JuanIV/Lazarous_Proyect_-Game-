@@ -24,6 +24,7 @@ struct _Character {
   Role role;                   /*!< Role of the character in the game*/
   char name[WORD_SIZE + 1];    /*!< Name of the character */
   char gdesc[CHR_GD_SZ + 1];   /*!< Graphic description of the character*/
+  char close_up[POV_HGHT][POV_WDTH + 1]; /*!< Close up aspect of the character*/ 
   char message[MESG_SIZE + 1]; /*!< Message of the character*/
   Id following;                /*!< Id of the player it's following*/
   Id weapon;                   /*!< Id of the object that serves as weapon */
@@ -120,6 +121,49 @@ Status character_set_gdesc(Character *charr, char *gdesc) {
   if (!charr || !gdesc) return ERROR;
 
   sprintf(charr->gdesc, "%.*s", CHR_GD_SZ, gdesc);
+
+  return OK;
+}
+
+/*Gets the close up aspect of a character*/
+char *character_get_closeup_at_pos(Character *charr, int pos) {
+  if(!charr) return NULL;
+
+  if(pos<0 || pos>=POV_HGHT) return NULL;
+
+  return charr->close_up[pos];
+}
+
+/*Gets the full close up of a character*/
+Status character_get_closeup(Character *charr, char closeup[POV_HGHT][POV_WDTH + 1]){
+  int i;
+
+  if(!charr || !closeup) return ERROR;
+
+  for(i=0;i<POV_HGHT;i++){
+    sprintf(closeup[i], "%.*s", POV_WDTH, charr->close_up[i]);
+  }
+
+  return OK;
+}
+
+/*Sets the close up aspect of a character*/
+Status character_set_closeup_at_pos(Character *charr, int pos, char *closeup) {
+  int i;
+
+  if(!charr) return ERROR;
+
+  if(pos<0 || pos>=POV_HGHT) return ERROR;
+
+  if(!closeup) charr->close_up[pos][0] = '\0';
+
+  sprintf(charr->close_up[pos], "%*.*s", POV_WDTH,POV_WDTH, closeup);
+
+  /*We prevent from saving a line break in the gdesc*/
+  for (i = 0; i < POV_WDTH; i++) {
+    if ((charr->close_up[pos][i] == '\n') || (charr->close_up[pos][i] == '\r'))
+      charr->close_up[pos][i] = ' ';
+  }
 
   return OK;
 }

@@ -31,6 +31,7 @@
  */
 struct _InterfaceData {
   char last_msg[MESG_SIZE + 1];			/*!< Last message to be shown on screen*/
+  char last_closeup[POV_HGHT][POV_WDTH + 1]; /*!< Last close up to be shown*/
   Command *last_cmds[NUM_CMDS];					/*!< Last command used*/
 };
 
@@ -108,6 +109,10 @@ InterfaceData *game_interface_data_create() {
   if(!(interfaceData = (InterfaceData*) calloc(1, sizeof(InterfaceData)))) return NULL;
 
   interfaceData->last_msg[0] = '\0';
+
+  for(i=0;i<POV_HGHT;i++){
+    interfaceData->last_closeup[i][0] = '\0';
+  }
 
   for(i = 0; i < NUM_CMDS; i++) {
     if (!(interfaceData->last_cmds[i] = command_create())) {
@@ -992,6 +997,49 @@ Status game_set_last_message_at_pos(Game *game, int play_pos, char *message) {
   sprintf((game->data[play_pos])->last_msg, "%.*s", MESG_SIZE, message);
 
   return OK;
+}
+
+/**
+ * ***************  Close up management  ***************
+*/
+
+/*Gets a line from the last close up shown*/
+char *game_get_last_close_up_at(Game *game, int pos) {
+  if(!game) return NULL;
+
+  if(pos<0 || pos>=POV_HGHT) return NULL;
+
+  return (game->data[game->turn])->last_closeup[pos];
+}
+
+/*Sets the last close up*/
+Status game_set_last_close_up(Game *game, char closeup[POV_HGHT][POV_WDTH + 1]) {
+  int i;
+
+  if(!game || !closeup) return ERROR;
+
+  if(game->turn < 0 || game->turn >= game->n_players) return ERROR;
+
+  for(i=0;i<POV_HGHT;i++){
+    sprintf(game->data[game->turn]->last_closeup[i], "%.*s", POV_WDTH, closeup[i]);
+  }
+
+  return OK;  
+}
+
+/*Sets the last close up of a specific player*/
+Status game_set_last_close_up_at_pos(Game *game, char closeup[POV_HGHT][POV_WDTH + 1], int pos) {
+  int i;
+
+  if(!game || !closeup) return ERROR;
+
+  if(pos < 0 || pos >= game->n_players) return ERROR;
+
+  for(i=0;i<POV_HGHT;i++){
+    sprintf(game->data[pos]->last_closeup[i], "%.*s", POV_WDTH, closeup[i]);
+  }
+
+  return OK;  
 }
 
 /**

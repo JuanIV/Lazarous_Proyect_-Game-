@@ -33,6 +33,7 @@ struct _Player {
   char name[WORD_SIZE + 1]; /*!< Name of the player */
   Role role;                /*!< Role of the player in the game*/
   char gdesc[PLY_GD_SZ + 1];/*!< Graphic description of the player*/
+  char close_up[POV_HGHT][POV_WDTH + 1]; /*!< Close up aspect of the player*/ 
   Id location;              /*!< Id number of the space where the player is currently located*/
   int health;               /*!< The player's health */
   Id armor;                 /*!< Id of the object that serves as armor */
@@ -249,6 +250,49 @@ Status player_set_gdesc(Player *play, char *gdesc) {
   if (!play || !gdesc) return ERROR;
 
   sprintf(play->gdesc, "%.*s", PLY_GD_SZ, gdesc);
+
+  return OK;
+}
+
+/*Gets a line from the close up of a player*/
+char *player_get_closeup_at(Player *play, int pos) {
+  if(!play) return NULL;
+
+  if(pos<0 || pos>=POV_HGHT) return NULL;
+
+  return play->close_up[pos];
+}
+
+/*Gets the full close up of a player*/
+Status player_get_closeup(Player *play, char closeup[POV_HGHT][POV_WDTH + 1]){
+  int i;
+
+  if(!play || !closeup) return ERROR;
+
+  for(i=0;i<POV_HGHT;i++){
+    sprintf(closeup[i], "%.*s", POV_WDTH, play->close_up[i]);
+  }
+
+  return OK;
+}
+
+/*Sets a line of the close up of a player*/
+Status player_set_closeup_at(Player *play, int pos,char *closeup) {
+  int i;
+
+  if(!play) return ERROR;
+
+  if(pos<0 || pos>=POV_HGHT) return ERROR;
+
+  if(!closeup) play->close_up[pos][0] = '\0';
+
+  sprintf(play->close_up[pos], "%*.*s", POV_WDTH,POV_WDTH, closeup);
+
+  /*We prevent from saving a line break in the gdesc*/
+  for (i = 0; i < POV_WDTH; i++) {
+    if ((play->close_up[pos][i] == '\n') || (play->close_up[pos][i] == '\r'))
+      play->close_up[pos][i] = ' ';
+  }
 
   return OK;
 }

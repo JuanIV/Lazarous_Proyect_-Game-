@@ -191,11 +191,19 @@ void game_actions_close_link(Game *game);
 /*Sets a given command as last command and executes its corresponding action*/
 Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code) {
   CommandCode cmd;
+  Player *player = NULL;
+  char closeup[POV_HGHT][POV_WDTH +1];
 
   if(!game || !(*game) || !command || !cmd_code) return ERROR;
 
+  player = game_get_player(*game);
+
   /*The message shown must be blank except in case it is required by the last command*/
   if (game_set_last_message(*game, " ") == ERROR) return ERROR;
+
+  /*The default close up will be the players face*/
+  if(player_get_closeup(player, closeup) == ERROR) return ERROR;
+  if (game_set_last_close_up(*game, closeup) == ERROR) return ERROR;
 
   if (game_set_last_status(*game, ERROR) == ERROR) return ERROR;
 
@@ -398,11 +406,12 @@ void game_actions_move(Game *game) {
 void game_actions_take(Game *game) {
   Id obj_id = NO_ID, obj_location = NO_ID;
   Id play_location = NO_ID;
+  Object *obj = NULL;
   Player *player = NULL;
   Space *cur_space = NULL;
   Command *last_cmd = NULL;
   Bool movable = FALSE;
-  char *name = NULL;
+  char *name = NULL, closeup[POV_HGHT][POV_WDTH +1];
 
   if (!game) return; 
   
@@ -416,6 +425,9 @@ void game_actions_take(Game *game) {
 
   obj_id = game_get_obj_id_from_name(game, name);
   if (obj_id == NO_ID) return;
+
+  obj = game_get_object(game, obj_id);
+  if(!obj) return;
   
   /*Checks whether the object is movable or not*/
   if (object_get_movable(game_get_object(game, obj_id), &movable) == ERROR) return;
@@ -435,6 +447,10 @@ void game_actions_take(Game *game) {
   if (player_add_object(player, obj_id) == ERROR) return;
 
   if (space_remove_object(cur_space, obj_id) == ERROR) return;
+
+  if(object_get_closeup(obj, closeup) == ERROR) return;
+
+  if (game_set_last_close_up(game, closeup) == ERROR) return;
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -633,7 +649,7 @@ void game_actions_chat(Game *game) {
   Command *last_cmd = NULL;
   Bool friendly = FALSE;
   Id charr_id = NO_ID, player_loc = NO_ID;
-  char *name = NULL;
+  char *name = NULL, closeup[POV_HGHT][POV_WDTH +1];
 
   if (!game) return;
 
@@ -666,6 +682,11 @@ void game_actions_chat(Game *game) {
   }
 
   if (game_set_last_message(game, character_get_message(charr)) == ERROR) return;
+
+  if(character_get_closeup(charr,closeup) == ERROR) return;
+
+  if (game_set_last_close_up(game, closeup) == ERROR) return;
+
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
@@ -674,7 +695,7 @@ void game_actions_inspect(Game *game){
   char *name = NULL;
   Id obj_id = NO_ID;
   Object *obj = NULL;
-  char *desc = NULL;
+  char *desc = NULL, closeup[POV_HGHT][POV_WDTH +1];
 
   if (!game) return; 
   
@@ -692,6 +713,10 @@ void game_actions_inspect(Game *game){
 
   desc = object_get_desc(obj);
   if(!desc) return;
+
+  if(object_get_closeup(obj,closeup) == ERROR) return;
+
+  if (game_set_last_close_up(game, closeup) == ERROR) return;
 
   game_set_last_message(game, desc);
 
