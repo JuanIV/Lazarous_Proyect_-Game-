@@ -24,16 +24,23 @@
  */
 #define MIN_ESPECIF 2
 
+typedef struct {
+  char msg[MESG_SIZE + 1];     /*!< A message to be shown on screen*/
+  Bool visible;                  /*!< Number of turns the message should be shown for*/
+  Id sender;                    /*!< The id of the sender*/
+  Type sender_type;           /*!< A char that represents if the msg was sent by a player ('p'), character ('c'), object ('o') or game ('g')*/
+} Message;
+
 /**
  * @brief Struct that stores the information of the interface data of each player: last message and last 3 commands
  * @author Tiago Oselka
  * 
  */
-struct _InterfaceData {
-  char last_msg[MESG_SIZE + 1];			/*!< Last message to be shown on screen*/
-  char last_closeup[POV_HGHT][POV_WDTH + 1]; /*!< Last close up to be shown*/
-  Command *last_cmds[NUM_CMDS];					/*!< Last command used*/
-};
+typedef struct {
+  Message *messages[NUM_MSGS];             			/*!< Messages to be shown on screen*/
+  char last_closeup[POV_HGHT][POV_WDTH + 1];    /*!< Last close up to be shown*/
+  Command *last_cmds[NUM_CMDS];				        	/*!< Last command used*/
+} InterfaceData;
 
 /**
  * @brief Struct that stores the information of a game: players, turn, spaces, links, objects, characters and information related to their commands  
@@ -72,7 +79,33 @@ struct _Game {
 Id game_get_space_id_at(Game *game, int position);
 
 /**
+ * @brief It creates a Message, initializing the spaces and its other members
+ * @author Tiago Oselka
+ * 
+ * @return a new Message pointer
+ */
+Message *game_message_create();
+
+/**
+ * @brief it destroys a Message
+ * 
+ * @param interfaceData a pointer to the Message
+ * @return Ok if everything went well, ERROR if there was any mistake
+ */
+Status game_message_destroy(Message *message);
+
+/**
+ * @brief Prints the content of a message
+ * @author Tiago Oselka
+ * 
+ * @param message Pointer to the Message
+ * @return Ok if everything went well, ERROR if there was any mistake 
+ */
+Status game_message_print(Message *message);
+
+/**
  * @brief It creates a new interface data, initializing the spaces and its other members
+ * @author Tiago Oselka
  * 
  * @return a new interfaceData pointer
  */
@@ -92,6 +125,7 @@ Status game_interface_data_destroy(InterfaceData *interfaceData);
  * @param interfaceData a pointer to the interface data
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
+Status game_interface_data_print(InterfaceData *interfaceData);
 /**************** Implementation of private functions ****************** */
 
 Id game_get_space_id_at(Game *game, int position) {
@@ -102,13 +136,54 @@ Id game_get_space_id_at(Game *game, int position) {
   return space_get_id(game->spaces[position]);
 }
 
+Message *game_message_create() {
+  Message *message = NULL;
+
+  if(!(message = (Message*) calloc(1, sizeof(Message)))) return NULL;
+
+  message->msg[0] = '\0';
+  message->visible = FALSE;
+  message->sender = NO_ID;
+  message->sender_type = NO_TYPE;
+
+  return message;
+}
+
+Status game_message_destroy(Message *message) {
+  if (!message) return ERROR;
+
+  free(message);
+
+  return OK;
+}
+
+Status game_message_print(Message *message) {
+  if (!message) return ERROR;
+
+  fprintf(stdout, "--> Message: %s\n", message->msg);
+  if(message->visible == TRUE) {
+    fprintf(stdout, "--> Message will be shown\n");
+  }else {
+    fprintf(stdout, "--> Message will not be shown");
+  }
+  fprintf(stdout, "--> Message sender Id: %ld\n", message->sender);
+  fprintf(stdout, "--> Message sender type: %d\n", message->sender_type);
+
+  return OK;
+}
+
 InterfaceData *game_interface_data_create() {
   InterfaceData *interfaceData = NULL;
   int i;
 
   if(!(interfaceData = (InterfaceData*) calloc(1, sizeof(InterfaceData)))) return NULL;
 
-  interfaceData->last_msg[0] = '\0';
+  for(i = 0; i < NUM_MSGS; i++) {
+    if(!(interfaceData->messages[i] = game_message_create())) {
+      game_interface_data_destroy(interfaceData);
+      return NULL;
+    }
+  }
 
   for(i=0;i<POV_HGHT;i++){
     interfaceData->last_closeup[i][0] = '\0';
@@ -129,6 +204,11 @@ Status game_interface_data_destroy(InterfaceData *interfaceData) {
 
   if(!interfaceData) return ERROR;
   
+  for(i = 0; i < NUM_MSGS; i++) {
+    game_message_destroy(interfaceData->messages[i]);
+    interfaceData->messages[i] = NULL;
+  }
+
   for(i = 0; i < NUM_CMDS; i++) {
     if(interfaceData->last_cmds[i]) {
       command_destroy(interfaceData->last_cmds[i]);
@@ -147,9 +227,13 @@ Status game_interface_data_print(InterfaceData *interfaceData) {
     fprintf(stdout, "--> InterfaceData is empty");
   }
 
-  fprintf(stdout, "--> Command message: %s\n", interfaceData->last_msg);
+  for(i = 0; i < NUM_MSGS; i++) {
+    fprintf(stdout, "=> Message %d\n", i+1);
+    if(interfaceData->messages[i]) game_message_print(interfaceData->messages[i]);
+  }
+
   for(i = 0; i<NUM_CMDS; i++) {
-    fprintf(stdout, "=> Command %d", i+1);
+    fprintf(stdout, "=> Command %d\n", i+1);
     if(interfaceData->last_cmds[i]) command_print(interfaceData->last_cmds[i]);
   }
   
@@ -975,6 +1059,86 @@ char *game_get_last_message(Game *game) {
   if(game->turn < 0 || game->turn >= game->n_players) return NULL;
 
   return (game->data[game->turn])->last_msg;
+}
+
+char *game_get_last_message_msg_at_pos(Game *game, int play_pos, int msg_pos) {
+  if(!game) return NULL;
+
+  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
+
+  return game->data[play_pos]->messages[msg_pos]->msg;
+}
+
+Status game_set_last_message_msg_at_pos(Game *game, int play_pos, int msg_pos, char *msg) {
+  if(!game || !msg) return ERROR;
+
+  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
+
+  sprintf((game->data[play_pos])->messages[msg_pos]->msg, "%.*s", MESG_SIZE, msg);
+
+  return OK;
+}
+
+int game_get_last_message_turn_at_pos(Game *game, int play_pos, int msg_pos) {
+  if(!game) return NULL;
+
+  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
+
+  return game->data[play_pos]->messages[msg_pos]->n_turns;
+}
+
+Status game_set_last_message_turn_at_pos(Game *game, int play_pos, int msg_pos, int new_turn) {
+  if(!game) return ERROR;
+
+  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
+
+  game->data[play_pos]->messages[msg_pos]->n_turns = new_turn;
+
+  return OK;
+}
+
+Type game_get_last_message_sender_type_at_pos(Game *game, int play_pos, int msg_pos) {
+  if(!game) return NO_TYPE;
+
+  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NO_TYPE;
+
+  return game->data[play_pos]->messages[msg_pos]->sender_type;
+}
+
+Status game_set_last_message_sender_type_at_pos(Game *game, int play_pos, int msg_pos, Type type) {
+  if(!game || type == NO_TYPE) return ERROR;
+
+  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
+
+  game->data[play_pos]->messages[msg_pos]->sender_type = type;
+
+  return OK;
+}
+
+Status game_set_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos, Id sender) {
+  if(!game || sender == NO_ID) return ERROR;
+
+  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
+
+  game->data[play_pos]->messages[msg_pos]->sender = sender;
+
+  return OK;
+}
+
+char *game_get_last_message_at_pos(Game *game, int play_pos, int msg_pos) {
+  if(!game) return NULL;
+
+  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
+
+  return game->data[play_pos]->messages[msg_pos];
+}
+
+Command *game_get_command_at_pos(Game *game, int play_pos, int cmd_pos) {
+  if(!game) return NULL;
+
+  if(play_pos < 0 || play_pos >= game->n_players || cmd_pos < 0 || cmd_pos >= NUM_CMDS) return NULL;
+
+  return game->data[play_pos]->last_cmds[cmd_pos];
 }
 
 /*Sets the last displayed message*/

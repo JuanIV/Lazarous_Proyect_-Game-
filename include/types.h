@@ -82,5 +82,16 @@ typedef enum {
   DEFECTOR2     /*Monsters rebeled against their own*/
 } Role;
 
+/**
+ * @brief Defines all possible message senders
+ * 
+ */
+typedef enum {
+  NO_TYPE = -1,    /*We define this as the error class*/
+  PLAYER,           /*Sent by a player*/
+  CHARACTER,        /*Sent by a character*/
+  OBJECT,           /*Sent by a object*/
+  GAME              /*Sent by the game*/
+} Type;
 
 #endif

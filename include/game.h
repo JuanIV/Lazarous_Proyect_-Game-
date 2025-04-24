@@ -60,12 +60,11 @@
  */
 #define NUM_CMDS 3
 
-
 /**
- * @brief It stores the interface data information
- *
+ * @brief Number of messages that are saved in order to print them in the messages region of graphic engine
+ * 
  */
-typedef struct _InterfaceData InterfaceData;
+#define NUM_MSGS 4
 
 /**
  * @brief It stores the game information
@@ -582,6 +581,17 @@ char *game_get_msg_at_pos(Game *game, int play_pos);
  * @return String of the message
  */
 char *game_get_last_message(Game *game);
+
+/**
+ * @brief It gets a message from a desided position of the interface data of a player at a desired position
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param cmd_pos Desired position inside interfaceData array of commands
+ * @return Pointer to said command
+ */
+char *game_get_last_message_at_pos(Game *game, int play_pos, int msg_pos);
 
 /**
  * @brief Sets the last displayed message
