@@ -653,7 +653,6 @@ void game_actions_chat(Game *game) {
   Space *current_space = NULL;
   Character *charr = NULL;
   Player *play = NULL;
-  Command *last_cmd = NULL;
   Bool friendly = FALSE;
   Id reciever_id = NO_ID, player_loc = NO_ID, reciever_loc = NO_ID;
   char *name = NULL, *closeup = NULL, *mesg = NULL;
@@ -669,9 +668,6 @@ void game_actions_chat(Game *game) {
   /*Gets the name of the receiver to chat from the description of the last cmd*/
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(name = command_get_desc(last_cmd))) return;
-
-  /*Gets the last command to the get the message*/
-  if (!(last_cmd = game_get_last_command(game))) return;
 
   /*Gets the message to send from the description of the last cmd*/
   if (!(mesg = command_get_mesg(last_cmd))) return;
@@ -697,7 +693,7 @@ void game_actions_chat(Game *game) {
     if (game_set_last_message_at_pos(game, pos, mesg) == ERROR) return;
 
     for (i = 0; i < POV_HGHT; i++) {
-      if (!(closeup = player_get_closeup_at_pos(play, i))) return;
+      if (!(closeup = player_get_closeup_at(play, i))) return;
       if (game_set_last_close_up(game, closeup, i) == ERROR) return;
     }
   }
@@ -757,7 +753,7 @@ void game_actions_inspect(Game *game){
 
   for (i = 0; i < POV_HGHT; i++) {
     if (!(closeup = object_get_closeup_at_pos(obj, i))) return;
-    if (game_set_last_close_up(game, closeup, i) == ERROR);
+    if (game_set_last_close_up(game, closeup, i) == ERROR) return;
   }
 
   game_set_last_message(game, desc);

@@ -370,7 +370,7 @@ Player *game_get_player_from_name(Game *game, char *name) {
 
   if (!game || !name) return NULL;
 
-  for (i = 0; i < game->players; i++) {
+  for (i = 0; i < game->n_players; i++) {
     if (!(aux_name = player_get_name(game->players[i]))) return NULL;
 
     if (strcasecmp(aux_name, name) == 0) {
