@@ -192,7 +192,8 @@ void game_actions_close_link(Game *game);
 Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code) {
   CommandCode cmd;
   Player *player = NULL;
-  char closeup[POV_HGHT][POV_WDTH +1];
+  char *closeup = NULL;
+  int i;
 
   if(!game || !(*game) || !command || !cmd_code) return ERROR;
 
@@ -202,8 +203,10 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code)
   if (game_set_last_message(*game, " ") == ERROR) return ERROR;
 
   /*The default close up will be the players face*/
-  if(player_get_closeup(player, closeup) == ERROR) return ERROR;
-  if (game_set_last_close_up(*game, closeup) == ERROR) return ERROR;
+  for (i = 0; i < POV_HGHT; i++) {
+    if (!(closeup = player_get_closeup_at(player, i))) return ERROR;
+    if (game_set_last_close_up(*game, closeup, i) == ERROR) return ERROR;
+  }
 
   if (game_set_last_status(*game, ERROR) == ERROR) return ERROR;
 
@@ -411,7 +414,8 @@ void game_actions_take(Game *game) {
   Space *cur_space = NULL;
   Command *last_cmd = NULL;
   Bool movable = FALSE;
-  char *name = NULL, closeup[POV_HGHT][POV_WDTH +1];
+  char *name = NULL, *closeup = NULL;
+  int i;
 
   if (!game) return; 
   
@@ -448,9 +452,10 @@ void game_actions_take(Game *game) {
 
   if (space_remove_object(cur_space, obj_id) == ERROR) return;
 
-  if(object_get_closeup(obj, closeup) == ERROR) return;
-
-  if (game_set_last_close_up(game, closeup) == ERROR) return;
+  for (i = 0; i < POV_HGHT; i++) {
+    if (!(closeup = object_get_closeup_at_pos(obj, i))) return;
+    if (game_set_last_close_up(game, closeup, i) == ERROR) return;
+  }
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -644,48 +649,83 @@ void game_actions_attack(Game *game) {
 }
 
 void game_actions_chat(Game *game) {
+  Command *last_cmd = NULL;
   Space *current_space = NULL;
   Character *charr = NULL;
+  Player *play = NULL;
   Command *last_cmd = NULL;
   Bool friendly = FALSE;
-  Id charr_id = NO_ID, player_loc = NO_ID;
-  char *name = NULL, closeup[POV_HGHT][POV_WDTH +1];
+  Id reciever_id = NO_ID, player_loc = NO_ID, reciever_loc = NO_ID;
+  char *name = NULL, *closeup = NULL, *mesg = NULL;
+  int i, pos;
 
   if (!game) return;
 
   /*Error checking inside game_get_space and game_get_player_location*/
-  current_space = game_get_space(game, game_get_player_location(game));
+  if ((player_loc = game_get_player_location(game)) == NO_ID) return;
+  current_space = game_get_space(game, player_loc);
   if (!current_space) return;
 
-  /*Gets the name of the character to chat from the description of the last cmd*/
+  /*Gets the name of the receiver to chat from the description of the last cmd*/
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(name = command_get_desc(last_cmd))) return;
 
-  /*Checks if the character exists and if its alive*/
-  if (!(charr = game_get_character_from_name(game, name))) return;
-  if(character_get_health(charr) <= 0) return;
-  if((charr_id = character_get_id(charr)) == NO_ID) return;
- 
-  /*Checks if the character and the player are in the same space*/
-  if ((player_loc = game_get_player_location(game)) == NO_ID) return;
-  if (!(current_space = game_get_space(game, player_loc))) return;
-  if(space_find_character(current_space, charr_id) == FALSE) {
-    game_set_last_message(game, "This character is out of reach...");
-    return;
+  /*Gets the last command to the get the message*/
+  if (!(last_cmd = game_get_last_command(game))) return;
+
+  /*Gets the message to send from the description of the last cmd*/
+  if (!(mesg = command_get_mesg(last_cmd))) return;
+
+  /*Checks if the receiver exists and if its alive*/
+  charr = game_get_character_from_name(game, name);
+  play = game_get_player_from_name(game, name);
+
+  if (!charr && !play) return;
+
+  if (!charr && play) {
+    if (player_get_health(play) <= 0) return;
+    if ((reciever_id = player_get_id(play)) == NO_ID) return;
+
+    /*Checks if the player and the reciever are in the same space*/
+    if ((reciever_loc = player_get_location(play)) == NO_ID) return;
+    if (reciever_loc != player_loc) {
+      game_set_last_message(game, "This player is out of reach...");
+      return;
+    }
+
+    if ((pos = game_get_player_turn_from_player(game, play)) < 0) return;
+    if (game_set_last_message_at_pos(game, pos, mesg) == ERROR) return;
+
+    for (i = 0; i < POV_HGHT; i++) {
+      if (!(closeup = player_get_closeup_at_pos(play, i))) return;
+      if (game_set_last_close_up(game, closeup, i) == ERROR) return;
+    }
   }
+  else if (charr && !play) {
+    if (character_get_health(charr) <= 0) return;
+    if ((reciever_id = character_get_id(charr)) == NO_ID) return;
 
-  /*Chatting happens only if the character is friendly*/
-  if(game_get_friendly(player_get_role(game_get_player(game)), character_get_role(charr), &friendly) == ERROR) return;
-  if (friendly == FALSE) {
-    game_set_last_message(game, "I dont think its friendly...");
-    return;
+    /*Checks if the reciever and the player are in the same space*/
+    if(space_find_character(current_space, reciever_id) == FALSE) {
+      game_set_last_message(game, "This character is out of reach...");
+      return;
+    }   
+
+    /*Chatting happens only if the character is friendly*/
+    if(game_get_friendly(player_get_role(game_get_player(game)), character_get_role(charr), &friendly) == ERROR) return;
+    if (friendly == FALSE) {
+      game_set_last_message(game, "I dont think its friendly...");
+      return;
+    }
+
+    if (game_set_last_message(game, character_get_message(charr)) == ERROR) return;
+
+    for (i = 0; i < POV_HGHT; i++) {
+      if (!(closeup = character_get_closeup_at_pos(charr, i))) return;
+      if (game_set_last_close_up(game, closeup, i) == ERROR) return;
+    }
   }
-
-  if (game_set_last_message(game, character_get_message(charr)) == ERROR) return;
-
-  if(character_get_closeup(charr,closeup) == ERROR) return;
-
-  if (game_set_last_close_up(game, closeup) == ERROR) return;
+  else if (play && charr) return;
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -695,7 +735,8 @@ void game_actions_inspect(Game *game){
   char *name = NULL;
   Id obj_id = NO_ID;
   Object *obj = NULL;
-  char *desc = NULL, closeup[POV_HGHT][POV_WDTH +1];
+  char *desc = NULL, *closeup = NULL;
+  int i;
 
   if (!game) return; 
   
@@ -714,9 +755,10 @@ void game_actions_inspect(Game *game){
   desc = object_get_desc(obj);
   if(!desc) return;
 
-  if(object_get_closeup(obj,closeup) == ERROR) return;
-
-  if (game_set_last_close_up(game, closeup) == ERROR) return;
+  for (i = 0; i < POV_HGHT; i++) {
+    if (!(closeup = object_get_closeup_at_pos(obj, i))) return;
+    if (game_set_last_close_up(game, closeup, i) == ERROR);
+  }
 
   game_set_last_message(game, desc);
 

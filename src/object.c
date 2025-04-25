@@ -138,9 +138,9 @@ Status object_class_set_desc(Class *class, char *desc) {
 
 /*Gets the close up aspect of a class*/
 char *object_class_get_closeup_at_pos(Class *class, int pos) {
-  if(!class) return NULL;
+  if (!class) return NULL;
 
-  if(pos<0 || pos>=POV_HGHT) return NULL;
+  if (pos < 0 || pos >= POV_HGHT) return NULL;
 
   return class->close_up[pos];
 }

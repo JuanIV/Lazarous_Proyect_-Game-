@@ -18,6 +18,12 @@
 #define WORD_SIZE 1000
 
 /**
+ * @brief Defines the maximum length of a message
+ *
+ */
+#define MESG_SIZE 1000
+
+/**
  * @brief Size in characters of the visible POV of the player
  * 
  */

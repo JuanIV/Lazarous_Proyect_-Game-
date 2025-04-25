@@ -124,6 +124,26 @@ Player *game_get_player(Game *game);
 Player *game_get_player_at(Game *game, int pos);
 
 /**
+ * @brief Gets the pointer to a player from its name
+ * @author Alina Datsko
+ * 
+ * @param game Pointer to the game
+ * @param name Name of the player
+ * @return Pointer to the wanted player
+ */
+Player *game_get_player_from_name(Game *game, char *name);
+
+/**
+ * @brief Gets the player turn from the pointer to the player
+ * @author Alina Datsko
+ * 
+ * @param game Pointer to the game
+ * @param play Pointer to the player whose turn is looked for
+ * @return Turn of the player or -1 if there was an error
+ */
+int game_get_player_turn_from_player(Game *game, Player *play);
+
+/**
  * @brief Gets the number of players in the game
  * @author Juan Ibáñez
  * 
@@ -629,21 +649,23 @@ char *game_get_last_close_up_at(Game *game, int pos);
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @param closeup New last close up 
+ * @param closeup New line of the last close up 
+ * @param pos Position of the new line
  * @return ERROR if there was any mistake, OK otherwise
  */
-Status game_set_last_close_up(Game *game, char closeup[POV_HGHT][POV_WDTH + 1]);
+Status game_set_last_close_up(Game *game, char *closeup, int pos);
 
 /**
  * @brief Sets the last close up of a specific player
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @param closeup New last close up 
+ * @param closeup New line of the last close up 
  * @param pos Position of the array of players
+ * @param line Position of the new line
  * @return ERROR if there was any mistake, OK otherwise
  */
-Status game_set_last_close_up_at_pos(Game *game, char closeup[POV_HGHT][POV_WDTH + 1], int pos);
+Status game_set_last_close_up_at_pos(Game *game, char *closeup, int pos, int line);
 
 /**
  * @brief It gets the last command from the game struct

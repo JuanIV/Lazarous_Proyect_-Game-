@@ -25,10 +25,10 @@
 #define MIN_ESPECIF 2
 
 typedef struct {
-  char msg[MESG_SIZE + 1];     /*!< A message to be shown on screen*/
-  Bool visible;                  /*!< Number of turns the message should be shown for*/
-  Id sender;                    /*!< The id of the sender*/
-  Type sender_type;           /*!< A char that represents if the msg was sent by a player ('p'), character ('c'), object ('o') or game ('g')*/
+  char msg[MESG_SIZE + 1];   /*!< A message to be shown on screen*/
+  Bool visible;              /*!< Number of turns the message should be shown for*/
+  Id sender;                 /*!< The id of the sender*/
+  Type sender_type;          /*!< A char that represents if the msg was sent by a player ('p'), character ('c'), object ('o') or game ('g')*/
 } Message;
 
 /**
@@ -356,12 +356,49 @@ Player *game_get_player(Game *game) {
 }
 
 /*Gets a specific player of the game */
-Player *game_get_player_at(Game *game, int pos){
+Player *game_get_player_at(Game *game, int pos) {
   if(!game) return NULL;
 
   if(pos<0||pos>=game->n_players) return NULL;
 
   return game->players[pos];
+}
+
+Player *game_get_player_from_name(Game *game, char *name) {
+  int i;
+  char *aux_name = NULL;
+
+  if (!game || !name) return NULL;
+
+  for (i = 0; i < game->players; i++) {
+    if (!(aux_name = player_get_name(game->players[i]))) return NULL;
+
+    if (strcasecmp(aux_name, name) == 0) {
+      return game->players[i];
+    }
+  }
+
+  return NULL;
+}
+
+int game_get_player_turn_from_player(Game *game, Player *play) {
+  Player *play_aux = NULL;
+  int num_play, i;
+  Id play_id = NO_ID, aux_id = NO_ID;
+
+  if (!game || !play) return -1;
+
+  if ((play_id = player_get_id(play)) == NO_ID) return -1;
+  if ((num_play = game_get_n_players(game)) <= 0) return -1;
+
+  for (i = 0; i < num_play; i++) {
+    if (!(play_aux = game_get_player_at(game, i))) return -1;
+    if ((aux_id = player_get_id(play_aux)) == NO_ID) return -1;
+
+    if (play_id == aux_id) return i;
+  }
+
+  return -1;
 }
 
 /*Gets the number of players in the game*/
@@ -1049,119 +1086,143 @@ Status game_get_friendly(Role role1, Role role2, Bool *relationship) {
 }
 
 /**
- * ***************  Last message management  ***************
- */
+ * ***************  Last message management  ***************
+ */
 
 /*Gets the last message displayed by a chat*/
 char *game_get_last_message(Game *game) {
   if (!game) return NULL;
-
+  
   if(game->turn < 0 || game->turn >= game->n_players) return NULL;
-
-  return (game->data[game->turn])->last_msg;
+  
+  return (game->data[game->turn])->messages[0]->msg;
 }
-
-char *game_get_last_message_msg_at_pos(Game *game, int play_pos, int msg_pos) {
+  
+char *game_get_last_message_msg_at_pos_from_position(Game *game, int play_pos, int msg_pos) {
   if(!game) return NULL;
-
+  
   if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
-
+  
   return game->data[play_pos]->messages[msg_pos]->msg;
 }
-
+  
 Status game_set_last_message_msg_at_pos(Game *game, int play_pos, int msg_pos, char *msg) {
   if(!game || !msg) return ERROR;
-
+  
   if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
-
+  
   sprintf((game->data[play_pos])->messages[msg_pos]->msg, "%.*s", MESG_SIZE, msg);
-
+  
   return OK;
+  }
+  
+Bool game_get_last_message_visibility_at_pos(Game *game, int play_pos, int msg_pos) {
+  if(!game) return FALSE;
+  
+  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return FALSE;
+  
+  return game->data[play_pos]->messages[msg_pos]->visible;
 }
-
-int game_get_last_message_turn_at_pos(Game *game, int play_pos, int msg_pos) {
-  if(!game) return NULL;
-
-  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
-
-  return game->data[play_pos]->messages[msg_pos]->n_turns;
-}
-
-Status game_set_last_message_turn_at_pos(Game *game, int play_pos, int msg_pos, int new_turn) {
+  
+Status game_set_last_message_visibility_at_pos(Game *game, int play_pos, int msg_pos, Bool visibility) {
   if(!game) return ERROR;
-
+  
   if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
-
-  game->data[play_pos]->messages[msg_pos]->n_turns = new_turn;
-
+  
+  game->data[play_pos]->messages[msg_pos]->visible = visibility;
+  
   return OK;
 }
-
+  
 Type game_get_last_message_sender_type_at_pos(Game *game, int play_pos, int msg_pos) {
   if(!game) return NO_TYPE;
-
+  
   if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NO_TYPE;
-
+  
   return game->data[play_pos]->messages[msg_pos]->sender_type;
 }
-
+  
 Status game_set_last_message_sender_type_at_pos(Game *game, int play_pos, int msg_pos, Type type) {
   if(!game || type == NO_TYPE) return ERROR;
-
+  
   if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
-
+  
   game->data[play_pos]->messages[msg_pos]->sender_type = type;
-
+  
   return OK;
 }
-
+  
 Status game_set_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos, Id sender) {
   if(!game || sender == NO_ID) return ERROR;
-
+  
   if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
-
+  
   game->data[play_pos]->messages[msg_pos]->sender = sender;
-
+  
   return OK;
 }
-
-char *game_get_last_message_at_pos(Game *game, int play_pos, int msg_pos) {
-  if(!game) return NULL;
-
-  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
-
-  return game->data[play_pos]->messages[msg_pos];
-}
-
-Command *game_get_command_at_pos(Game *game, int play_pos, int cmd_pos) {
-  if(!game) return NULL;
-
-  if(play_pos < 0 || play_pos >= game->n_players || cmd_pos < 0 || cmd_pos >= NUM_CMDS) return NULL;
-
-  return game->data[play_pos]->last_cmds[cmd_pos];
-}
-
-/*Sets the last displayed message*/
+  
+  /*Sets the last displayed message*/
 Status game_set_last_message(Game *game, char *message) {
-  if (!game || !message) return ERROR;
-
+  InterfaceData *interfaceData = NULL;
+  int i=0;
+  
+  if(game==NULL || message == NULL) return ERROR;
+  
   if(game->turn < 0 || game->turn >= game->n_players) return ERROR;
-
-  sprintf((game->data[game->turn])->last_msg, "%.*s", MESG_SIZE, message);
-
+  
+  interfaceData = game->data[game->turn];
+  if(!interfaceData) return ERROR;
+  
+  for(i=0;i<NUM_MSGS;i++){
+  if(interfaceData->messages[i]->visible == FALSE) break;
+  }
+  
+  if (i == NUM_MSGS) {
+    for (i = NUM_MSGS - 1; i > 0; i--) {
+      interfaceData->messages[i]->visible = interfaceData->messages[i - 1]->visible;
+      sprintf(interfaceData->messages[i]->msg, "%.*s",MESG_SIZE,interfaceData->messages[i - 1]->msg);
+      interfaceData->messages[i]->sender = interfaceData->messages[i - 1]->sender;
+      interfaceData->messages[i]->sender_type = interfaceData->messages[i - 1]->sender_type;
+    }
+  i = 0;
+  }
+  
+  sprintf(interfaceData->messages[i]->msg, "%.*s", MESG_SIZE, message);
+  interfaceData->messages[i]->msg[MESG_SIZE] = '\0';
+  interfaceData->messages[i]->visible = TRUE;
+  interfaceData->messages[i]->sender = NO_ID;
+  interfaceData->messages[i]->sender_type = NO_TYPE;
+  
   return OK;
+  
 }
-
-/*Sets the last displayed message at a desired position */
+  
+  /*Sets the last displayed message at a desired position */
 Status game_set_last_message_at_pos(Game *game, int play_pos, char *message) {
+  
   if (!game || !message) return ERROR;
-
-  if(play_pos < 0 || play_pos >= game->n_players) return ERROR;
-
-  sprintf((game->data[play_pos])->last_msg, "%.*s", MESG_SIZE, message);
-
+  
+  if (play_pos < 0 || play_pos >= game->n_players) return ERROR;
+  
+  sprintf(game->data[play_pos]->messages[0]->msg, "%.*s", MESG_SIZE, message);
+  game->data[play_pos]->messages[0]->visible = TRUE;
+  game->data[play_pos]->messages[0]->sender = NO_ID;
+  game->data[play_pos]->messages[0]->sender_type = NO_TYPE;
+  
   return OK;
+  
 }
+  
+  /*It gets the last message of the interface data of a player at a desired position*/
+char *game_get_last_message_msg_at_pos(Game *game, int play_pos) {
+  if(!game) return NULL;
+  
+  if(play_pos < 0 || play_pos >= game->n_players) return NULL;
+  
+  return game->data[play_pos]->messages[0]->msg;
+}
+  
 
 /**
  * ***************  Close up management  ***************
@@ -1171,36 +1232,50 @@ Status game_set_last_message_at_pos(Game *game, int play_pos, char *message) {
 char *game_get_last_close_up_at(Game *game, int pos) {
   if(!game) return NULL;
 
-  if(pos<0 || pos>=POV_HGHT) return NULL;
+  if(pos < 0 || pos >= POV_HGHT) return NULL;
 
   return (game->data[game->turn])->last_closeup[pos];
 }
 
 /*Sets the last close up*/
-Status game_set_last_close_up(Game *game, char closeup[POV_HGHT][POV_WDTH + 1]) {
+Status game_set_last_close_up(Game *game, char *closeup, int pos) {
   int i;
 
-  if(!game || !closeup) return ERROR;
+  if (!game) return ERROR;
 
-  if(game->turn < 0 || game->turn >= game->n_players) return ERROR;
+  if (pos < 0 || pos >= POV_HGHT) return ERROR;
 
-  for(i=0;i<POV_HGHT;i++){
-    sprintf(game->data[game->turn]->last_closeup[i], "%-.*s", POV_WDTH, closeup[i]);
+  if (!closeup) (game->data[game->turn])->last_closeup[pos][0] = '\0';
+
+  sprintf((game->data[game->turn])->last_closeup[pos], "%-*.*s", POV_WDTH, POV_WDTH, closeup);
+
+  /*We prevent from a saving a line break in the closeup*/
+  for (i = 0; i < POV_WDTH; i++) {
+    if (((game->data[game->turn])->last_closeup[pos][i] == '\n') || ((game->data[game->turn])->last_closeup[pos][i] == '\r'))
+    (game->data[game->turn])->last_closeup[pos][i] = ' ';
   }
 
-  return OK;  
+  return OK;
 }
 
 /*Sets the last close up of a specific player*/
-Status game_set_last_close_up_at_pos(Game *game, char closeup[POV_HGHT][POV_WDTH + 1], int pos) {
+Status game_set_last_close_up_at_pos(Game *game, char *closeup, int pos, int line) {
   int i;
 
-  if(!game || !closeup) return ERROR;
+  if (!game) return ERROR;
 
-  if(pos < 0 || pos >= game->n_players) return ERROR;
+  if (pos < 0 || pos >= game->n_players) return ERROR;
 
-  for(i=0;i<POV_HGHT;i++){
-    sprintf(game->data[pos]->last_closeup[i], "%-.*s", POV_WDTH, closeup[i]);
+  if (line < 0 || line >= POV_HGHT) return ERROR;
+
+  if (!closeup) (game->data[pos])->last_closeup[line][0] = '\0';
+
+  sprintf((game->data[pos])->last_closeup[line], "%-*.*s", POV_WDTH, POV_WDTH, closeup);
+
+  /*We prevent from a saving a line break in the closeup*/
+  for (i = 0; i < POV_WDTH; i++) {
+    if (((game->data[pos])->last_closeup[line][i] == '\n') || ((game->data[pos])->last_closeup[line][i] == '\r'))
+    (game->data[pos])->last_closeup[line][i] = ' ';
   }
 
   return OK;  
@@ -1226,15 +1301,6 @@ Command *game_get_command_at_pos(Game *game, int play_pos, int cmd_pos) {
   if(play_pos < 0 || play_pos >= game->n_players || cmd_pos < 0 || cmd_pos >= NUM_CMDS) return NULL;
 
   return game->data[play_pos]->last_cmds[cmd_pos];
-}
-
-/*It gets the last message of the interface data of a player at a desired position*/
-char *game_get_msg_at_pos(Game *game, int play_pos) {
-  if(!game) return NULL;
-
-  if(play_pos < 0 || play_pos >= game->n_players) return NULL;
-
-  return game->data[play_pos]->last_msg;
 }
 
 /*It gets the status at a position of the interface data struct of commands*/

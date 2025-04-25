@@ -14,12 +14,6 @@
 #include "types.h"
 
 /**
- * @brief Defines the maximum length of a characters message
- *
- */
-#define MESG_SIZE 1000
-
-/**
  * @brief Defines the size in characters of the graphic description of a
  * character
  *

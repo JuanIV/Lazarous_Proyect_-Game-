@@ -153,7 +153,7 @@ Status character_set_closeup_at_pos(Character *charr, int pos, char *closeup) {
 
   if(!charr) return ERROR;
 
-  if(pos<0 || pos>=POV_HGHT) return ERROR;
+  if( pos<0 || pos >= POV_HGHT) return ERROR;
 
   if(!closeup) charr->close_up[pos][0] = '\0';
 

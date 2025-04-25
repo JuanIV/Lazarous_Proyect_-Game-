@@ -11,15 +11,16 @@
 #s:14|Hole|-1|0|  ***  * |**/\ **  | /  \/ \ |*********|#     # #|
 
 /// #k:<id>|<tag>|<name>|<description>|<use_value>|<movable>|<dependency>|<open>|<luck>|close up|
-#k:21|0|Branch|You found a Branch, don't eat it with ranch|0|1|-1|-1|0
-#k:55|0|Grain|You found Grain, but lost your brain|0|1|-1|-1|0
-#k:22|0|Leaf|You found a Leaf, fly away with it|0|1|-1|-1|0
-#k:23|0|Nut|You found a Nut, make sure is not bad|0|1|-1|-1|0
-#k:24|0|Donut|You found a Donut, time to glow up|0|1|-1|-1|0
-#k:70|1|Bandage|Bandages are usefull for healing|5|1|-1|-1|0
-#k:71|2|Sword|Fucking cool as fuck|15|1|-1|-1|10
-#k:72|3|Legendary Armor|"Hell yeah" ahh armor|200|1|-1|-1|10
-#k:73|4|Nuke|A fucking nuke|15000|1|-1|-1|0
+#k:21|0|Branch|You found a Branch, don't eat it with ranch|0|1|-1|-1|0|
+#k:55|0|Grain|You found Grain, but lost your brain|0|1|-1|-1|0|
+#k:22|0|Leaf|You found a Leaf, fly away with it|0|1|-1|-1|0|
+#k:23|0|Nut|You found a Nut, make sure is not bad|0|1|-1|-1|0|
+#k:24|0|Donut|You found a Donut, time to glow up|0|1|-1|-1|0|
+#k:70|1|Bandage|Bandages are usefull for healing|5|1|-1|-1|0|:=+=================:|:*******************:|:*******!   !*******:|:*******!   !*******:|:***!           !***:|:***!           !***:|:*******!   !*******:|:*******!___!*******:|:*******************:|:+++++++++++++++++++-|
+#k:71|2|Sword|Fucking cool as fuck|15|1|-1|-1|10|          /\         |       !  !          |       !  !          |       !  !          |       !  !          |       !  !          |     ========        |     \======/        |       !  !          |       !==!          |
+#k:72|3|Legend Armor|"Hell yeah" ahh armor|200|1|-1|-1|10|:++*##%+.  .+#*#*+*-|@+====*@=  :@+--==+%@|@-----==#@@%=-----=*@|@+--  .----------==#@| +@=-:------------=@*|   @#------------#@  |   @%---------===%@  |   @%+=------====%@  |   %%*+=========*%%  |     :%%%%%%%%%%:    |
+#k:73|4|Nuke|A fucking nuke|15000|1|-1|-1|0|        := ::        |        #:::#:        |       ::             |      *@              |   @@@@@@@            |=+-.     :-*@         |==        :=%@        |%%+=====+*%@@@        | @@@@@@@@@@@@         |   @@@@@@@@           |
+#k:74|2|Potion|This potion gives you strength|15|1|-1|-1|10|       .++++.        |       .~++=-        |        .--:          |      .:---~~..      |    .:------~~~.     |    -++++++++**~     |    .=*******^+:     |     .~*****^+:.     |      .=^^^^+.       |       ..:::.        |
 
 /// #o:<id>|<class_id>|<initial pos>|<role>|
 #o:21|21|11|0|

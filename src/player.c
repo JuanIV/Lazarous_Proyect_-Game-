@@ -277,14 +277,14 @@ Status player_get_closeup(Player *play, char closeup[POV_HGHT][POV_WDTH + 1]){
 }
 
 /*Sets a line of the close up of a player*/
-Status player_set_closeup_at(Player *play, int pos,char *closeup) {
+Status player_set_closeup_at(Player *play, int pos, char *closeup) {
   int i;
 
-  if(!play) return ERROR;
+  if (!play) return ERROR;
 
-  if(pos<0 || pos>=POV_HGHT) return ERROR;
+  if (pos<0 || pos>=POV_HGHT) return ERROR;
 
-  if(!closeup) play->close_up[pos][0] = '\0';
+  if (!closeup) play->close_up[pos][0] = '\0';
 
   sprintf(play->close_up[pos], "%-*.*s", POV_WDTH,POV_WDTH, closeup);
 

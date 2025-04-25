@@ -301,6 +301,7 @@ Status game_management_load_objects(Game *game, char *filename) {
   Class *class = NULL;
   Object *object = NULL;
   Space *space = NULL;
+  int i;
 
   if (!filename || !game) return ERROR;
 
@@ -336,6 +337,17 @@ Status game_management_load_objects(Game *game, char *filename) {
       if (space_add_object(space, obj_id) == ERROR) st = ERROR;
     }
     if(object_set_role(object, role) == ERROR) st = ERROR;
+
+    /*Sets the close up of the object class*/
+    for (i = 0; i < POV_HGHT && st == OK; i++) {
+      toks = strtok(NULL, "|");
+
+      if (toks) {
+        if (object_class_set_closeup_at_pos(class, i, toks) == ERROR) st = ERROR;
+      } else {
+        if (object_class_set_closeup_at_pos(class, i, " ") == ERROR) st = ERROR;
+      }
+    }
 
     if (st == ERROR) {
       object_destroy(object);
@@ -418,6 +430,7 @@ Status game_management_load_characters(Game *game, char *filename) {
       if (character_set_weapon(charr, weapon) == ERROR) st = ERROR;
       if (character_set_message(charr, message) == ERROR) st = ERROR;
 
+      /*Sets the close up of the character*/
       for (i = 0; i < POV_HGHT && st == OK; i++) {
         toks = strtok(NULL, "|");
   
@@ -706,7 +719,7 @@ Status game_management_save_players(Game *game, char *filename) {
   Command *cmd = NULL; 
   CommandCode cmd_code = NO_CMD;
   Id player_id = NO_ID, location = NO_ID, weapon_id = NO_ID, armor_id = NO_ID, obj_id = NO_ID;
-  char line[PLAYER_LINE], *name = NULL, *gdesc = NULL, *msg = NULL;
+  char line[PLAYER_LINE], *name = NULL, *gdesc = NULL, *msg = NULL, *closeup = NULL;
   int i = 0, j = 0, num_players = -1, len = 0, health = -1, 
   max_back_size = -1, back_n_objs = -1;
 
@@ -766,6 +779,12 @@ Status game_management_save_players(Game *game, char *filename) {
       len += sprintf(line + len, "%d|", cmd_status);
     }
 
+    for (j = 0; j < POV_HGHT && st == OK; j++) {
+      if (!(closeup = player_get_closeup_at(player, j))) st = ERROR;
+
+      len += sprintf(line + len, "%s|", closeup);
+    }
+
     fprintf(file, "%s\n", line);
     len = 0;
   }
@@ -785,8 +804,8 @@ Status game_management_save_classes(Game *game, char *filename) {
   Class *class = NULL;
   Tag tag = NO_TAG;
   Id class_id = NO_ID, dependency = NO_ID, open = NO_ID;
-  char line[CLASS_LINE], *name = NULL, *desc = NULL;
-  int i = 0, num_classes = -1, len = 0, use_value = -1, luck = -1;
+  char line[CLASS_LINE], *name = NULL, *desc = NULL, *closeup = NULL;
+  int i = 0, j = 0, num_classes = -1, len = 0, use_value = -1, luck = -1;
   Bool movable = FALSE;
 
 
@@ -818,6 +837,12 @@ Status game_management_save_classes(Game *game, char *filename) {
     len += sprintf(line + len, "%ld|", dependency);
     len += sprintf(line + len, "%ld|", open);
     len += sprintf(line + len, "%d|", luck); 
+
+    for (j = 0; j < POV_HGHT && st == OK; j++) {
+      if (!(closeup = object_class_get_closeup_at_pos(class, j))) st = ERROR;
+
+      len += sprintf(line + len, "%s|", closeup);
+    }
 
     fprintf(file, "%s\n", line);
     len = 0;
@@ -876,8 +901,8 @@ Status game_management_save_characters(Game *game, char *filename) {
   Character *character = NULL;
   Role role = NO_ROLE;
   Id charr_id = NO_ID, location = NO_ID, weapon_id = NO_ID, armor_id = NO_ID, following = NO_ID;
-  char line[CHARACTER_LINE], *name = NULL, *gdesc = NULL, *msg = NULL;
-  int i = 0, num_characters = -1, len = 0, health = -1;
+  char line[CHARACTER_LINE], *name = NULL, *gdesc = NULL, *msg = NULL, *closeup = NULL;
+  int i = 0, j = 0, num_characters = -1, len = 0, health = -1;
 
   if(!(file = fopen(filename, "a"))) return ERROR;
   if((num_characters = game_get_n_characters(game)) == -1) st = ERROR;
@@ -909,6 +934,12 @@ Status game_management_save_characters(Game *game, char *filename) {
     len += sprintf(line + len, "%ld|", weapon_id);
     len += sprintf(line + len, "%ld|", armor_id);
     len += sprintf(line + len, "%s|", msg);    
+
+    for (j = 0; j < POV_HGHT && st == OK; j++) {
+      if (!(closeup = character_get_closeup_at_pos(character, j))) st = ERROR;
+
+      len += sprintf(line + len, "%s|", closeup);
+    }
 
     fprintf(file, "%s\n", line);
     len = 0;
