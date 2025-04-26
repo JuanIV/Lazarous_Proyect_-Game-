@@ -134,14 +134,14 @@ Player *game_get_player_at(Game *game, int pos);
 Player *game_get_player_from_name(Game *game, char *name);
 
 /**
- * @brief Gets the player turn from the pointer to the player
+ * @brief Gets the player turn from the name of the player
  * @author Alina Datsko
  * 
  * @param game Pointer to the game
- * @param play Pointer to the player whose turn is looked for
+ * @param name Name of the player whose turn is looked for
  * @return Turn of the player or -1 if there was an error
  */
-int game_get_player_turn_from_player(Game *game, Player *play);
+int game_get_player_pos_from_name(Game *game, char *name);
 
 /**
  * @brief Gets the number of players in the game
@@ -207,7 +207,6 @@ Set *game_get_followers(Game *game, Player *player);
  * @return Id of the object if it is found, NO_ID if it is not found
  */
 Id game_get_object_from_player(Game *game, char *name);
-
 
 /**
  * @brief Gets the position of the player who has the turn of the game

@@ -381,21 +381,16 @@ Player *game_get_player_from_name(Game *game, char *name) {
   return NULL;
 }
 
-int game_get_player_turn_from_player(Game *game, Player *play) {
-  Player *play_aux = NULL;
-  int num_play, i;
-  Id play_id = NO_ID, aux_id = NO_ID;
+int game_get_player_pos_from_name(Game *game, char *name) {
+  int i;
+  char *name_aux = NULL;
 
-  if (!game || !play) return -1;
+  if (!game || !name) return -1;
 
-  if ((play_id = player_get_id(play)) == NO_ID) return -1;
-  if ((num_play = game_get_n_players(game)) <= 0) return -1;
+  for (i = 0; i < game->n_players; i++) {
+    if (!(name_aux = player_get_name(game->players[i]))) return -1;
 
-  for (i = 0; i < num_play; i++) {
-    if (!(play_aux = game_get_player_at(game, i))) return -1;
-    if ((aux_id = player_get_id(play_aux)) == NO_ID) return -1;
-
-    if (play_id == aux_id) return i;
+    if (strcasecmp(name_aux, name) == 0) return i;
   }
 
   return -1;
