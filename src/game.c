@@ -61,6 +61,7 @@ struct _Game {
   int n_objects;							/*!< Number of objects in the game*/
   Character *characters[MAX_CHARR];	/*!< Array of characters in the game*/
   int n_characters;						/*!< Number of characters in the game*/
+  Bool deterministic;						/*!< If the game is deterministic or not*/  
   InterfaceData *data[MAX_PLAY];    /*!< Array of the data of each player*/
   Bool finished;							/*!< Status of the game. TRUE if it has finished. FALSE if not*/
 };
@@ -280,6 +281,8 @@ Game *game_create() {
   game->n_players = 0;
 
   game->turn = 0;
+
+  game->deterministic = FALSE;
 
   game->finished = FALSE;
 
@@ -1362,6 +1365,25 @@ Status game_set_last_command(Game *game, Command *command) {
 }
 
 /**
+ * ***************  Deterministic management  ***************
+ */
+
+Status game_set_deterministic(Game *game, Bool deterministic) {
+  if (!game) return ERROR;
+
+  game->deterministic = deterministic;
+
+  return OK;
+}
+
+Status game_get_deterministic(Game *game, Bool *deterministic) {
+  if (!game || !deterministic) return ERROR;
+  deterministic = &game->deterministic;
+
+  return OK;
+}
+
+/**
  * ***************  Finished management  ***************
  */
 
@@ -1395,6 +1417,7 @@ Status game_save(Game *game, char *filename) {
   if (game_management_save_characters(game, filename) == ERROR) return ERROR;
   if (game_management_save_players(game, filename) == ERROR) return ERROR;
   if (game_management_save_turn(game, filename) == ERROR) return ERROR;
+  if(game_management_save_mode(game, filename) == ERROR) return ERROR;
 
   return OK;
 }

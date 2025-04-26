@@ -728,6 +728,26 @@ Status game_get_last_status_at_pos(Game *game, int pos);
 Status game_set_last_status(Game *game, Status status);
 
 /**
+ * @brief It sets the mode of the game (deterministic or not)
+ * @author Lucas Blanco Rodríguez
+ *
+ * @param game pointer to the game
+ * @param deterministic the mode of the game (deterministic or not)
+ * @return  ERROR if game is null, OK otherwise
+ */
+Status game_set_deterministic(Game *game, Bool deterministic);
+
+/**
+ * @brief Gets the deterministic value of the game
+ * @author Lucas Blanco Rodríguez
+ *
+ * @param game pointer to the game
+ * @param deterministic the mode of the game (deterministic or not)
+ * @return ERROR if game is null, OK otherwise
+ */
+Status game_get_deterministic(Game *game, Bool *deterministic);
+
+/**
  * @brief Checks if the game is finished
  * @author Profesores PPROG
  *

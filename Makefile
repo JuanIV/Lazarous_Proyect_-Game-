@@ -179,6 +179,14 @@ runl :
 	@echo "Running Log"
 	./$(EXEDIR)/project anthill.dat -l logFile
 
+rund :
+	@echo "Running Deterministic mode"
+	./$(EXEDIR)/project anthill.dat -d
+
+runld :
+	@echo "Running Deterministic mode with Log"
+	./$(EXEDIR)/project anthill.dat -l -d logFile
+
 run_test:
 	@echo "Running global test"
 	./$(EXEDIR)/project anthill.dat -l output <game1.cmd

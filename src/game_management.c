@@ -309,7 +309,7 @@ Status game_management_load_objects(Game *game, char *filename) {
 
   /*
   reads data from the file acording to the next structure:
-  #o:<id>|<class_id>|<initial pos>|<role>
+  #o:<id>|<class_id>|<initial pos>|<role>|<close_up>
   */
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#o:", line, 3) != 0) continue;
@@ -606,6 +606,30 @@ Status game_management_load_turn(Game *game, char *filename) {
 
     fclose(file);
     return game_set_turn(game, turn);
+  }
+
+  fclose(file);
+
+  return ERROR;
+}
+
+Status game_management_load_mode(Game *game, char *filename) {
+  FILE *file = NULL;
+  Bool deterministic = FALSE;
+  char line[WORD_SIZE] = "";
+  char *toks = NULL;
+
+  if (!filename || !game) return ERROR;
+
+  if (!(file = fopen(filename, "r"))) return ERROR;
+
+  while(fgets(line, WORD_SIZE, file)) {
+    if (strncmp("#m:", line, 3) != 0) continue; 
+    toks = strtok(line + 3, "|");
+    deterministic = atoi(toks);
+
+    fclose(file);
+    return game_set_deterministic(game, deterministic);
   }
 
   fclose(file);
@@ -964,6 +988,24 @@ Status game_management_save_turn(Game *game, char *filename) {
   if ((turn = game_get_turn(game)) == -1) st = ERROR;
 
   if (st == OK) fprintf(file, "#t:%d|\n\n", turn);
+
+  fclose(file);
+
+  return st;
+}
+
+Status game_management_save_mode(Game *game, char *filename) {
+  FILE *file = NULL;
+  Status st = OK;
+  Bool deterministic = FALSE;
+
+  if(!game || !filename) return ERROR;
+
+  if(!(file = fopen(filename, "a"))) return ERROR;
+
+  if (game_get_deterministic(game, &deterministic) == ERROR) st = ERROR;
+
+  if (st == OK) fprintf(file, "#m:%d|\n\n", deterministic);
 
   fclose(file);
 

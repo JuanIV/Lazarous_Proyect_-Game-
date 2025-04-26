@@ -41,7 +41,7 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
  * @param log_file the file where the log is going to be printed
  * @param log_implemented 1 if there should be a log 0 if not
  */
-void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented);
+void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented, Bool deterministic);
 
 /**
  * @brief destroys both the game and the graphic engine
@@ -56,6 +56,7 @@ int main(int argc, char *argv[]) {
   Graphic_engine *gengine;
   FILE *log_file = NULL;
   int log_implemented = 0;
+  Bool deterministic = FALSE;
   char filename[WORD_SIZE];
   srand(time(NULL));
 
@@ -69,9 +70,28 @@ int main(int argc, char *argv[]) {
     strcat(filename, ".log");
     log_file = fopen(filename, "w");
     if (!log_file) {
-      fprintf(stderr, "Error opening the log file.\n");
-      return 1;
+        fprintf(stderr, "Error opening the log file.\n");
+        return 1;
     }
+    log_implemented = 1;
+  }
+
+  if (argc == 4 && strcmp(argv[2], "-d") == 0) {
+    deterministic = TRUE;
+  }
+
+  if (argc == 5 && 
+    ((strcmp(argv[2], "-d") == 0 && strcmp(argv[3], "-l") == 0) || 
+     (strcmp(argv[3], "-d") == 0 && strcmp(argv[2], "-l") == 0))) {
+    
+    strcpy(filename, argv[4]);
+    strcat(filename, ".log");
+    log_file = fopen(filename, "w");
+    if (!log_file) {
+        fprintf(stderr, "Error opening the log file.\n");
+        return 1;
+    }
+    deterministic = TRUE;
     log_implemented = 1;
   }
 
@@ -81,7 +101,7 @@ int main(int argc, char *argv[]) {
   }
 
   if (!game_loop_init(game, &gengine, argv[1])) {
-    game_loop_run(&game, gengine, log_file, log_implemented);
+    game_loop_run(&game, gengine, log_file, log_implemented, deterministic);
     game_loop_cleanup(game, gengine);
   }
 
@@ -106,7 +126,7 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
   return 0;
 }
 
-void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented) {
+void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented, Bool deterministic) {
   Command *last_cmd;
   CommandCode last_cmd_code;
   Status last_status;
@@ -122,6 +142,9 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
   if (game_get_finished(*game) == TRUE) return;
   message[0] = '\0';
   game_print(*game);
+
+  if(deterministic == TRUE) game_set_deterministic(*game, deterministic);
+  
   do {
     graphic_engine_paint_game(gengine, *game);
 
@@ -163,15 +186,15 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
 
       if (last_desc[0] != '\0') {
         if (last_status == OK) {
-          fprintf(log_file, "Player %d (%ld):%s (%s): OK\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
+          fprintf(log_file, "%s %s: OK (P%ld)\n",cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc, id_player);
         } else {
-          fprintf(log_file, "Player %d (%ld):%s (%s): ERROR\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc);
+          fprintf(log_file, "%s %s: ERROR (P%ld)\n",cmd_to_str[last_cmd_code - NO_CMD][CMDL], last_desc, id_player);
         }
       } else {
         if (last_status == OK) {
-          fprintf(log_file, "Player %d (%ld):%s: OK\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
+          fprintf(log_file, "%s: OK (P%ld)\n",cmd_to_str[last_cmd_code - NO_CMD][CMDL], id_player);
         } else {
-          fprintf(log_file, "Player %d (%ld):%s: ERROR\n", turn+1, id_player, cmd_to_str[last_cmd_code - NO_CMD][CMDL]);
+          fprintf(log_file, "%s: ERROR (P%ld)\n",cmd_to_str[last_cmd_code - NO_CMD][CMDL], id_player);
         }
       }
     }

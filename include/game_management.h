@@ -66,6 +66,16 @@ Status game_management_load_players(Game *game, char *filename);
 Status game_management_load_turn(Game *game, char *filename);
 
 /**
+ * @brief function used in game_create_from_file to load the mode from
+ * a file to a game
+ * @author Lucas Blanco Rodriguez
+ * 
+ * @param game Pointer to the game where the players will be stored
+ * @param filename Name of the file
+ * @return OK if the space saved correctly, ERROR if there was any mistake 
+ */
+Status game_management_load_mode(Game *game, char *filename);
+/**
  * @brief function used in game_create_from_file to load the characters from
  * a file to a game
  * @author Alina Datsko Yaskerska
@@ -156,5 +166,15 @@ Status game_management_save_spaces(Game *game, char *filename);
  * @return OK if the space saved correctly, ERROR if there was any mistake 
  */
 Status game_management_save_turn(Game *game, char *filename);
+
+/**
+ * @brief function used in game_save to save the current mode from a game to a file
+ * @author Lucas Blanco Rodriguez
+ * 
+ * @param game Pointer to the game where the spaces will be stored
+ * @param filename Name of the file
+ * @return OK if the space saved correctly, ERROR if there was any mistake 
+ */
+Status game_management_save_mode(Game *game, char *filename);
 
 #endif

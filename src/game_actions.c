@@ -200,7 +200,7 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code)
   player = game_get_player(*game);
 
   /*The message shown must be blank except in case it is required by the last command*/
-  if (game_set_last_message(*game, " ") == ERROR) return ERROR;
+  if (game_set_last_message(*game, " ") == ERROR) return ERROR; 
 
   /*The default close up will be the players face*/
   for (i = 0; i < POV_HGHT; i++) {
@@ -507,7 +507,7 @@ void game_actions_attack(Game *game) {
   Command *last_cmd = NULL;
   Player *player = NULL;
   Set *followers = NULL;
-  Bool friendly = FALSE;
+  Bool friendly = FALSE, deterministic = FALSE;
   Id charr_id = NO_ID, damaged_follower = NO_ID, player_loc = NO_ID;
   char *charr_name = NULL, message[MESG_SIZE];
   int dice, charr_health, follower_health, player_health, num_followers = -1, damaged = -1;
@@ -538,7 +538,10 @@ void game_actions_attack(Game *game) {
     return;
   }
 
-  dice = rand() % ATK_RNG;
+  if(game_get_deterministic(game, &deterministic)==ERROR) return;
+
+  if (deterministic == FALSE) dice = rand() % ATK_RNG;
+  else dice = ATK_WIN + 1;
 
   /*Checks how many followers the player has*/
   if((num_followers = game_get_num_followers(game, game_get_player(game))) == -1) return;
