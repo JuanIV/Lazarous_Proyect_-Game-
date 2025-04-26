@@ -763,7 +763,7 @@ Status game_management_save_players(Game *game, char *filename) {
       len += sprintf(line + len, "%ld|", obj_id);
     }
 
-    msg = game_get_msg_at_pos(game, i);
+    msg = game_get_last_message_msg_at_pos(game, i);
     if(!msg) {
       len += sprintf(line + len, " |");
     }else {

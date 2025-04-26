@@ -591,7 +591,7 @@ Command *game_get_command_at_pos(Game *game, int play_pos, int cmd_pos);
  * @param play_pos Desired position from the array of players
  * @return Pointer to said command
  */
-char *game_get_msg_at_pos(Game *game, int play_pos);
+char *game_get_last_message_msg_at_pos(Game *game, int play_pos);
 
 /**
  * @brief Gets the last message displayed by a chat
