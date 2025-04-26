@@ -655,13 +655,15 @@ void game_actions_chat(Game *game) {
   Command *last_cmd = NULL;
   Space *current_space = NULL;
   Character *charr = NULL;
-  Player *play = NULL;
+  Player *play_reciever = NULL, *play_sender = NULL;
   Bool friendly = FALSE;
   Id reciever_id = NO_ID, player_loc = NO_ID, reciever_loc = NO_ID;
   char *name = NULL, *closeup = NULL, *desc = NULL, *mesg = NULL;
   int i, pos;
 
   if (!game) return;
+
+  if (!(play_sender = game_get_player(game))) return;
 
   /*Error checking inside game_get_space and game_get_player_location*/
   if ((player_loc = game_get_player_location(game)) == NO_ID) return;
@@ -678,33 +680,40 @@ void game_actions_chat(Game *game) {
 
   /*Checks if the receiver exists and if its alive*/
   charr = game_get_character_from_name(game, name);
-  play = game_get_player_from_name(game, name);
+  play_reciever = game_get_player_from_name(game, name);
 
-  if (!charr && !play) return;
+  if (!charr && !play_reciever) return;
 
-  if (!charr && play) {
+  if (!charr && play_reciever) {
     /*If there is no menssage to send it returns*/
     if (!mesg) return;
 
-    if (player_get_health(play) <= 0) return;
-    if ((reciever_id = player_get_id(play)) == NO_ID) return;
+    if (player_get_health(play_reciever) <= 0) return;
+    if ((reciever_id = player_get_id(play_reciever)) == NO_ID) return;
+
+    /*Checks if the player and reciever are from the same team*/
+    if (game_get_friendly(player_get_role(play_sender), player_get_role(play_reciever), &friendly) == ERROR) return;
+    if (friendly == FALSE) {
+      game_set_last_message(game, "This player is not from your team...");
+      return;
+    }
 
     /*Checks if the player and the reciever are in the same space*/
-    if ((reciever_loc = player_get_location(play)) == NO_ID) return;
+    if ((reciever_loc = player_get_location(play_reciever)) == NO_ID) return;
     if (reciever_loc != player_loc) {
       game_set_last_message(game, "This player is out of reach...");
       return;
     }
 
-    if ((pos = game_get_player_turn_from_player(game, play)) < 0) return;
+    if ((pos = game_get_player_pos_from_name(game, name)) < 0) return;
     if (game_set_last_message_at_pos(game, pos, mesg) == ERROR) return;
 
     for (i = 0; i < POV_HGHT; i++) {
-      if (!(closeup = player_get_closeup_at(play, i))) return;
+      if (!(closeup = player_get_closeup_at(play_reciever, i))) return;
       if (game_set_last_close_up(game, closeup, i) == ERROR) return;
     }
   }
-  else if (charr && !play) {
+  else if (charr && !play_reciever) {
     if (character_get_health(charr) <= 0) return;
     if ((reciever_id = character_get_id(charr)) == NO_ID) return;
 
@@ -715,7 +724,7 @@ void game_actions_chat(Game *game) {
     }   
 
     /*Chatting happens only if the character is friendly*/
-    if(game_get_friendly(player_get_role(game_get_player(game)), character_get_role(charr), &friendly) == ERROR) return;
+    if(game_get_friendly(player_get_role(play_sender), character_get_role(charr), &friendly) == ERROR) return;
     if (friendly == FALSE) {
       game_set_last_message(game, "I dont think its friendly...");
       return;
@@ -728,7 +737,7 @@ void game_actions_chat(Game *game) {
       if (game_set_last_close_up(game, closeup, i) == ERROR) return;
     }
   }
-  else if (play && charr) return;
+  else if (play_reciever && charr) return;
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }

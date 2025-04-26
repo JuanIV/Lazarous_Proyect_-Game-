@@ -136,7 +136,7 @@ Status command_get_user_input(Command *command) {
 
     /*gets the description of the code that will be performed.
     This might be the name of an object to take/drop*/
-    cmd_desc = strtok(NULL, " \r\n");
+    cmd_desc = strtok(NULL, "\r\n");
     if (command_set_desc(command, cmd_desc) == ERROR) return ERROR;
 
 
