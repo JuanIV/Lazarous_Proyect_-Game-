@@ -36,7 +36,6 @@ char *cmd_to_str[N_CMD][N_CMDT] = {
 struct _Command {
   CommandCode code;          /*!< Name of the command */
   char cmd_desc[CMD_LENGHT]; /*!< Information about the command */
-  char cmd_mesg[MESG_SIZE];   /*!< Information about the message to be sent*/
   Status status;             /*!< Status of the command: OK if it went well, ERROR otherwise*/
 };
 
@@ -51,7 +50,6 @@ Command *command_create() {
   newCommand->code = NO_CMD;
   newCommand->status = ERROR;
   newCommand->cmd_desc[0] = '\0';
-  newCommand->cmd_mesg[0] = '\0';
 
   return newCommand;
 }
@@ -101,38 +99,11 @@ Status command_set_desc(Command *command, char *desc) {
   return OK;
 }
 
-/*If command is not null, a message is asigned to it*/
-Status command_set_mesg(Command *command, char *mesg) {
-  int len;
-  if (!command) return ERROR;
-
-  if (!mesg) {
-    command->cmd_mesg[0] = '\0';
-    return OK;
-  }
-
-  if ((len = strlen(mesg)) >= MESG_SIZE) {
-    command->cmd_mesg[0] = '\0';
-    return ERROR;
-  }
-
-  strcpy(command->cmd_mesg, mesg);
-
-  return OK;
-}
-
 /*It gets the description of a command*/
 char *command_get_desc(Command *command) {
   if (!command) return NULL;
 
   return command->cmd_desc;
-}
-
-/*It gets the message of a command*/
-char *command_get_message(Command *command) {
-  if (!command) return NULL;
-
-  return command->cmd_mesg;
 }
 
 Status command_set_status(Command *command, Status status) {
@@ -151,7 +122,7 @@ Status command_get_status(Command *command) {
 
 /*Interpretates the input from the user and asigns the propper command*/
 Status command_get_user_input(Command *command) {
-  char input[CMD_LENGHT] = "", *token = NULL, *cmd_desc = NULL, *cmd_mesg = NULL;
+  char input[CMD_LENGHT] = "", *token = NULL, *cmd_desc = NULL;
   int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
 
@@ -168,8 +139,6 @@ Status command_get_user_input(Command *command) {
     cmd_desc = strtok(NULL, " \r\n");
     if (command_set_desc(command, cmd_desc) == ERROR) return ERROR;
 
-    cmd_mesg = strtok(NULL, " \r\n");
-    if (command_set_mesg(command, cmd_mesg) == ERROR) return ERROR;
 
     /*compares the user input to any known command*/
     cmd = UNKNOWN;
@@ -183,7 +152,7 @@ Status command_get_user_input(Command *command) {
       }
     }
 
-    if (command_set_code(command, cmd) == ERROR) return ERROR;
+    return command_set_code(command, cmd);
   } else {
     return command_set_code(command, EXIT);
   }
