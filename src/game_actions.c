@@ -655,7 +655,7 @@ void game_actions_chat(Game *game) {
   Player *play = NULL;
   Bool friendly = FALSE;
   Id reciever_id = NO_ID, player_loc = NO_ID, reciever_loc = NO_ID;
-  char *name = NULL, *closeup = NULL, *mesg = NULL;
+  char *name = NULL, *closeup = NULL, *desc = NULL, *mesg = NULL;
   int i, pos;
 
   if (!game) return;
@@ -667,10 +667,11 @@ void game_actions_chat(Game *game) {
 
   /*Gets the name of the receiver to chat from the description of the last cmd*/
   if (!(last_cmd = game_get_last_command(game))) return;
-  if (!(name = command_get_desc(last_cmd))) return;
-
-  /*Gets the message to send from the description of the last cmd*/
-  if (!(mesg = command_get_mesg(last_cmd))) return;
+  
+  /*Gets the description of the command and then the name and message*/
+  if (!(desc = command_get_desc(last_cmd))) return;
+  if (!(name = strtok(desc, " "))) return;
+  mesg = strtok(NULL, "\r\n");
 
   /*Checks if the receiver exists and if its alive*/
   charr = game_get_character_from_name(game, name);
@@ -679,6 +680,9 @@ void game_actions_chat(Game *game) {
   if (!charr && !play) return;
 
   if (!charr && play) {
+    /*If there is no menssage to send it returns*/
+    if (!mesg) return;
+
     if (player_get_health(play) <= 0) return;
     if ((reciever_id = player_get_id(play)) == NO_ID) return;
 

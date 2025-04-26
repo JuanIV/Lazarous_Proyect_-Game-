@@ -89,16 +89,6 @@ Status command_destroy(Command *command);
 Status command_set_code(Command *command, CommandCode code);
 
 /**
- * @brief If command is not null, a message is asigned to it
- * @author Alina Datsko
- * 
- * @param command a pointer to the command to which the message will be assigned
- * @param mesg message that will be assigned
- * @return  OK, if everything goes well or ERROR if there was some mistake
- */
-Status command_set_mesg(Command *command, char *mesg);
-
-/**
  * @brief It gets the code of a command
  * @author Profesores PPROG
  *
@@ -106,15 +96,6 @@ Status command_set_mesg(Command *command, char *mesg);
  * @return NO_CMD if the command is null or its code otherwise
  */
 CommandCode command_get_code(Command *command);
-
-/**
- * @brief It gets the message of a command
- * @author Alina Datsko
- * 
- * @param command a pointer to the command
- * @return a string with the message
- */
-char *command_get_mesg(Command *command);
 
 /**
  * @brief If command is not null, a description is asigned to it
