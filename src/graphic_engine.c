@@ -786,9 +786,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   screen_area_puts(ge->player_inf, str);
 
   /* Paint the message area */
+  if ((turn = game_get_turn(game)) == -1) return;
   screen_area_clear(ge->message);
-  sprintf(str, "  %s", game_get_last_message(game));
-  screen_area_puts(ge->message, str);
+  for (i = 1; i <= NUM_MSGS; i++) {
+    sprintf(str, "  %s", game_get_last_message_at_pos(game, turn, NUM_MSGS - i));
+    screen_area_puts(ge->message, str);
+  }
 
   /* Paint in the close up area */
   screen_area_clear(ge->pov);

@@ -1096,7 +1096,7 @@ char *game_get_last_message(Game *game) {
   return (game->data[game->turn])->messages[0]->msg;
 }
   
-char *game_get_last_message_msg_at_pos_from_position(Game *game, int play_pos, int msg_pos) {
+char *game_get_last_message_at_pos(Game *game, int play_pos, int msg_pos) {
   if(!game) return NULL;
   
   if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
@@ -1196,7 +1196,7 @@ Status game_set_last_message(Game *game, char *message) {
   
 }
   
-  /*Sets the last displayed message at a desired position */
+/*Sets the last displayed message at a desired position */
 Status game_set_last_message_at_pos(Game *game, int play_pos, char *message) {
   
   if (!game || !message) return ERROR;
@@ -1212,7 +1212,7 @@ Status game_set_last_message_at_pos(Game *game, int play_pos, char *message) {
   
 }
   
-  /*It gets the last message of the interface data of a player at a desired position*/
+/*It gets the last message of the interface data of a player at a desired position*/
 char *game_get_last_message_msg_at_pos(Game *game, int play_pos) {
   if(!game) return NULL;
   

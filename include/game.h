@@ -607,7 +607,7 @@ char *game_get_last_message(Game *game);
  * 
  * @param game Pointer to the game
  * @param play_pos Desired position from the array of players
- * @param cmd_pos Desired position inside interfaceData array of commands
+ * @param msg_pos Desired position from the array of msg_pos
  * @return Pointer to said command
  */
 char *game_get_last_message_at_pos(Game *game, int play_pos, int msg_pos);
@@ -632,6 +632,46 @@ Status game_set_last_message(Game *game, char *message);
  * @return OK if the last_cmd was successfull, ERROR otherwise 
  */
 Status game_set_last_message_at_pos(Game *game, int play_pos, char *message);
+
+Bool game_get_last_message_visibility_at_pos(Game *game, int play_pos, int msg_pos);
+
+Status game_set_last_message_visibility_at_pos(Game *game, int play_pos, int msg_pos, Bool visibility);
+
+/**
+ * @brief Gets the last message sender type at a postion from the array of players
+ * @author Lucas Blanco
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param msg_pos Desired postion from the array of messages
+ * @return Type of the sender of the last message
+ */
+Type game_get_last_message_sender_type_at_pos(Game *game, int play_pos, int msg_pos);
+
+/**
+ * @brief Sets the sender type from a pos
+ * @author Lucas Blanco
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param msg_pos Desired postion from the array of messages
+ * @param type Type of the sender to be set
+ * @return OK if everything went well, ERROR if there was a mistake
+ */
+Status game_set_last_message_sender_type_at_pos(Game *game, int play_pos, int msg_pos, Type type);
+
+/**
+ * @brief Sets the sender from a pos
+ * @author Lucas Blanco
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param msg_pos Desired postion from the array of players
+ * @param sender Id of the sender to be set
+ * @return OK if everything went well, ERROR if there was a mistake
+ */
+Status game_set_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos, Id sender);
+
 
 /**
  * @brief Gets a line from the last close up shown
