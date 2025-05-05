@@ -257,24 +257,23 @@ int character_get_health(Character *charr);
 Status character_set_health(Character *charr, int health);
 
 /**
- * @brief It gets the friendlyness (ally/enemy) of a character
- * @author Tiago Oselka
- *
- * @param charr a pointer to the character
- * @return TRUE if the character is friendly and FALSE otherwise
+ * @brief Gets the damage that a character deals
+ * @author Juan Ibáñez
+ * 
+ * @param charr Pointer to the character
+ * @return int value of the damage
  */
-Bool character_get_friendly(Character *charr);
+int character_get_damage(Character *charr);
 
 /**
- * @brief It sets the friendlyness of a character
- * @author Tiago Oselka
- *
- * @param charr a pointer to the character
- * @param friendly a bool that represents wether a character is friendly or not
- *
+ * @brief Sets the damage that a character deals
+ * @author Juan Ibáñez
+ * 
+ * @param charr Pointer to the character
+ * @param damage New damage
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status character_set_friendly(Character *charr, Bool friendly);
+Status character_set_damage(Character *charr, int damage);
 
 /**
  * @brief It prints the character information

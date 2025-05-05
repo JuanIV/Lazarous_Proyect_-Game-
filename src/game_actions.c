@@ -151,6 +151,24 @@ void game_actions_equip_weapon(Game *game, Object *obj, Character *trg);
 void game_actions_set_trap(Game *game, Object *obj);
 
 /**
+ * @brief Action of reading a terminal
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param obj Pointer to the object that is the terminal
+ */
+void game_actions_read_terminal(Game *game, Object *obj);
+
+/**
+ * @brief Action of using a switch
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @param obj Pointer to the object
+ */
+void game_actions_use_switch(Game *game, Object *obj);
+
+/**
  * @brief It defines the action of saving the game
  * @author Alina Datsko
  *
@@ -508,145 +526,209 @@ void game_actions_attack(Game *game) {
   Player *player = NULL;
   Set *followers = NULL;
   Bool friendly = FALSE, deterministic = FALSE;
-  Id charr_id = NO_ID, damaged_follower = NO_ID, player_loc = NO_ID;
+  Object *weapon = NULL, *armor = NULL;
+  Id charr_id = NO_ID, damaged_follower = NO_ID, player_loc = NO_ID, weapon_id = NO_ID, armor_id = NO_ID;
   char *charr_name = NULL, message[MESG_SIZE];
-  int dice, charr_health, follower_health, player_health, num_followers = -1, damaged = -1;
+  int i, dice, charr_health, charr_dmg, follower_health, player_health, weapon_dmg = 0, armor_def,damage = 0, damaged, num_followers = -1, total_luck = 0, count = 0;
 
   if (!game) return;
+
+  if (!(player = game_get_player(game))) return;
+  if ((player_health = player_get_health(player)) == -1) return;
+  if ((player_loc = player_get_location(player)) == NO_ID) return;
+  if (!(current_space = game_get_space(game, player_loc))) return;
+
+  player_get_weapon(player, &weapon_id);
+  weapon = game_get_object(game, weapon_id);
+  if(weapon){
+    total_luck += object_get_luck(weapon);
+    weapon_dmg = object_get_use_value(weapon);
+  }
+
+  player_get_armor(player, &armor_id);
+  armor = game_get_object(game, armor_id);
+  if(armor){
+    total_luck += object_get_luck(armor);
+    armor_def = object_get_use_value(armor);
+  }
+
 
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(charr_name = command_get_desc(last_cmd))) return;
 
-  /*Chacks if the character exists and if its alive*/
-  if (!(charr = game_get_character_from_name(game, charr_name))) return;
-  if (character_get_health(charr) <= 0) return;
-  if((charr_id = character_get_id(charr)) == NO_ID) return;
-  if (!(player = game_get_player(game))) return;
+  /*Case of attacking a character*/
+  if ((charr = game_get_character_from_name(game, charr_name))){
 
-  /*Checks if the character and the player are in the same space*/
-  if ((player_loc = player_get_location(player)) == NO_ID) return;
-  if (!(current_space = game_get_space(game, player_loc))) return;
-  if(space_find_character(current_space, charr_id) == FALSE) {
-    if (game_set_last_message(game, "This character is out of reach...") == ERROR)return;
-    return;
-  }
-
-  /*Attack happens only if the character is not friendly and alive*/
-  if (game_get_friendly(player_get_role(player), character_get_role(charr), &friendly) == ERROR) return;
-  if (friendly == TRUE) {
-    if (game_set_last_message(game, "It seems friendly... No need to fight") == ERROR) return;
-    return;
-  }
-
-  if(game_get_deterministic(game, &deterministic)==ERROR) return;
-
-  if (deterministic == FALSE) dice = rand() % ATK_RNG;
-  else dice = ATK_WIN + 1;
-
-  /*Checks how many followers the player has*/
-  if((num_followers = game_get_num_followers(game, game_get_player(game))) == -1) return;
+    if (character_get_health(charr) <= 0) return;
+    if((charr_id = character_get_id(charr)) == NO_ID) return;
+    
+    /*Checks if the character and the player are in the same space*/
+    if(space_find_character(current_space, charr_id) == FALSE) {
+      if (game_set_last_message(game, "This character is out of reach...") == ERROR)return;
+      return;
+    }
   
-  /*Depending on the number the player or the character looses*/
-  if (dice >= ATK_WIN) {
-    /*If the character looses, it looses one point of life for each follower that the player has, on top
-    of the point lost from the player*/
-    if((charr_health = character_get_health(charr)) == -1) return;
-    if (character_set_health(charr, charr_health - (num_followers + 1)) == ERROR) return;
-    if(character_get_health(charr) > 0) {
-      switch (rand() % 4){
-      case 0:
-        if(game_set_last_message(game, "I got your head, next you will be dead")== ERROR) return;
-        break;
-      case 1:
-        if(game_set_last_message(game, "I made you bleed, in a moment you will    be buried deep")== ERROR) return;
-        break;
-      case 2:
-        if(game_set_last_message(game, "I attacked you just beacause, so don't    have remorse")== ERROR) return;
-        break;
-      case 3:
-        if(game_set_last_message(game, "I saw you future, it's filled with        torture")== ERROR) return;
-        break;
-      default:
-        break;
-      }
-    }else {
-      if(space_remove_character(current_space, charr_id) == ERROR) return;
-      switch (rand() % 4){
-      case 0:
-        if(game_set_last_message(game, "Aw! You are dead, with your body the      worms will be fed'")== ERROR) return;
-        break;
-      case 1:
-        if(game_set_last_message(game, "Your miserable life is over, but still    no one bother")== ERROR) return;
-        break;
-      case 2:
-        if(game_set_last_message(game, "I killed you so easily, you're welcome    for finishing your misery")== ERROR) return;
-        break;
-      case 3:
-        if(game_set_last_message(game, "You died by my hand, you were a loser     with no friends")== ERROR) return;
-        break;
-      default:
-        break;
-      }
+    /*Attack happens only if the character is not friendly and alive*/
+    if (game_get_friendly(player_get_role(player), character_get_role(charr), &friendly) == ERROR) return;
+    if (friendly == TRUE) {
+      if (game_set_last_message(game, "It seems friendly... No need to fight") == ERROR) return;
+      return;
     }
 
-  } else {
-    /*If the player looses, the player or a character that follows him is damaged randomly*/
-    damaged = rand() % (num_followers + 1);
 
-    if(damaged == num_followers) {
-      if ((player_health = player_get_health(player)) == -1) return;
-      if (player_set_health(player, player_health - 1) == ERROR) return;
+    /*  PLAYER ATTACKS  */
+    
+    if(game_get_deterministic(game, &deterministic)==ERROR) return;
+  
+    if (deterministic == FALSE) dice = (rand() % ATK_RNG) + total_luck;
+    else dice = ATK_WIN + 1;
+  
+    /*Depending on the number the player lands the attack or not*/
+    if (dice >= ATK_WIN) {
+      /*If the attack landed, the character gets damaged*/
+      if((charr_health = character_get_health(charr)) == -1) return;
+      
+      damage = PLY_BASE_DMG + weapon_dmg;
 
-      if(player_get_health(player) > 0) {
-        switch (rand() % 2){
-        case 0:
-          if(game_set_last_message(game, "You got attacked by something strange...  Try to get revenge!!")== ERROR) return;
-          break;
-        case 1:
-          if(game_set_last_message(game, "You just took a blow, it seems that you   were too slow")== ERROR) return;
-        default:
-          break;
-        }
-      } else {
-        if(game_set_last_message(game, "YOU ARE DEAD")== ERROR) return;
+      if (character_set_health(charr, charr_health - damage) == ERROR) return;
+
+      if(character_get_health(charr) > 0) {
+        if(weapon) count += sprintf(message, "You hit %s with %s dealing %d dmg pts. ", character_get_name(charr), object_get_name(weapon), damage);
+        else count += sprintf(message, "You punched %s dealing %d dmg pts. ", character_get_name(charr), damage);
+      }else {
+        if(weapon) sprintf(message, "You hit %s with %s killing him.", character_get_name(charr), object_get_name(weapon));
+        else sprintf(message, "You punched %s so hard you killed him.", character_get_name(charr));
+        if(game_set_last_message(game, message)== ERROR) return;
+        if (game_set_last_status(game, OK) == ERROR) return;
+        return;
       }
 
     } else {
-      /*Else, one of the followers is damaged*/
-      if (!(followers = game_get_followers(game, game_get_player(game)))) return;
+      /*If the player misses an attack with a weapon he might get hurt insthead of the character by accident*/
+      dice = (rand()%ATK_ACC_RNG) - total_luck;
 
-      if((damaged_follower = set_get_id_at_pos(followers, damaged)) == NO_ID) {
-        set_destroy(followers);
-        return;
+      if((dice >= ATK_ACCIDENT) && weapon) {
+        if (player_set_health(player, player_health - PLY_BASE_DMG) == ERROR) return;
+        if(player_get_health(player) > 0){
+          count += sprintf(message + count, "You missed the attack and hurted yourself by accident. Ouch! ");
+        } else {
+          sprintf(message + count, "You missed the attack and accidentally killed yourself. Oops... ");
+          if(game_set_last_message(game, message)== ERROR) return;
+          if (game_set_last_status(game, OK) == ERROR) return;
+          return;
+        }
       }
-      if (!(follower = game_get_character_from_id(game, damaged_follower))) {
-        set_destroy(followers);
-        return;
-      }
+    }
 
-      if ((follower_health = character_get_health(follower)) == -1) {
-        set_destroy(followers);
-        return;
-      }
-      if (character_set_health(follower, follower_health - 1) == ERROR) {
-        set_destroy(followers);
-        return;
+
+    /*   FOLLOWERS ATTACK    */
+
+    if((num_followers = game_get_num_followers(game, player)) == -1) return;
+
+    if(num_followers > 0){
+      if (!(followers = game_get_followers(game, player))) return;
+
+      for(i=0, damage = 0; i<num_followers;i++){
+
+        if (deterministic == FALSE) dice = (rand() % ATK_RNG) + total_luck;
+        else dice = ATK_WIN + 1;
+
+        if(dice >= ATK_WIN){
+          follower = game_get_character_from_id(game, set_get_id_at_pos(followers, i));
+          if(!follower) continue;
+          damage += character_get_damage(follower);
+        }
       }
 
       set_destroy(followers);
-      
-      /*If the character dies, it must stop following the player and a message is shown*/
-      if ((follower_health-1) <= 0) {
-        if (character_set_following(charr, NO_ID) == ERROR) return;
-        if (space_remove_character(current_space, damaged_follower) == ERROR) return;
-        sprintf(message, "Sadly your subordinate %s has passed away", character_get_name(follower));
-        if (game_set_last_message(game, message) == ERROR) return;
-      } else {
-        sprintf(message, "Your subordinate %s has been damaged!", character_get_name(follower));
-        if (game_set_last_message(game, message) == ERROR) return;
+
+      if (character_set_health(charr, charr_health - damage) == ERROR) return;
+
+      if(character_get_health(charr) > 0) {
+        if(num_followers > 1) count += sprintf(message + count, "Your followers attacked %s dealing %d dmg pts. ", character_get_name(charr), damage);
+        else if(num_followers == 1) count += sprintf(message + count, "%s attacked %s dealing %d dmg pts. ", character_get_name(follower) ,character_get_name(charr), damage);
+      }else {
+        if(num_followers > 1) sprintf(message + count, "Your followers attacked %s and killed him ", character_get_name(charr));
+        else if(num_followers == 1) sprintf(message + count, "%s attacked %s and killed him ", character_get_name(follower),character_get_name(charr));
+        game_set_last_message(game, message);
+        if (game_set_last_status(game, OK) == ERROR) return;
+        return;
       }
-    }    
+    }
+
+    /*   CHARACTER ATTACKS BACK   */
+
+    if (deterministic == FALSE) dice = (rand() % ATK_RNG) - total_luck;
+    else dice = ATK_WIN - 1;
+
+    if(dice >= ATK_WIN){
+
+      if ((charr_dmg = character_get_damage(charr) )== -1) return;
+
+      if(character_get_weapon(charr, &weapon_id) == ERROR) return;
+      weapon = game_get_object(game, weapon_id);
+      if(weapon) charr_dmg += object_get_use_value(weapon);
+
+      damaged = rand()%(num_followers + 1);
+
+      if(damaged == num_followers) {
+
+        player_get_armor(player, &armor_id);
+        armor = game_get_object(game, armor_id);
+        if(armor) armor_def = object_get_use_value(armor);
+        else armor_def = 0;
+
+        damage = (charr_dmg * (100-armor_def))/100;
+
+        if (player_set_health(player, player_health - damage) == ERROR) return;
+  
+        if(player_get_health(player) > 0) {
+          count += sprintf(message + count, "%s attacked you! You loose %d hp. ", character_get_name(charr), damage);
+        } else {
+          sprintf(message + count, "%s attacked and killed you. ", character_get_name(charr));
+          if(game_set_last_message(game, message)== ERROR) return;
+          if (game_set_last_status(game, OK) == ERROR) return;
+          return;
+        }
+  
+      } else {
+        /*Else, one of the followers is damaged*/
+        character_get_armor(follower, &armor_id);
+        armor = game_get_object(game, armor_id);
+        if(armor) armor_def = object_get_use_value(armor);
+        else armor_def = 0;
+
+        damage = (charr_dmg * (100-armor_def))/100;
+        
+        if (!(followers = game_get_followers(game, game_get_player(game)))) return;
+  
+        if((damaged_follower = set_get_id_at_pos(followers, damaged)) == NO_ID) {
+          set_destroy(followers);
+          return;
+        }
+        set_destroy(followers);
+
+        if (!(follower = game_get_character_from_id(game, damaged_follower))) return;
+  
+        if ((follower_health = character_get_health(follower)) == -1) return;
+
+        if (character_set_health(follower, follower_health - damage) == ERROR) return;
+  
+        /*If the character dies, it must stop following the player and a message is shown*/
+        if ((character_get_health(follower)) <= 0) {
+          if (character_set_following(charr, NO_ID) == ERROR) return;
+          if (space_remove_character(current_space, damaged_follower) == ERROR) return;
+          sprintf(message + count, "%s was killed by %s. ", character_get_name(follower), character_get_name(charr));
+        } else {
+          sprintf(message + count, "%s was attacked and lost %d hp. ", character_get_name(follower), damage);
+          
+        }   
+      }
+    } else {
+      sprintf(message + count, "%s missed his attack. ", character_get_name(charr));
+    }
   }
+  if (game_set_last_message(game, message) == ERROR) return;
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -921,6 +1003,12 @@ void game_actions_use(Game *game){
     case TRAP:
       game_actions_set_trap(game, obj);
       break;
+    case TERMINAL:
+      game_actions_read_terminal(game, obj);
+      break;
+    case SWITCH:
+      game_actions_use_switch(game, obj);
+      break;
     default:
       break;
   }
@@ -1038,6 +1126,27 @@ void game_actions_set_trap(Game *game, Object *obj){
   if(player_delete_object(player,obj_id) == ERROR) return;
   
   if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_read_terminal(Game *game, Object *obj){
+  char *desc = NULL, *closeup = NULL;
+  int i;
+
+  desc = object_get_desc(obj);
+  if(!desc) return;
+
+  for (i = 0; i < POV_HGHT; i++) {
+    if (!(closeup = object_get_closeup_at_pos(obj, i))) return;
+    if (game_set_last_close_up(game, closeup, i) == ERROR) return;
+  }
+
+  game_set_last_message(game, desc);
+
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_use_switch(Game *game, Object *obj){
+
 }
 
 

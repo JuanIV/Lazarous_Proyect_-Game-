@@ -378,7 +378,7 @@ Status game_management_load_characters(Game *game, char *filename) {
   char message[WORD_SIZE] = "";
   char *toks = NULL;
   Id id_charr = NO_ID, id_location = NO_ID, following = NO_ID, armor = NO_ID, weapon = NO_ID;
-  int i, health = 0;
+  int i, health = 0, damage = 0;
   Role role = NO_ROLE;
   Character *charr = NULL;
   Status st = OK;
@@ -389,7 +389,7 @@ Status game_management_load_characters(Game *game, char *filename) {
 
   /*
   reads data from the file acording to the next structure:
-  #c:<id>|<name>|<role>|<graphic description>|<location>|<health>|<message>|<closeup>
+  #c:<id>|<name>|<role>|<graphic description>|<location>|<health>|<damage>|<following>|<weapon>|<armor>|<message>|close up|
   */
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#c:", line, 3) == 0) {
@@ -405,6 +405,8 @@ Status game_management_load_characters(Game *game, char *filename) {
       id_location = atol(toks);
       toks = strtok(NULL, "|");
       health = atoi(toks);
+      toks = strtok(NULL, "|");
+      damage = atoi(toks);
       toks = strtok(NULL, "|");
       following = atol(toks);
       toks = strtok(NULL, "|");
@@ -424,6 +426,7 @@ Status game_management_load_characters(Game *game, char *filename) {
       if (character_set_name(charr, name) == ERROR) st = ERROR;
       if (character_set_gdesc(charr, desc) == ERROR) st = ERROR;
       if (character_set_health(charr, health) == ERROR) st = ERROR;
+      if (character_set_damage(charr, damage) == ERROR) st = ERROR;
       if (character_set_role(charr, role) == ERROR) st = ERROR;
       if (character_set_following(charr, following) == ERROR) st = ERROR;
       if (character_set_armor(charr, armor) == ERROR) st = ERROR;

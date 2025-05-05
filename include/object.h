@@ -23,7 +23,7 @@
  * @brief It defines the type of objects there are in the game
  *
  */
-typedef enum { NO_TAG = -1, NORMAL, HEALER, WEAPON, ARMOR, TRAP } Tag;
+typedef enum { NO_TAG = -1, NORMAL, HEALER, WEAPON, ARMOR, TRAP, TERMINAL, SWITCH } Tag;
 
 typedef struct _Class Class;
 

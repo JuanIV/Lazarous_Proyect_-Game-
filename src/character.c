@@ -30,6 +30,7 @@ struct _Character {
   Id weapon;                   /*!< Id of the object that serves as weapon */
   Id armor;                    /*!< Id of the object that serves as armor */
   int health;                  /*!< Health of the character*/
+  int damage;                  /*!< Damage that the character deals*/
 };
 
 /*It creates a new character by allocating its memory and initializing its members*/
@@ -47,6 +48,7 @@ Character *character_create(Id id) {
   character->weapon = NO_ID;
   character->armor = NO_ID;
   character->health = 0;
+  character->damage = 0;
 
   return character;
 }
@@ -252,6 +254,20 @@ Status character_set_health(Character *charr, int health) {
   if (health < 0) return ERROR;
 
   charr->health = health;
+
+  return OK;
+}
+
+int character_get_damage(Character *charr){
+  if(!charr) return -1;
+
+  return charr->damage;
+}
+
+Status character_set_damage(Character *charr, int damage){
+  if(!charr || damage < 0) return ERROR;
+
+  charr->damage = damage;
 
   return OK;
 }
