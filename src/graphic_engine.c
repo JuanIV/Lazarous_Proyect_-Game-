@@ -664,7 +664,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Space *sp = NULL;
   Player *act_player = NULL, *aux_player = NULL;
   Role role = NO_ROLE;
-  Id aux_obj_id = NO_ID, aux_charr_id = NO_ID, weapon = NO_ID, armor = NO_ID;
+  Id aux_obj_id = NO_ID, aux_charr_id = NO_ID, weapon = NO_ID, armor = NO_ID, sender;
   Bool friendly = FALSE;
   Inventory *inventory = NULL;
 
@@ -788,10 +788,22 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   /* Paint the message area */
   if ((turn = game_get_turn(game)) == -1) return;
   screen_area_clear(ge->message);
+  
   for (i = 1; i <= NUM_MSGS; i++) {
-    sprintf(str, "  %s", game_get_last_message_at_pos(game, turn, NUM_MSGS - i));
-    screen_area_puts(ge->message, str);
+    if(game_get_last_message_visibility_at_pos(game, turn, NUM_MSGS-i) == TRUE){
+      sender = game_get_last_message_sender_at_pos(game, turn, NUM_MSGS-i);
+      if(sender == NO_ID) sprintf(str, "%s", game_get_last_message_at_pos(game, turn, NUM_MSGS-i));
+      else {
+        aux_player = game_get_player_from_id(game, sender);
+        if(!aux_player) return;
+
+        sprintf(str, "%s: %s",player_get_name(aux_player), game_get_last_message_at_pos(game, turn, NUM_MSGS-i));}
+
+        if(strcmp(str, " ") != 0) screen_area_puts(ge->message, str);
+     
+    }
   }
+  
 
   /* Paint in the close up area */
   screen_area_clear(ge->pov);

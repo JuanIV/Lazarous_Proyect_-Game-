@@ -384,6 +384,23 @@ Player *game_get_player_from_name(Game *game, char *name) {
   return NULL;
 }
 
+Player *game_get_player_from_id(Game *game, Id id) {
+  int i;
+  Id id_aux = NO_ID;
+
+  if (!game || id == NO_ID) return NULL;
+
+  for (i = 0; i < game->n_players; i++) {
+    if (!(id_aux = player_get_id(game->players[i]))) return NULL;
+
+    if (id_aux == id) {
+      return game->players[i];
+    }
+  }
+
+  return NULL;
+}
+
 int game_get_player_pos_from_name(Game *game, char *name) {
   int i;
   char *name_aux = NULL;
@@ -1090,137 +1107,173 @@ Status game_get_friendly(Role role1, Role role2, Bool *relationship) {
 /*Gets the last message displayed by a chat*/
 char *game_get_last_message(Game *game) {
   if (!game) return NULL;
-  
-  if(game->turn < 0 || game->turn >= game->n_players) return NULL;
-  
-  return (game->data[game->turn])->messages[0]->msg;
+  if (game->turn < 0 || game->turn >= game->n_players) return NULL;
+  return (game->data[game->turn])->messages[NUM_MSGS-1]->msg;
 }
-  
+
 char *game_get_last_message_at_pos(Game *game, int play_pos, int msg_pos) {
-  if(!game) return NULL;
-  
-  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
-  
+  if (!game) return NULL;
+  if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
   return game->data[play_pos]->messages[msg_pos]->msg;
 }
-  
+
 Status game_set_last_message_msg_at_pos(Game *game, int play_pos, int msg_pos, char *msg) {
-  if(!game || !msg) return ERROR;
-  
-  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
-  
+  if (!game || !msg) return ERROR;
+  if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
   sprintf((game->data[play_pos])->messages[msg_pos]->msg, "%.*s", MESG_SIZE, msg);
-  
   return OK;
-  }
-  
+}
+
 Bool game_get_last_message_visibility_at_pos(Game *game, int play_pos, int msg_pos) {
-  if(!game) return FALSE;
-  
-  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return FALSE;
-  
+  if (!game) return FALSE;
+  if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return FALSE;
   return game->data[play_pos]->messages[msg_pos]->visible;
 }
-  
+
 Status game_set_last_message_visibility_at_pos(Game *game, int play_pos, int msg_pos, Bool visibility) {
-  if(!game) return ERROR;
-  
-  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
-  
+  if (!game) return ERROR;
+  if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
   game->data[play_pos]->messages[msg_pos]->visible = visibility;
-  
   return OK;
 }
-  
+
 Type game_get_last_message_sender_type_at_pos(Game *game, int play_pos, int msg_pos) {
-  if(!game) return NO_TYPE;
-  
-  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NO_TYPE;
-  
+  if (!game) return NO_TYPE;
+  if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NO_TYPE;
   return game->data[play_pos]->messages[msg_pos]->sender_type;
 }
-  
+
 Status game_set_last_message_sender_type_at_pos(Game *game, int play_pos, int msg_pos, Type type) {
-  if(!game || type == NO_TYPE) return ERROR;
-  
-  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
-  
+  if (!game || type == NO_TYPE) return ERROR;
+  if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
   game->data[play_pos]->messages[msg_pos]->sender_type = type;
-  
   return OK;
 }
-  
+
 Status game_set_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos, Id sender) {
-  if(!game || sender == NO_ID) return ERROR;
-  
-  if(play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
-  
+  if (!game || sender == NO_ID) return ERROR;
+  if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return ERROR;
   game->data[play_pos]->messages[msg_pos]->sender = sender;
-  
   return OK;
 }
-  
-  /*Sets the last displayed message*/
+
+Id game_get_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos) {
+  if (!game) return NO_ID;
+  if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NO_ID;
+  return game->data[play_pos]->messages[msg_pos]->sender;
+}
+
+/*Sets the last displayed message in reverse order*/
 Status game_set_last_message(Game *game, char *message) {
   InterfaceData *interfaceData = NULL;
-  int i=0;
-  
-  if(game==NULL || message == NULL) return ERROR;
-  
-  if(game->turn < 0 || game->turn >= game->n_players) return ERROR;
-  
+  int i = 0;
+
+  if (!game || !message) return ERROR;
+  if (game->turn < 0 || game->turn >= game->n_players) return ERROR;
+
   interfaceData = game->data[game->turn];
-  if(!interfaceData) return ERROR;
-  
-  for(i=0;i<NUM_MSGS;i++){
-  if(interfaceData->messages[i]->visible == FALSE) break;
+  if (!interfaceData) return ERROR;
+
+  for (i = 0; i < NUM_MSGS; i++) {
+    if (!interfaceData->messages[i]) return ERROR;
+    if (interfaceData->messages[i]->visible == FALSE) break;
   }
-  
+
   if (i == NUM_MSGS) {
-    for (i = NUM_MSGS - 1; i > 0; i--) {
-      interfaceData->messages[i]->visible = interfaceData->messages[i - 1]->visible;
-      sprintf(interfaceData->messages[i]->msg, "%.*s",MESG_SIZE,interfaceData->messages[i - 1]->msg);
-      interfaceData->messages[i]->sender = interfaceData->messages[i - 1]->sender;
-      interfaceData->messages[i]->sender_type = interfaceData->messages[i - 1]->sender_type;
+    for (i = 0; i < NUM_MSGS - 1; i++) {
+      if (!interfaceData->messages[i] || !interfaceData->messages[i + 1]) return ERROR;
+      interfaceData->messages[i]->visible = interfaceData->messages[i + 1]->visible;
+      sprintf(interfaceData->messages[i]->msg, "%.*s", MESG_SIZE, interfaceData->messages[i + 1]->msg);
+      interfaceData->messages[i]->sender = interfaceData->messages[i + 1]->sender;
+      interfaceData->messages[i]->sender_type = interfaceData->messages[i + 1]->sender_type;
     }
-  i = 0;
+    i = NUM_MSGS - 1;
   }
-  
+
+  if (!interfaceData->messages[i]) return ERROR;
   sprintf(interfaceData->messages[i]->msg, "%.*s", MESG_SIZE, message);
-  interfaceData->messages[i]->msg[MESG_SIZE] = '\0';
   interfaceData->messages[i]->visible = TRUE;
   interfaceData->messages[i]->sender = NO_ID;
   interfaceData->messages[i]->sender_type = NO_TYPE;
-  
+
   return OK;
-  
 }
-  
+
 /*Sets the last displayed message at a desired position */
 Status game_set_last_message_at_pos(Game *game, int play_pos, char *message) {
-  
-  if (!game || !message) return ERROR;
-  
-  if (play_pos < 0 || play_pos >= game->n_players) return ERROR;
-  
-  sprintf(game->data[play_pos]->messages[0]->msg, "%.*s", MESG_SIZE, message);
-  game->data[play_pos]->messages[0]->visible = TRUE;
-  game->data[play_pos]->messages[0]->sender = NO_ID;
-  game->data[play_pos]->messages[0]->sender_type = NO_TYPE;
-  
+  InterfaceData *interfaceData = NULL;
+  int i = 0;
+
+  if (!game || !message || play_pos < 0 || play_pos >= game->n_players) return ERROR;
+
+  interfaceData = game->data[play_pos];
+  if (!interfaceData) return ERROR;
+
+  for (i = 0; i < NUM_MSGS; i++) {
+    if (!interfaceData->messages[i]) return ERROR;
+    if (interfaceData->messages[i]->visible == FALSE) break;
+  }
+
+  if (i == NUM_MSGS) {
+    for (i = 0; i < NUM_MSGS - 1; i++) {
+      if (!interfaceData->messages[i] || !interfaceData->messages[i + 1]) return ERROR;
+      interfaceData->messages[i]->visible = interfaceData->messages[i + 1]->visible;
+      sprintf(interfaceData->messages[i]->msg, "%.*s", MESG_SIZE, interfaceData->messages[i + 1]->msg);
+      interfaceData->messages[i]->sender = interfaceData->messages[i + 1]->sender;
+      interfaceData->messages[i]->sender_type = interfaceData->messages[i + 1]->sender_type;
+    }
+    i = NUM_MSGS - 1;
+  }
+
+  if (!interfaceData->messages[i]) return ERROR;
+  sprintf(interfaceData->messages[i]->msg, "%.*s", MESG_SIZE, message);
+  interfaceData->messages[i]->visible = TRUE;
+  interfaceData->messages[i]->sender = NO_ID;
+  interfaceData->messages[i]->sender_type = NO_TYPE;
+
   return OK;
-  
 }
-  
+
+Status game_set_last_message_at_pos_with_info(Game *game, int play_pos, char *message, Id send, Type send_type) {
+  InterfaceData *interfaceData = NULL;
+  int i = 0;
+
+  if (!game || !message || play_pos < 0 || play_pos >= game->n_players) return ERROR;
+
+  interfaceData = game->data[play_pos];
+  if (!interfaceData) return ERROR;
+
+  for (i = 0; i < NUM_MSGS; i++) {
+    if (!interfaceData->messages[i]) return ERROR;
+    if (interfaceData->messages[i]->visible == FALSE) break;
+  }
+
+  if (i == NUM_MSGS) {
+    for (i = 0; i < NUM_MSGS - 1; i++) {
+      if (!interfaceData->messages[i] || !interfaceData->messages[i + 1]) return ERROR;
+      interfaceData->messages[i]->visible = interfaceData->messages[i + 1]->visible;
+      sprintf(interfaceData->messages[i]->msg, "%.*s", MESG_SIZE, interfaceData->messages[i + 1]->msg);
+      interfaceData->messages[i]->sender = interfaceData->messages[i + 1]->sender;
+      interfaceData->messages[i]->sender_type = interfaceData->messages[i + 1]->sender_type;
+    }
+    i = NUM_MSGS - 1;
+  }
+
+  if (!interfaceData->messages[i]) return ERROR;
+  sprintf(interfaceData->messages[i]->msg, "%.*s", MESG_SIZE, message);
+  interfaceData->messages[i]->visible = TRUE;
+  interfaceData->messages[i]->sender = send;
+  interfaceData->messages[i]->sender_type = send_type;
+
+  return OK;
+}
+
 /*It gets the last message of the interface data of a player at a desired position*/
 char *game_get_last_message_msg_at_pos(Game *game, int play_pos) {
-  if(!game) return NULL;
-  
-  if(play_pos < 0 || play_pos >= game->n_players) return NULL;
-  
+  if (!game) return NULL;
+  if (play_pos < 0 || play_pos >= game->n_players) return NULL;
   return game->data[play_pos]->messages[0]->msg;
 }
-  
 
 /**
  * ***************  Close up management  ***************

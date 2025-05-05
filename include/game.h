@@ -64,7 +64,7 @@
  * @brief Number of messages that are saved in order to print them in the messages region of graphic engine
  * 
  */
-#define NUM_MSGS 4
+#define NUM_MSGS 8
 
 /**
  * @brief It stores the game information
@@ -132,6 +132,8 @@ Player *game_get_player_at(Game *game, int pos);
  * @return Pointer to the wanted player
  */
 Player *game_get_player_from_name(Game *game, char *name);
+
+Player *game_get_player_from_id(Game *game, Id id);
 
 /**
  * @brief Gets the player turn from the name of the player
@@ -410,8 +412,6 @@ Status game_set_object_location(Game *game, Id obj, Id pos);
  */
 Object *game_get_object_at_pos(Game *game, int pos);
 
-
-
 /**
  * @brief Adds a character to the game and sets its location
  * @author Tiago Oselka
@@ -612,6 +612,8 @@ char *game_get_last_message(Game *game);
  */
 char *game_get_last_message_at_pos(Game *game, int play_pos, int msg_pos);
 
+Id game_get_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos);
+
 /**
  * @brief Sets the last displayed message
  * @author Juan Ibáñez
@@ -755,6 +757,8 @@ Status game_get_last_status(Game *game);
  * @return OK if the last_cmd was successfull, ERROR otherwise
  */
 Status game_get_last_status_at_pos(Game *game, int pos);
+
+Status game_set_last_message_at_pos_with_info(Game *game, int play_pos, char *message, Id send, Type send_type);
 
 /**
  * @brief Given the status of the last command, the function sets it as the last one

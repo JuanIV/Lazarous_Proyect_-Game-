@@ -739,7 +739,7 @@ void game_actions_chat(Game *game) {
   Character *charr = NULL;
   Player *play_reciever = NULL, *play_sender = NULL;
   Bool friendly = FALSE;
-  Id reciever_id = NO_ID, player_loc = NO_ID, reciever_loc = NO_ID;
+  Id reciever_id = NO_ID, player_loc = NO_ID, reciever_loc = NO_ID, sender_id = NO_ID;
   char *name = NULL, *closeup = NULL, *desc = NULL, *mesg = NULL;
   int i, pos;
 
@@ -747,45 +747,39 @@ void game_actions_chat(Game *game) {
 
   if (!(play_sender = game_get_player(game))) return;
 
-  /*Error checking inside game_get_space and game_get_player_location*/
   if ((player_loc = game_get_player_location(game)) == NO_ID) return;
   current_space = game_get_space(game, player_loc);
   if (!current_space) return;
 
-  /*Gets the name of the receiver to chat from the description of the last cmd*/
   if (!(last_cmd = game_get_last_command(game))) return;
-  
-  /*Gets the description of the command and then the name and message*/
   if (!(desc = command_get_desc(last_cmd))) return;
   if (!(name = strtok(desc, " "))) return;
   mesg = strtok(NULL, "\r\n");
 
-  /*Checks if the receiver exists and if its alive*/
   charr = game_get_character_from_name(game, name);
   play_reciever = game_get_player_from_name(game, name);
 
   if (!charr && !play_reciever) return;
 
   if (!charr && play_reciever) {
-    /*If there is no menssage to send it returns*/
     if (!mesg) return;
-
     if (player_get_health(play_reciever) <= 0) return;
     if ((reciever_id = player_get_id(play_reciever)) == NO_ID) return;
 
-    /*Checks if the player and reciever are from the same team*/
     if (game_get_friendly(player_get_role(play_sender), player_get_role(play_reciever), &friendly) == ERROR) return;
     if (friendly == FALSE) {
       game_set_last_message(game, "This player is not from your team...");
       return;
     }
 
-    /*Checks if the player and the reciever are in the same space*/
     if ((reciever_loc = player_get_location(play_reciever)) == NO_ID) return;
     if (reciever_loc != player_loc) {
       game_set_last_message(game, "This player is out of reach...");
       return;
     }
+
+    sender_id = player_get_id(play_sender);
+    if(sender_id == NO_ID) return;
 
     if ((pos = game_get_player_pos_from_name(game, name)) < 0) return;
     if (game_set_last_message_at_pos(game, pos, mesg) == ERROR) return;
@@ -799,13 +793,11 @@ void game_actions_chat(Game *game) {
     if (character_get_health(charr) <= 0) return;
     if ((reciever_id = character_get_id(charr)) == NO_ID) return;
 
-    /*Checks if the reciever and the player are in the same space*/
     if(space_find_character(current_space, reciever_id) == FALSE) {
       game_set_last_message(game, "This character is out of reach...");
       return;
-    }   
+    }
 
-    /*Chatting happens only if the character is friendly*/
     if(game_get_friendly(player_get_role(play_sender), character_get_role(charr), &friendly) == ERROR) return;
     if (friendly == FALSE) {
       game_set_last_message(game, "I dont think its friendly...");
