@@ -141,7 +141,6 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
 
   if (game_get_finished(*game) == TRUE) return;
   message[0] = '\0';
-  game_print(*game);
 
   if(deterministic == TRUE) game_set_deterministic(*game, deterministic);
   
@@ -202,6 +201,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
     if (game_get_n_players(*game) > 1) {
       if ((command_get_code(last_cmd) == MOVE)  && command_get_status(last_cmd) == OK) {
         graphic_engine_paint_game(gengine, *game);
+        if(game_erase_all_messages(*game) == ERROR) return;
         sleep(3);
         game_next_turn(*game);
       }

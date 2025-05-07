@@ -48,7 +48,6 @@ Character *character_create(Id id) {
   character->weapon = NO_ID;
   character->armor = NO_ID;
   character->health = 0;
-  character->damage = 0;
 
   return character;
 }
@@ -251,19 +250,19 @@ int character_get_health(Character *charr) {
 Status character_set_health(Character *charr, int health) {
   if (!charr) return ERROR;
 
-  if (health < 0) return ERROR;
-
   charr->health = health;
 
   return OK;
 }
 
+/*It gets the damage of a character*/
 int character_get_damage(Character *charr){
   if(!charr) return -1;
 
   return charr->damage;
 }
 
+/*It sets the damage of a character*/
 Status character_set_damage(Character *charr, int damage){
   if(!charr || damage < 0) return ERROR;
 

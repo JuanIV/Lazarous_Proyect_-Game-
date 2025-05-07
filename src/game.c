@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
+#include <ctype.h>
 
 #include "game_management.h"
 
@@ -165,7 +166,7 @@ Status game_message_print(Message *message) {
   if(message->visible == TRUE) {
     fprintf(stdout, "--> Message will be shown\n");
   }else {
-    fprintf(stdout, "--> Message will not be shown");
+    fprintf(stdout, "--> Message will not be shown\n");
   }
   fprintf(stdout, "--> Message sender Id: %ld\n", message->sender);
   fprintf(stdout, "--> Message sender type: %d\n", message->sender_type);
@@ -237,9 +238,21 @@ Status game_interface_data_print(InterfaceData *interfaceData) {
     fprintf(stdout, "=> Command %d\n", i+1);
     if(interfaceData->last_cmds[i]) command_print(interfaceData->last_cmds[i]);
   }
+
+  fprintf(stdout, "=> Close up\n");
+  for(i = 0; i<POV_HGHT; i++) {
+    fprintf(stdout, "%s\n", interfaceData->last_closeup[i]);
+  }
   
 
   return OK;
+}
+
+Status game_interface_data_print_at_pos(Game *game, int pos) {
+  if(!game) return ERROR;
+  if(pos < 0 || pos >= game->n_players) return ERROR;
+
+  return game_interface_data_print(game->data[pos]);
 }
 /********************************************************************* */
 
@@ -291,17 +304,27 @@ Game *game_create() {
 
 /*It reads a games data from a file*/
 Status game_create_from_file(Game *game, char *filename) {
-  if (!game || !filename) return ERROR;
-
+  if (!game || !filename) {
+    printf("Here\n");
+    return ERROR;
+  }
+  printf("Enters\n");
   /*we first load the spaces and then the rest in order to directly add 
   the objects, players and characters to each space*/
   if (game_management_load_spaces(game, filename) == ERROR) return ERROR;
+  printf("Spaces loaded...\n");
   if (game_management_load_links(game, filename) == ERROR) return ERROR;
+  printf("Links loaded...\n");
   if (game_management_load_classes(game, filename) == ERROR) return ERROR;
+  printf("Classes loaded...\n");
   if (game_management_load_objects(game, filename) == ERROR) return ERROR;
+  printf("Objects loaded...\n");
   if (game_management_load_characters(game, filename) == ERROR) return ERROR;
+  printf("Characters loaded...\n");
   if (game_management_load_players(game, filename) == ERROR) return ERROR;
+  printf("Players loaded...\n");
   if (game_management_load_turn(game, filename) == ERROR) return ERROR;
+  printf("Turn loaded...\n");
 
   return OK;
 }
@@ -316,7 +339,7 @@ Status game_destroy(Game *game) {
   }
 
   for (i = 0; i < game->n_classes; i++) {
-    object_class_destroy(game->class[i]);
+    class_destroy(game->class[i]);
   }
 
   for (i = 0; i < game->n_objects; i++) {
@@ -520,7 +543,8 @@ Id game_get_object_from_player(Game *game, char *name){
   Inventory *inv = NULL;
   Id obj_id = NO_ID;
   Object *obj = NULL;
-  int i=0;
+  Class *class = NULL;
+  int i = 0;
 
   if(!game) return NO_ID;
   player = game_get_player(game);
@@ -529,10 +553,12 @@ Id game_get_object_from_player(Game *game, char *name){
 
   for(i=0;i<inventory_get_num_objects(inv);i++){
     obj_id = inventory_get_object_at_pos(inv, i);
-    obj = game_get_object(game,obj_id);
+    obj = game_get_object(game, obj_id);
     if(!obj) continue;
     
-    if(!strcmp(object_get_name(obj),name)) return obj_id;
+    if (!(class = game_get_class_from_id_obj(game, obj_id))) return NO_ID;
+
+    if(!strcmp(class_get_name(class), name)) return obj_id;
   }
 
   return NO_ID;
@@ -755,8 +781,8 @@ Class *game_get_class(Game *game, Id id){
 
   if(!game || id == NO_ID) return NULL;
 
-  for(i=0; i< game->n_classes; i++){
-    if(id == object_class_get_id(game->class[i])) return game->class[i];
+  for(i = 0; i < game->n_classes; i++){
+    if(id == class_get_id(game->class[i])) return game->class[i];
   }
 
   return NULL;
@@ -773,11 +799,24 @@ int game_get_n_classes(Game *game) {
 
 /*It gets the class in a position of the array of classes*/
 Class *game_get_class_at_pos(Game *game, int pos) {
-  if (!game) return NULL;
+  if (!game || pos < 0) return NULL;
 
   if (pos >= game->n_classes) return NULL;
 
   return game->class[pos];
+}
+
+Class *game_get_class_from_id_obj(Game *game, Id id) {
+  Object *obj = NULL;
+  Id class_id = NO_ID;
+
+  if (!game || id == NO_ID) return NULL;
+
+  if (!(obj = game_get_object(game, id))) return NULL;
+
+  if ((class_id = object_get_class_id(obj)) == NO_ID) return NULL;
+
+  return game_get_class(game, class_id);
 }
 
 /**
@@ -825,12 +864,13 @@ char *game_get_obj_name_from_id(Game *game, Id id) {
   int i;
   Id obj_id;
   char *name = NULL;
+
   if (!game || id == NO_ID) return NULL;
 
   for (i = 0; i < game->n_objects; i++) {
     if (!(obj_id = object_get_id(game->object[i]))) return NULL;
 
-    name = object_get_name(game->object[i]);
+    name = class_get_name(game->class[i]);
 
     if (id == obj_id) return name;
   }
@@ -842,6 +882,7 @@ char *game_get_obj_name_from_id(Game *game, Id id) {
 Id game_get_obj_id_from_name(Game *game, char *obj_name) {
   int i, n_obj, name_length;
   Id obj_id = NO_ID;
+  Class *class = NULL;
   char *name = NULL;
 
   if (!game || !obj_name) return NO_ID;
@@ -852,19 +893,48 @@ Id game_get_obj_id_from_name(Game *game, char *obj_name) {
     return NO_ID;
   
   for (i = 0; i < n_obj; i++) {
-    if (!(name = object_get_name(game->object[i]))) continue;
+    if (!(class = game_get_class_from_id_obj(game, object_get_class_id(game->object[i])))) continue;
+    if (!(name = class_get_name(class))) continue;
 
     /*Strstr allows us to get an object from  a fraction of its name, but we set
      * the minimum as 2 characters */
-    if (strstr(name, obj_name) != NULL && name[0] == obj_name[0]) {
+    if ((strncasecmp(name+1,obj_name+1, name_length-1) == 0) && (toupper(name[0]) == toupper(obj_name[0]))) {
       obj_id = object_get_id(game->object[i]);
-      
-      if (obj_id == NO_ID) return NO_ID;
+      if (obj_id == NO_ID) continue;;
 
       return obj_id;
     }
   }
   
+  return NO_ID;
+}
+
+Id game_get_obj_id_from_name_at_space(Game *game, char *obj_name, Id space_id) {
+  int i, n_obj, name_length;
+  Id obj_id = NO_ID;
+  Space *space = NULL;
+  Class *class = NULL;
+  char *name = NULL;
+  printf("entra");
+  if (!game || !obj_name || space_id == NO_ID) return NO_ID;
+  
+  name_length = strlen(obj_name);
+  space = game_get_space(game, space_id);
+  
+  if (((n_obj = space_get_num_objects(space)) <= 0) || name_length > WORD_SIZE || name_length < MIN_ESPECIF || !space) return NO_ID;
+  
+  for (i = 0; i < n_obj; i++) {
+    if ((obj_id = space_get_object_at_pos(space, i)) == NO_ID) continue;
+    if (!(class = game_get_class_from_id_obj(game, obj_id))) continue;
+    if (!(name = class_get_name(class))) continue;
+
+    /*Strstr allows us to get an object from  a fraction of its name, but we set
+     * the minimum as 2 characters */ 
+    printf("%s", name);
+    
+    if ((strncasecmp(name+1,obj_name+1, name_length-1) == 0) && (toupper(name[0]) == toupper(obj_name[0]))) return obj_id;
+  }
+
   return NO_ID;
 }
 
@@ -1103,14 +1173,7 @@ Status game_get_friendly(Role role1, Role role2, Bool *relationship) {
 /**
  * ***************  Last message management  ***************
  */
-
-/*Gets the last message displayed by a chat*/
-char *game_get_last_message(Game *game) {
-  if (!game) return NULL;
-  if (game->turn < 0 || game->turn >= game->n_players) return NULL;
-  return (game->data[game->turn])->messages[NUM_MSGS-1]->msg;
-}
-
+  
 char *game_get_last_message_at_pos(Game *game, int play_pos, int msg_pos) {
   if (!game) return NULL;
   if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
@@ -1161,6 +1224,51 @@ Id game_get_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos) {
   if (!game) return NO_ID;
   if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NO_ID;
   return game->data[play_pos]->messages[msg_pos]->sender;
+}
+
+char *game_get_last_message_sender_name_at_pos(Game *game, int play_pos, int msg_pos) {
+  Type type = NO_TYPE;
+  char *aux_name = NULL;
+
+  if (!game) return NULL;
+  if (play_pos < 0 || play_pos >= game->n_players || msg_pos < 0 || msg_pos >= NUM_MSGS) return NULL;
+
+  type = game->data[play_pos]->messages[msg_pos]->sender_type;
+
+  switch (type)
+  {
+  case PLAYER:
+    aux_name = player_get_name(game_get_player_from_id(game, game->data[play_pos]->messages[msg_pos]->sender));
+    break;
+
+  case CHARACTER:
+    aux_name = character_get_name(game_get_character_from_id(game, game->data[play_pos]->messages[msg_pos]->sender));
+    break;
+
+  case OBJECT:
+    aux_name = class_get_name(game_get_class_from_id_obj(game, game->data[play_pos]->messages[msg_pos]->sender));
+    break;
+  
+  default:
+    aux_name = NULL;
+    break;
+  }
+
+  return aux_name;
+}
+
+Status game_erase_all_messages(Game *game) {
+  int i = 0;
+
+  if (!game) return ERROR;
+  if (game->turn < 0 || game->turn >= game->n_players) return ERROR;
+
+  for(i = 0; i < NUM_MSGS; i++) {
+    game->data[game->turn]->messages[i]->visible = FALSE;
+  }
+
+  return OK;
+
 }
 
 /*Sets the last displayed message in reverse order*/
@@ -1238,7 +1346,8 @@ Status game_set_last_message_at_pos_with_info(Game *game, int play_pos, char *me
   InterfaceData *interfaceData = NULL;
   int i = 0;
 
-  if (!game || !message || play_pos < 0 || play_pos >= game->n_players) return ERROR;
+  if (!game || !message || send == NO_ID || send_type == NO_TYPE) return ERROR;
+  if (play_pos < 0 || play_pos >= game->n_players) return ERROR;
 
   interfaceData = game->data[play_pos];
   if (!interfaceData) return ERROR;
@@ -1272,8 +1381,10 @@ Status game_set_last_message_at_pos_with_info(Game *game, int play_pos, char *me
 char *game_get_last_message_msg_at_pos(Game *game, int play_pos) {
   if (!game) return NULL;
   if (play_pos < 0 || play_pos >= game->n_players) return NULL;
+
   return game->data[play_pos]->messages[0]->msg;
 }
+  
 
 /**
  * ***************  Close up management  ***************
@@ -1284,7 +1395,7 @@ char *game_get_last_close_up_at(Game *game, int pos) {
   if(!game) return NULL;
 
   if(pos < 0 || pos >= POV_HGHT) return NULL;
-
+  
   return (game->data[game->turn])->last_closeup[pos];
 }
 

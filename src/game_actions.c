@@ -17,6 +17,31 @@
 #include <time.h>
 
 /**
+ * @brief Defines the range of results you can get when attacking an enemy
+ *
+ */
+#define ATK_RNG 100
+
+/**
+ * @brief Defines the minimum number you have to get to land an attack
+ *
+ */
+#define ATK_WIN 20
+
+/**
+ * @brief Defines the range of results for an accident to happen
+ *
+ */
+#define ATK_ACC_RNG 1000
+
+/**
+ * @brief Defines the minimum number you have to get for an accident to happen
+ * while attacking
+ *
+ */
+#define ATK_ACCIDENT 950
+
+/**
 * Private functions
 */
 
@@ -217,9 +242,6 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code)
 
   player = game_get_player(*game);
 
-  /*The message shown must be blank except in case it is required by the last command*/
-  if (game_set_last_message(*game, " ") == ERROR) return ERROR; 
-
   /*The default close up will be the players face*/
   for (i = 0; i < POV_HGHT; i++) {
     if (!(closeup = player_get_closeup_at(player, i))) return ERROR;
@@ -349,7 +371,10 @@ void game_actions_move(Game *game) {
 
   /* checks if the connection exists and then whether it's opened or can be used */
   link = game_get_link(game, cur_id, direction);
-  if(!link) return;
+  if(!link) {
+    game_set_last_message(game, "That's a wall...");
+    return;
+  }
 
   if((link_role = link_get_use_role(link)) == NO_ROLE) return;
   if((player_role = player_get_role(game_get_player(game))) == NO_ROLE) return;
@@ -425,7 +450,7 @@ void game_actions_move(Game *game) {
 }
 
 void game_actions_take(Game *game) {
-  Id obj_id = NO_ID, obj_location = NO_ID;
+  Id obj_id = NO_ID;
   Id play_location = NO_ID;
   Object *obj = NULL;
   Player *player = NULL;
@@ -445,33 +470,27 @@ void game_actions_take(Game *game) {
   if (!(player = game_get_player(game))) return;
   if (player_inventory_is_full(player) == TRUE) return;
 
-  obj_id = game_get_obj_id_from_name(game, name);
+  /* Checks if the object exists in the location of the player */
+  play_location = game_get_player_location(game);
+  obj_id = game_get_obj_id_from_name_at_space(game, name, play_location);
   if (obj_id == NO_ID) return;
 
   obj = game_get_object(game, obj_id);
   if(!obj) return;
   
   /*Checks whether the object is movable or not*/
-  if (object_get_movable(game_get_object(game, obj_id), &movable) == ERROR) return;
+  if (class_get_movable(game_get_class_from_id_obj(game, obj_id), &movable) == ERROR) return;
   if (movable == FALSE) return;
 
-  /*Gets their location and error check inside game_get_space*/
-  play_location = game_get_player_location(game);
   cur_space = game_get_space(game, play_location);
   if (!cur_space) return;
-
-  obj_location = game_get_object_location(game, obj_id);
-
-  if (play_location == NO_ID || obj_location == NO_ID) return;
-
-  if (play_location != obj_location) return;
   
   if (player_add_object(player, obj_id) == ERROR) return;
 
   if (space_remove_object(cur_space, obj_id) == ERROR) return;
 
   for (i = 0; i < POV_HGHT; i++) {
-    if (!(closeup = object_get_closeup_at_pos(obj, i))) return;
+    if (!(closeup = class_get_closeup_at_pos(game_get_class_from_id_obj(game, obj_id), i))) return;
     if (game_set_last_close_up(game, closeup, i) == ERROR) return;
   }
 
@@ -527,12 +546,12 @@ void game_actions_attack(Game *game) {
   Set *followers = NULL;
   Bool friendly = FALSE, deterministic = FALSE;
   Object *weapon = NULL, *armor = NULL;
+  Class *weapon_class = NULL, *armor_class = NULL;
   Id charr_id = NO_ID, damaged_follower = NO_ID, player_loc = NO_ID, weapon_id = NO_ID, armor_id = NO_ID;
   char *charr_name = NULL, message[MESG_SIZE];
   int i, dice, charr_health, charr_dmg, follower_health, player_health, weapon_dmg = 0, armor_def,damage = 0, damaged, num_followers = -1, total_luck = 0, count = 0;
 
   if (!game) return;
-
   if (!(player = game_get_player(game))) return;
   if ((player_health = player_get_health(player)) == -1) return;
   if ((player_loc = player_get_location(player)) == NO_ID) return;
@@ -540,15 +559,17 @@ void game_actions_attack(Game *game) {
 
   player_get_weapon(player, &weapon_id);
   weapon = game_get_object(game, weapon_id);
-  if(weapon){
-    total_luck += object_get_luck(weapon);
+  weapon_class = game_get_class(game, object_get_id(weapon));
+  if(weapon_class && weapon){
+    total_luck += class_get_luck(weapon_class);
     weapon_dmg = object_get_use_value(weapon);
   }
 
   player_get_armor(player, &armor_id);
   armor = game_get_object(game, armor_id);
-  if(armor){
-    total_luck += object_get_luck(armor);
+  armor_class = game_get_class(game, object_get_class_id(armor));
+  if(armor_class && armor){
+    total_luck += class_get_luck(armor_class);
     armor_def = object_get_use_value(armor);
   }
 
@@ -575,14 +596,13 @@ void game_actions_attack(Game *game) {
       return;
     }
 
-
     /*  PLAYER ATTACKS  */
     
     if(game_get_deterministic(game, &deterministic)==ERROR) return;
   
     if (deterministic == FALSE) dice = (rand() % ATK_RNG) + total_luck;
     else dice = ATK_WIN + 1;
-  
+
     /*Depending on the number the player lands the attack or not*/
     if (dice >= ATK_WIN) {
       /*If the attack landed, the character gets damaged*/
@@ -593,10 +613,10 @@ void game_actions_attack(Game *game) {
       if (character_set_health(charr, charr_health - damage) == ERROR) return;
 
       if(character_get_health(charr) > 0) {
-        if(weapon) count += sprintf(message, "You hit %s with %s dealing %d dmg pts. ", character_get_name(charr), object_get_name(weapon), damage);
+        if(weapon) count += sprintf(message, "You hit %s with %s dealing %d dmg pts. ", character_get_name(charr), class_get_name(weapon_class), damage);
         else count += sprintf(message, "You punched %s dealing %d dmg pts. ", character_get_name(charr), damage);
       }else {
-        if(weapon) sprintf(message, "You hit %s with %s killing him.", character_get_name(charr), object_get_name(weapon));
+        if(weapon) sprintf(message, "You hit %s with %s killing him.", character_get_name(charr), class_get_name(weapon_class));
         else sprintf(message, "You punched %s so hard you killed him.", character_get_name(charr));
         if(game_set_last_message(game, message)== ERROR) return;
         if (game_set_last_status(game, OK) == ERROR) return;
@@ -683,7 +703,7 @@ void game_actions_attack(Game *game) {
         if (player_set_health(player, player_health - damage) == ERROR) return;
   
         if(player_get_health(player) > 0) {
-          count += sprintf(message + count, "%s attacked you! You loose %d hp. ", character_get_name(charr), damage);
+          count += sprintf(message + count, "%s attacked you! You lose %d hp. ", character_get_name(charr), damage);
         } else {
           sprintf(message + count, "%s attacked and killed you. ", character_get_name(charr));
           if(game_set_last_message(game, message)== ERROR) return;
@@ -740,7 +760,7 @@ void game_actions_chat(Game *game) {
   Player *play_reciever = NULL, *play_sender = NULL;
   Bool friendly = FALSE;
   Id reciever_id = NO_ID, player_loc = NO_ID, reciever_loc = NO_ID, sender_id = NO_ID;
-  char *name = NULL, *closeup = NULL, *desc = NULL, *mesg = NULL;
+  char *name = NULL, *closeup = NULL, *desc = NULL, *mesg = NULL, message[MESG_SIZE];
   int i, pos;
 
   if (!game) return;
@@ -782,7 +802,9 @@ void game_actions_chat(Game *game) {
     if(sender_id == NO_ID) return;
 
     if ((pos = game_get_player_pos_from_name(game, name)) < 0) return;
-    if (game_set_last_message_at_pos(game, pos, mesg) == ERROR) return;
+    if (game_set_last_message_at_pos_with_info(game, pos, mesg, sender_id, PLAYER) == ERROR) return;
+    sprintf(message, "You to %s: %s", player_get_name(game_get_player_at(game, pos)), mesg);
+    if (game_set_last_message(game, message) == ERROR) return;
 
     for (i = 0; i < POV_HGHT; i++) {
       if (!(closeup = player_get_closeup_at(play_reciever, i))) return;
@@ -791,9 +813,9 @@ void game_actions_chat(Game *game) {
   }
   else if (charr && !play_reciever) {
     if (character_get_health(charr) <= 0) return;
-    if ((reciever_id = character_get_id(charr)) == NO_ID) return;
+    if ((sender_id = character_get_id(charr)) == NO_ID) return;
 
-    if(space_find_character(current_space, reciever_id) == FALSE) {
+    if(space_find_character(current_space, sender_id) == FALSE) {
       game_set_last_message(game, "This character is out of reach...");
       return;
     }
@@ -804,7 +826,9 @@ void game_actions_chat(Game *game) {
       return;
     }
 
-    if (game_set_last_message(game, character_get_message(charr)) == ERROR) return;
+    pos = game_get_turn(game);
+    printf("\n%s\n",  character_get_message(charr));
+    if (game_set_last_message_at_pos_with_info(game, pos, character_get_message(charr), sender_id, CHARACTER) == ERROR) return;
 
     for (i = 0; i < POV_HGHT; i++) {
       if (!(closeup = character_get_closeup_at_pos(charr, i))) return;
@@ -831,22 +855,22 @@ void game_actions_inspect(Game *game){
 
   if (!(name = command_get_desc(last_cmd))) return;
 
-  /*Get the object from the given name*/
-  obj_id = game_get_obj_id_from_name(game, name);
+  /*Get the object from the given name and checks if it is in the location of the player */
+  obj_id = game_get_obj_id_from_name_at_space(game, name, player_get_location(game_get_player(game)));
   if (obj_id == NO_ID) return;
 
   obj = game_get_object(game, obj_id);
   if(!obj) return;
 
-  desc = object_get_desc(obj);
+  desc = class_get_desc(game_get_class_from_id_obj(game, obj_id));
   if(!desc) return;
 
   for (i = 0; i < POV_HGHT; i++) {
-    if (!(closeup = object_get_closeup_at_pos(obj, i))) return;
+    if (!(closeup = class_get_closeup_at_pos(game_get_class_from_id_obj(game, obj_id), i))) return;
     if (game_set_last_close_up(game, closeup, i) == ERROR) return;
   }
 
-  game_set_last_message(game, desc);
+  game_set_last_message_at_pos_with_info(game, game_get_turn(game), desc, obj_id, OBJECT);
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -857,7 +881,7 @@ void game_actions_recruit(Game *game) {
   Command *last_cmd = NULL;
   Bool friendly = FALSE;
   Character *charr = NULL;
-  char *charr_name = NULL;
+  char *charr_name = NULL, message[MESG_SIZE];
 
   if (!game) return; 
   
@@ -873,6 +897,12 @@ void game_actions_recruit(Game *game) {
   if(game_get_friendly(player_get_role(game_get_player(game)), character_get_role(charr), &friendly) == ERROR) return;
   if(friendly == FALSE) return;
   if(character_get_following(charr, &following) == ERROR) return;
+  if(following == player_id) {
+    message[0] = '\0';
+    sprintf(message, "I am already following you");
+    if(game_set_last_message_at_pos_with_info(game, game_get_turn(game), message, character_get_id(charr), CHARACTER) == ERROR) return;
+    return;
+  }
   if(following != NO_ID) return;
 
   /*Gets their location and checks if they are at the same space*/
@@ -884,7 +914,10 @@ void game_actions_recruit(Game *game) {
 
   /*Sets the id of the player the character is going to follow*/
   if(character_set_following(charr, player_id) == ERROR) return;
-
+  message[0] = '\0';
+  sprintf(message, "I will be your most loyal follower");
+  if(game_set_last_message_at_pos_with_info(game, game_get_turn(game), message, character_get_id(charr), CHARACTER) == ERROR) return;
+    
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
@@ -958,7 +991,7 @@ void game_actions_use(Game *game){
   obj = game_get_object(game, obj_id);
   if(!obj) return;
 
-  obj_tag = object_get_tag(obj);
+  obj_tag = class_get_tag(game_get_class_from_id_obj(game, obj_id));
 
   /*Get the character if a name is given*/
   if(target){
@@ -1122,13 +1155,16 @@ void game_actions_set_trap(Game *game, Object *obj){
 
 void game_actions_read_terminal(Game *game, Object *obj){
   char *desc = NULL, *closeup = NULL;
+  Class *class = NULL;
   int i;
 
-  desc = object_get_desc(obj);
+  if (!(class = game_get_class(game, object_get_class_id(obj)))) return;
+
+  desc = class_get_desc(class);
   if(!desc) return;
 
   for (i = 0; i < POV_HGHT; i++) {
-    if (!(closeup = object_get_closeup_at_pos(obj, i))) return;
+    if (!(closeup = class_get_closeup_at_pos(class, i))) return;
     if (game_set_last_close_up(game, closeup, i) == ERROR) return;
   }
 
@@ -1140,7 +1176,6 @@ void game_actions_read_terminal(Game *game, Object *obj){
 void game_actions_use_switch(Game *game, Object *obj){
 
 }
-
 
 void game_actions_save(Game *game) {
   Command *last_cmd = NULL;
@@ -1179,7 +1214,7 @@ void game_actions_load(Game **game) {
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
   len = strlen(cmd_desc);
 
-  if ((len >= 4) && strcmp(cmd_desc + len - 4, ".dat") != 0) {
+  if (strcmp(cmd_desc + len - 4, ".dat") != 0) {
     sprintf(file_load, "%s.dat", cmd_desc);
   }
   else {
@@ -1201,7 +1236,7 @@ void game_actions_open_link(Game *game){
   Id obj_id = NO_ID, cur_id = NO_ID, obj_open = NO_ID;
   Object *obj = NULL;
   Role play_role = NO_ROLE, link_role = NO_ROLE;
-  Bool open = TRUE, locked = TRUE, ally = FALSE;
+  Bool open = TRUE, locked = TRUE, ally = FALSE, connected = FALSE;
   int i = 0;
 
   if (!game) return; 
@@ -1231,10 +1266,13 @@ void game_actions_open_link(Game *game){
   link = game_get_link(game, cur_id, typed_dir);
   if(!link) return;
 
-  /* Checks if the link is already opened */
+  /* Checks if the link is connected or already opened */
+  if(link_get_connected(link, &connected) == ERROR) return;
+  if(connected == TRUE) return;
+
   if(link_get_open(link, &open) == ERROR) return;
   if(open == TRUE) {
-    game_set_last_message(game, "The door is already opened");
+    game_set_last_message(game, "The door is already open");
     return;
   }
   /*If the player is not allowed to open this link, the function ends*/
@@ -1269,7 +1307,7 @@ void game_actions_open_link(Game *game){
     obj = game_get_object(game, obj_id);
     if(!obj) return;
 
-    if(object_get_open(obj, &obj_open) == ERROR) return;
+    if(class_get_open(game_get_class_from_id_obj(game, obj_id), &obj_open) == ERROR) return;
     if(obj_open == NO_ID) return;
     if(obj_open == link_get_id(link)){
       if(link_set_locked(link, FALSE) == ERROR) return;
@@ -1291,7 +1329,7 @@ void game_actions_close_link(Game *game){
   Direction typed_dir = UNK_DIR;
   Link *link = NULL;
   Role play_role = NO_ROLE, link_role = NO_ROLE;
-  Bool open = TRUE, ally = FALSE;
+  Bool open = TRUE, ally = FALSE, connected = FALSE;
   extern char *dir_to_str[N_DIR][N_DIRT];
   Id cur_id = NO_ID;
   int i = 0;
@@ -1320,7 +1358,10 @@ void game_actions_close_link(Game *game){
   link = game_get_link(game, cur_id, typed_dir);
   if(!link) return;
 
-  /* Checks if the link is already closed */
+  /* Checks if the link is connected or already closed */
+  if(link_get_connected(link, &connected) == ERROR) return;
+  if(connected == TRUE) return;
+
   if(link_get_open(link, &open) == ERROR) return;
   if(open == FALSE) {
     game_set_last_message(game, "The door is already closed");

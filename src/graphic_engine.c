@@ -122,7 +122,7 @@
  * @brief Maximum number of objects in a space that will be printed
  * 
  */
-#define NUM_OBJS_PRINT 4
+#define NUM_OBJS_PRINT 5
 
 /**
  * @brief Maximum number of characters in a space that will be printed
@@ -134,7 +134,7 @@
  * @brief Characters of the name of the object that will be printed
  * 
  */
-#define OBJ_GD_SZ 2
+#define OBJ_GD_SZ 3
 
 /**
  * @brief Space in the descriprion area to put the names of players and characters
@@ -147,6 +147,12 @@
  * 
  */
 #define DESC_ID_SZ 5
+
+/**
+ * @brief Type of wall that should be printed
+ * 
+ */
+typedef enum { ERR_WALL = -1, NO_WALL, CLSD_WALL, LOCK_WALL, CONEX_WALL, OPEN_WALL, HUMAN_WALL, MNSTR_WALL} Wall_style;
 
 /**
  * @brief Struct that stores the information of the graphic engine: Id, name and desc
@@ -211,9 +217,9 @@ void graphic_engine_get_surroundings(Game *game, Id center, Id neighbor[8]);
  * 
  * @param game Pointer to the game
  * @param link Pointer to the link
- * @return 1 if blocked, 2 if open but unusable, 3 if its an open door, 4 if its a wide conexion
+ * @return The type of wall the link represents
  */
-int graphic_engine_get_wall_style(Game *game, Link *link);
+Wall_style graphic_engine_get_wall_style(Game *game, Link *link);
 
 /**
  * @brief Prints a vertical wall between two spaces according to their conexion
@@ -239,55 +245,83 @@ void graphic_engine_print_horizontal_wall(Game *game, Link *link, char line[WIDT
  * ************** Implementation of private functions ****************
 */
 
-int graphic_engine_get_wall_style(Game *game, Link *link) {
-  Bool usable = FALSE,  connected = FALSE,  open = FALSE;
-  Role play_role = NO_ROLE, link_role = NO_ROLE;
+Wall_style graphic_engine_get_wall_style(Game *game, Link *link) {
+  Bool connected = FALSE,  open = FALSE, locked = FALSE;
+  Role link_role = NO_ROLE;
 
-  if(!game) return 0;
+  if(!game) return ERR_WALL;
 
-  if(!link) return 1;
+  if(!link) return NO_WALL;
 
-  play_role = player_get_role(game_get_player(game));
   link_role = link_get_use_role(link);
 
-  if(link_role == UNDEFINED || play_role == link_role) usable = TRUE;
-  else usable = FALSE;
+  if(link_get_connected(link, &connected) == ERROR) return ERR_WALL;
+  if(link_get_open(link, &open) == ERROR) return ERR_WALL;
+  if(link_get_locked(link, &locked) == ERROR) return ERR_WALL;
 
-  if(link_get_connected(link, &connected) == ERROR) return 0;
-  if(link_get_open(link, &open) == ERROR) return 0;
+  if(open == TRUE){
+    if(connected) return CONEX_WALL;
+    else{
+      if(link_role == SCIENTIST) return HUMAN_WALL;
+      else if(link_role == MONSTER) return MONSTER;
+      else return OPEN_WALL;
+    }
+    
+  } else if(locked == TRUE) return LOCK_WALL;
 
-  if(open){
-    if(usable){
-      if(connected) return 4;
-      else return 3;
-    } else return 2;
-  } else return 1;
+  return CLSD_WALL;
 }
 
 void graphic_engine_print_vertical_wall(Game *game, Link *link, char lines[SQ_LINES][WIDTH_MAP + 1]) {
-  int i = 0, wall_style = 0;
+  int i = 0;
+  Wall_style wall_style = ERR_WALL;
 
   if(!game || !lines) return;
 
   wall_style = graphic_engine_get_wall_style(game,link);
-  if(wall_style == 0) return;
+  if(wall_style == ERR_WALL) return;
 
   switch(wall_style){
-    case 1:
+    case NO_WALL:
+    for(i=0;i<SQ_LINES;i++) strcat(lines[i],"H");
+    break;
+
+    case CLSD_WALL:
       for(i=0;i<SQ_LINES;i++) strcat(lines[i],"|");
       break;
-    case 2:
-      for(i=0;i<SQ_LINES;i++) strcat(lines[i],"s");
+
+    case LOCK_WALL:
+      for(i=0;i<SQ_LINES;i++) {
+        if(i==(SQ_LINES/2)) strcat(lines[i], "&");
+        else strcat(lines[i], "|");
+      }
       break;
-    case 3:
+
+    case CONEX_WALL:
+      for(i=0;i<SQ_LINES;i++) strcat(lines[i]," ");
+      break;
+    
+    case OPEN_WALL:
       for(i=0;i<SQ_LINES;i++) {
         if(i<3 || i>SQ_LINES-4) strcat(lines[i],"|");
         else strcat(lines[i]," ");
       }
       break;
-    case 4:
-      for(i=0;i<SQ_LINES;i++) strcat(lines[i]," ");
+
+    case HUMAN_WALL:
+    for(i=0;i<SQ_LINES;i++) {
+      if(i<3 || i>SQ_LINES-4) strcat(lines[i],"Z");
+      else strcat(lines[i],":");
+    }
+    break;
+
+    case MNSTR_WALL:
+      for(i=0;i<SQ_LINES;i++) {
+        if(i<3 || i>SQ_LINES-4) strcat(lines[i],"|");
+        else strcat(lines[i],"/");
+      }
       break;
+
     default:
       break;
   }
@@ -301,25 +335,53 @@ void graphic_engine_print_horizontal_wall(Game *game, Link *link, char line[WIDT
   wall_style = graphic_engine_get_wall_style(game, link);
 
   switch(wall_style){
-    case 1:
+    case NO_WALL:
+      strcat(line,"+");
+      for(i=0;i<SQ_IN_SZ;i++) strcat(line,"=");
+      break;
+
+    case CLSD_WALL:
       strcat(line,"+");
       for(i=0;i<SQ_IN_SZ;i++) strcat(line,"-");
       break;
-    case 2:
+
+    case LOCK_WALL:
       strcat(line,"+");
-      for(i=0;i<SQ_IN_SZ;i++) strcat(line,".");
+      for(i=0;i<SQ_IN_SZ;i++) {
+        if(i==(SQ_IN_SZ/2)) strcat(line,"&");
+        else strcat(line,"-");
+      }
       break;
-    case 3:
+
+    case CONEX_WALL:
+      strcat(line,"+");
+      for(i=0;i<SQ_IN_SZ;i++) strcat(line," ");
+      break;
+    
+    case OPEN_WALL:
       strcat(line,"+");
       for(i=0;i<SQ_IN_SZ;i++) {
         if(i<7 || i>SQ_IN_SZ-8) strcat(line,"-");
         else strcat(line," ");
       }
       break;
-    case 4:
+
+    case HUMAN_WALL:
+    strcat(line,"+");
+    for(i=0;i<SQ_IN_SZ;i++) {
+      if(i<7 || i>SQ_IN_SZ-8) strcat(line,"N");
+      else strcat(line,".");
+    }
+    break;
+
+    case MNSTR_WALL:
       strcat(line,"+");
-      for(i=0;i<SQ_IN_SZ;i++) strcat(line," ");
+      for(i=0;i<SQ_IN_SZ;i++) {
+        if(i<7 || i>SQ_IN_SZ-8) strcat(line,"-");
+        else strcat(line,"\\");
+      }
       break;
+
     default:
       break;
   }
@@ -423,7 +485,7 @@ void graphic_engine_map_print_square(Game *game, Graphic_engine *ge, char lines[
         if(!charr) continue;
 
         if(character_get_health(charr) > 0){
-          count += sprintf(line, "%-*.*s", CHR_GD_SZ, CHR_GD_SZ, character_get_gdesc(charr));
+          count += sprintf(line, "%-*.*s ", CHR_GD_SZ, CHR_GD_SZ, character_get_gdesc(charr));
           strcat(lines[3], line);
         }
       }
@@ -450,7 +512,7 @@ void graphic_engine_map_print_square(Game *game, Graphic_engine *ge, char lines[
         obj = game_get_object(game,obj_id);
         if(!obj) continue;
 
-        count += sprintf(line, "%-*.*s ", OBJ_GD_SZ, OBJ_GD_SZ, object_get_name(obj));
+        count += sprintf(line, "%-*.*s ", OBJ_GD_SZ, OBJ_GD_SZ, class_get_name(game_get_class_from_id_obj(game, obj_id)));
         strcat(lines[SQ_LINES-1],line);
       }
       if(space_get_num_objects(space) > NUM_OBJS_PRINT){
@@ -605,7 +667,7 @@ void graphic_engine_map_print_map(Game *game, Graphic_engine *ge, Id id[9]){
       strcat(interm, aux);
     }
   }
-  if(space[i]) strcat(interm, "+");
+  /*if(space[i]) strcat(interm, "+");*/
   screen_area_puts(ge->map,interm);
   
 
@@ -655,18 +717,20 @@ void graphic_engine_destroy(Graphic_engine *ge) {
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Id id_act = NO_ID, neighbors[8], map_spaces[9];
   Status last_status = ERROR;
-  char str[255];
+  char str[MESG_SIZE + 1], *aux_name = NULL, *close_up = NULL, *msg = NULL, *partial_msg = NULL;
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
-  int i, aux_health, turn, index_convert[9] = {0,1,2,7,-1,3,6,5,4};
+  int i, aux_health, turn, index_convert[9] = {0,1,2,7,-1,3,6,5,4}, chars = 0, num_followers = 0;
   Object *aux_obj = NULL;
   Character *aux_charr = NULL;
   Space *sp = NULL;
+  Type sender_type = NO_TYPE;
   Player *act_player = NULL, *aux_player = NULL;
   Role role = NO_ROLE;
-  Id aux_obj_id = NO_ID, aux_charr_id = NO_ID, weapon = NO_ID, armor = NO_ID, sender;
+  Id aux_obj_id = NO_ID, aux_charr_id = NO_ID, weapon = NO_ID, armor = NO_ID;
   Bool friendly = FALSE;
   Inventory *inventory = NULL;
+  Set *followers = NULL;
 
   id_act = game_get_player_location(game);
   if(id_act == NO_ID) return;
@@ -721,7 +785,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     aux_obj = game_get_object(game, aux_obj_id);
     if(!aux_obj) continue;
 
-    sprintf(str, "  %-*.*s", DESC_NAMES_SZ,DESC_NAMES_SZ, object_get_name(aux_obj));
+    sprintf(str, "  %-*.*s", DESC_NAMES_SZ,DESC_NAMES_SZ, class_get_name(game_get_class_from_id_obj(game, aux_obj_id)));
     screen_area_puts(ge->descript, str);
   }
   sprintf(str, " ");
@@ -764,7 +828,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       aux_obj = game_get_object(game, aux_obj_id);
       if(!aux_obj) continue;
   
-      sprintf(str, "  %-*.*s", DESC_NAMES_SZ,DESC_NAMES_SZ, object_get_name(aux_obj));
+      sprintf(str, "  %-*.*s", DESC_NAMES_SZ,DESC_NAMES_SZ, class_get_name(game_get_class_from_id_obj(game, aux_obj_id)));
       screen_area_puts(ge->player_inf, str); 
     }
   }
@@ -774,42 +838,97 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   if(armor == NO_ID) sprintf(str, " Armor: (no armor) DEF: 0");
   else {
     aux_obj = game_get_object(game, armor);
-    if(aux_obj) sprintf(str, " Armor: %*.*s DEF: %d", DESC_NAMES_SZ,DESC_NAMES_SZ,object_get_name(aux_obj), (int)object_get_use_value(aux_obj));
+    if(aux_obj) sprintf(str, " Armor: %*.*s DEF: %d", DESC_NAMES_SZ,DESC_NAMES_SZ, class_get_name(game_get_class_from_id_obj(game, aux_obj_id)), (int)object_get_use_value(aux_obj));
   }
   screen_area_puts(ge->player_inf, str);
 
-  if(weapon == NO_ID) sprintf(str, " Weapon: (no weapon) ATK: 0");
+  if(weapon == NO_ID) sprintf(str, " Weapon: Fist ATK: %d", PLY_BASE_DMG);
   else {
     aux_obj = game_get_object(game, weapon);
-    if(aux_obj) sprintf(str, " Weapon: %*.*s ATK: %d", DESC_NAMES_SZ,DESC_NAMES_SZ,object_get_name(aux_obj), (int)object_get_use_value(aux_obj));
+    if(aux_obj) sprintf(str, " Weapon: %*.*s ATK: %d", DESC_NAMES_SZ,DESC_NAMES_SZ, class_get_name(game_get_class_from_id_obj(game, aux_obj_id)), (int)object_get_use_value(aux_obj));
   }
   screen_area_puts(ge->player_inf, str);
+
+  num_followers = game_get_num_followers(game, act_player);
+  if(num_followers == -1) return;
+
+  if(num_followers > 0){
+    followers = game_get_followers(game, act_player);
+    if(!followers) return;
+  
+    sprintf(str, " ");
+    screen_area_puts(ge->player_inf, str);
+  
+    sprintf(str, " Following:");
+    screen_area_puts(ge->player_inf, str);
+  
+    for(i=0;i<num_followers;i++){
+      aux_charr_id = set_get_id_at_pos(followers, i);
+      if (aux_charr_id == NO_ID) continue;
+  
+      aux_charr = game_get_character_from_id(game, aux_charr_id);
+      if(!aux_charr) continue;
+  
+      aux_health = character_get_health(aux_charr);
+      if (aux_health <= 0) continue;
+  
+      sprintf(str, "  %-*.*s (%d)", DESC_NAMES_SZ,DESC_NAMES_SZ, character_get_gdesc(aux_charr), aux_health);
+      screen_area_puts(ge->player_inf, str);
+    }
+
+    if (set_destroy(followers) == ERROR) return;
+  }
 
   /* Paint the message area */
   if ((turn = game_get_turn(game)) == -1) return;
   screen_area_clear(ge->message);
   
   for (i = 1; i <= NUM_MSGS; i++) {
-    if(game_get_last_message_visibility_at_pos(game, turn, NUM_MSGS-i) == TRUE){
-      sender = game_get_last_message_sender_at_pos(game, turn, NUM_MSGS-i);
-      if(sender == NO_ID) sprintf(str, "%s", game_get_last_message_at_pos(game, turn, NUM_MSGS-i));
-      else {
-        aux_player = game_get_player_from_id(game, sender);
-        if(!aux_player) return;
+    chars = 0;
+    str[0] = '\0';
+    if(game_get_last_message_visibility_at_pos(game, turn, NUM_MSGS-i) == TRUE) {
+      sender_type = game_get_last_message_sender_type_at_pos(game, turn, NUM_MSGS-i);
 
-        sprintf(str, "%s: %s",player_get_name(aux_player), game_get_last_message_at_pos(game, turn, NUM_MSGS-i));}
+      switch (sender_type)
+      {
+      case GAME:
+        chars = sprintf(str, " Speakers:");
+        break;
+      case THOUGHTS:
+        chars = sprintf(str, " You:");
+        break;
+      case NO_TYPE:
+        break;
+      default:
+        aux_name = game_get_last_message_sender_name_at_pos(game, turn, NUM_MSGS-i);
+        if(aux_name) chars = sprintf(str, " %s:", aux_name);
+        break;
+      }
 
-        if(strcmp(str, " ") != 0) screen_area_puts(ge->message, str);
-     
+      msg = game_get_last_message_at_pos(game, turn, NUM_MSGS-i);
+      if(msg) {
+        partial_msg = strtok(msg, "@\n\r\0");
+        sprintf(str + chars, " %s", partial_msg);
+        screen_area_puts(ge->message, str);
+        str[chars] = '\0';
+        while((partial_msg = strtok(NULL, "@\n\r\0"))){
+          sprintf(str, " %s", partial_msg);
+          screen_area_puts(ge->message, str);
+        }
+      }
     }
   }
-  
 
   /* Paint in the close up area */
   screen_area_clear(ge->pov);
   for(i=0;i<POV_HGHT;i++){
-    if(!game_get_last_close_up_at(game, i)) sprintf(str, "%-*s", POV_WDTH, "");
-    else sprintf(str, "%-*.*s", POV_WDTH,POV_WDTH, game_get_last_close_up_at(game, i));
+    if(!(close_up = game_get_last_close_up_at(game, i)) || (strcmp(close_up, "") == 0)) {
+      if(!(close_up = player_get_closeup_at(act_player, i))){
+        sprintf(str, "%-*s", POV_WDTH, "");
+      }
+      else sprintf(str, "%-*.*s", POV_WDTH,POV_WDTH, close_up);
+    }
+    else sprintf(str, "%-*.*s", POV_WDTH,POV_WDTH, close_up);
     screen_area_puts(ge->pov, str);
   }
 

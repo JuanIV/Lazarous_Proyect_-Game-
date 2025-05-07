@@ -299,6 +299,7 @@ Status player_set_closeup_at(Player *play, int pos, char *closeup) {
 
 /*It prints the player information*/
 Status player_print(Player *play) {
+  int i;
   if (!play) return ERROR;
 
 
@@ -313,6 +314,9 @@ Status player_print(Player *play) {
   fprintf(stdout, "=> Player backpack: \n");
 	set_print(inventory_get_objects(play->backpack));
   fprintf(stdout, "=> Player location Id: %ld\n", play->location);
-
+  fprintf(stdout, "=> Player closeup: \n");
+  for(i = 0; i < POV_HGHT; i++) {
+    fprintf(stdout, "%s\n", play->close_up[i]);
+  }
   return OK;
 }
