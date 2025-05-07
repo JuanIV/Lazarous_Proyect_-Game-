@@ -5,8 +5,8 @@ INCDIR = ./include
 LIBDIR = ./lib
 OBJDIR = ./obj
 EXEDIR = ./exe
-LDFLAGS = -L$(LIBDIR) -lscreen
-files = $(OBJDIR)/command.o $(OBJDIR)/set.o $(OBJDIR)/character.o $(OBJDIR)/space.o $(OBJDIR)/player.o $(OBJDIR)/inventory.o $(OBJDIR)/object.o $(OBJDIR)/link.o $(OBJDIR)/game.o $(OBJDIR)/game_actions.o $(OBJDIR)/graphic_engine.o $(OBJDIR)/game_management.o $(OBJDIR)/game_loop.o
+LDFLAGS = -L$(LIBDIR) -lscreen  
+files = $(OBJDIR)/command.o $(OBJDIR)/set.o $(OBJDIR)/character.o $(OBJDIR)/space.o $(OBJDIR)/player.o $(OBJDIR)/inventory.o $(OBJDIR)/object.o $(OBJDIR)/class.o $(OBJDIR)/link.o $(OBJDIR)/game.o $(OBJDIR)/game_actions.o $(OBJDIR)/graphic_engine.o $(OBJDIR)/game_management.o $(OBJDIR)/game_loop.o
 vpath %.h $(INCDIR)
 vpath %.c $(SRCDIR)
 vpath %.o $(OBJDIR)
@@ -17,6 +17,7 @@ link_test_files = $(OBJDIR)/link_test.o $(OBJDIR)/link.o
 inventory_test_files = $(OBJDIR)/inventory_test.o $(OBJDIR)/inventory.o $(OBJDIR)/set.o
 player_test_files = $(OBJDIR)/player_test.o $(OBJDIR)/player.o $(OBJDIR)/inventory.o $(OBJDIR)/set.o
 object_test_files = $(OBJDIR)/object_test.o $(OBJDIR)/object.o 
+class_test_files = $(OBJDIR)/class_test.o $(OBJDIR)/class.o 
 .PHONY: prepare project run_tests $(tests) clean run runv
 all : project tests
 tests: set_test character_test space_test link_test inventory_test player_test object_test
@@ -51,6 +52,8 @@ player_test : prepare $(player_test_files)
 object_test : prepare $(object_test_files)
 	$(CC) $(CFLAGS) $(object_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
+class_test : prepare $(class_test_files)
+	$(CC) $(CFLAGS) $(object_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
 # ************** FOLDERS *************
 
@@ -78,6 +81,9 @@ $(OBJDIR)/inventory.o: $(SRCDIR)/inventory.c $(INCDIR)/inventory.h $(INCDIR)/set
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/object.o: $(SRCDIR)/object.c $(INCDIR)/object.h $(INCDIR)/types.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/class.o: $(SRCDIR)/class.c $(INCDIR)/class.h $(INCDIR)/types.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/link.o: $(SRCDIR)/link.c $(INCDIR)/link.h $(INCDIR)/types.h
@@ -122,7 +128,10 @@ $(OBJDIR)/inventory_test.o: $(SRCDIR)/inventory_test.c $(INCDIR)/inventory_test.
 $(OBJDIR)/player_test.o: $(SRCDIR)/player_test.c $(INCDIR)/player_test.h $(INCDIR)/player.h $(INCDIR)/set.h $(INCDIR)/inventory.h 
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/object_test.o: $(SRCDIR)/object_test.c $(INCDIR)/object_test.h $(INCDIR)/object.h $(INCDIR)/set.h
+$(OBJDIR)/object_test.o: $(SRCDIR)/object_test.c $(INCDIR)/object_test.h $(INCDIR)/object.h 
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/class_test.o: $(SRCDIR)/class_test.c $(INCDIR)/class_test.h $(INCDIR)/class.h 
 	$(CC) $(CFLAGS) -c $< -o $@
 
 run_set_test:
@@ -146,6 +155,8 @@ run_player_test:
 run_object_test:
 	./$(EXEDIR)/object_test
 
+run_class_test:
+	./$(EXEDIR)/class_test
 run_tests:
 	@echo "Running set_test"
 	./$(EXEDIR)/set_test
@@ -173,7 +184,7 @@ run :
 
 runv :
 	@echo "Running Valgrind"
-	valgrind --leak-check=full --track-origins=yes ./$(EXEDIR)/project anthill.dat
+	valgrind --leak-check=full --track-origins=yes ./$(EXEDIR)/project lab.dat
 
 runl :
 	@echo "Running Log"
