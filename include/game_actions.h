@@ -15,36 +15,6 @@
 #include "types.h"
 
 /**
- * @brief Defines the range of results you can get when attacking an enemy
- *
- */
-#define ATK_RNG 100
-
-/**
- * @brief Defines the minimum number you have to get to land an attack
- *
- */
-#define ATK_WIN 20
-
-/**
- * @brief Defines the range of results for an accident to happen
- * 
- */
-#define ATK_ACC_RNG 1000
-
-/**
- * @brief Defines the minimum number you have to get for an accident to happen while attacking
- * 
- */
-#define ATK_ACCIDENT 950
-
-/**
- * @brief Base damage that a player deals when attacking
- * 
- */
-#define PLY_BASE_DMG 5
-
-/**
  * @brief Sets a given command as last command and executes its corresponding
  * action
  * @author Profesores PPROG

@@ -1,32 +1,37 @@
-/** 
+/**
  * @brief It declares the tests for the object module
- * 
+ *
  * @file object_test.h
  * @author Alina Datsko
- * @version 2.0
- * @date 04-04-2025 / 
+ * @version 1.0
+ * @date 06-05-2025
  * @copyright GNU Public License
  */
 
 #ifndef OBJECT_TEST_H
 #define OBJECT_TEST_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "object.h"
+#include "test.h"
+
 /**
- * @test Test object creation
- * @pre None
+ * @test Test object creation with valid ID
+ * @pre Valid ID (e.g., 1)
  * @post Non NULL pointer to object
  */
 void test1_object_create();
 
 /**
- * @test Test object creation with invalid ID
- * @pre Invalid ID
+ * @test Test object creation with invalid ID (NO_ID)
+ * @pre NO_ID as ID
  * @post Output == NULL
  */
 void test2_object_create();
 
 /**
- * @test Test object destruction
+ * @test Test object destruction with valid object
  * @pre Non NULL pointer to object
  * @post Output == OK
  */
@@ -40,227 +45,115 @@ void test1_object_destroy();
 void test2_object_destroy();
 
 /**
- * @test Test getting object ID
- * @pre Non NULL pointer to object
+ * @test Test getting object ID from valid object
+ * @pre Non NULL pointer to object with known ID
  * @post Output == Expected ID
  */
 void test1_object_get_id();
 
 /**
- * @test Test getting object ID with NULL pointer
+ * @test Test getting ID from NULL object
  * @pre NULL pointer to object
  * @post Output == NO_ID
  */
 void test2_object_get_id();
 
 /**
- * @test Test setting object ID
- * @pre Non NULL pointer to object and valid ID
+ * @test Test setting object ID with valid input
+ * @pre Non NULL pointer and valid ID
  * @post Output == OK
  */
 void test1_object_set_id();
 
 /**
- * @test Test setting object ID with NULL pointer
- * @pre NULL pointer to object
+ * @test Test setting ID with NULL pointer or NO_ID
+ * @pre NULL pointer to object or NO_ID
  * @post Output == ERROR
  */
 void test2_object_set_id();
 
 /**
- * @test Test getting object name
- * @pre Non NULL pointer to object with valid name
- * @post Output == Expected name
+ * @test Test getting class ID from valid object
+ * @pre Non NULL pointer to object with known class ID
+ * @post Output == Expected class ID
  */
-void test1_object_get_name();
+void test1_object_get_class_id();
 
 /**
- * @test Test getting object name with NULL pointer
- * @pre NULL pointer to object
- * @post Output == NULL
- */
-void test2_object_get_name();
-
-/**
- * @test Test setting object name
- * @pre Non NULL pointer to object and valid name
- * @post Output == OK
- */
-void test1_object_set_name();
-
-/**
- * @test Test setting object name with NULL pointer
- * @pre NULL pointer to object
- * @post Output == ERROR
- */
-void test2_object_set_name();
-
-/**
- * @test Test getting object description
- * @pre Non NULL pointer to object with valid description
- * @post Output == Expected description
- */
-void test1_object_get_desc();
-
-/**
- * @test Test getting object description with NULL pointer
- * @pre NULL pointer to object
- * @post Output == NULL
- */
-void test2_object_get_desc();
-
-/**
- * @test Test setting object description
- * @pre Non NULL pointer to object and valid description
- * @post Output == OK
- */
-void test1_object_set_desc();
-
-/**
- * @test Test getting object health
- * @pre Non NULL pointer to object
- * @post Output == Expected health
- */
-void test1_object_get_health();
-
-/**
- * @test Test getting object health with NULL pointer
- * @pre NULL pointer to object
- * @post Output == ERROR
- */
-void test2_object_get_health();
-
-/**
- * @test Test setting object health
- * @pre Non NULL pointer to object 
- * @post Output == OK
- */
-void test1_object_set_health();
-
-/**
- * @test Test setting object health with NULL pointer
- * @pre NULL pointer to object
- * @post Output == ERROR
- */
-void test2_object_set_health();
-
-/** 
- * @test Test getting object dependency
- * @pre Non NULL pointer to object
- * @post Output == Expected dependency
- */
-void test1_object_get_dependency();
-
-/**
- * @test Test getting object dependency with NULL pointer
+ * @test Test getting class ID from NULL object
  * @pre NULL pointer to object
  * @post Output == NO_ID
  */
-void test2_object_get_dependency();
+void test2_object_get_class_id();
 
 /**
- * @test Test setting object dependency
- * @pre Non NULL pointer to object 
+ * @test Test setting class ID with valid input
+ * @pre Non NULL pointer and valid class ID
  * @post Output == OK
  */
-void test1_object_set_dependency();
+void test1_object_set_class_id();
 
 /**
- * @test Test setting object dependency with NULL pointer
+ * @test Test setting class ID with NULL pointer
  * @pre NULL pointer to object
  * @post Output == ERROR
  */
-void test2_object_set_dependency();
+void test2_object_set_class_id();
 
 /**
- * @test Test getting object open property
- * @pre Non NULL pointer to object
- * @post Output == Expected open property
+ * @test Test getting role from valid object
+ * @pre Non NULL pointer to object with known role
+ * @post Output == Expected role
  */
-void test1_object_get_open();
+void test1_object_get_role();
 
 /**
- * @test Test getting object open property with NULL pointer
+ * @test Test getting role from NULL object
  * @pre NULL pointer to object
- * @post Output == NO_ID
+ * @post Output == NO_ROLE
  */
-void test2_object_get_open();
+void test2_object_get_role();
 
 /**
- * @test Test setting object open property
- * @pre Non NULL pointer to object 
+ * @test Test setting role with valid input
+ * @pre Non NULL pointer and valid role
  * @post Output == OK
  */
-void test1_object_set_open();
+void test1_object_set_role();
 
 /**
- * @test Test setting object open property
- * @pre NULL pointer to object 
+ * @test Test setting role with NULL pointer or NO_ROLE
+ * @pre NULL pointer to object or NO_ROLE
  * @post Output == ERROR
  */
-void test2_object_set_open();
+void test2_object_set_role();
 
 /**
- * @test Test getting object movable
- * @pre Non NULL pointer to object
- * @post Output = OK
+ * @test Test getting use value from valid object
+ * @pre Non NULL pointer to object with known use value
+ * @post Output == Expected use value
  */
-void test1_object_get_movable();
+void test1_object_get_use_value();
 
-/** 
- * @test Test getting object movable
+/**
+ * @test Test getting use value from NULL object
  * @pre NULL pointer to object
- * @post Output = OK
+ * @post Output == -1
  */
-void test2_object_get_movable();
+void test2_object_get_use_value();
 
 /**
- * @test Test setting object movable property
- * @pre Non NULL pointer to object 
+ * @test Test setting use value with valid input
+ * @pre Non NULL pointer and valid integer
  * @post Output == OK
  */
-void test1_object_set_movable();
+void test1_object_set_use_value();
 
 /**
- * @test Test setting object movable property
- * @pre NULL pointer to object 
- * @post Output == ERROR
- */
-void test2_object_set_movable();
-
-/**
- * @test Test getting object luck
- * @pre Non NULL pointer to object
- * @post Output = OK
- */
-void test1_object_get_luck();
-
-/** 
- * @test Test getting object luck
- * @pre NULL pointer to object
- * @post Output = OK
- */
-void test2_object_get_luck();
-
-/**
- * @test Test setting object luck  property
- * @pre Non NULL pointer to object 
- * @post Output == OK
- */
-void test1_object_set_luck();
-
-/**
- * @test Test setting object luck property
- * @pre NULL pointer to object 
- * @post Output == ERROR
- */
-void test2_object_set_luck();
-
-/**
- * @test Test setting object description with NULL pointer
+ * @test Test setting use value with NULL pointer
  * @pre NULL pointer to object
  * @post Output == ERROR
  */
-void test2_object_set_desc();
+void test2_object_set_use_value();
 
-#endif
+#endif /* OBJECT_TEST_H */

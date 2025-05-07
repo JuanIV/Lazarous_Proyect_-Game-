@@ -13,6 +13,7 @@
 
 #include "command.h"
 #include "object.h"
+#include "class.h"
 #include "player.h"
 #include "space.h"
 #include "character.h"
@@ -22,7 +23,7 @@
  * @brief Maximum amount of spaces that a game can have
  *
  */
-#define MAX_SPACES 100
+#define MAX_SPACES 300
 
 /**
  * @brief Maximum amount of links that a game can have, 4 times the number of spaces
@@ -67,6 +68,12 @@
 #define NUM_MSGS 8
 
 /**
+ * @brief Base damage that a player deals when attacking
+ *
+ */
+#define PLY_BASE_DMG 5
+
+/**
  * @brief It stores the game information
  *
  */
@@ -102,7 +109,15 @@ Status game_create_from_file(Game *game, char *filename);
  */
 Status game_destroy(Game *game);
 
-
+/**
+ * @brief Prints the interface data of a player at position pos
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param pos position inside the array of players
+ * @return Ok if everything went well, ERROR if there was any mistake
+ */
+Status game_interface_data_print_at_pos(Game *game, int pos);
 
 /**
  * @brief Gets a pointer to the player who has the turn
@@ -129,10 +144,18 @@ Player *game_get_player_at(Game *game, int pos);
  * 
  * @param game Pointer to the game
  * @param name Name of the player
- * @return Pointer to the wanted player
+ * @return Pointer to the wanted player or NULL in case of error
  */
 Player *game_get_player_from_name(Game *game, char *name);
 
+/**
+ * @brief Gets the pointer to a player from its Id
+ * @author Lucas Blanco
+ * 
+ * @param game Pointer to the game
+ * @param id Id of the player
+ * @return Pointer to the wanted player or NULL in case of error
+ */
 Player *game_get_player_from_id(Game *game, Id id);
 
 /**
@@ -330,6 +353,16 @@ int game_get_n_classes(Game *game);
  */
 Class *game_get_class_at_pos(Game *game, int pos);
 
+/**
+ * @brief It gets the pointer of a class from the id of an object
+ * @author Alina Datsko 
+ * 
+ * @param game Pointer to the game
+ * @param id Id of the object
+ * @return Pointer to the class
+ */
+Class *game_get_class_from_id_obj(Game *game, Id id);
+
 
 
 /**
@@ -382,6 +415,16 @@ char *game_get_obj_name_from_id(Game *game, Id id);
 Id game_get_obj_id_from_name(Game *game, char *obj_name);
 
 /**
+ * @brief It gets an object's id from its name only looking inside a specified space
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @param name name of the object
+ * @return object´s id or NO_ID if there was any mistake
+ */
+Id game_get_obj_id_from_name_at_space(Game *game, char *obj_name, Id space_id);
+
+/**
  * @brief it gets an object's position from a game
  * @author Juan Ibáñez
  *
@@ -411,6 +454,8 @@ Status game_set_object_location(Game *game, Id obj, Id pos);
  * @return Pointer to the desired object
  */
 Object *game_get_object_at_pos(Game *game, int pos);
+
+
 
 /**
  * @brief Adds a character to the game and sets its location
@@ -583,6 +628,14 @@ Status game_connection_is_open(Game *game, Id cur_space, Direction dir, Bool *bo
 Command *game_get_command_at_pos(Game *game, int play_pos, int cmd_pos);
 
 /**
+ * @brief Sets all messages of the player with turn as not visible, thus erasing them
+ * 
+ * @param game Pointer to the game
+ * @return Ok if everything went well, ERROR if the space is full or there was a mistake
+ */
+Status game_erase_all_messages(Game *game);
+
+/**
  * @brief It gets the last message of the interface data of a player at a desired position
  * @author Tiago Oselka
  * 
@@ -591,15 +644,6 @@ Command *game_get_command_at_pos(Game *game, int play_pos, int cmd_pos);
  * @return Pointer to said command
  */
 char *game_get_last_message_msg_at_pos(Game *game, int play_pos);
-
-/**
- * @brief Gets the last message displayed by a chat
- * @author Juan Ibáñez
- * 
- * @param game Pointer to the game
- * @return String of the message
- */
-char *game_get_last_message(Game *game);
 
 /**
  * @brief It gets a message from a desided position of the interface data of a player at a desired position
@@ -611,8 +655,6 @@ char *game_get_last_message(Game *game);
  * @return Pointer to said command
  */
 char *game_get_last_message_at_pos(Game *game, int play_pos, int msg_pos);
-
-Id game_get_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos);
 
 /**
  * @brief Sets the last displayed message
@@ -626,7 +668,7 @@ Status game_set_last_message(Game *game, char *message);
 
 /**
  * @brief Sets the last displayed message at a desired position 
- * @author Tiago Oselka
+ * @author Lucas Blanco
  * 
  * @param game Pointer to the game
  * @param play_pos Desired position from the array of players
@@ -635,8 +677,26 @@ Status game_set_last_message(Game *game, char *message);
  */
 Status game_set_last_message_at_pos(Game *game, int play_pos, char *message);
 
+/**
+ * @brief Gets the last message visibility type at a postion from the array of players
+ * @author Lucas Blanco
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param msg_pos Desired postion from the array of messages
+ * @return Visibility of the last message
+ */
 Bool game_get_last_message_visibility_at_pos(Game *game, int play_pos, int msg_pos);
 
+/**
+ * @brief Sets the last displayed message at a desired position 
+ * @author Lucas Blanco
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param visibility True if the message should be shown, False otherwise
+ * @return OK if the last_cmd was successfull, ERROR otherwise 
+ */
 Status game_set_last_message_visibility_at_pos(Game *game, int play_pos, int msg_pos, Bool visibility);
 
 /**
@@ -674,6 +734,40 @@ Status game_set_last_message_sender_type_at_pos(Game *game, int play_pos, int ms
  */
 Status game_set_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos, Id sender);
 
+/**
+ * @brief Gets the last message sender Id at a postion from the array of players
+ * @author Lucas Blanco
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param msg_pos Desired postion from the array of messages
+ * @return Id of the sender of the last message
+ */
+Id game_get_last_message_sender_at_pos(Game *game, int play_pos, int msg_pos);
+
+/**
+ * @brief Gets the last message sender's name at a postion from the array of players 
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param msg_pos Desired postion from the array of messages
+ * @return the name of the sender
+ */
+char *game_get_last_message_sender_name_at_pos(Game *game, int play_pos, int msg_pos);
+
+/**
+ * @brief sets the information of the last displayed message
+ * @author Lucas Blanco
+ * 
+ * @param game Pointer to the game
+ * @param play_pos Desired position from the array of players
+ * @param message Message to be set
+ * @param send Id of the sender
+ * @param send_type Type of the sender
+ * @return Status 
+ */
+Status game_set_last_message_at_pos_with_info(Game *game, int play_pos, char *message, Id send, Type send_type);
 
 /**
  * @brief Gets a line from the last close up shown
@@ -757,8 +851,6 @@ Status game_get_last_status(Game *game);
  * @return OK if the last_cmd was successfull, ERROR otherwise
  */
 Status game_get_last_status_at_pos(Game *game, int pos);
-
-Status game_set_last_message_at_pos_with_info(Game *game, int play_pos, char *message, Id send, Type send_type);
 
 /**
  * @brief Given the status of the last command, the function sets it as the last one

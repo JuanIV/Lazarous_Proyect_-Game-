@@ -93,11 +93,18 @@ typedef enum {
  * 
  */
 typedef enum {
-  NO_TYPE = -1,    /*We define this as the error class*/
+  NO_TYPE = -1,     /*We define this as the error class*/
+  THOUGHTS,         /*Sent by oneself*/
   PLAYER,           /*Sent by a player*/
   CHARACTER,        /*Sent by a character*/
   OBJECT,           /*Sent by a object*/
   GAME              /*Sent by the game*/
 } Type;
+
+/**
+ * @brief It defines the type of objects there are in the game
+ *
+ */
+typedef enum { NO_TAG = -1, NORMAL, HEALER, WEAPON, ARMOR, TRAP, TERMINAL, SWITCH } Tag;
 
 #endif

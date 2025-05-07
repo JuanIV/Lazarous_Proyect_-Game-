@@ -24,7 +24,7 @@
  * @brief Defines the width in characters of the graphic description of a space
  *
  */
-#define SP_GD_WTH 9
+#define SP_GD_WTH 23
 
 /**
  * @brief It stores the Id and name of a space and its adjacent spaces' ids
