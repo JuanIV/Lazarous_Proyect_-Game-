@@ -1174,7 +1174,18 @@ void game_actions_read_terminal(Game *game, Object *obj){
 }
 
 void game_actions_use_switch(Game *game, Object *obj){
+  int state;
+  
+  if (!game || !obj) return;
 
+  if ((state = object_get_use_value(obj)) == -1) return;
+
+  /* Changes the state of the switch; from 1 to 0 and 0 to 1, and sets it as the new one*/
+  state = (state + 1) % 2;
+
+  if (object_set_use_value(obj, state) == ERROR) return;
+
+  if (game_set_last_status(game, OK) == ERROR) return;
 }
 
 void game_actions_save(Game *game) {
