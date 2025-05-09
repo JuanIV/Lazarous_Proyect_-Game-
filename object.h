@@ -1,0 +1,124 @@
+/**
+ * @brief It defines the object module interface
+ *
+ * @file object.h
+ * @author Juan Ibáñez
+ * @version 0 (1)
+ * @date 07-02-2025 (fix 09-02-2025)
+ * @copyright GNU Public License
+ */
+
+#ifndef OBJECT_H
+#define OBJECT_H
+
+#include "types.h"
+
+/**
+ * @brief It stores the id and name of an object
+ *
+ */
+typedef struct _Object Object;
+
+/**
+ * @brief Creates a new object by allocating memmory for it and initialazing its
+ * members
+ * @author Juan Ibáñez
+ *
+ * @param id Id of the object
+ * @return A new object, initialized
+ */
+Object *object_create(Id id);
+
+/**
+ * @brief Destroys an object by freeing its allocated memmory
+ * @author Juan Ibáñez
+ *
+ * @param obj Pointer to the object being destroyed
+ * @return OK if everything went well, ERROR if the object does not exist
+ */
+Status object_destroy(Object *obj);
+
+/**
+ * @brief It gets the id from an object
+ * @author Juan Ibáñez
+ *
+ * @param obj Pointer to the object
+ * @return Id of the object
+ */
+Id object_get_id(Object *obj);
+
+/**
+ * @brief Sets the id of an object to an especific id
+ * @author Juan Ibáñez
+ *
+ * @param obj Pointer to the object
+ * @param id New object id to be set
+ * @return ERROR if the object or id are non-existing, OK otherwise
+ */
+Status object_set_id(Object *obj, Id id);
+
+/**
+ * @brief Gets the id of the class of an object
+ * @author Juan Ibáñez
+ *
+ * @param obj Pointer to the object
+ * @return Id of the class of the object
+ */
+Id object_get_class_id(Object *obj);
+
+/**
+ * @brief Sets the id of the class of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @param class Id of the class to be set
+ * @return ERROR if the object or id are non-existing, OK otherwise
+ */
+Status object_set_class_id(Object *obj, Id class);
+
+/**
+ * @brief Gets the role of a trap
+ *
+ * @param obj Pointer to the object
+ * @return Role of the object
+ */
+Role object_get_role(Object *obj);
+
+/**
+ * @brief Sets the role of a trap
+ *
+ * @param obj Pointer to the object
+ * @param role New role for the trap
+ * @return ERROR if obj or role dont exist, OK otherwise
+ */
+Status object_set_role(Object *obj, Role role);
+
+/**
+ * @brief Gets the use value of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @return Int use value of the object
+ */
+int object_get_use_value(Object *obj);
+
+/**
+ * @brief Sets the use value of an object
+ * @author Alina Datsko
+ *
+ * @param obj Pointer to the object
+ * @param value New use value for the class
+ * @return ERROR if the object does not exist, OK otherwise
+ */
+Status object_set_use_value(Object *obj, int value);
+
+/**
+ * @brief Prints all information about an object
+ * @author Juan Ibáñez
+ *
+ * @param obj Pointer to the object
+ * @return ERROR if the object does not exist, OK if everything went well
+ */
+Status object_print(Object *obj);
+
+#endif
