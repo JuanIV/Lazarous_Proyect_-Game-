@@ -48,6 +48,8 @@ struct _Link {
 Link *link_create(Id id) {
   Link *newlink = NULL;
 
+  if(id == NO_ID) return NULL;
+
   newlink = (Link *)calloc(1, sizeof(Link));
   if (!newlink) return NULL;
 

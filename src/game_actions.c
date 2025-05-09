@@ -214,7 +214,6 @@ void game_actions_load(Game **game);
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @param dir Direction in which is the link 
  */
 void game_actions_open_link(Game *game);
 
@@ -223,16 +222,46 @@ void game_actions_open_link(Game *game);
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @param dir Direction in which is the link that will close
  */
 void game_actions_close_link(Game *game);
 
+/**
+ * @brief Accepts a request. Works paired with game_rules
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ */
+void game_actions_accept(Game *game);
+
+/**
+ * @brief Denies a request. Works paired with game_rules
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ */
+void game_actions_deny(Game *game);
+
+/**
+ * @brief Command to cooperate with another player
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ */
+void game_actions_cooperate(Game *game);
+
+/**
+ * @brief Command to betray your team
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ */
+void game_actions_betray(Game *game);
 /**
      Game actions implementation
 */
 
 /*Sets a given command as last command and executes its corresponding action*/
-Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code) {
+Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code, Bool update) {
   CommandCode cmd;
   Player *player = NULL;
   char *closeup = NULL;
@@ -252,6 +281,8 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code)
 
   cmd = command_get_code(command);
   *cmd_code = cmd;
+
+  if(update == FALSE) return OK;
 
   switch (cmd) {
     case UNKNOWN:
@@ -314,6 +345,18 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code)
       game_actions_close_link(*game);
       break;
 
+    case ACCEPT:
+      game_actions_accept(*game);
+      break;
+
+    case DENY:
+      game_actions_deny(*game);
+      break;
+    case COOPERATE:
+      game_actions_cooperate(*game);
+      break;
+    case BETRAY:
+      game_actions_betray(*game);
     default:
       break;
   }
@@ -392,7 +435,7 @@ void game_actions_move(Game *game) {
   dest_id = link_get_dest(link);
 
   if(!(dest_space = game_get_space(game, dest_id))) return;
-  if(space_set_discovered(dest_space, TRUE) == ERROR) return;
+  if(game_set_spaces_discovered(game, dest_space) == ERROR) return;
 
   /* moves the player to the destination */
   if(player_set_location(player, dest_id) == ERROR) return;
@@ -968,7 +1011,6 @@ void game_actions_use(Game *game){
   
   /*Gets the description of the last cmd*/
   if (!(last_cmd = game_get_last_command(game))) return;
-
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
 
   toks = strtok(cmd_desc," \r\n");
@@ -1393,4 +1435,59 @@ void game_actions_close_link(Game *game){
   if(link_set_open(link, FALSE) == ERROR) return;
   
   if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_accept(Game *game) {
+  if(!game) return;
+
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_deny(Game *game) {
+  if(!game) return;
+
+  if(game_get_round(game) != 0) return;
+
+  if(player_set_role(game_get_player(game), UNDEFINED) == ERROR) return;
+
+  if (game_set_last_status(game, ERROR) == ERROR) return;
+}
+
+void game_actions_cooperate(Game *game) {
+  Command *last_cmd = NULL;
+  char *cmd_desc = NULL;
+  Player *play = NULL, *play_dest = NULL;
+  Id loc = NO_ID;
+  int turn;
+
+  if(!game) return;
+  
+  if((turn = game_get_turn(game)) == -1) return;
+  if(game_get_round(game) != 0) return;
+
+  if (!(last_cmd = game_get_last_command(game))) return;
+  if (!(cmd_desc = command_get_desc(last_cmd))) return;
+
+  if(!(play = game_get_player(game))) return;
+  if(player_get_role(play) != UNDEFINED) return;
+  
+  if (!(play_dest = game_get_player_from_name(game, cmd_desc))) return;
+  if (player_get_role(play_dest) != UNDEFINED) return;
+  
+  if(((loc = player_get_location(play)) != player_get_location(play_dest) || loc == NO_ID) ) return;
+
+  /* Assigns a team to the first pair and another to the other pair*/
+  if(turn == 0) {
+    if(player_set_role(play, TEAM1) == ERROR) return;
+  } else {
+    if(player_set_role(play, TEAM2) == ERROR) return;
+  }
+
+  if (game_set_last_status(game, OK) == ERROR) return;
+}
+
+void game_actions_betray(Game *game) {
+  if(!game) return;
+
+  if (game_set_last_status(game, ERROR) == ERROR) return;
 }

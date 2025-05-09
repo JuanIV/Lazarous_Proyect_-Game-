@@ -37,6 +37,8 @@ struct _Character {
 Character *character_create(Id id) {
   Character *character = NULL;
 
+  if(id == NO_ID) return NULL;
+
   if (!(character = (Character *)malloc(sizeof(Character)))) return NULL;
 
   character->id = id;
@@ -133,19 +135,6 @@ char *character_get_closeup_at_pos(Character *charr, int pos) {
   if(pos<0 || pos>=POV_HGHT) return NULL;
 
   return charr->close_up[pos];
-}
-
-/*Gets the full close up of a character*/
-Status character_get_closeup(Character *charr, char closeup[POV_HGHT][POV_WDTH + 1]){
-  int i;
-
-  if(!charr || !closeup) return ERROR;
-
-  for(i=0;i<POV_HGHT;i++){
-    sprintf(closeup[i], "%.*s", POV_WDTH, charr->close_up[i]);
-  }
-
-  return OK;
 }
 
 /*Sets the close up aspect of a character*/

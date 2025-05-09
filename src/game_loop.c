@@ -19,6 +19,7 @@
 #include "game_actions.h"
 #include "game_management.h"
 #include "graphic_engine.h"
+#include "game_rules.h"
 
 /**
  * @brief initialazes a game loop creating a new game from a file and a new
@@ -136,6 +137,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
   int turn;
   extern char *cmd_to_str[N_CMD][N_CMDT];
   Id id_player;
+  Bool update_ga = FALSE, update_turn = FALSE;
 
   if (!gengine) return;
 
@@ -145,6 +147,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
   if(deterministic == TRUE) game_set_deterministic(*game, deterministic);
   
   do {
+    printf("%d\n", game_get_round(*game));
     graphic_engine_paint_game(gengine, *game);
 
     last_cmd = game_get_last_command_at_pos(*game, NUM_CMDS - 1);
@@ -154,9 +157,10 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
 
     player = game_get_player(*game);
     if (!player) return;
-    if (player_get_health(player) <= 0) return;
 
-    game_actions_update(game, last_cmd, &last_cmd_code); 
+    if(game_rules_update_actions(*game, &update_ga) == ERROR) return;
+    if(game_actions_update(game, last_cmd, &last_cmd_code, update_ga) == ERROR) return; 
+
     if (last_cmd_code == LOAD) continue;
 
     if (player_get_health(player) <= 0) {
@@ -199,7 +203,8 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
     }
 
     if (game_get_n_players(*game) > 1) {
-      if ((command_get_code(last_cmd) == MOVE)  && command_get_status(last_cmd) == OK) {
+      if(game_rules_update_turn(*game, &update_turn) == ERROR) return;
+      if (update_turn == TRUE) {
         graphic_engine_paint_game(gengine, *game);
         if(game_erase_all_messages(*game) == ERROR) return;
         sleep(3);

@@ -262,7 +262,7 @@ Wall_style graphic_engine_get_wall_style(Game *game, Link *link) {
   if(open == TRUE){
     if(connected) return CONEX_WALL;
     else{
-      if(link_role == SCIENTIST) return HUMAN_WALL;
+      if(link_role == TEAM1 || link_role == TEAM2 || link_role == UNDEFINED) return HUMAN_WALL;
       else if(link_role == MONSTER) return MONSTER;
       else return OPEN_WALL;
     }
@@ -661,16 +661,13 @@ void graphic_engine_map_print_map(Game *game, Graphic_engine *ge, Id id[9]){
       link = game_get_link(game,id[i],S);
       graphic_engine_print_horizontal_wall(game, link, interm);
     } else{
-      if(i>6 && (space[i-1] || space[i+2])) strcat(interm,"+");
-      else strcat(interm, " ");
+      strcat(interm, " ");
       sprintf(aux,"%*s",SQ_IN_SZ,"");
       strcat(interm, aux);
     }
   }
   /*if(space[i]) strcat(interm, "+");*/
   screen_area_puts(ge->map,interm);
-  
-
 }
 
 /*
@@ -717,7 +714,7 @@ void graphic_engine_destroy(Graphic_engine *ge) {
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Id id_act = NO_ID, neighbors[8], map_spaces[9];
   Status last_status = ERROR;
-  char str[MESG_SIZE + 1], *aux_name = NULL, *close_up = NULL, *msg = NULL, *partial_msg = NULL;
+  char str[MESG_SIZE + 1], *aux_name = NULL, *close_up = NULL, *msg = NULL, msg_aux[MESG_SIZE], *partial_msg = NULL;
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
   int i, aux_health, turn, index_convert[9] = {0,1,2,7,-1,3,6,5,4}, chars = 0, num_followers = 0;
@@ -728,7 +725,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Player *act_player = NULL, *aux_player = NULL;
   Role role = NO_ROLE;
   Id aux_obj_id = NO_ID, aux_charr_id = NO_ID, weapon = NO_ID, armor = NO_ID;
-  Bool friendly = FALSE;
   Inventory *inventory = NULL;
   Set *followers = NULL;
 
@@ -763,8 +759,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     aux_player = game_get_player_at(game, i);
     if(!aux_player) continue;
 
-    game_get_friendly(role, player_get_role(aux_player), &friendly);
-    if(friendly == FALSE) continue;
+    if(role != player_get_role(aux_player)) continue;
     
     aux_health = player_get_health(aux_player);
     if(aux_health < 0) continue;
@@ -906,8 +901,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       }
 
       msg = game_get_last_message_at_pos(game, turn, NUM_MSGS-i);
+      if(msg) strcpy(msg_aux, msg);
+      
       if(msg) {
-        partial_msg = strtok(msg, "@\n\r\0");
+        partial_msg = strtok(msg_aux, "@\n\r\0");
         sprintf(str + chars, " %s", partial_msg);
         screen_area_puts(ge->message, str);
         str[chars] = '\0';

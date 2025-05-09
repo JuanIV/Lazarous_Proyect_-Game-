@@ -52,6 +52,7 @@ struct _Game {
   Player *players[MAX_PLAY];	/*!< Players of the game*/
   int n_players;              /*!< Number of players in the game*/
   int turn;                   /*!< Turn of the player that is playing*/
+  int round;                  /*!< Round the game is currently in*/
   Space *spaces[MAX_SPACES];	/*!< Array of spaces that form the map*/
   int n_spaces;								/*!< Number of spaces in the game*/
   Link *links[MAX_LINKS];     /*!< Array of links that connect the spaces*/
@@ -294,6 +295,7 @@ Game *game_create() {
   game->n_players = 0;
 
   game->turn = 0;
+  game->round = 0;
 
   game->deterministic = FALSE;
 
@@ -391,15 +393,19 @@ Player *game_get_player_at(Game *game, int pos) {
 }
 
 Player *game_get_player_from_name(Game *game, char *name) {
-  int i;
+  int i, name_length;
   char *aux_name = NULL;
 
   if (!game || !name) return NULL;
 
-  for (i = 0; i < game->n_players; i++) {
-    if (!(aux_name = player_get_name(game->players[i]))) return NULL;
+  name_length = strlen(name);
 
-    if (strcasecmp(aux_name, name) == 0) {
+  if(name_length > WORD_SIZE || name_length < MIN_ESPECIF) return NULL;
+
+  for (i = 0; i < game->n_players; i++) {
+    if (!(aux_name = player_get_name(game->players[i]))) continue;;
+
+    if ((strncasecmp(name+1, aux_name+1, name_length-1) == 0) && (toupper(name[0]) == toupper(aux_name[0]))) {
       return game->players[i];
     }
   }
@@ -565,7 +571,7 @@ Id game_get_object_from_player(Game *game, char *name){
 }
 
 /**
- * ***************  Turn management  ***************
+ * ***************  Turn and round management  ***************
  */
 
 /*Gets the the turn of the game*/
@@ -587,6 +593,24 @@ Status game_set_turn(Game *game, int turn) {
   return OK;
 }
 
+int game_get_round(Game *game) {
+  if (!game) return -1;
+
+  if(game->round < 0) return -1;
+
+  return (game->round);
+}
+
+Status game_set_round(Game *game, int round) {
+  if(!game) return ERROR;
+
+  if(round < 0) return ERROR;
+
+  game->round = round;
+
+  return OK;
+}
+
 /*Sets the next turn*/
 Status game_next_turn(Game *game) {
   Status st = ERROR;
@@ -602,8 +626,18 @@ Status game_next_turn(Game *game) {
     } else st = OK;
   }
 
+  if(game->turn == 0) game->round++;
+
   /*If all players are dead, we finish the game*/
   if(st == ERROR) game->finished = TRUE;
+
+  return OK;
+}
+
+Status game_update_round(Game *game) {
+  if(!game) return ERROR;
+
+  if (game->turn == 0) game->round++;
 
   return OK;
 }
@@ -663,6 +697,37 @@ Status game_add_space(Game *game, Space *space) {
   game->spaces[n_spaces] = space;
   if (game_set_n_spaces(game, n_spaces + 1) == ERROR) return ERROR;
 
+  return OK;
+}
+
+void game_set_spaces_discovered_rec(Game *game, Space *space) {
+  Bool connected, discovered;
+  Link *link = NULL;
+  int i;
+
+  if (!game || !space) return;
+
+  if (space_get_discovered(space, &discovered) == ERROR) return;
+  if(discovered == TRUE) return;
+  if (space_set_discovered(space, TRUE) == ERROR) return;
+
+  /* We are only interested in NSEW */
+  for(i = 0; i <= N_DIR - 3; i++) {
+    if (!(link = game_get_link(game, space_get_id(space), i))) continue;;
+    if(link_get_connected(link, &connected) == ERROR) continue;;
+    if(connected == TRUE) game_set_spaces_discovered_rec(game, game_get_space(game, link_get_dest(link)));
+  }
+}
+
+Status game_set_spaces_discovered (Game *game, Space *space) {
+  Bool discovered;
+  if (!game || !space) return ERROR;
+
+  if (space_get_discovered(space, &discovered) == ERROR) return ERROR;
+  if(discovered == TRUE) return OK;
+  printf("pasa\n");
+  game_set_spaces_discovered_rec(game, space);
+ 
   return OK;
 }
 
@@ -1139,26 +1204,14 @@ Status game_get_friendly(Role role1, Role role2, Bool *relationship) {
       return OK;
       break;
 
-    case SCIENTIST:
-      if(role2 == SCIENTIST || role2 == PEACEFUL || role2 == DEFECTOR2) (*relationship = TRUE);
+    case TEAM1:
+      if(role2 == TEAM1 || role2 == PEACEFUL) (*relationship = TRUE);
       else (*relationship = FALSE);
       return OK;
       break;
 
     case MONSTER:
-      if(role2 == MONSTER || role2 == PEACEFUL || role2 == DEFECTOR1) (*relationship = TRUE);
-      else (*relationship = FALSE);
-      return OK;
-      break;
-
-    case DEFECTOR1:
-      if(role2 == DEFECTOR1 || role2 == MONSTER || role2 == PEACEFUL) (*relationship = TRUE);
-      else (*relationship = FALSE);
-      return OK;
-      break;
-    
-    case DEFECTOR2:
-      if(role2 == DEFECTOR2 || role2 == SCIENTIST || role2 == PEACEFUL) (*relationship = TRUE);
+      if(role2 == MONSTER || role2 == PEACEFUL) (*relationship = TRUE);
       else (*relationship = FALSE);
       return OK;
       break;
