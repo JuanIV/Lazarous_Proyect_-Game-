@@ -176,13 +176,13 @@ void game_actions_equip_weapon(Game *game, Object *obj, Character *trg);
 void game_actions_set_trap(Game *game, Object *obj);
 
 /**
- * @brief Action of reading a terminal
+ * @brief Action of reading a NOTE
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @param obj Pointer to the object that is the terminal
+ * @param obj Pointer to the object that is the NOTE
  */
-void game_actions_read_terminal(Game *game, Object *obj);
+void game_actions_read_NOTE(Game *game, Object *obj);
 
 /**
  * @brief Action of using a switch
@@ -256,6 +256,7 @@ void game_actions_cooperate(Game *game);
  * @param game Pointer to the game
  */
 void game_actions_betray(Game *game);
+
 /**
      Game actions implementation
 */
@@ -276,6 +277,8 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code,
     if (!(closeup = player_get_closeup_at(player, i))) return ERROR;
     if (game_set_last_close_up(*game, closeup, i) == ERROR) return ERROR;
   }
+
+  if(game_erase_all_messages(*game) == ERROR) return ERROR;
 
   if (game_set_last_status(*game, ERROR) == ERROR) return ERROR;
 
@@ -345,6 +348,10 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code,
       game_actions_close_link(*game);
       break;
 
+    case SKIP:
+      game_set_last_status(*game, OK);
+      break;
+
     case ACCEPT:
       game_actions_accept(*game);
       break;
@@ -357,6 +364,7 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code,
       break;
     case BETRAY:
       game_actions_betray(*game);
+
     default:
       break;
   }
@@ -493,13 +501,15 @@ void game_actions_move(Game *game) {
 }
 
 void game_actions_take(Game *game) {
-  Id obj_id = NO_ID;
+  Id obj_id = NO_ID, class_id= NO_ID;
   Id play_location = NO_ID;
   Object *obj = NULL;
   Player *player = NULL;
   Space *cur_space = NULL;
   Command *last_cmd = NULL;
   Bool movable = FALSE;
+  Class *class = NULL;
+  Tag tag = UNDEFINED;
   char *name = NULL, *closeup = NULL;
   int i;
 
@@ -520,6 +530,21 @@ void game_actions_take(Game *game) {
 
   obj = game_get_object(game, obj_id);
   if(!obj) return;
+
+  class_id = object_get_class_id(obj);
+  class = game_get_class(game, class_id);
+  if(!class) return;
+
+  tag = class_get_tag(class);
+
+  /*If you try to pick up a NOTE or a switch, the game should advice you how to use it*/
+  if(tag == NOTE){
+    game_set_last_message(game, "That's a note. To read it i must type \"use\" followed by its name...");
+    return;
+  } else if(tag == SWITCH){
+    game_set_last_message(game, "That's a switch. To press it i must type \"use\" followed by its name...");
+    return;
+  }
   
   /*Checks whether the object is movable or not*/
   if (class_get_movable(game_get_class_from_id_obj(game, obj_id), &movable) == ERROR) return;
@@ -900,7 +925,11 @@ void game_actions_inspect(Game *game){
 
   /*Get the object from the given name and checks if it is in the location of the player */
   obj_id = game_get_obj_id_from_name_at_space(game, name, player_get_location(game_get_player(game)));
-  if (obj_id == NO_ID) return;
+  if (obj_id == NO_ID){
+    /*If its not at the player's location, then check if the player has it on him*/
+    obj_id = game_get_object_from_player(game, name);
+    if(obj_id == NO_ID) return;
+  }
 
   obj = game_get_object(game, obj_id);
   if(!obj) return;
@@ -1002,7 +1031,7 @@ void game_actions_use(Game *game){
   char *cmd_desc = NULL, *toks = NULL;
   char *name = NULL, *target = NULL;
   Id obj_id = NO_ID, charr_id = NO_ID;
-  Bool friendly = FALSE;
+  Bool friendly = FALSE, possesed = FALSE;
   Tag obj_tag = NORMAL;
   Character *charr = NULL;
   Object *obj = NULL;
@@ -1011,6 +1040,7 @@ void game_actions_use(Game *game){
   
   /*Gets the description of the last cmd*/
   if (!(last_cmd = game_get_last_command(game))) return;
+
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
 
   toks = strtok(cmd_desc," \r\n");
@@ -1028,7 +1058,11 @@ void game_actions_use(Game *game){
 
   /*Get the object from the given name*/
   obj_id = game_get_object_from_player(game, name);
-  if (obj_id == NO_ID) return;
+  if (obj_id == NO_ID){
+    obj_id = game_get_obj_id_from_name_at_space(game, name, game_get_player_location(game));
+    if(obj_id == NO_ID) return;
+    else possesed = FALSE;
+  } else possesed = TRUE;
 
   obj = game_get_object(game, obj_id);
   if(!obj) return;
@@ -1057,21 +1091,27 @@ void game_actions_use(Game *game){
 
   switch(obj_tag){
     case NORMAL:
+      if(possesed == FALSE) return;
+      game_set_last_message(game, "That doesnt do anything...");
       break;
     case HEALER:
+      if(possesed == FALSE) return;
       game_actions_use_healer(game, obj, charr);
       break;
     case WEAPON:
+      if(possesed == FALSE) return;
       game_actions_equip_weapon(game, obj, charr);
       break;
     case ARMOR:
+      if(possesed == FALSE) return;
       game_actions_equip_armor(game, obj, charr);
       break;
     case TRAP:
+      if(possesed == FALSE) return;
       game_actions_set_trap(game, obj);
       break;
-    case TERMINAL:
-      game_actions_read_terminal(game, obj);
+    case NOTE:
+      game_actions_read_NOTE(game, obj);
       break;
     case SWITCH:
       game_actions_use_switch(game, obj);
@@ -1195,10 +1235,10 @@ void game_actions_set_trap(Game *game, Object *obj){
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
-void game_actions_read_terminal(Game *game, Object *obj){
+void game_actions_read_NOTE(Game *game, Object *obj){
   char *desc = NULL, *closeup = NULL;
   Class *class = NULL;
-  int i;
+  int i, use_value, turn, multiplier[8] = {2,3,5,7,11,13,17,19} ;
 
   if (!(class = game_get_class(game, object_get_class_id(obj)))) return;
 
@@ -1210,22 +1250,29 @@ void game_actions_read_terminal(Game *game, Object *obj){
     if (game_set_last_close_up(game, closeup, i) == ERROR) return;
   }
 
+  turn = game_get_turn(game);
+
+  use_value = object_get_use_value(obj);
+
+  use_value *= multiplier[turn];
+
+  object_set_use_value(obj,use_value);
+
   game_set_last_message(game, desc);
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
 void game_actions_use_switch(Game *game, Object *obj){
-  int state;
-  
-  if (!game || !obj) return;
+  int use_value;
 
-  if ((state = object_get_use_value(obj)) == -1) return;
+  use_value = object_get_use_value(obj);
+  if(use_value == -1) return;
 
-  /* Changes the state of the switch; from 1 to 0 and 0 to 1, and sets it as the new one*/
-  state = (state + 1) % 2;
+  if(use_value) object_set_use_value(obj, 0);
+  else object_set_use_value(obj, 1);
 
-  if (object_set_use_value(obj, state) == ERROR) return;
+  game_set_last_message(game, "*pip!*");
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -1284,9 +1331,9 @@ void game_actions_open_link(Game *game){
   char *cmd_desc = NULL, *toks = NULL;
   char *key = NULL;
   extern char *dir_to_str[N_DIR][N_DIRT];
-  Direction typed_dir = UNK_DIR;
-  Link *link = NULL;
-  Id obj_id = NO_ID, cur_id = NO_ID, obj_open = NO_ID;
+  Direction typed_dir = UNK_DIR, reverse_dir = UNK_DIR;
+  Link *link = NULL, *reverse_link = NULL;
+  Id obj_id = NO_ID, cur_id = NO_ID, obj_open = NO_ID, destin = NO_ID;
   Object *obj = NULL;
   Role play_role = NO_ROLE, link_role = NO_ROLE;
   Bool open = TRUE, locked = TRUE, ally = FALSE, connected = FALSE;
@@ -1319,9 +1366,20 @@ void game_actions_open_link(Game *game){
   link = game_get_link(game, cur_id, typed_dir);
   if(!link) return;
 
+  destin = link_get_dest(link);
+  if(destin == NO_ID) return;
+
+  if(((int)typed_dir)%2) reverse_dir = typed_dir - 1;
+  else reverse_dir = typed_dir + 1;
+
+  reverse_link = game_get_link(game, destin, reverse_dir);
+
   /* Checks if the link is connected or already opened */
   if(link_get_connected(link, &connected) == ERROR) return;
-  if(connected == TRUE) return;
+  if(connected == TRUE){
+    game_set_last_message(game, "There is no door to open");
+    return;
+  }
 
   if(link_get_open(link, &open) == ERROR) return;
   if(open == TRUE) {
@@ -1331,18 +1389,17 @@ void game_actions_open_link(Game *game){
   /*If the player is not allowed to open this link, the function ends*/
   play_role = player_get_role(game_get_player(game));
   link_role = link_get_open_role(link);
-  /*if(play_role == DEFECTOR1) play_role = SCIENTIST;
-  if(play_role == DEFECTOR2) play_role = MONSTER;*/
+
   if(game_get_friendly(play_role, link_role, &ally) == ERROR) return;
   if(ally == FALSE){
     game_set_last_message(game, "I cant open this type of lock...");
     return;
   }
 
-  toks = strtok(cmd_desc," \r\n");
+  toks = strtok(NULL," \r\n");
   if(toks){
     if(!strcmp(toks,"with")){
-      toks = strtok(cmd_desc," \r\n");
+      toks = strtok(NULL," \r\n");
       if(!toks) return;
       key = toks;
     }
@@ -1361,16 +1418,22 @@ void game_actions_open_link(Game *game){
     if(!obj) return;
 
     if(class_get_open(game_get_class_from_id_obj(game, obj_id), &obj_open) == ERROR) return;
+
     if(obj_open == NO_ID) return;
     if(obj_open == link_get_id(link)){
       if(link_set_locked(link, FALSE) == ERROR) return;
       if(link_set_open(link, TRUE) == ERROR) return;
+      if(link_set_locked(reverse_link, FALSE) == ERROR) return;
+      if(link_set_open(reverse_link, TRUE) == ERROR) return;
+
+      object_set_use_value(obj, 1);
     } else {
       game_set_last_message(game, "I cant open the door with that...");
       return;
     }
   } else {
     if(link_set_open(link, TRUE) == ERROR) return;
+    if(link_set_open(reverse_link, TRUE) == ERROR) return;
   }
   
   if (game_set_last_status(game, OK) == ERROR) return;
@@ -1379,12 +1442,12 @@ void game_actions_open_link(Game *game){
 void game_actions_close_link(Game *game){
   Command *last_cmd = NULL;
   char *cmd_desc = NULL;
-  Direction typed_dir = UNK_DIR;
-  Link *link = NULL;
+  Direction typed_dir = UNK_DIR, reverse_dir = UNK_DIR;
+  Link *link = NULL, *reverse_link = NULL;
   Role play_role = NO_ROLE, link_role = NO_ROLE;
   Bool open = TRUE, ally = FALSE, connected = FALSE;
   extern char *dir_to_str[N_DIR][N_DIRT];
-  Id cur_id = NO_ID;
+  Id cur_id = NO_ID, destin = NO_ID;
   int i = 0;
 
   if (!game) return; 
@@ -1411,9 +1474,22 @@ void game_actions_close_link(Game *game){
   link = game_get_link(game, cur_id, typed_dir);
   if(!link) return;
 
+  
+  destin = link_get_dest(link);
+  if(destin == NO_ID) return;
+
+  if(((int)typed_dir)%2) reverse_dir = typed_dir - 1;
+  else reverse_dir = typed_dir + 1;
+
+  reverse_link = game_get_link(game, destin, reverse_dir);
+
+
   /* Checks if the link is connected or already closed */
   if(link_get_connected(link, &connected) == ERROR) return;
-  if(connected == TRUE) return;
+  if(connected == TRUE){
+    game_set_last_message(game, "There is no door to close");
+    return;
+  }
 
   if(link_get_open(link, &open) == ERROR) return;
   if(open == FALSE) {
@@ -1424,15 +1500,14 @@ void game_actions_close_link(Game *game){
   /*If the player is not allowed to close this link, the function ends*/
   play_role = player_get_role(game_get_player(game));
   link_role = link_get_open_role(link);
-  /*if(play_role == DEFECTOR1) play_role = SCIENTIST;
-  if(play_role == DEFECTOR2) play_role = MONSTER;*/
   if(game_get_friendly(play_role, link_role, &ally) == ERROR) return;
   if(ally == FALSE){
-    game_set_last_message(game, "I cant open this type of lock...");
+    game_set_last_message(game, "I cant close this type of lock...");
     return;
   }
 
   if(link_set_open(link, FALSE) == ERROR) return;
+  if(link_set_open(reverse_link, FALSE) == ERROR) return;
   
   if (game_set_last_status(game, OK) == ERROR) return;
 }

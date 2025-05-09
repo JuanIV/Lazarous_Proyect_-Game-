@@ -147,7 +147,6 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
   if(deterministic == TRUE) game_set_deterministic(*game, deterministic);
   
   do {
-    printf("%d\n", game_get_round(*game));
     graphic_engine_paint_game(gengine, *game);
 
     last_cmd = game_get_last_command_at_pos(*game, NUM_CMDS - 1);
@@ -159,7 +158,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
     if (!player) return;
 
     if(game_rules_update_actions(*game, &update_ga) == ERROR) return;
-    if(game_actions_update(game, last_cmd, &last_cmd_code, update_ga) == ERROR) return; 
+    if(game_actions_update(game, last_cmd, &last_cmd_code, update_ga) == ERROR) return;
 
     if (last_cmd_code == LOAD) continue;
 
@@ -168,7 +167,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
       if (!name) return;
       turn = game_get_turn(*game) + 1;
       if (turn == 0) return;
-      sprintf(message, "Heaven or hell? What will my future       depare%36sSadly Player %d: %s passed away           End of the game", "", turn, name);
+      sprintf(message, "Heaven or hell? What will my future depare@Sadly Player %d: %s passed away@End of the game", turn, name);
       game_set_last_message(*game, message);
       graphic_engine_paint_game(gengine, *game);
       return;
@@ -206,7 +205,6 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
       if(game_rules_update_turn(*game, &update_turn) == ERROR) return;
       if (update_turn == TRUE) {
         graphic_engine_paint_game(gengine, *game);
-        if(game_erase_all_messages(*game) == ERROR) return;
         sleep(3);
         game_next_turn(*game);
       }

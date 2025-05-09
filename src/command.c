@@ -22,11 +22,13 @@
 #define CMD_LENGHT 500
 
 char *cmd_to_str[N_CMD][N_CMDT] = {
-  {"", "No command"}, {"", "Unknown"}, {"e", "exit"},   {"m", "move"},
-  {"t", "take"},    {"dr", "drop"},  {"at", "attack"},   {"c", "chat"},
-  {"i", "inspect"}, {"r", "recruit"},  {"ab", "abandon"}, {"u", "use"},
-  {"s", "save"}, {"lo", "load"},    {"o", "open"},      {"cl", "close"},
-  {"ac", "accept"}, {"de", "deny"}, {"co", "cooperate"}, {"b", "betray"}};
+    {"", "No command"}, {"", "Unknown"},     {"e", "exit"},
+    {"m", "move"},      {"t", "take"},       {"d", "drop"},
+    {"at", "attack"},   {"c", "chat"},       {"i", "inspect"},
+    {"r", "recruit"},   {"ab", "abandon"},   {"u", "use"},
+    {"s", "save"},      {"lo", "load"},      {"o", "open"},
+    {"cl", "close"},    {"sk", "skip"},      {"ac", "accept"},
+    {"de", "deny"},     {"co", "cooperate"}, {"b", "betray"}};
 
 /**
  * @brief Struct that stores the information of a command: code, cmd_desc and
@@ -139,7 +141,6 @@ Status command_get_user_input(Command *command) {
     This might be the name of an object to take/drop*/
     cmd_desc = strtok(NULL, "\r\n");
     if (command_set_desc(command, cmd_desc) == ERROR) return ERROR;
-
 
     /*compares the user input to any known command*/
     cmd = UNKNOWN;

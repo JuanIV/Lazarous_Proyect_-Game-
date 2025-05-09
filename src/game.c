@@ -295,6 +295,7 @@ Game *game_create() {
   game->n_players = 0;
 
   game->turn = 0;
+
   game->round = 0;
 
   game->deterministic = FALSE;
@@ -403,7 +404,7 @@ Player *game_get_player_from_name(Game *game, char *name) {
   if(name_length > WORD_SIZE || name_length < MIN_ESPECIF) return NULL;
 
   for (i = 0; i < game->n_players; i++) {
-    if (!(aux_name = player_get_name(game->players[i]))) continue;;
+    if (!(aux_name = player_get_name(game->players[i]))) continue;
 
     if ((strncasecmp(name+1, aux_name+1, name_length-1) == 0) && (toupper(name[0]) == toupper(aux_name[0]))) {
       return game->players[i];
@@ -550,12 +551,19 @@ Id game_get_object_from_player(Game *game, char *name){
   Id obj_id = NO_ID;
   Object *obj = NULL;
   Class *class = NULL;
-  int i = 0;
+  char *class_name = NULL;
+  int i = 0, name_length = 0;
 
-  if(!game) return NO_ID;
+  if(!game || !name ) return NO_ID;
   player = game_get_player(game);
 
   inv = player_get_backpack(player);
+  if(!inv) return NO_ID;
+
+  name_length = strlen(name);
+
+  if (name_length > WORD_SIZE || name_length < MIN_ESPECIF)
+  return NO_ID;
 
   for(i=0;i<inventory_get_num_objects(inv);i++){
     obj_id = inventory_get_object_at_pos(inv, i);
@@ -563,8 +571,11 @@ Id game_get_object_from_player(Game *game, char *name){
     if(!obj) continue;
     
     if (!(class = game_get_class_from_id_obj(game, obj_id))) return NO_ID;
+    class_name = class_get_name(class);
 
-    if(!strcmp(class_get_name(class), name)) return obj_id;
+    /*Strstr allows us to get an object from  a fraction of its name, but we set
+     * the minimum as 2 characters */
+    if ((strncasecmp(class_name+1,name+1, name_length-1) == 0) && (toupper(class_name[0]) == toupper(name[0]))) return obj_id;
   }
 
   return NO_ID;
@@ -583,16 +594,6 @@ int game_get_turn(Game *game) {
   return (game->turn);
 }
 
-Status game_set_turn(Game *game, int turn) {
-  if(!game) return ERROR;
-
-  if(turn < 0 || turn >= game->n_players) return ERROR;
-
-  game->turn = turn;
-
-  return OK;
-}
-
 int game_get_round(Game *game) {
   if (!game) return -1;
 
@@ -607,6 +608,16 @@ Status game_set_round(Game *game, int round) {
   if(round < 0) return ERROR;
 
   game->round = round;
+
+  return OK;
+}
+
+Status game_set_turn(Game *game, int turn) {
+  if(!game) return ERROR;
+
+  if(turn < 0 || turn >= game->n_players) return ERROR;
+
+  game->turn = turn;
 
   return OK;
 }
@@ -1210,12 +1221,16 @@ Status game_get_friendly(Role role1, Role role2, Bool *relationship) {
       return OK;
       break;
 
+    case TEAM2:
+      if(role2 == TEAM2 || role2 == PEACEFUL) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+
     case MONSTER:
       if(role2 == MONSTER || role2 == PEACEFUL) (*relationship = TRUE);
       else (*relationship = FALSE);
       return OK;
-      break;
-    default:
       break;
   }
 

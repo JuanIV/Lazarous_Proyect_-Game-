@@ -262,7 +262,7 @@ Wall_style graphic_engine_get_wall_style(Game *game, Link *link) {
   if(open == TRUE){
     if(connected) return CONEX_WALL;
     else{
-      if(link_role == TEAM1 || link_role == TEAM2 || link_role == UNDEFINED) return HUMAN_WALL;
+      if(link_role == TEAM1 || link_role == TEAM2) return HUMAN_WALL;
       else if(link_role == MONSTER) return MONSTER;
       else return OPEN_WALL;
     }
@@ -668,6 +668,8 @@ void graphic_engine_map_print_map(Game *game, Graphic_engine *ge, Id id[9]){
   }
   /*if(space[i]) strcat(interm, "+");*/
   screen_area_puts(ge->map,interm);
+  
+
 }
 
 /*
@@ -714,7 +716,7 @@ void graphic_engine_destroy(Graphic_engine *ge) {
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Id id_act = NO_ID, neighbors[8], map_spaces[9];
   Status last_status = ERROR;
-  char str[MESG_SIZE + 1], *aux_name = NULL, *close_up = NULL, *msg = NULL, msg_aux[MESG_SIZE], *partial_msg = NULL;
+  char str[MESG_SIZE + 1], *aux_name = NULL, *close_up = NULL, *msg = NULL, *partial_msg = NULL;
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
   int i, aux_health, turn, index_convert[9] = {0,1,2,7,-1,3,6,5,4}, chars = 0, num_followers = 0;
@@ -725,6 +727,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Player *act_player = NULL, *aux_player = NULL;
   Role role = NO_ROLE;
   Id aux_obj_id = NO_ID, aux_charr_id = NO_ID, weapon = NO_ID, armor = NO_ID;
+  Bool friendly = FALSE;
   Inventory *inventory = NULL;
   Set *followers = NULL;
 
@@ -780,7 +783,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     aux_obj = game_get_object(game, aux_obj_id);
     if(!aux_obj) continue;
 
-    sprintf(str, "  %-*.*s", DESC_NAMES_SZ,DESC_NAMES_SZ, class_get_name(game_get_class_from_id_obj(game, aux_obj_id)));
+    sprintf(str, "  %-*.*s", WIDTH_DESC-3,WIDTH_DESC-3, class_get_name(game_get_class_from_id_obj(game, aux_obj_id)));
     screen_area_puts(ge->descript, str);
   }
   sprintf(str, " ");
@@ -805,7 +808,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
 
   /* Paint the player info area */
   screen_area_clear(ge->player_inf);
-
+  /*HEALTH*/
+  sprintf(str, " Health: %d", player_get_health(act_player));
+  screen_area_puts(ge->player_inf, str);
+  sprintf(str, " ");
+  screen_area_puts(ge->player_inf, str);
+  
   /*INVENTORY*/
   sprintf(str, " Inventory:");
   screen_area_puts(ge->player_inf, str);
@@ -830,19 +838,38 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   sprintf(str, " ");
   screen_area_puts(ge->player_inf, str);
 
-  if(armor == NO_ID) sprintf(str, " Armor: (no armor) DEF: 0");
-  else {
+  if(armor == NO_ID){
+    sprintf(str, " Armor: (no armor)");
+    screen_area_puts(ge->player_inf, str);
+    sprintf(str, "  DEF: 0");
+    screen_area_puts(ge->player_inf, str);
+  } else {
     aux_obj = game_get_object(game, armor);
-    if(aux_obj) sprintf(str, " Armor: %*.*s DEF: %d", DESC_NAMES_SZ,DESC_NAMES_SZ, class_get_name(game_get_class_from_id_obj(game, aux_obj_id)), (int)object_get_use_value(aux_obj));
+    if(aux_obj){
+      sprintf(str, " Armor: %-*.*s", DESC_NAMES_SZ,DESC_NAMES_SZ, class_get_name(game_get_class_from_id_obj(game, armor)));
+      screen_area_puts(ge->player_inf, str);
+      sprintf(str, "  DEF: %d", (int)object_get_use_value(aux_obj));
+      screen_area_puts(ge->player_inf, str);
+    }
   }
-  screen_area_puts(ge->player_inf, str);
+  
 
-  if(weapon == NO_ID) sprintf(str, " Weapon: Fist ATK: %d", PLY_BASE_DMG);
-  else {
+  if(weapon == NO_ID){
+    sprintf(str, " Weapon: Fist");
+    screen_area_puts(ge->player_inf, str);
+    sprintf(str, "  ATK: %d", PLY_BASE_DMG);
+    screen_area_puts(ge->player_inf, str);
+  } else {
     aux_obj = game_get_object(game, weapon);
-    if(aux_obj) sprintf(str, " Weapon: %*.*s ATK: %d", DESC_NAMES_SZ,DESC_NAMES_SZ, class_get_name(game_get_class_from_id_obj(game, aux_obj_id)), (int)object_get_use_value(aux_obj));
+    if(aux_obj){
+      sprintf(str, " Weapon: %-*.*s", DESC_NAMES_SZ,DESC_NAMES_SZ, class_get_name(game_get_class_from_id_obj(game, weapon)));
+      screen_area_puts(ge->player_inf, str);
+      sprintf(str, "  ATK: %d", (int)object_get_use_value(aux_obj) + PLY_BASE_DMG);
+      screen_area_puts(ge->player_inf, str);
+    } 
+    
   }
-  screen_area_puts(ge->player_inf, str);
+  
 
   num_followers = game_get_num_followers(game, act_player);
   if(num_followers == -1) return;
@@ -901,10 +928,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       }
 
       msg = game_get_last_message_at_pos(game, turn, NUM_MSGS-i);
-      if(msg) strcpy(msg_aux, msg);
-      
       if(msg) {
-        partial_msg = strtok(msg_aux, "@\n\r\0");
+        partial_msg = strtok(msg, "@\n\r\0");
         sprintf(str + chars, " %s", partial_msg);
         screen_area_puts(ge->message, str);
         str[chars] = '\0';
