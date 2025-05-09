@@ -25,6 +25,15 @@
 Status game_management_load_links(Game *game, char *filename);
 
 /**
+ * @brief Loads the minimap from a file to a game
+ * 
+ * @param Pointer to the game which minimap will be loaded
+ * @param filename Name of the file with the data
+ * @return OK if the minimap loaded correctly, ERROR if there was any mistake
+ */
+Status game_management_load_minimap(Game *game, const char *filename);
+
+/**
  * @brief Loads the classes from a file to a game
  * 
  * @param game Pointer to the game where the spaces will be stored
@@ -55,18 +64,7 @@ Status game_management_load_objects(Game *game, char *filename);
 Status game_management_load_players(Game *game, char *filename);
 
 /**
- * @brief function used in game_create_from_file to load the players information (interface data) from
- * a file to a game
- * @author Tiago Oselka
- *
- * @param game Pointer to the game where the players will be stored
- * @param filename Name of the file
- * @return OK if the players info was loaded correctly, ERROR if there was any mistake
- */
-Status game_management_load_players(Game *game, char *filename);
-
-/**
- * @brief function used in game_create_from_file to load the turn and round from
+ * @brief function used in game_create_from_file to load the turn from
  * a file to a game
  * @author Tiago Oselka
  * 
@@ -119,6 +117,16 @@ Status game_management_load_spaces(Game *game, char *filename);
 Status game_management_save_links(Game *game, char *filename);
 
 /**
+ * @brief function used in game_save to save the minimap from a game to a file
+ * @author Alina Datsko
+ * 
+ * @param game Pointer to the game where the minimap is currently stored
+ * @param filename Name of the file
+ * @return OK if the minimap saved correctly, ERROR if there was any mistake
+ */ 
+Status game_management_save_minimap(Game *game, const char *filename);
+
+/**
  * @brief function used in game_save to save the classes from a game to a file
  * @author Alina Datsko
  *
@@ -149,16 +157,6 @@ Status game_management_save_objects(Game *game, char *filename);
 Status game_management_save_players(Game *game, char *filename);
 
 /**
- * @brief function used in game_save to save the players info (interface data) from a game to a file
- * @author Tiago Oselka
- *
- * @param game Pointer to the game where the players are currently stored
- * @param filename Name of the file
- * @return OK if the players info was saved correctly, ERROR if there was any mistake
- */
-Status game_management_save_interface_data(Game *game, char *filename);
-
-/**
  * @brief function used in game_save to save the characters from a game to a file
  * @author Alina Datsko 
  *
@@ -179,7 +177,7 @@ Status game_management_save_characters(Game *game, char *filename);
 Status game_management_save_spaces(Game *game, char *filename);
 
 /**
- * @brief function used in game_save to save the current turn and round from a game to a file
+ * @brief function used in game_save to save the current turn from a game to a file
  * @author Tiago Oselka
  * 
  * @param game Pointer to the game where the spaces will be stored
@@ -197,5 +195,9 @@ Status game_management_save_turn(Game *game, char *filename);
  * @return OK if the space saved correctly, ERROR if there was any mistake 
  */
 Status game_management_save_mode(Game *game, char *filename);
+
+
+Status game_management_save_interface_data(Game *game, char *filename);
+Status game_management_load_interface_data(Game *game, char *filename);
 
 #endif
