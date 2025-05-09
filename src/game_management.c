@@ -510,9 +510,7 @@ Status game_management_load_players(Game *game, char *filename) {
   int health = 0, inventory_size = 0, num_objs, i, n_players = 0;
   Player *play = NULL;
   Space *space = NULL;
-  Command *cmd = NULL;
-  CommandCode cmd_code = NO_CMD;
-  Status st = OK, cmd_status = ERROR;
+  Status st = OK;
 
   if (!filename || !game) return ERROR;
 
@@ -590,25 +588,8 @@ Status game_management_load_players(Game *game, char *filename) {
       st = ERROR;
       break;
     }
+
     n_players++;
-
-    toks = strtok(NULL, "|");
-    if (!toks) {
-      if (game_set_last_message_at_pos(game, n_players - 1, " ") == ERROR) st = ERROR;
-    }else {
-      if (game_set_last_message_at_pos(game, n_players - 1, toks) == ERROR) st = ERROR;
-    }
-
-    for (i = 0; i < NUM_CMDS && st == OK; i++) {
-      if (!(cmd = game_get_command_at_pos(game, n_players - 1, i))) st = ERROR;
-      toks = strtok(NULL, "|");
-      cmd_code = atoi(toks);
-      toks = strtok(NULL, "|");
-      cmd_status = atoi(toks);
-
-      if(command_set_code(cmd, cmd_code) == ERROR) st = ERROR;
-      if (command_set_status(cmd, cmd_status) == ERROR) st = ERROR;
-    }
 
     for (i = 0; i < POV_HGHT && st == OK; i++) {
       toks = strtok(NULL, "|");
@@ -1081,9 +1062,9 @@ Status game_management_save_mode(Game *game, char *filename) {
   Status st = OK;
   Bool deterministic = FALSE;
 
-  if(!game || !filename) return ERROR;
+  if (!game || !filename) return ERROR;
 
-  if(!(file = fopen(filename, "a"))) return ERROR;
+  if (!(file = fopen(filename, "a"))) return ERROR;
 
   if (game_get_deterministic(game, &deterministic) == ERROR) st = ERROR;
 
@@ -1096,14 +1077,14 @@ Status game_management_save_mode(Game *game, char *filename) {
 
 Status game_management_load_interface_data(Game *game, char *filename) {
   FILE *file = NULL;
-  char line[800] = "";
+  char line[MESG_SIZE + EXTRAS + 1] = "";
   char *token = NULL;
   int i = 0, j = 0;
   char *closeup = NULL;
-  char msg[MESG_SIZE+1];
+  char msg[MESG_SIZE + EXTRAS];
   Command *cmd = NULL;
   CommandCode cmd_code = NO_CMD;
-  Status cmd_status = ERROR;
+  Status cmd_status = ERROR, st = OK;
   Bool visibility = FALSE;
   Id sender = NO_ID;
   Type type = NO_TYPE;
@@ -1112,116 +1093,77 @@ Status game_management_load_interface_data(Game *game, char *filename) {
 
   if (!(file = fopen(filename, "r"))) return ERROR;
 
-  while (fgets(line, 800, file)) {
-      if (strncmp("#id:", line, 4) == 0) {
-          token = strtok(line + 4, "|");
-          if (!token) {
-              fclose(file);
-              return ERROR;
-          }
-          i = atoi(token);
-
-          /*Close ups*/
-          for (j = 0; j < POV_HGHT; j++) {
-              token = strtok(NULL, "|");
-              if (!token) {
-                  fclose(file);
-                  return ERROR;
-              }
-              closeup = token;
-              if (game_set_last_close_up_at_pos(game, closeup, i, j) == ERROR) {
-                  fclose(file);
-                  return ERROR;
-              }
-          }
-
-          /*Commands*/
-          for (j = 0; j < NUM_CMDS; j++) {
-              token = strtok(NULL, "|");
-              if (!token) {
-                  fclose(file);
-                  return ERROR;
-              }
-              cmd_code = atoi(token);
-
-              token = strtok(NULL, "|");
-              if (!token) {
-                  fclose(file);
-                  return ERROR;
-              }
-              cmd_status = atoi(token);
-
-              cmd = game_get_command_at_pos(game, i, j);
-              if (!cmd || command_set_code(cmd, cmd_code) == ERROR || command_set_status(cmd, cmd_status) == ERROR) {
-                  fclose(file);
-                  return ERROR;
-              }
-          }
-      } /*Messages*/
-      else if (strncmp("#msg:", line, 5) == 0) {
-          token = strtok(line + 5, "|");
-          if (!token) {
-              fclose(file);
-              return ERROR;
-          }
-          i = atoi(token);
-
-          token = strtok(NULL, "|");
-          if (!token) {
-              fclose(file);
-              return ERROR;
-          }
-          j = atoi(token);
-
-          token = strtok(NULL, "|");
-          if (!token) {
-              fclose(file);
-              return ERROR;
-          }
-          visibility = atoi(token);
-
-          token = strtok(NULL, "|");
-          if (!token) {
-              fclose(file);
-              return ERROR;
-          }
-          sender = atoi(token);
-
-          token = strtok(NULL, "|");
-          if (!token) {
-              fclose(file);
-              return ERROR;
-          }
-          type = atoi(token);
-
-          token = strtok(NULL, "|");
-          if (!token) {
-              fclose(file);
-              return ERROR;
-          }
-          strncpy(msg, token, MESG_SIZE);
-
-          if (game_set_last_message_at_pos_with_info(game, i, msg, sender, type) == ERROR ||
-              game_set_last_message_visibility_at_pos(game, i, j, visibility) == ERROR) {
-              fclose(file);
-              return ERROR;
-          }
+  while (fgets(line, MESG_SIZE + EXTRAS, file) && st == OK) {
+    if (strncmp("#i:", line, 4) == 0) {
+      if((token = strtok(line + 3, "|"))) i = atoi(token);
+      else st = ERROR;
+      
+      /*Close ups*/
+      for (j = 0; j < POV_HGHT && st == OK; j++) {
+        if (!(token = strtok(NULL, "|"))) st = ERROR;
+        closeup = token;
+        if (game_set_last_close_up_at_pos(game, closeup, i, j) == ERROR) st = ERROR;
       }
+
+      /*Commands*/
+      for (j = 0; j < NUM_CMDS && st == OK; j++) {
+        if ((token = strtok(NULL, "|"))) cmd_code = atoi(token);
+        else st = ERROR;
+
+        if (((token = strtok(NULL, "|")))) cmd_status = atoi(token);
+        else st = ERROR;
+
+        if (!(cmd = game_get_command_at_pos(game, i, j))) {
+          st = ERROR;
+          continue;
+        }
+        if (!cmd || command_set_code(cmd, cmd_code) == ERROR ||
+            command_set_status(cmd, cmd_status) == ERROR) st = ERROR;
+      }
+
+      if (st == ERROR) break;
+      /*#msg: <pos_player>|<pos_message>|<visibility>|<sender>|<type>|<message>|*/
+    } else if (strncmp("#msg:", line, 5) == 0) {
+      if ((token = strtok(line + 5, "|"))) i = atoi(token);
+      else st = ERROR;
+
+      if ((token = strtok(NULL, "|"))) j = atoi(token);
+      else st = ERROR;
+
+      if ((token = strtok(NULL, "|"))) visibility = atoi(token);
+      else st = ERROR;
+
+      if ((token = strtok(NULL, "|"))) sender = atoi(token);
+      else st = ERROR;
+
+      if ((token = strtok(NULL, "|"))) type = (Type) atoi(token);
+      else st = ERROR;
+
+      if((token = strtok(NULL, "|"))) strncpy(msg, token, MESG_SIZE);
+      else st = ERROR;
+
+      if (st == OK) {
+        if (game_set_last_message_at_pos_with_info(game, i, msg, sender, type) == ERROR || 
+          game_set_last_message_visibility_at_pos(game, i, j, visibility) == ERROR) st = ERROR;
+      }
+
+      if (st == ERROR) break;
+    }
   }
 
   fclose(file);
-  return OK;
+  return st;
 }
 
 Status game_management_save_interface_data(Game *game, char *filename) {
   FILE *file = NULL;
   int num_players = 0, i = 0, j = 0, len = 0;
-  char line[800] = "";
+  char line[MESG_SIZE + EXTRAS] = "";
   char *closeup = NULL;
   char *msg = NULL;
   Command *cmd = NULL;
   CommandCode cmd_code = NO_CMD;
-  Status cmd_status = ERROR;
+  Status cmd_status = ERROR, st = OK;
   Bool visibility = FALSE;
   Id sender = NO_ID;
   Type type = NO_TYPE;
@@ -1231,46 +1173,48 @@ Status game_management_save_interface_data(Game *game, char *filename) {
   if (!(file = fopen(filename, "a"))) return ERROR;
 
   if ((num_players = game_get_n_players(game)) <= 0) {
-      fclose(file);
-      return ERROR;
+    fclose(file);
+    return ERROR;
   }
-  /*#id:<id>|<close_up>|<command_code>|<command_status>*/
-  for (i = 0; i < num_players; i++) {
-      len += sprintf(line, "#id:%d|", i);
+  /*#i:<pos in player array>|<close_up>|<command_code>|<command_status>|<command_code>|<command_status>...*/
+  for (i = 0; i < num_players && st == OK; i++, len = 0) {
+    len = 0;
+    len += sprintf(line, "#i:%d|", i);
 
-      for (j = 0; j < POV_HGHT; j++) {
-          closeup = game_get_last_close_up_at(game, j);
-          len += sprintf(line + len, "%s|", closeup ? closeup : " ");
+    for (j = 0; j < POV_HGHT; j++) {
+      closeup = game_get_last_close_up_at(game, j);
+      len += sprintf(line + len, "%s|", closeup ? closeup : " ");
+    }
+
+    for (j = 0; j < NUM_CMDS; j++) {
+      cmd = game_get_command_at_pos(game, i, j);
+      if (cmd) {
+        cmd_code = command_get_code(cmd);
+        cmd_status = command_get_status(cmd);
+        len += sprintf(line + len, "%d|%d|", cmd_code, cmd_status);
+      } else {
+        len += sprintf(line + len, "-1|0|"); /*NO_CMD|ERROR|*/
       }
+    }
 
-      for (j = 0; j < NUM_CMDS; j++) {
-          cmd = game_get_command_at_pos(game, i, j);
-          if (cmd) {
-              cmd_code = command_get_code(cmd);
-              cmd_status = command_get_status(cmd);
-              len += sprintf(line + len, "%d|%d|", cmd_code, cmd_status);
-          } else {
-              len += sprintf(line + len, "NO_CMD|ERROR|");
-          }
+    fprintf(file, "%s\n", line);
+  
+    /*#msg: <pos_player>|<pos_message>|<visibility>|<sender>|<type>|<message>|*/
+  
+    for (j = 0; j < NUM_MSGS; j++, len = 0) {
+      if (!(msg = game_get_last_message_at_pos(game, i, j))) st = ERROR;
+      if ((visibility = game_get_last_message_visibility_at_pos(game, i, j)) == FALSE) {
+        len = 0;
+        continue;
       }
+      if ((sender = game_get_last_message_sender_at_pos(game, i, j)) == NO_ID) st = ERROR;
+      type = game_get_last_message_sender_type_at_pos(game, i, j);
 
-      fprintf(file, "%s\n", line);
-      len = 0;
-  }
-
-  /*#msg: <pos_player>|<pos_message>|<visibility>|<sender>|<type>|<message>|*/
-  for (i = 0; i < num_players; i++) {
-      for (j = 0; j < NUM_MSGS; j++) {
-          msg = game_get_last_message_at_pos(game, i, j);
-          visibility = game_get_last_message_visibility_at_pos(game, i, j);
-          sender = game_get_last_message_sender_at_pos(game, i, j);
-          type = game_get_last_message_sender_type_at_pos(game, i, j);
-          if (visibility == TRUE || msg != NULL || sender != NO_ID) {
-              len += sprintf(line + len, "#msg:%d|%d|%d|%ld|%d|%s|", i, j, visibility, sender, type, msg);
-          }
+      if (st == OK) {
+        len += sprintf(line + len, "#msg:%d|%d|%d|%ld|%d|%s|", i, j, visibility, sender, type, msg);
+        fprintf(file, "%s\n", line);
       }
-      fprintf(file, "%s\n", line);
-      len = 0;
+    }
   }
 
   fclose(file);

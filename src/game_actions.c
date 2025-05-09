@@ -286,8 +286,6 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code,
     if (game_set_last_close_up(*game, closeup, i) == ERROR) return ERROR;
   }
 
-  if(game_erase_all_messages(*game) == ERROR) return ERROR;
-
   if (game_set_last_status(*game, ERROR) == ERROR) return ERROR;
 
   cmd = command_get_code(command);

@@ -148,6 +148,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
   
   do {
     graphic_engine_paint_game(gengine, *game);
+    if(game_erase_all_messages(*game) == ERROR) return;
 
     last_cmd = game_get_last_command_at_pos(*game, NUM_CMDS - 1);
 
@@ -206,7 +207,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
       if (update_turn == TRUE) {
         graphic_engine_paint_game(gengine, *game);
         if(game_erase_all_messages(*game) == ERROR) return;
-        sleep(3);
+        sleep(1);
         game_next_turn(*game);
       }
     }

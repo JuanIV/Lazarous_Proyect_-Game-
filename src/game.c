@@ -333,6 +333,8 @@ Status game_create_from_file(Game *game, char *filename) {
   printf("Characters loaded...\n");
   if (game_management_load_players(game, filename) == ERROR) return ERROR;
   printf("Players loaded...\n");
+  if (game_management_load_interface_data(game, filename) == ERROR) return ERROR;
+  printf("InterfaceData loaded...\n");
   if (game_management_load_turn(game, filename) == ERROR) return ERROR;
   printf("Turn loaded...\n");
   if (game_management_load_minimap(game, filename) == ERROR) return ERROR;
@@ -441,15 +443,21 @@ Player *game_get_player_from_id(Game *game, Id id) {
 }
 
 int game_get_player_pos_from_name(Game *game, char *name) {
-  int i;
-  char *name_aux = NULL;
+  int i, name_length;
+  char *aux_name = NULL;
 
   if (!game || !name) return -1;
 
-  for (i = 0; i < game->n_players; i++) {
-    if (!(name_aux = player_get_name(game->players[i]))) return -1;
+  name_length = strlen(name);
 
-    if (strcasecmp(name_aux, name) == 0) return i;
+  if(name_length > WORD_SIZE || name_length < MIN_ESPECIF) return -1;
+
+  for (i = 0; i < game->n_players; i++) {
+    if (!(aux_name = player_get_name(game->players[i]))) continue;
+
+    if ((strncasecmp(name+1, aux_name+1, name_length-1) == 0) && (toupper(name[0]) == toupper(aux_name[0]))) {
+      return i;
+    }
   }
 
   return -1;

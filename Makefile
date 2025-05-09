@@ -6,7 +6,7 @@ LIBDIR = ./lib
 OBJDIR = ./obj
 EXEDIR = ./exe
 LDFLAGS = -L$(LIBDIR) -lscreen  
-files = $(OBJDIR)/command.o $(OBJDIR)/set.o $(OBJDIR)/character.o $(OBJDIR)/space.o $(OBJDIR)/player.o $(OBJDIR)/inventory.o $(OBJDIR)/object.o $(OBJDIR)/class.o $(OBJDIR)/link.o $(OBJDIR)/game.o $(OBJDIR)/game_actions.o $(OBJDIR)/graphic_engine.o $(OBJDIR)/game_management.o $(OBJDIR)/game_loop.o $(OBJDIR)/game_rules.o
+files = $(OBJDIR)/command.o $(OBJDIR)/set.o $(OBJDIR)/character.o $(OBJDIR)/space.o $(OBJDIR)/player.o $(OBJDIR)/inventory.o $(OBJDIR)/object.o $(OBJDIR)/class.o $(OBJDIR)/link.o $(OBJDIR)/game.o $(OBJDIR)/game_actions.o $(OBJDIR)/graphic_engine.o $(OBJDIR)/game_management.o $(OBJDIR)/game_rules.o $(OBJDIR)/game_loop.o 
 vpath %.h $(INCDIR)
 vpath %.c $(SRCDIR)
 vpath %.o $(OBJDIR)
@@ -104,7 +104,7 @@ $(OBJDIR)/game_management.o: $(SRCDIR)/game_management.c $(INCDIR)/game_manageme
 $(OBJDIR)/game_loop.o: $(SRCDIR)/game_loop.c $(INCDIR)/command.h $(INCDIR)/types.h $(INCDIR)/game.h $(INCDIR)/space.h $(INCDIR)/game_actions.h $(INCDIR)/graphic_engine.h $(INCDIR)/game_management.h $(INCDIR)/game_rules.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/game_rules.o: $(SRCDIR)/game_rules.c $(INCDIR)/game_rules.h $(INCDIR)/game.h $(INCDIR)/types.h
+$(OBJDIR)/game_rules.o: $(SRCDIR)/game_rules.c $(INCDIR)/game_rules.h $(INCDIR)/game.h $(INCDIR)/command.h $(INCDIR)/types.h $(INCDIR)/space.h $(INCDIR)/object.h $(INCDIR)/player.h $(INCDIR)/set.h $(INCDIR)/character.h $(INCDIR)/link.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
@@ -184,13 +184,9 @@ run :
 	@echo "Running project"
 	./$(EXEDIR)/project anthill.dat
 
-run_lab:
-	@echo "Running project"
-	./$(EXEDIR)/project lab.dat
-
 runv :
 	@echo "Running Valgrind"
-	valgrind --leak-check=full --track-origins=yes ./$(EXEDIR)/project lab.dat
+	valgrind --leak-check=full -s --track-origins=yes ./$(EXEDIR)/project lab.dat
 
 runl :
 	@echo "Running Log"
