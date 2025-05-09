@@ -182,6 +182,11 @@ run :
 	@echo "Remember to assign a valid position to the characters"
 	./$(EXEDIR)/project anthill.dat
 
+run_lab:
+	@echo "Running project"
+	@echo "Remember to assign a valid position to the characters"
+	./$(EXEDIR)/project lab.dat
+
 runv :
 	@echo "Running Valgrind"
 	valgrind --leak-check=full --track-origins=yes ./$(EXEDIR)/project lab.dat
