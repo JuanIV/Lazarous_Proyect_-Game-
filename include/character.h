@@ -134,16 +134,6 @@ Status character_set_gdesc(Character *charr, char *gdesc);
 char *character_get_closeup_at_pos(Character *charr, int pos);
 
 /**
- * @brief Gets the full close up aspect of a character
- * @author Juan Ibáñez
- * 
- * @param charr Pointer to the character
- * @param closeup Group of strings to store the close up
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status character_get_closeup(Character *charr, char closeup[POV_HGHT][POV_WDTH + 1]);
-
-/**
  * @brief Sets a line of the close up aspect of a character
  * @author Juan Ibáñez
  * 

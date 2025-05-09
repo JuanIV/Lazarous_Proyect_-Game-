@@ -25,6 +25,6 @@
  * @return ERROR if there is any mistake while executing the action or setting
  * the last command, OK if everything goes well
  */
-Status game_actions_update(Game **game, Command *cmd, CommandCode *cmd_code);
+Status game_actions_update(Game **game, Command *cmd, CommandCode *cmd_code, Bool update);
 
 #endif

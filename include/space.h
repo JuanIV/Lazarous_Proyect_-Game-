@@ -254,15 +254,6 @@ Status space_get_trap(Space *space, Id *trap);
 Status space_set_trap(Space *space, Id trap);
 
 /**
- * @brief Gets the id of the character in the space
- * @author Juan Ibáñez
- *
- * @param space Pointer to the space
- * @return Id of the character in the space
- */
-Id space_get_character(Space *space);
-
-/**
  * @brief It prints the space information
  * @author LM Tiago Oselka
  *

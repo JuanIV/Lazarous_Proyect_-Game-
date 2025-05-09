@@ -48,6 +48,12 @@
 #define N_ROLES 8
 
 /**
+ * @brief Total number of directions that exist
+ *
+ */
+#define N_DIR 7
+
+/**
  * @brief Defines the type Id as a long
  *
  */
@@ -80,12 +86,11 @@ typedef enum { UNK_DIR = -1, N, S, E, W, U, D } Direction;
 typedef enum {
   NO_ROLE = -1, /*We define this as the error role*/
   UNDEFINED,    /*Predefined team*/
-  SCIENTIST,    /*Part of the scientists*/
+  TEAM1,        /*Part of the team 1*/
+  TEAM2,        /*Part of the team 2*/
   MONSTER,      /*Part of the monsters*/
-  PEACEFUL,     /*Peaceful towards everyone*/
   HOSTILE,      /*Hostile towards everyone*/
-  DEFECTOR1,    /*Scientists rebeled against their own*/
-  DEFECTOR2     /*Monsters rebeled against their own*/
+  PEACEFUL     /*Peaceful towards everyone*/
 } Role;
 
 /**

@@ -244,12 +244,32 @@ int game_get_turn(Game *game);
 
 /**
  * @brief Sets the position of the player who has the turn of the game
+ * @author Alina Datsko Yaskerska
  * 
  * @param game Pointer to the game
  * @param turn Turn to be set
  * @return Ok if everything went well, ERROR if there was any mistake 
  */
 Status game_set_turn(Game *game, int turn);
+
+/**
+ * @brief Gets the round the game is currently in
+ * @author Tiago Oselka
+ *
+ * @param game Pointer to the game
+ * @return Returns number of the round
+ */
+int game_get_round(Game *game);
+
+/**
+ * @brief Sets the round the game is currently in
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param round Round to be set
+ * @return Ok if everything went well, ERROR if there was any mistake 
+ */
+Status game_set_round(Game *game, int round);
 
 /**
  * @brief Sets the next turn
@@ -260,7 +280,14 @@ Status game_set_turn(Game *game, int turn);
  */
 Status game_next_turn(Game *game);
 
-
+/**
+ * @brief Updates the round of the game. If the turn is 0, a round has been completed
+ * @author Tiago Oselka
+ *
+ * @param game pointer to the game
+ * @return Ok if everything went well, ERROR if there was any mistake
+ */
+Status game_update_round(Game *game);
 
 /**
  * @brief Given an id, returns a pointer to the space that matches that id
@@ -312,6 +339,15 @@ Status game_set_n_spaces(Game *game, int n_spaces);
  */
 Status game_add_space(Game *game, Space *space);
 
+/**
+ * @brief Sets all spaces that are connected as discovered
+ * @author Tiago Oselka
+ * 
+ * @param game Pointed to the game
+ * @param space Space to be searched
+ * @return OK if everything went well, ERROR if there was a mistake
+ */
+Status game_set_spaces_discovered (Game *game, Space *space);
 
 
 /**
