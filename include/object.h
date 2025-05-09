@@ -14,12 +14,6 @@
 #include "types.h"
 
 /**
- * @brief Maximum size of the description of an object
- *
- */
-#define OBJ_DESC_MX 1000
-
-/**
  * @brief It stores the id and name of an object
  *
  */

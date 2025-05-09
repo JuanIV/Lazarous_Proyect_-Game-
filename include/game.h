@@ -35,13 +35,13 @@
  * @brief Maximum ammount of classes of objects for a game
  * 
  */
-#define MAX_CLASS 100
+#define MAX_CLASS 500
 
 /**
  * @brief Maximum amount of objects that a game can have
  * 
  */
-#define MAX_OBJ 100
+#define MAX_OBJ 500
 
 /**
  * @brief Maximum amount of characters that a game can have
@@ -348,6 +348,7 @@ Status game_add_space(Game *game, Space *space);
  * @return OK if everything went well, ERROR if there was a mistake
  */
 Status game_set_spaces_discovered (Game *game, Space *space);
+
 
 
 /**

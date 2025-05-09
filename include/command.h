@@ -23,7 +23,7 @@
  * @brief Total number of commands that can be executed
  *
  */
-#define N_CMD 20
+#define N_CMD 21
 
 /**
  * @brief Defines the ways a command can be written (short, long)
@@ -52,6 +52,7 @@ typedef enum {
   LOAD,
   OPEN,
   CLOSE,
+  SKIP,
   ACCEPT,
   DENY,
   COOPERATE,

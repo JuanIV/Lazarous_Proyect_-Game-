@@ -17,7 +17,7 @@
  * @brief Maximum size of the description of an object
  *
  */
-#define OBJ_DESC_MX 1000
+#define OBJ_DESC_MX 2000
 
 typedef struct _Class Class;
 

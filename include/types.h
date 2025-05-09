@@ -15,13 +15,13 @@
  * @brief It defines the length for strings in the project
  *
  */
-#define WORD_SIZE 1000
+#define WORD_SIZE 2000
 
 /**
  * @brief Defines the maximum length of a message
  *
  */
-#define MESG_SIZE 1000
+#define MESG_SIZE 2000
 
 /**
  * @brief Size in characters of the visible POV of the player
@@ -90,7 +90,7 @@ typedef enum {
   TEAM2,        /*Part of the team 2*/
   MONSTER,      /*Part of the monsters*/
   HOSTILE,      /*Hostile towards everyone*/
-  PEACEFUL     /*Peaceful towards everyone*/
+  PEACEFUL,     /*Peaceful towards everyone*/
 } Role;
 
 /**
@@ -110,6 +110,6 @@ typedef enum {
  * @brief It defines the type of objects there are in the game
  *
  */
-typedef enum { NO_TAG = -1, NORMAL, HEALER, WEAPON, ARMOR, TRAP, TERMINAL, SWITCH } Tag;
+typedef enum { NO_TAG = -1, NORMAL, HEALER, WEAPON, ARMOR, TRAP, NOTE, SWITCH } Tag;
 
 #endif
