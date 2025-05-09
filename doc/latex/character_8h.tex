@@ -1,0 +1,666 @@
+\doxysection{include/character.h File Reference}
+\hypertarget{character_8h}{}\label{character_8h}\index{include/character.h@{include/character.h}}
+
+
+It defines the character module.  
+
+
+{\ttfamily \#include "{}types.\+h"{}}\newline
+Include dependency graph for character.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=189pt]{character_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{character_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{character_8h_a73408ff43aafb65b3b61cb75689900c6}\label{character_8h_a73408ff43aafb65b3b61cb75689900c6} 
+\#define {\bfseries CHR\+\_\+\+GD\+\_\+\+SZ}~6
+\begin{DoxyCompactList}\small\item\em Defines the size in characters of the graphic description of a character. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}\label{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6} 
+typedef struct \mbox{\hyperlink{struct__Character}{\+\_\+\+Character}} {\bfseries Character}
+\begin{DoxyCompactList}\small\item\em It stores a characters id, name, graphic description, health and friendlyness. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{character_8h_a04e381f3485e883f8c5638cbcd67e686}{character\+\_\+create}} (\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em It creates a new character by allocating its memory and initializing its members. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a456b1ceccd0b53c4bf73e3dec88cc7f6}{character\+\_\+destroy}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr)
+\begin{DoxyCompactList}\small\item\em It destroys a character by freeing its allocated memory. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{character_8h_a4c4778b87b9e16a84f3a4604c2722f98}{character\+\_\+get\+\_\+id}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr)
+\begin{DoxyCompactList}\small\item\em It gets the id of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_aa3a62e8bb8108783e1e3c94cbef2e8aa}{character\+\_\+set\+\_\+id}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em It sets the id of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \mbox{\hyperlink{character_8h_aebdef3f8f6ebe229b600c69e2ef4e2bc}{character\+\_\+get\+\_\+role}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr)
+\begin{DoxyCompactList}\small\item\em It gets the role of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a9b390e6135179288bedb4dc2502f9b9e}{character\+\_\+set\+\_\+role}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} role)
+\begin{DoxyCompactList}\small\item\em It sets the role of a character. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{character_8h_ace48c21f878a664f6b95e35da84c25f0}{character\+\_\+get\+\_\+name}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr)
+\begin{DoxyCompactList}\small\item\em It gets the name of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a67bfcd01030a1d921b057f4bdaba5246}{character\+\_\+set\+\_\+name}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, char \texorpdfstring{$\ast$}{*}name)
+\begin{DoxyCompactList}\small\item\em It sets the name of a character. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{character_8h_a044ded4407fe9b2783f7cb524a86092e}{character\+\_\+get\+\_\+gdesc}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr)
+\begin{DoxyCompactList}\small\item\em It gets the graphic description of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_abbbfad69476733001caff89142adc08c}{character\+\_\+set\+\_\+gdesc}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, char \texorpdfstring{$\ast$}{*}gdesc)
+\begin{DoxyCompactList}\small\item\em It sets the graphic description of a character. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{character_8h_a08fc9e9e202cb47335979321e0453a13}{character\+\_\+get\+\_\+closeup\+\_\+at\+\_\+pos}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, int pos)
+\begin{DoxyCompactList}\small\item\em Gets a line of the close up aspect of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a728ebe4bfe068a94f4e5a66bee298949}{character\+\_\+set\+\_\+closeup\+\_\+at\+\_\+pos}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, int pos, char \texorpdfstring{$\ast$}{*}closeup)
+\begin{DoxyCompactList}\small\item\em Sets a line of the close up aspect of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a64423dacb4f57875631a82917054f8ba}{character\+\_\+get\+\_\+following}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}following)
+\begin{DoxyCompactList}\small\item\em It gets the id of the player the character is following. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_aff4ba4700df6c6fa461284e2eb0ab877}{character\+\_\+set\+\_\+following}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em It sets the id of the player the character is following. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{character_8h_a86712ecb279b3a095d6611f4dbf5543b}{character\+\_\+get\+\_\+message}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr)
+\begin{DoxyCompactList}\small\item\em It gets the message of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_af368a27649b139f72e644b1c631bf666}{character\+\_\+set\+\_\+message}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, char \texorpdfstring{$\ast$}{*}message)
+\begin{DoxyCompactList}\small\item\em It sets the message of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a5b8cd6816b3fc398b825ffce5e401905}{character\+\_\+get\+\_\+weapon}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}weapon)
+\begin{DoxyCompactList}\small\item\em Gets the weapon equipped by the character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a8501064caf3df97be0453e07a0eb99e7}{character\+\_\+set\+\_\+weapon}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} weapon\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Sets the armor equipped by the character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_acb7b1160a4119c6aeda66d2e627d5cc4}{character\+\_\+get\+\_\+armor}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}armor)
+\begin{DoxyCompactList}\small\item\em Gets the armor equipped by the character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a23d2bcdc06113a6e02e4578f213c167c}{character\+\_\+set\+\_\+armor}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} armor\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Sets the armor equipped by the character. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{character_8h_aa0d00eea2b2dabbe4543d84fac770cde}{character\+\_\+get\+\_\+health}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr)
+\begin{DoxyCompactList}\small\item\em It gets the health of a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a1eecbae07757747ea33db64583b40220}{character\+\_\+set\+\_\+health}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, int health)
+\begin{DoxyCompactList}\small\item\em It sets the health of a character. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{character_8h_a488dd69c9383160dc2adb0b68f12d144}{character\+\_\+get\+\_\+damage}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr)
+\begin{DoxyCompactList}\small\item\em Gets the damage that a character deals. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_a76eb2eb22b08d7b737ffc8d03b07888c}{character\+\_\+set\+\_\+damage}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr, int damage)
+\begin{DoxyCompactList}\small\item\em Sets the damage that a character deals. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{character_8h_ad2c829eac0d90986084d9849d7833cfc}{character\+\_\+print}} (\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}charr)
+\begin{DoxyCompactList}\small\item\em It prints the character information. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It defines the character module. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 (1) 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+25-\/02-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{character_8h_a04e381f3485e883f8c5638cbcd67e686}\label{character_8h_a04e381f3485e883f8c5638cbcd67e686} 
+\index{character.h@{character.h}!character\_create@{character\_create}}
+\index{character\_create@{character\_create}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_create()}{character\_create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*} character\+\_\+create (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+It creates a new character by allocating its memory and initializing its members. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The id our character will have \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created character 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a456b1ceccd0b53c4bf73e3dec88cc7f6}\label{character_8h_a456b1ceccd0b53c4bf73e3dec88cc7f6} 
+\index{character.h@{character.h}!character\_destroy@{character\_destroy}}
+\index{character\_destroy@{character\_destroy}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_destroy()}{character\_destroy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr }\end{DoxyParamCaption})}
+
+
+
+It destroys a character by freeing its allocated memory. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character that will be destroyed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status 
+\end{DoxyReturn}
+\Hypertarget{character_8h_acb7b1160a4119c6aeda66d2e627d5cc4}\label{character_8h_acb7b1160a4119c6aeda66d2e627d5cc4} 
+\index{character.h@{character.h}!character\_get\_armor@{character\_get\_armor}}
+\index{character\_get\_armor@{character\_get\_armor}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_armor()}{character\_get\_armor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+get\+\_\+armor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}}]{armor }\end{DoxyParamCaption})}
+
+
+
+Gets the armor equipped by the character. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+{\em armor} & Pointer where the id of the armor will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake Id of the object that serves as armor 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a08fc9e9e202cb47335979321e0453a13}\label{character_8h_a08fc9e9e202cb47335979321e0453a13} 
+\index{character.h@{character.h}!character\_get\_closeup\_at\_pos@{character\_get\_closeup\_at\_pos}}
+\index{character\_get\_closeup\_at\_pos@{character\_get\_closeup\_at\_pos}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_closeup\_at\_pos()}{character\_get\_closeup\_at\_pos()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} character\+\_\+get\+\_\+closeup\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{int}]{pos }\end{DoxyParamCaption})}
+
+
+
+Gets a line of the close up aspect of a character. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+{\em pos} & Number of the line wanted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String with the visuals 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a488dd69c9383160dc2adb0b68f12d144}\label{character_8h_a488dd69c9383160dc2adb0b68f12d144} 
+\index{character.h@{character.h}!character\_get\_damage@{character\_get\_damage}}
+\index{character\_get\_damage@{character\_get\_damage}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_damage()}{character\_get\_damage()}}
+{\footnotesize\ttfamily int character\+\_\+get\+\_\+damage (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr }\end{DoxyParamCaption})}
+
+
+
+Gets the damage that a character deals. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int value of the damage 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a64423dacb4f57875631a82917054f8ba}\label{character_8h_a64423dacb4f57875631a82917054f8ba} 
+\index{character.h@{character.h}!character\_get\_following@{character\_get\_following}}
+\index{character\_get\_following@{character\_get\_following}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_following()}{character\_get\_following()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+get\+\_\+following (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}}]{following }\end{DoxyParamCaption})}
+
+
+
+It gets the id of the player the character is following. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to a character \\
+\hline
+{\em following} & Pointer where the id of the player being followed will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake following\+: The Id of said player and NO\+\_\+\+ID if the character is not following anyone 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a044ded4407fe9b2783f7cb524a86092e}\label{character_8h_a044ded4407fe9b2783f7cb524a86092e} 
+\index{character.h@{character.h}!character\_get\_gdesc@{character\_get\_gdesc}}
+\index{character\_get\_gdesc@{character\_get\_gdesc}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_gdesc()}{character\_get\_gdesc()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} character\+\_\+get\+\_\+gdesc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr }\end{DoxyParamCaption})}
+
+
+
+It gets the graphic description of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a string with the gdesc of a character 
+\end{DoxyReturn}
+\Hypertarget{character_8h_aa0d00eea2b2dabbe4543d84fac770cde}\label{character_8h_aa0d00eea2b2dabbe4543d84fac770cde} 
+\index{character.h@{character.h}!character\_get\_health@{character\_get\_health}}
+\index{character\_get\_health@{character\_get\_health}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_health()}{character\_get\_health()}}
+{\footnotesize\ttfamily int character\+\_\+get\+\_\+health (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr }\end{DoxyParamCaption})}
+
+
+
+It gets the health of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the number of health points a character has 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a4c4778b87b9e16a84f3a4604c2722f98}\label{character_8h_a4c4778b87b9e16a84f3a4604c2722f98} 
+\index{character.h@{character.h}!character\_get\_id@{character\_get\_id}}
+\index{character\_get\_id@{character\_get\_id}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_id()}{character\_get\_id()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} character\+\_\+get\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr }\end{DoxyParamCaption})}
+
+
+
+It gets the id of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the id of the character 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a86712ecb279b3a095d6611f4dbf5543b}\label{character_8h_a86712ecb279b3a095d6611f4dbf5543b} 
+\index{character.h@{character.h}!character\_get\_message@{character\_get\_message}}
+\index{character\_get\_message@{character\_get\_message}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_message()}{character\_get\_message()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} character\+\_\+get\+\_\+message (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr }\end{DoxyParamCaption})}
+
+
+
+It gets the message of a character. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String with the message of the character 
+\end{DoxyReturn}
+\Hypertarget{character_8h_ace48c21f878a664f6b95e35da84c25f0}\label{character_8h_ace48c21f878a664f6b95e35da84c25f0} 
+\index{character.h@{character.h}!character\_get\_name@{character\_get\_name}}
+\index{character\_get\_name@{character\_get\_name}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_name()}{character\_get\_name()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} character\+\_\+get\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr }\end{DoxyParamCaption})}
+
+
+
+It gets the name of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a string with the name of the character 
+\end{DoxyReturn}
+\Hypertarget{character_8h_aebdef3f8f6ebe229b600c69e2ef4e2bc}\label{character_8h_aebdef3f8f6ebe229b600c69e2ef4e2bc} 
+\index{character.h@{character.h}!character\_get\_role@{character\_get\_role}}
+\index{character\_get\_role@{character\_get\_role}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_role()}{character\_get\_role()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} character\+\_\+get\+\_\+role (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr }\end{DoxyParamCaption})}
+
+
+
+It gets the role of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the role of the character 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a5b8cd6816b3fc398b825ffce5e401905}\label{character_8h_a5b8cd6816b3fc398b825ffce5e401905} 
+\index{character.h@{character.h}!character\_get\_weapon@{character\_get\_weapon}}
+\index{character\_get\_weapon@{character\_get\_weapon}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_get\_weapon()}{character\_get\_weapon()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+get\+\_\+weapon (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}}]{weapon }\end{DoxyParamCaption})}
+
+
+
+Gets the weapon equipped by the character. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+{\em weapon} & Pointer where the id of the weapon will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake weapon\+: Id of the object that serves as weapon 
+\end{DoxyReturn}
+\Hypertarget{character_8h_ad2c829eac0d90986084d9849d7833cfc}\label{character_8h_ad2c829eac0d90986084d9849d7833cfc} 
+\index{character.h@{character.h}!character\_print@{character\_print}}
+\index{character\_print@{character\_print}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_print()}{character\_print()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr }\end{DoxyParamCaption})}
+
+
+
+It prints the character information. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+This function shows the id, name and location of the character, as well as the Id of the object being carried. 
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a23d2bcdc06113a6e02e4578f213c167c}\label{character_8h_a23d2bcdc06113a6e02e4578f213c167c} 
+\index{character.h@{character.h}!character\_set\_armor@{character\_set\_armor}}
+\index{character\_set\_armor@{character\_set\_armor}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_armor()}{character\_set\_armor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+armor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{armor\+\_\+id }\end{DoxyParamCaption})}
+
+
+
+Sets the armor equipped by the character. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+{\em armor\+\_\+id} & Id of the new armor \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a728ebe4bfe068a94f4e5a66bee298949}\label{character_8h_a728ebe4bfe068a94f4e5a66bee298949} 
+\index{character.h@{character.h}!character\_set\_closeup\_at\_pos@{character\_set\_closeup\_at\_pos}}
+\index{character\_set\_closeup\_at\_pos@{character\_set\_closeup\_at\_pos}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_closeup\_at\_pos()}{character\_set\_closeup\_at\_pos()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+closeup\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{int}]{pos,  }\item[{char \texorpdfstring{$\ast$}{*}}]{closeup }\end{DoxyParamCaption})}
+
+
+
+Sets a line of the close up aspect of a character. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+{\em pos} & Number of the line wanted to replace \\
+\hline
+{\em closeup} & New line \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if there was a mistake, OK oterhwise 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a76eb2eb22b08d7b737ffc8d03b07888c}\label{character_8h_a76eb2eb22b08d7b737ffc8d03b07888c} 
+\index{character.h@{character.h}!character\_set\_damage@{character\_set\_damage}}
+\index{character\_set\_damage@{character\_set\_damage}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_damage()}{character\_set\_damage()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+damage (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{int}]{damage }\end{DoxyParamCaption})}
+
+
+
+Sets the damage that a character deals. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+{\em damage} & New damage \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_aff4ba4700df6c6fa461284e2eb0ab877}\label{character_8h_aff4ba4700df6c6fa461284e2eb0ab877} 
+\index{character.h@{character.h}!character\_set\_following@{character\_set\_following}}
+\index{character\_set\_following@{character\_set\_following}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_following()}{character\_set\_following()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+following (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+It sets the id of the player the character is following. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to a character \\
+\hline
+{\em id} & Id of the player the character will be following \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_abbbfad69476733001caff89142adc08c}\label{character_8h_abbbfad69476733001caff89142adc08c} 
+\index{character.h@{character.h}!character\_set\_gdesc@{character\_set\_gdesc}}
+\index{character\_set\_gdesc@{character\_set\_gdesc}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_gdesc()}{character\_set\_gdesc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+gdesc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{char \texorpdfstring{$\ast$}{*}}]{gdesc }\end{DoxyParamCaption})}
+
+
+
+It sets the graphic description of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+{\em gdesc} & the graphic description of the character\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a1eecbae07757747ea33db64583b40220}\label{character_8h_a1eecbae07757747ea33db64583b40220} 
+\index{character.h@{character.h}!character\_set\_health@{character\_set\_health}}
+\index{character\_set\_health@{character\_set\_health}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_health()}{character\_set\_health()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+health (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{int}]{health }\end{DoxyParamCaption})}
+
+
+
+It sets the health of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+{\em health} & the number of health points of the character\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_aa3a62e8bb8108783e1e3c94cbef2e8aa}\label{character_8h_aa3a62e8bb8108783e1e3c94cbef2e8aa} 
+\index{character.h@{character.h}!character\_set\_id@{character\_set\_id}}
+\index{character\_set\_id@{character\_set\_id}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_id()}{character\_set\_id()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+It sets the id of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+{\em id} & the id number to be assigned to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_af368a27649b139f72e644b1c631bf666}\label{character_8h_af368a27649b139f72e644b1c631bf666} 
+\index{character.h@{character.h}!character\_set\_message@{character\_set\_message}}
+\index{character\_set\_message@{character\_set\_message}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_message()}{character\_set\_message()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+message (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{char \texorpdfstring{$\ast$}{*}}]{message }\end{DoxyParamCaption})}
+
+
+
+It sets the message of a character. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+{\em message} & The new message for the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if everything went well, ERROR if ther was a mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a67bfcd01030a1d921b057f4bdaba5246}\label{character_8h_a67bfcd01030a1d921b057f4bdaba5246} 
+\index{character.h@{character.h}!character\_set\_name@{character\_set\_name}}
+\index{character\_set\_name@{character\_set\_name}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_name()}{character\_set\_name()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{char \texorpdfstring{$\ast$}{*}}]{name }\end{DoxyParamCaption})}
+
+
+
+It sets the name of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+{\em name} & a string with the name to store \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a9b390e6135179288bedb4dc2502f9b9e}\label{character_8h_a9b390e6135179288bedb4dc2502f9b9e} 
+\index{character.h@{character.h}!character\_set\_role@{character\_set\_role}}
+\index{character\_set\_role@{character\_set\_role}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_role()}{character\_set\_role()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+role (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}}}]{role }\end{DoxyParamCaption})}
+
+
+
+It sets the role of a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & a pointer to the character \\
+\hline
+{\em role} & the role to be assigned to the character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{character_8h_a8501064caf3df97be0453e07a0eb99e7}\label{character_8h_a8501064caf3df97be0453e07a0eb99e7} 
+\index{character.h@{character.h}!character\_set\_weapon@{character\_set\_weapon}}
+\index{character\_set\_weapon@{character\_set\_weapon}!character.h@{character.h}}
+\doxysubsubsection{\texorpdfstring{character\_set\_weapon()}{character\_set\_weapon()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} character\+\_\+set\+\_\+weapon (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{charr,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{weapon\+\_\+id }\end{DoxyParamCaption})}
+
+
+
+Sets the armor equipped by the character. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em charr} & Pointer to the character \\
+\hline
+{\em weapon\+\_\+id} & Id of the new weapon \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}

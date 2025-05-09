@@ -1,0 +1,591 @@
+\doxysection{include/class.h File Reference}
+\hypertarget{class_8h}{}\label{class_8h}\index{include/class.h@{include/class.h}}
+
+
+It defines the object class module interface.  
+
+
+{\ttfamily \#include "{}types.\+h"{}}\newline
+Include dependency graph for class.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{class_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_8h_ab720afd8c7e3d72e1537cda8c5114951}\label{class_8h_ab720afd8c7e3d72e1537cda8c5114951} 
+\#define {\bfseries OBJ\+\_\+\+DESC\+\_\+\+MX}~2000
+\begin{DoxyCompactList}\small\item\em Maximum size of the description of an object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_8h_a0998e14b145098f0df11318c30bd0f2d}\label{class_8h_a0998e14b145098f0df11318c30bd0f2d} 
+typedef struct \mbox{\hyperlink{struct__Class}{\+\_\+\+Class}} {\bfseries Class}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_8h_aec56115bb31c3b0cd063f13081e4efd9}{class\+\_\+create}} (\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em It creates and initializes a new class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_ac6f60d3561f5fa5cf539c80f8a0f3363}{class\+\_\+destroy}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class)
+\begin{DoxyCompactList}\small\item\em It destroys a class freeing allocated memory. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{class_8h_a8b8266b7b736b74063196849ba45f27f}{class\+\_\+get\+\_\+id}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class)
+\begin{DoxyCompactList}\small\item\em It gets the id of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_a66980a7eeb36d7441ba0feec0525bc56}{class\+\_\+set\+\_\+id}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em Sets the id of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a305263dd89ad9fde1863aece00907351}{Tag}} \mbox{\hyperlink{class_8h_a10684cc0b89b50f9dbe1c80236e9bed9}{class\+\_\+get\+\_\+tag}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class)
+\begin{DoxyCompactList}\small\item\em Gets the tag of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_a2e109a6580da3b624a74afc4e31f01fa}{class\+\_\+set\+\_\+tag}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, \mbox{\hyperlink{types_8h_a305263dd89ad9fde1863aece00907351}{Tag}} tag)
+\begin{DoxyCompactList}\small\item\em Sets the tag of a class. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_8h_a89d13f5ab9c7c223726f379e48d9b499}{class\+\_\+get\+\_\+name}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class)
+\begin{DoxyCompactList}\small\item\em Gets the name of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_a6d9702302f596033e692c67e1d4b50a9}{class\+\_\+set\+\_\+name}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, char \texorpdfstring{$\ast$}{*}name)
+\begin{DoxyCompactList}\small\item\em Sets the name of a class. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_8h_a1e1b82ce3a94336b5d96c46d367ecb25}{class\+\_\+get\+\_\+desc}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class)
+\begin{DoxyCompactList}\small\item\em Gets the description of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_aeb9291fae215afbcf6607e2f1a9cb571}{class\+\_\+set\+\_\+desc}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, char \texorpdfstring{$\ast$}{*}desc)
+\begin{DoxyCompactList}\small\item\em Sets the description of a class. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_8h_ab278bfe0de7e1366844a6585132a9b88}{class\+\_\+get\+\_\+closeup\+\_\+at\+\_\+pos}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, int pos)
+\begin{DoxyCompactList}\small\item\em Gets a line of the close up aspect of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_a802371d28a50acfd2508e92bcb63f98e}{class\+\_\+get\+\_\+closeup}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, char closeup\mbox{[}\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}}+1\mbox{]})
+\begin{DoxyCompactList}\small\item\em Gets the full close up aspect of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_ae1a8ee2761a94c6731bdc04b782421f9}{class\+\_\+set\+\_\+closeup\+\_\+at\+\_\+pos}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, int pos, char \texorpdfstring{$\ast$}{*}closeup)
+\begin{DoxyCompactList}\small\item\em Sets a line of the close up aspect of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_ac7f1496c572211ec125d5aa72d9405b5}{class\+\_\+get\+\_\+movable}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*}bool)
+\begin{DoxyCompactList}\small\item\em Gets the movable property of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_a945d081ef7f9c786edf4008831a01559}{class\+\_\+set\+\_\+movable}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} movable)
+\begin{DoxyCompactList}\small\item\em Sets the movable property of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_a09029a03fe81582d909d867028aab37e}{class\+\_\+get\+\_\+dependency}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}dependency)
+\begin{DoxyCompactList}\small\item\em Gets the dependency of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_acfd07153f88e2440d97ab0b0516d280d}{class\+\_\+set\+\_\+dependency}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} dependency)
+\begin{DoxyCompactList}\small\item\em Sets the dependency of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_a2aa9948985d3ff788f6a37e15d628d15}{class\+\_\+get\+\_\+open}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}open)
+\begin{DoxyCompactList}\small\item\em Gets the open property of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_acb97c587822fb8eb50109c2680ecd437}{class\+\_\+set\+\_\+open}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} open)
+\begin{DoxyCompactList}\small\item\em Sets the link this class can open. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_8h_abe9f33045f52dc4ff924f77c2e60c264}{class\+\_\+get\+\_\+luck}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class)
+\begin{DoxyCompactList}\small\item\em Gets the luck property of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_a9ee55c293f4ecf2ddfce00973a818581}{class\+\_\+set\+\_\+luck}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class, int luck)
+\begin{DoxyCompactList}\small\item\em Sets the luck bonus of a class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{class_8h_a3fcdbd22407af640d851638573158092}{class\+\_\+print}} (\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}class)
+\begin{DoxyCompactList}\small\item\em Prints all information about a class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It defines the object class module interface. 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 (1) 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+05-\/05-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{class_8h_aec56115bb31c3b0cd063f13081e4efd9}\label{class_8h_aec56115bb31c3b0cd063f13081e4efd9} 
+\index{class.h@{class.h}!class\_create@{class\_create}}
+\index{class\_create@{class\_create}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_create()}{class\_create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*} class\+\_\+create (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+It creates and initializes a new class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em id} & Id of the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A new class, initialized
+\end{DoxyReturn}
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} CLASS MANAGEMENT \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{class_8h_ac6f60d3561f5fa5cf539c80f8a0f3363}\label{class_8h_ac6f60d3561f5fa5cf539c80f8a0f3363} 
+\index{class.h@{class.h}!class\_destroy@{class\_destroy}}
+\index{class\_destroy@{class\_destroy}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_destroy()}{class\_destroy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class }\end{DoxyParamCaption})}
+
+
+
+It destroys a class freeing allocated memory. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class doesnt exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a802371d28a50acfd2508e92bcb63f98e}\label{class_8h_a802371d28a50acfd2508e92bcb63f98e} 
+\index{class.h@{class.h}!class\_get\_closeup@{class\_get\_closeup}}
+\index{class\_get\_closeup@{class\_get\_closeup}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_closeup()}{class\_get\_closeup()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+get\+\_\+closeup (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{char}]{closeup\mbox{[}\+POV\+\_\+\+HGHT\mbox{]}\mbox{[}\+POV\+\_\+\+WDTH+1\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Gets the full close up aspect of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em closeup} & Group of strings to store the close up \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class or desc doesnt exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_ab278bfe0de7e1366844a6585132a9b88}\label{class_8h_ab278bfe0de7e1366844a6585132a9b88} 
+\index{class.h@{class.h}!class\_get\_closeup\_at\_pos@{class\_get\_closeup\_at\_pos}}
+\index{class\_get\_closeup\_at\_pos@{class\_get\_closeup\_at\_pos}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_closeup\_at\_pos()}{class\_get\_closeup\_at\_pos()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} class\+\_\+get\+\_\+closeup\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{int}]{pos }\end{DoxyParamCaption})}
+
+
+
+Gets a line of the close up aspect of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & Number of the line wanted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String with the visuals 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a09029a03fe81582d909d867028aab37e}\label{class_8h_a09029a03fe81582d909d867028aab37e} 
+\index{class.h@{class.h}!class\_get\_dependency@{class\_get\_dependency}}
+\index{class\_get\_dependency@{class\_get\_dependency}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_dependency()}{class\_get\_dependency()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+get\+\_\+dependency (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}}]{dependency }\end{DoxyParamCaption})}
+
+
+
+Gets the dependency of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em dependency} & Pointer to an Id where the dependency will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if there was a mistake, OK otherwise dependency\+: Id of the class that is needed to use this one 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a1e1b82ce3a94336b5d96c46d367ecb25}\label{class_8h_a1e1b82ce3a94336b5d96c46d367ecb25} 
+\index{class.h@{class.h}!class\_get\_desc@{class\_get\_desc}}
+\index{class\_get\_desc@{class\_get\_desc}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_desc()}{class\_get\_desc()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} class\+\_\+get\+\_\+desc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class }\end{DoxyParamCaption})}
+
+
+
+Gets the description of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String with the description of the class 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a8b8266b7b736b74063196849ba45f27f}\label{class_8h_a8b8266b7b736b74063196849ba45f27f} 
+\index{class.h@{class.h}!class\_get\_id@{class\_get\_id}}
+\index{class\_get\_id@{class\_get\_id}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_id()}{class\_get\_id()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} class\+\_\+get\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class }\end{DoxyParamCaption})}
+
+
+
+It gets the id of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Id of the class 
+\end{DoxyReturn}
+\Hypertarget{class_8h_abe9f33045f52dc4ff924f77c2e60c264}\label{class_8h_abe9f33045f52dc4ff924f77c2e60c264} 
+\index{class.h@{class.h}!class\_get\_luck@{class\_get\_luck}}
+\index{class\_get\_luck@{class\_get\_luck}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_luck()}{class\_get\_luck()}}
+{\footnotesize\ttfamily int class\+\_\+get\+\_\+luck (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class }\end{DoxyParamCaption})}
+
+
+
+Gets the luck property of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Int value of the luck bonus the class gives 
+\end{DoxyReturn}
+\Hypertarget{class_8h_ac7f1496c572211ec125d5aa72d9405b5}\label{class_8h_ac7f1496c572211ec125d5aa72d9405b5} 
+\index{class.h@{class.h}!class\_get\_movable@{class\_get\_movable}}
+\index{class\_get\_movable@{class\_get\_movable}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_movable()}{class\_get\_movable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+get\+\_\+movable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+Gets the movable property of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em bool} & Pointer to a boolean where the value will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if there was a mistake, OK otherwise bool\+: TRUE if its movable, FALSE if its not 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a89d13f5ab9c7c223726f379e48d9b499}\label{class_8h_a89d13f5ab9c7c223726f379e48d9b499} 
+\index{class.h@{class.h}!class\_get\_name@{class\_get\_name}}
+\index{class\_get\_name@{class\_get\_name}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_name()}{class\_get\_name()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} class\+\_\+get\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class }\end{DoxyParamCaption})}
+
+
+
+Gets the name of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String with the name of the class 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a2aa9948985d3ff788f6a37e15d628d15}\label{class_8h_a2aa9948985d3ff788f6a37e15d628d15} 
+\index{class.h@{class.h}!class\_get\_open@{class\_get\_open}}
+\index{class\_get\_open@{class\_get\_open}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_open()}{class\_get\_open()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+get\+\_\+open (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \texorpdfstring{$\ast$}{*}}]{open }\end{DoxyParamCaption})}
+
+
+
+Gets the open property of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em open} & Pointer to an Id where the value will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if there was a mistake, OK otherwise open\+: Id of the link that it can open 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a10684cc0b89b50f9dbe1c80236e9bed9}\label{class_8h_a10684cc0b89b50f9dbe1c80236e9bed9} 
+\index{class.h@{class.h}!class\_get\_tag@{class\_get\_tag}}
+\index{class\_get\_tag@{class\_get\_tag}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_get\_tag()}{class\_get\_tag()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a305263dd89ad9fde1863aece00907351}{Tag}} class\+\_\+get\+\_\+tag (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class }\end{DoxyParamCaption})}
+
+
+
+Gets the tag of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Tag of the class 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a3fcdbd22407af640d851638573158092}\label{class_8h_a3fcdbd22407af640d851638573158092} 
+\index{class.h@{class.h}!class\_print@{class\_print}}
+\index{class\_print@{class\_print}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_print()}{class\_print()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class }\end{DoxyParamCaption})}
+
+
+
+Prints all information about a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class doesnt exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_ae1a8ee2761a94c6731bdc04b782421f9}\label{class_8h_ae1a8ee2761a94c6731bdc04b782421f9} 
+\index{class.h@{class.h}!class\_set\_closeup\_at\_pos@{class\_set\_closeup\_at\_pos}}
+\index{class\_set\_closeup\_at\_pos@{class\_set\_closeup\_at\_pos}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_set\_closeup\_at\_pos()}{class\_set\_closeup\_at\_pos()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+set\+\_\+closeup\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{int}]{pos,  }\item[{char \texorpdfstring{$\ast$}{*}}]{closeup }\end{DoxyParamCaption})}
+
+
+
+Sets a line of the close up aspect of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & Number of the line wanted \\
+\hline
+{\em closeup} & New line \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if everything went well, ERROR otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_acfd07153f88e2440d97ab0b0516d280d}\label{class_8h_acfd07153f88e2440d97ab0b0516d280d} 
+\index{class.h@{class.h}!class\_set\_dependency@{class\_set\_dependency}}
+\index{class\_set\_dependency@{class\_set\_dependency}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_set\_dependency()}{class\_set\_dependency()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+set\+\_\+dependency (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{dependency }\end{DoxyParamCaption})}
+
+
+
+Sets the dependency of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em dependency} & Id of the new dependency class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class doesnt exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_aeb9291fae215afbcf6607e2f1a9cb571}\label{class_8h_aeb9291fae215afbcf6607e2f1a9cb571} 
+\index{class.h@{class.h}!class\_set\_desc@{class\_set\_desc}}
+\index{class\_set\_desc@{class\_set\_desc}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_set\_desc()}{class\_set\_desc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+set\+\_\+desc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{char \texorpdfstring{$\ast$}{*}}]{desc }\end{DoxyParamCaption})}
+
+
+
+Sets the description of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em desc} & New description for the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class or desc doesnt exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a66980a7eeb36d7441ba0feec0525bc56}\label{class_8h_a66980a7eeb36d7441ba0feec0525bc56} 
+\index{class.h@{class.h}!class\_set\_id@{class\_set\_id}}
+\index{class\_set\_id@{class\_set\_id}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_set\_id()}{class\_set\_id()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+set\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+Sets the id of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em id} & New id for the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class doesnt exist or id is NO\+\_\+\+ID, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a9ee55c293f4ecf2ddfce00973a818581}\label{class_8h_a9ee55c293f4ecf2ddfce00973a818581} 
+\index{class.h@{class.h}!class\_set\_luck@{class\_set\_luck}}
+\index{class\_set\_luck@{class\_set\_luck}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_set\_luck()}{class\_set\_luck()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+set\+\_\+luck (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{int}]{luck }\end{DoxyParamCaption})}
+
+
+
+Sets the luck bonus of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em luck} & New luck bonus value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class doesnt exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a945d081ef7f9c786edf4008831a01559}\label{class_8h_a945d081ef7f9c786edf4008831a01559} 
+\index{class.h@{class.h}!class\_set\_movable@{class\_set\_movable}}
+\index{class\_set\_movable@{class\_set\_movable}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_set\_movable()}{class\_set\_movable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+set\+\_\+movable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}}}]{movable }\end{DoxyParamCaption})}
+
+
+
+Sets the movable property of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em movable} & Boolean new movable property \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class doesnt exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a6d9702302f596033e692c67e1d4b50a9}\label{class_8h_a6d9702302f596033e692c67e1d4b50a9} 
+\index{class.h@{class.h}!class\_set\_name@{class\_set\_name}}
+\index{class\_set\_name@{class\_set\_name}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_set\_name()}{class\_set\_name()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+set\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{char \texorpdfstring{$\ast$}{*}}]{name }\end{DoxyParamCaption})}
+
+
+
+Sets the name of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em name} & New name for the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class or name dont exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_acb97c587822fb8eb50109c2680ecd437}\label{class_8h_acb97c587822fb8eb50109c2680ecd437} 
+\index{class.h@{class.h}!class\_set\_open@{class\_set\_open}}
+\index{class\_set\_open@{class\_set\_open}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_set\_open()}{class\_set\_open()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+set\+\_\+open (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{open }\end{DoxyParamCaption})}
+
+
+
+Sets the link this class can open. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em open} & Id of the link the class can open \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class doesnt exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_8h_a2e109a6580da3b624a74afc4e31f01fa}\label{class_8h_a2e109a6580da3b624a74afc4e31f01fa} 
+\index{class.h@{class.h}!class\_set\_tag@{class\_set\_tag}}
+\index{class\_set\_tag@{class\_set\_tag}!class.h@{class.h}}
+\doxysubsubsection{\texorpdfstring{class\_set\_tag()}{class\_set\_tag()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} class\+\_\+set\+\_\+tag (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct__Class}{Class}} \texorpdfstring{$\ast$}{*}}]{class,  }\item[{\mbox{\hyperlink{types_8h_a305263dd89ad9fde1863aece00907351}{Tag}}}]{tag }\end{DoxyParamCaption})}
+
+
+
+Sets the tag of a class. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em class} & Pointer to the class \\
+\hline
+{\em tag} & New tag for the class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if class doesnt exist, OK otherwise 
+\end{DoxyReturn}

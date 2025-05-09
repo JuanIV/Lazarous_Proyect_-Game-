@@ -1,0 +1,725 @@
+\doxysection{src/class\+\_\+test.c File Reference}
+\hypertarget{class__test_8c}{}\label{class__test_8c}\index{src/class\_test.c@{src/class\_test.c}}
+
+
+It tests class module.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}class.\+h"{}}\newline
+{\ttfamily \#include "{}class\+\_\+test.\+h"{}}\newline
+{\ttfamily \#include "{}test.\+h"{}}\newline
+Include dependency graph for class\+\_\+test.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class__test_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class__test_8c_a2a77d2f2c5b698c69c19e1f8782bf709}\label{class__test_8c_a2a77d2f2c5b698c69c19e1f8782bf709} 
+\#define {\bfseries MAX\+\_\+\+TESTS}~42
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class__test_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{class__test_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
+int {\bfseries main} (int argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
+\item 
+void \mbox{\hyperlink{class__test_8c_a67917bea243d397096d4c5c39456200f}{test1\+\_\+class\+\_\+create}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_ae31b72631da3e14bf1ba3910a097a097}{test2\+\_\+class\+\_\+create}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a9d7c25c2792d7b1e8f27a953379013df}{test1\+\_\+class\+\_\+destroy}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_ae6a94be0e30677059a7e5ed56fd7543b}{test2\+\_\+class\+\_\+destroy}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_ac5d1f4458572195d024ff26254bf7c67}{test1\+\_\+class\+\_\+get\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a9bc6a07070f417a9ae0b382aae159740}{test2\+\_\+class\+\_\+get\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_af425a0c377784679d75acd80daa80b5b}{test1\+\_\+class\+\_\+set\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a775bdb71b5623bca68914bf9fc186b5e}{test2\+\_\+class\+\_\+set\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_ab5032a894366b6308cef5eee7561744f}{test1\+\_\+class\+\_\+get\+\_\+tag}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a3f73499539f350f4cd028b9f4a05ceba}{test2\+\_\+class\+\_\+get\+\_\+tag}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a32e36fdbb032c21bf710e9970d37e404}{test1\+\_\+class\+\_\+set\+\_\+tag}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a3c5eb569c41c34241a2864d09be370e1}{test2\+\_\+class\+\_\+set\+\_\+tag}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a850c36e2b54ee0f2ccd67e5d847ab772}{test1\+\_\+class\+\_\+get\+\_\+name}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_aa1c51f2ece711e493f16b64e93b2d110}{test2\+\_\+class\+\_\+get\+\_\+name}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a8b50781d9c77a5a425b7844b76bc3604}{test1\+\_\+class\+\_\+set\+\_\+name}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_ab916776c361e9f290b1bc38746c33dd0}{test2\+\_\+class\+\_\+set\+\_\+name}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a060331003ef28adb98a9f7a290d23717}{test1\+\_\+class\+\_\+get\+\_\+desc}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a7ddc57121cc9d0a5a1f0f76b9d83a177}{test2\+\_\+class\+\_\+get\+\_\+desc}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_aa7c78de07249d0cff02bec7dfbb5378b}{test1\+\_\+class\+\_\+set\+\_\+desc}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a9e63b08cd1db4396fc90d8e3e8695843}{test2\+\_\+class\+\_\+set\+\_\+desc}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a843369515f30abd1d91fd80eeace063e}{test1\+\_\+class\+\_\+get\+\_\+closeup\+\_\+at\+\_\+pos}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a2cda1c67467b8faac47e5a07ed4f3239}{test2\+\_\+class\+\_\+get\+\_\+closeup\+\_\+at\+\_\+pos}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a05c2d71b025df0c8b5af728d6c22b1c1}{test1\+\_\+class\+\_\+get\+\_\+closeup}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a82329b99f8f72c83d327c3610a016d78}{test2\+\_\+class\+\_\+get\+\_\+closeup}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a95dff044faeae7d64cde4205ca5e35ea}{test1\+\_\+class\+\_\+set\+\_\+closeup\+\_\+at\+\_\+pos}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_aed05575e7c0118a2882ae98827935837}{test2\+\_\+class\+\_\+set\+\_\+closeup\+\_\+at\+\_\+pos}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_ab8b4203139ca8ec952718e0aa7b13fe8}{test1\+\_\+class\+\_\+get\+\_\+movable}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_acd32c676b0a721e1029cccfcf1fb8d41}{test2\+\_\+class\+\_\+get\+\_\+movable}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a68fec3617d7294e2290f373ce780ace3}{test1\+\_\+class\+\_\+set\+\_\+movable}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a907ac10d665ba6cbb8601403be430c1f}{test2\+\_\+class\+\_\+set\+\_\+movable}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_acb96bfc83759957ff4731a790a7d3235}{test1\+\_\+class\+\_\+get\+\_\+dependency}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a62805d48b0ea02b7334d27a1244bfe3c}{test2\+\_\+class\+\_\+get\+\_\+dependency}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a9242d40d2a770eb76c83d18aa8d59371}{test1\+\_\+class\+\_\+set\+\_\+dependency}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a382535f9fc18c90c62d73eefeb7dc96f}{test2\+\_\+class\+\_\+set\+\_\+dependency}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a823d60a02a170c0ca76fcc45a50cf060}{test1\+\_\+class\+\_\+get\+\_\+open}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_af8bea81e1d23f8826ed3a5cf8a1517b5}{test2\+\_\+class\+\_\+get\+\_\+open}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a04821e406c11676c9c12259fd270ab4b}{test1\+\_\+class\+\_\+set\+\_\+open}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_aeeb4553cf92bad2d319f6145d3887649}{test2\+\_\+class\+\_\+set\+\_\+open}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_aa3dcfcf037d98de08c0ba919a597f884}{test1\+\_\+class\+\_\+get\+\_\+luck}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a45ba5b97677a5e97a4e849c924e41b19}{test2\+\_\+class\+\_\+get\+\_\+luck}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a9a90e6d4862c8982122fae159aea3aed}{test1\+\_\+class\+\_\+set\+\_\+luck}} ()
+\item 
+void \mbox{\hyperlink{class__test_8c_a29f898d9ff717d56edf6cd8a90484050}{test2\+\_\+class\+\_\+set\+\_\+luck}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It tests class module. 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+05-\/05-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{class__test_8c_a67917bea243d397096d4c5c39456200f}\label{class__test_8c_a67917bea243d397096d4c5c39456200f} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_create@{test1\_class\_create}}
+\index{test1\_class\_create@{test1\_class\_create}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_create()}{test1\_class\_create()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000024}{Test}}]Test class creation with valid ID \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Valid ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Non NULL pointer to class 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a9d7c25c2792d7b1e8f27a953379013df}\label{class__test_8c_a9d7c25c2792d7b1e8f27a953379013df} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_destroy@{test1\_class\_destroy}}
+\index{test1\_class\_destroy@{test1\_class\_destroy}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_destroy()}{test1\_class\_destroy()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000026}{Test}}]Test class destruction with valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a05c2d71b025df0c8b5af728d6c22b1c1}\label{class__test_8c_a05c2d71b025df0c8b5af728d6c22b1c1} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_closeup@{test1\_class\_get\_closeup}}
+\index{test1\_class\_get\_closeup@{test1\_class\_get\_closeup}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_closeup()}{test1\_class\_get\_closeup()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+closeup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000046}{Test}}]Test getting full closeup from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to class with defined closeup 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a843369515f30abd1d91fd80eeace063e}\label{class__test_8c_a843369515f30abd1d91fd80eeace063e} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_closeup\_at\_pos@{test1\_class\_get\_closeup\_at\_pos}}
+\index{test1\_class\_get\_closeup\_at\_pos@{test1\_class\_get\_closeup\_at\_pos}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_closeup\_at\_pos()}{test1\_class\_get\_closeup\_at\_pos()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+closeup\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000044}{Test}}]Test getting closeup at a position from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid pos 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected line 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_acb96bfc83759957ff4731a790a7d3235}\label{class__test_8c_acb96bfc83759957ff4731a790a7d3235} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_dependency@{test1\_class\_get\_dependency}}
+\index{test1\_class\_get\_dependency@{test1\_class\_get\_dependency}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_dependency()}{test1\_class\_get\_dependency()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+dependency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000054}{Test}}]Test getting dependency from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid Id pointer 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a060331003ef28adb98a9f7a290d23717}\label{class__test_8c_a060331003ef28adb98a9f7a290d23717} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_desc@{test1\_class\_get\_desc}}
+\index{test1\_class\_get\_desc@{test1\_class\_get\_desc}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_desc()}{test1\_class\_get\_desc()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+desc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000040}{Test}}]Test getting description from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to class with known description 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected description 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_ac5d1f4458572195d024ff26254bf7c67}\label{class__test_8c_ac5d1f4458572195d024ff26254bf7c67} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_id@{test1\_class\_get\_id}}
+\index{test1\_class\_get\_id@{test1\_class\_get\_id}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_id()}{test1\_class\_get\_id()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000028}{Test}}]Test getting class ID from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to class with known ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected ID 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_aa3dcfcf037d98de08c0ba919a597f884}\label{class__test_8c_aa3dcfcf037d98de08c0ba919a597f884} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_luck@{test1\_class\_get\_luck}}
+\index{test1\_class\_get\_luck@{test1\_class\_get\_luck}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_luck()}{test1\_class\_get\_luck()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+luck (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000062}{Test}}]Test getting luck value from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to class with known luck 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected luck 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_ab8b4203139ca8ec952718e0aa7b13fe8}\label{class__test_8c_ab8b4203139ca8ec952718e0aa7b13fe8} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_movable@{test1\_class\_get\_movable}}
+\index{test1\_class\_get\_movable@{test1\_class\_get\_movable}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_movable()}{test1\_class\_get\_movable()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+movable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000050}{Test}}]Test getting movable property from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid bool pointer 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a850c36e2b54ee0f2ccd67e5d847ab772}\label{class__test_8c_a850c36e2b54ee0f2ccd67e5d847ab772} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_name@{test1\_class\_get\_name}}
+\index{test1\_class\_get\_name@{test1\_class\_get\_name}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_name()}{test1\_class\_get\_name()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000036}{Test}}]Test getting class name from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to class with known name 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected name 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a823d60a02a170c0ca76fcc45a50cf060}\label{class__test_8c_a823d60a02a170c0ca76fcc45a50cf060} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_open@{test1\_class\_get\_open}}
+\index{test1\_class\_get\_open@{test1\_class\_get\_open}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_open()}{test1\_class\_get\_open()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000058}{Test}}]Test getting open property from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid Id pointer 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_ab5032a894366b6308cef5eee7561744f}\label{class__test_8c_ab5032a894366b6308cef5eee7561744f} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_get\_tag@{test1\_class\_get\_tag}}
+\index{test1\_class\_get\_tag@{test1\_class\_get\_tag}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_get\_tag()}{test1\_class\_get\_tag()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+get\+\_\+tag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000032}{Test}}]Test getting class tag from valid class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to class with known tag 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected tag 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a95dff044faeae7d64cde4205ca5e35ea}\label{class__test_8c_a95dff044faeae7d64cde4205ca5e35ea} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_set\_closeup\_at\_pos@{test1\_class\_set\_closeup\_at\_pos}}
+\index{test1\_class\_set\_closeup\_at\_pos@{test1\_class\_set\_closeup\_at\_pos}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_set\_closeup\_at\_pos()}{test1\_class\_set\_closeup\_at\_pos()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+set\+\_\+closeup\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000048}{Test}}]Test setting closeup at a position with valid data \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer, valid pos and string 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a9242d40d2a770eb76c83d18aa8d59371}\label{class__test_8c_a9242d40d2a770eb76c83d18aa8d59371} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_set\_dependency@{test1\_class\_set\_dependency}}
+\index{test1\_class\_set\_dependency@{test1\_class\_set\_dependency}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_set\_dependency()}{test1\_class\_set\_dependency()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+set\+\_\+dependency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000056}{Test}}]Test setting dependency with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid Id 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_aa7c78de07249d0cff02bec7dfbb5378b}\label{class__test_8c_aa7c78de07249d0cff02bec7dfbb5378b} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_set\_desc@{test1\_class\_set\_desc}}
+\index{test1\_class\_set\_desc@{test1\_class\_set\_desc}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_set\_desc()}{test1\_class\_set\_desc()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+set\+\_\+desc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000042}{Test}}]Test setting description with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid description 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_af425a0c377784679d75acd80daa80b5b}\label{class__test_8c_af425a0c377784679d75acd80daa80b5b} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_set\_id@{test1\_class\_set\_id}}
+\index{test1\_class\_set\_id@{test1\_class\_set\_id}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_set\_id()}{test1\_class\_set\_id()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+set\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000030}{Test}}]Test setting class ID with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a9a90e6d4862c8982122fae159aea3aed}\label{class__test_8c_a9a90e6d4862c8982122fae159aea3aed} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_set\_luck@{test1\_class\_set\_luck}}
+\index{test1\_class\_set\_luck@{test1\_class\_set\_luck}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_set\_luck()}{test1\_class\_set\_luck()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+set\+\_\+luck (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000064}{Test}}]Test setting luck value with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid integer 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a68fec3617d7294e2290f373ce780ace3}\label{class__test_8c_a68fec3617d7294e2290f373ce780ace3} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_set\_movable@{test1\_class\_set\_movable}}
+\index{test1\_class\_set\_movable@{test1\_class\_set\_movable}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_set\_movable()}{test1\_class\_set\_movable()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+set\+\_\+movable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000052}{Test}}]Test setting movable property with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid boolean 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a8b50781d9c77a5a425b7844b76bc3604}\label{class__test_8c_a8b50781d9c77a5a425b7844b76bc3604} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_set\_name@{test1\_class\_set\_name}}
+\index{test1\_class\_set\_name@{test1\_class\_set\_name}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_set\_name()}{test1\_class\_set\_name()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+set\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000038}{Test}}]Test setting class name with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid name 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a04821e406c11676c9c12259fd270ab4b}\label{class__test_8c_a04821e406c11676c9c12259fd270ab4b} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_set\_open@{test1\_class\_set\_open}}
+\index{test1\_class\_set\_open@{test1\_class\_set\_open}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_set\_open()}{test1\_class\_set\_open()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+set\+\_\+open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000060}{Test}}]Test setting open property with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid Id 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a32e36fdbb032c21bf710e9970d37e404}\label{class__test_8c_a32e36fdbb032c21bf710e9970d37e404} 
+\index{class\_test.c@{class\_test.c}!test1\_class\_set\_tag@{test1\_class\_set\_tag}}
+\index{test1\_class\_set\_tag@{test1\_class\_set\_tag}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_class\_set\_tag()}{test1\_class\_set\_tag()}}
+{\footnotesize\ttfamily void test1\+\_\+class\+\_\+set\+\_\+tag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000034}{Test}}]Test setting class tag with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid tag 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_ae31b72631da3e14bf1ba3910a097a097}\label{class__test_8c_ae31b72631da3e14bf1ba3910a097a097} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_create@{test2\_class\_create}}
+\index{test2\_class\_create@{test2\_class\_create}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_create()}{test2\_class\_create()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000025}{Test}}]Test class creation with invalid ID (NO\+\_\+\+ID) \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NO\+\_\+\+ID as ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NULL 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_ae6a94be0e30677059a7e5ed56fd7543b}\label{class__test_8c_ae6a94be0e30677059a7e5ed56fd7543b} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_destroy@{test2\_class\_destroy}}
+\index{test2\_class\_destroy@{test2\_class\_destroy}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_destroy()}{test2\_class\_destroy()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000027}{Test}}]Test class destruction with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a82329b99f8f72c83d327c3610a016d78}\label{class__test_8c_a82329b99f8f72c83d327c3610a016d78} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_closeup@{test2\_class\_get\_closeup}}
+\index{test2\_class\_get\_closeup@{test2\_class\_get\_closeup}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_closeup()}{test2\_class\_get\_closeup()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+closeup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000047}{Test}}]Test getting closeup with NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a2cda1c67467b8faac47e5a07ed4f3239}\label{class__test_8c_a2cda1c67467b8faac47e5a07ed4f3239} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_closeup\_at\_pos@{test2\_class\_get\_closeup\_at\_pos}}
+\index{test2\_class\_get\_closeup\_at\_pos@{test2\_class\_get\_closeup\_at\_pos}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_closeup\_at\_pos()}{test2\_class\_get\_closeup\_at\_pos()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+closeup\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000045}{Test}}]Test getting closeup at position with NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NULL 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a62805d48b0ea02b7334d27a1244bfe3c}\label{class__test_8c_a62805d48b0ea02b7334d27a1244bfe3c} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_dependency@{test2\_class\_get\_dependency}}
+\index{test2\_class\_get\_dependency@{test2\_class\_get\_dependency}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_dependency()}{test2\_class\_get\_dependency()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+dependency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000055}{Test}}]Test getting dependency from NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a7ddc57121cc9d0a5a1f0f76b9d83a177}\label{class__test_8c_a7ddc57121cc9d0a5a1f0f76b9d83a177} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_desc@{test2\_class\_get\_desc}}
+\index{test2\_class\_get\_desc@{test2\_class\_get\_desc}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_desc()}{test2\_class\_get\_desc()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+desc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000041}{Test}}]Test getting description from NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NULL 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a9bc6a07070f417a9ae0b382aae159740}\label{class__test_8c_a9bc6a07070f417a9ae0b382aae159740} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_id@{test2\_class\_get\_id}}
+\index{test2\_class\_get\_id@{test2\_class\_get\_id}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_id()}{test2\_class\_get\_id()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000029}{Test}}]Test getting ID from NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NO\+\_\+\+ID 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a45ba5b97677a5e97a4e849c924e41b19}\label{class__test_8c_a45ba5b97677a5e97a4e849c924e41b19} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_luck@{test2\_class\_get\_luck}}
+\index{test2\_class\_get\_luck@{test2\_class\_get\_luck}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_luck()}{test2\_class\_get\_luck()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+luck (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000063}{Test}}]Test getting luck from NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == -\/1 (or error value) 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_acd32c676b0a721e1029cccfcf1fb8d41}\label{class__test_8c_acd32c676b0a721e1029cccfcf1fb8d41} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_movable@{test2\_class\_get\_movable}}
+\index{test2\_class\_get\_movable@{test2\_class\_get\_movable}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_movable()}{test2\_class\_get\_movable()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+movable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000051}{Test}}]Test getting movable from NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_aa1c51f2ece711e493f16b64e93b2d110}\label{class__test_8c_aa1c51f2ece711e493f16b64e93b2d110} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_name@{test2\_class\_get\_name}}
+\index{test2\_class\_get\_name@{test2\_class\_get\_name}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_name()}{test2\_class\_get\_name()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000037}{Test}}]Test getting name from NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NULL 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_af8bea81e1d23f8826ed3a5cf8a1517b5}\label{class__test_8c_af8bea81e1d23f8826ed3a5cf8a1517b5} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_open@{test2\_class\_get\_open}}
+\index{test2\_class\_get\_open@{test2\_class\_get\_open}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_open()}{test2\_class\_get\_open()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000059}{Test}}]Test getting open from NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a3f73499539f350f4cd028b9f4a05ceba}\label{class__test_8c_a3f73499539f350f4cd028b9f4a05ceba} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_get\_tag@{test2\_class\_get\_tag}}
+\index{test2\_class\_get\_tag@{test2\_class\_get\_tag}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_get\_tag()}{test2\_class\_get\_tag()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+get\+\_\+tag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000033}{Test}}]Test getting tag from NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NO\+\_\+\+TAG or equivalent 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_aed05575e7c0118a2882ae98827935837}\label{class__test_8c_aed05575e7c0118a2882ae98827935837} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_set\_closeup\_at\_pos@{test2\_class\_set\_closeup\_at\_pos}}
+\index{test2\_class\_set\_closeup\_at\_pos@{test2\_class\_set\_closeup\_at\_pos}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_set\_closeup\_at\_pos()}{test2\_class\_set\_closeup\_at\_pos()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+set\+\_\+closeup\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000049}{Test}}]Test setting closeup at position with NULL class \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a382535f9fc18c90c62d73eefeb7dc96f}\label{class__test_8c_a382535f9fc18c90c62d73eefeb7dc96f} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_set\_dependency@{test2\_class\_set\_dependency}}
+\index{test2\_class\_set\_dependency@{test2\_class\_set\_dependency}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_set\_dependency()}{test2\_class\_set\_dependency()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+set\+\_\+dependency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000057}{Test}}]Test setting dependency with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a9e63b08cd1db4396fc90d8e3e8695843}\label{class__test_8c_a9e63b08cd1db4396fc90d8e3e8695843} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_set\_desc@{test2\_class\_set\_desc}}
+\index{test2\_class\_set\_desc@{test2\_class\_set\_desc}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_set\_desc()}{test2\_class\_set\_desc()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+set\+\_\+desc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000043}{Test}}]Test setting description with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a775bdb71b5623bca68914bf9fc186b5e}\label{class__test_8c_a775bdb71b5623bca68914bf9fc186b5e} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_set\_id@{test2\_class\_set\_id}}
+\index{test2\_class\_set\_id@{test2\_class\_set\_id}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_set\_id()}{test2\_class\_set\_id()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+set\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000031}{Test}}]Test setting ID with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a29f898d9ff717d56edf6cd8a90484050}\label{class__test_8c_a29f898d9ff717d56edf6cd8a90484050} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_set\_luck@{test2\_class\_set\_luck}}
+\index{test2\_class\_set\_luck@{test2\_class\_set\_luck}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_set\_luck()}{test2\_class\_set\_luck()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+set\+\_\+luck (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000065}{Test}}]Test setting luck with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a907ac10d665ba6cbb8601403be430c1f}\label{class__test_8c_a907ac10d665ba6cbb8601403be430c1f} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_set\_movable@{test2\_class\_set\_movable}}
+\index{test2\_class\_set\_movable@{test2\_class\_set\_movable}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_set\_movable()}{test2\_class\_set\_movable()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+set\+\_\+movable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000053}{Test}}]Test setting movable with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_ab916776c361e9f290b1bc38746c33dd0}\label{class__test_8c_ab916776c361e9f290b1bc38746c33dd0} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_set\_name@{test2\_class\_set\_name}}
+\index{test2\_class\_set\_name@{test2\_class\_set\_name}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_set\_name()}{test2\_class\_set\_name()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+set\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000039}{Test}}]Test setting name with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_aeeb4553cf92bad2d319f6145d3887649}\label{class__test_8c_aeeb4553cf92bad2d319f6145d3887649} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_set\_open@{test2\_class\_set\_open}}
+\index{test2\_class\_set\_open@{test2\_class\_set\_open}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_set\_open()}{test2\_class\_set\_open()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+set\+\_\+open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000061}{Test}}]Test setting open with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{class__test_8c_a3c5eb569c41c34241a2864d09be370e1}\label{class__test_8c_a3c5eb569c41c34241a2864d09be370e1} 
+\index{class\_test.c@{class\_test.c}!test2\_class\_set\_tag@{test2\_class\_set\_tag}}
+\index{test2\_class\_set\_tag@{test2\_class\_set\_tag}!class\_test.c@{class\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_class\_set\_tag()}{test2\_class\_set\_tag()}}
+{\footnotesize\ttfamily void test2\+\_\+class\+\_\+set\+\_\+tag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000035}{Test}}]Test setting tag with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to class 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}

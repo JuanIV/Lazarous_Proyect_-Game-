@@ -1,0 +1,536 @@
+\doxysection{include/game\+\_\+management.h File Reference}
+\hypertarget{game__management_8h}{}\label{game__management_8h}\index{include/game\_management.h@{include/game\_management.h}}
+
+
+It allows to load games saved from files.  
+
+
+{\ttfamily \#include "{}game.\+h"{}}\newline
+{\ttfamily \#include "{}types.\+h"{}}\newline
+Include dependency graph for game\+\_\+management.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{game__management_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{game__management_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_ae41fbbaaac1f3e7d44df9bf8b53da991}{game\+\_\+management\+\_\+load\+\_\+links}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+create\+\_\+from\+\_\+file to load the links from a file to a game \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a1f008e5018a39a2fe6ff230decd8bdb0}{game\+\_\+management\+\_\+load\+\_\+minimap}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, const char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em Loads the minimap from a file to a game. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a18d8e2e445c39710504201ce41953c93}{game\+\_\+management\+\_\+load\+\_\+classes}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em Loads the classes from a file to a game. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_aefec8163fc772101d4d49efee906eeae}{game\+\_\+management\+\_\+load\+\_\+objects}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+create\+\_\+from\+\_\+file to load the objects from a file to a game \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_adfbedad6f52e2fb2d499568154f8c670}{game\+\_\+management\+\_\+load\+\_\+players}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+create\+\_\+from\+\_\+file to load the players from a file to a game \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a532d38e04d3076e8d9ad9bedf418b779}{game\+\_\+management\+\_\+load\+\_\+turn}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+create\+\_\+from\+\_\+file to load the turn from a file to a game \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a028697e49588ae3f702d2b519b023e48}{game\+\_\+management\+\_\+load\+\_\+mode}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+create\+\_\+from\+\_\+file to load the mode from a file to a game \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_ab0771696a17fa28c0ef04d9e15bb7a38}{game\+\_\+management\+\_\+load\+\_\+characters}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+create\+\_\+from\+\_\+file to load the characters from a file to a game \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a02f1526f60a2040307f98e2631935923}{game\+\_\+management\+\_\+load\+\_\+spaces}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+create\+\_\+from\+\_\+file to load the space from a file to a game \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_ace8d4bc9b69a55e6f98c6905b2bf17dd}{game\+\_\+management\+\_\+load\+\_\+interface\+\_\+data}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+create\+\_\+from\+\_\+file to load the players information (interface data) from a file to a game \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_af6c8aeccbf67e4bdf6e53632eab31b80}{game\+\_\+management\+\_\+save\+\_\+links}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the links from a game to a file \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a39ae72aceec8f50fe8298ed1e9073f87}{game\+\_\+management\+\_\+save\+\_\+minimap}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, const char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the minimap from a game to a file \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a6de18858b8b6c8c5dae39455d2db6f25}{game\+\_\+management\+\_\+save\+\_\+classes}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the classes from a game to a file \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_aed1498a22f1202ad33e8483a8702a592}{game\+\_\+management\+\_\+save\+\_\+objects}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the objects from a game to a file \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a975e6399b5151127f6c4838d1166922e}{game\+\_\+management\+\_\+save\+\_\+players}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the players from a game to a file \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a4053493c9e2fdee9d44524b9a8dedbf4}{game\+\_\+management\+\_\+save\+\_\+characters}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the characters from a game to a file \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_addebaafd04edba8112ce3090545880d8}{game\+\_\+management\+\_\+save\+\_\+spaces}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the space from a game to a file \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_abf17d1708f5f2dca5ab0f76ceebfa646}{game\+\_\+management\+\_\+save\+\_\+turn}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the current turn from a game to a file \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_aa064b4386ef711f9d012cbf43db8883e}{game\+\_\+management\+\_\+save\+\_\+mode}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the current mode from a game to a file \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__management_8h_a225dd5e6d04acf38c2e2a2d69400e579}{game\+\_\+management\+\_\+save\+\_\+interface\+\_\+data}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em function used in game\+\_\+save to save the players info (interface data) from a game to a file \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It allows to load games saved from files. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+03-\/02-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{game__management_8h_ab0771696a17fa28c0ef04d9e15bb7a38}\label{game__management_8h_ab0771696a17fa28c0ef04d9e15bb7a38} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_characters@{game\_management\_load\_characters}}
+\index{game\_management\_load\_characters@{game\_management\_load\_characters}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_characters()}{game\_management\_load\_characters()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+characters (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+create\+\_\+from\+\_\+file to load the characters from a file to a game 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko Yaskerska
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the characters will be stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the characters loaded correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a18d8e2e445c39710504201ce41953c93}\label{game__management_8h_a18d8e2e445c39710504201ce41953c93} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_classes@{game\_management\_load\_classes}}
+\index{game\_management\_load\_classes@{game\_management\_load\_classes}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_classes()}{game\_management\_load\_classes()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+classes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+Loads the classes from a file to a game. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the spaces will be stored \\
+\hline
+{\em filename} & Name of the file with the data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the classes loaded correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_ace8d4bc9b69a55e6f98c6905b2bf17dd}\label{game__management_8h_ace8d4bc9b69a55e6f98c6905b2bf17dd} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_interface\_data@{game\_management\_load\_interface\_data}}
+\index{game\_management\_load\_interface\_data@{game\_management\_load\_interface\_data}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_interface\_data()}{game\_management\_load\_interface\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+interface\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+create\+\_\+from\+\_\+file to load the players information (interface data) from a file to a game 
+
+\begin{DoxyAuthor}{Author}
+Lucas Blanco
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the players will be stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the players info was loaded correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_ae41fbbaaac1f3e7d44df9bf8b53da991}\label{game__management_8h_ae41fbbaaac1f3e7d44df9bf8b53da991} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_links@{game\_management\_load\_links}}
+\index{game\_management\_load\_links@{game\_management\_load\_links}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_links()}{game\_management\_load\_links()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+links (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+create\+\_\+from\+\_\+file to load the links from a file to a game 
+
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the spaces will be stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the links loaded correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a1f008e5018a39a2fe6ff230decd8bdb0}\label{game__management_8h_a1f008e5018a39a2fe6ff230decd8bdb0} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_minimap@{game\_management\_load\_minimap}}
+\index{game\_management\_load\_minimap@{game\_management\_load\_minimap}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_minimap()}{game\_management\_load\_minimap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+minimap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+Loads the minimap from a file to a game. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Pointer} & to the game which minimap will be loaded \\
+\hline
+{\em filename} & Name of the file with the data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the minimap loaded correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a028697e49588ae3f702d2b519b023e48}\label{game__management_8h_a028697e49588ae3f702d2b519b023e48} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_mode@{game\_management\_load\_mode}}
+\index{game\_management\_load\_mode@{game\_management\_load\_mode}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_mode()}{game\_management\_load\_mode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+mode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+create\+\_\+from\+\_\+file to load the mode from a file to a game 
+
+\begin{DoxyAuthor}{Author}
+Lucas Blanco Rodriguez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the players will be stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the space saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_aefec8163fc772101d4d49efee906eeae}\label{game__management_8h_aefec8163fc772101d4d49efee906eeae} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_objects@{game\_management\_load\_objects}}
+\index{game\_management\_load\_objects@{game\_management\_load\_objects}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_objects()}{game\_management\_load\_objects()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+objects (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+create\+\_\+from\+\_\+file to load the objects from a file to a game 
+
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the objects will be stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the objects loaded correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_adfbedad6f52e2fb2d499568154f8c670}\label{game__management_8h_adfbedad6f52e2fb2d499568154f8c670} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_players@{game\_management\_load\_players}}
+\index{game\_management\_load\_players@{game\_management\_load\_players}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_players()}{game\_management\_load\_players()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+players (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+create\+\_\+from\+\_\+file to load the players from a file to a game 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko Yaskerska
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the players will be stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the players loaded correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a02f1526f60a2040307f98e2631935923}\label{game__management_8h_a02f1526f60a2040307f98e2631935923} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_spaces@{game\_management\_load\_spaces}}
+\index{game\_management\_load\_spaces@{game\_management\_load\_spaces}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_spaces()}{game\_management\_load\_spaces()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+spaces (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+create\+\_\+from\+\_\+file to load the space from a file to a game 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko Yaskerska
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the spaces will be stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the space loaded correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a532d38e04d3076e8d9ad9bedf418b779}\label{game__management_8h_a532d38e04d3076e8d9ad9bedf418b779} 
+\index{game\_management.h@{game\_management.h}!game\_management\_load\_turn@{game\_management\_load\_turn}}
+\index{game\_management\_load\_turn@{game\_management\_load\_turn}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_load\_turn()}{game\_management\_load\_turn()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+load\+\_\+turn (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+create\+\_\+from\+\_\+file to load the turn from a file to a game 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the players will be stored \\
+\hline
+{\em filename} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the space saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a4053493c9e2fdee9d44524b9a8dedbf4}\label{game__management_8h_a4053493c9e2fdee9d44524b9a8dedbf4} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_characters@{game\_management\_save\_characters}}
+\index{game\_management\_save\_characters@{game\_management\_save\_characters}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_characters()}{game\_management\_save\_characters()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+characters (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the characters from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the characters are currently stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the characters saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a6de18858b8b6c8c5dae39455d2db6f25}\label{game__management_8h_a6de18858b8b6c8c5dae39455d2db6f25} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_classes@{game\_management\_save\_classes}}
+\index{game\_management\_save\_classes@{game\_management\_save\_classes}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_classes()}{game\_management\_save\_classes()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+classes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the classes from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the spaces are currently stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the classes saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a225dd5e6d04acf38c2e2a2d69400e579}\label{game__management_8h_a225dd5e6d04acf38c2e2a2d69400e579} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_interface\_data@{game\_management\_save\_interface\_data}}
+\index{game\_management\_save\_interface\_data@{game\_management\_save\_interface\_data}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_interface\_data()}{game\_management\_save\_interface\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+interface\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the players info (interface data) from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Lucas Blanco
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the players are currently stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the players info was saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_af6c8aeccbf67e4bdf6e53632eab31b80}\label{game__management_8h_af6c8aeccbf67e4bdf6e53632eab31b80} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_links@{game\_management\_save\_links}}
+\index{game\_management\_save\_links@{game\_management\_save\_links}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_links()}{game\_management\_save\_links()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+links (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the links from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the spaces are currently stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the links saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a39ae72aceec8f50fe8298ed1e9073f87}\label{game__management_8h_a39ae72aceec8f50fe8298ed1e9073f87} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_minimap@{game\_management\_save\_minimap}}
+\index{game\_management\_save\_minimap@{game\_management\_save\_minimap}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_minimap()}{game\_management\_save\_minimap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+minimap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the minimap from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the minimap is currently stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the minimap saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_aa064b4386ef711f9d012cbf43db8883e}\label{game__management_8h_aa064b4386ef711f9d012cbf43db8883e} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_mode@{game\_management\_save\_mode}}
+\index{game\_management\_save\_mode@{game\_management\_save\_mode}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_mode()}{game\_management\_save\_mode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+mode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the current mode from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Lucas Blanco Rodriguez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the spaces will be stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the space saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_aed1498a22f1202ad33e8483a8702a592}\label{game__management_8h_aed1498a22f1202ad33e8483a8702a592} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_objects@{game\_management\_save\_objects}}
+\index{game\_management\_save\_objects@{game\_management\_save\_objects}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_objects()}{game\_management\_save\_objects()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+objects (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the objects from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the spaces are currently stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the objects saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_a975e6399b5151127f6c4838d1166922e}\label{game__management_8h_a975e6399b5151127f6c4838d1166922e} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_players@{game\_management\_save\_players}}
+\index{game\_management\_save\_players@{game\_management\_save\_players}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_players()}{game\_management\_save\_players()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+players (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the players from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the players are currently stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the players saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_addebaafd04edba8112ce3090545880d8}\label{game__management_8h_addebaafd04edba8112ce3090545880d8} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_spaces@{game\_management\_save\_spaces}}
+\index{game\_management\_save\_spaces@{game\_management\_save\_spaces}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_spaces()}{game\_management\_save\_spaces()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+spaces (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the space from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the spaces are currently stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the space saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}
+\Hypertarget{game__management_8h_abf17d1708f5f2dca5ab0f76ceebfa646}\label{game__management_8h_abf17d1708f5f2dca5ab0f76ceebfa646} 
+\index{game\_management.h@{game\_management.h}!game\_management\_save\_turn@{game\_management\_save\_turn}}
+\index{game\_management\_save\_turn@{game\_management\_save\_turn}!game\_management.h@{game\_management.h}}
+\doxysubsubsection{\texorpdfstring{game\_management\_save\_turn()}{game\_management\_save\_turn()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+management\+\_\+save\+\_\+turn (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
+
+
+
+function used in game\+\_\+save to save the current turn from a game to a file 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game where the spaces will be stored \\
+\hline
+{\em filename} & Name of the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the space saved correctly, ERROR if there was any mistake 
+\end{DoxyReturn}

@@ -1,0 +1,610 @@
+\doxysection{src/game\+\_\+actions.c File Reference}
+\hypertarget{game__actions_8c}{}\label{game__actions_8c}\index{src/game\_actions.c@{src/game\_actions.c}}
+
+
+It implements the game update through user actions.  
+
+
+{\ttfamily \#include "{}game\+\_\+actions.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$strings.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+Include dependency graph for game\+\_\+actions.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{game__actions_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{game__actions_8c_a398cae65349fdadf8eaa8143b90f6839}\label{game__actions_8c_a398cae65349fdadf8eaa8143b90f6839} 
+\#define {\bfseries ATK\+\_\+\+RNG}~100
+\begin{DoxyCompactList}\small\item\em Defines the range of results you can get when attacking an enemy. \end{DoxyCompactList}\item 
+\Hypertarget{game__actions_8c_ab64c016a0af95a27cec5451508400d15}\label{game__actions_8c_ab64c016a0af95a27cec5451508400d15} 
+\#define {\bfseries ATK\+\_\+\+WIN}~20
+\begin{DoxyCompactList}\small\item\em Defines the minimum number you have to get to land an attack. \end{DoxyCompactList}\item 
+\Hypertarget{game__actions_8c_a8682b260bd6924a7283cc84cbe04652d}\label{game__actions_8c_a8682b260bd6924a7283cc84cbe04652d} 
+\#define {\bfseries ATK\+\_\+\+ACC\+\_\+\+RNG}~1000
+\begin{DoxyCompactList}\small\item\em Defines the range of results for an accident to happen. \end{DoxyCompactList}\item 
+\Hypertarget{game__actions_8c_a1dd7fda4a8cafe9cb29ddfa7612f09e7}\label{game__actions_8c_a1dd7fda4a8cafe9cb29ddfa7612f09e7} 
+\#define {\bfseries ATK\+\_\+\+ACCIDENT}~950
+\begin{DoxyCompactList}\small\item\em Defines the minimum number you have to get for an accident to happen while attacking. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{game__actions_8c_a6f4777fc8b60f74ffb82fb3df7e20e07}{game\+\_\+actions\+\_\+unknown}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action that the "{}\+Unknown"{} command executes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_afc2847a7b83e67020a117fa8e1a79c5d}{game\+\_\+actions\+\_\+exit}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action that the "{}\+Exit"{} command executes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a4a158b09e0b0607e55daee8f2fd04b10}{game\+\_\+actions\+\_\+move}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action that the "{}\+Move"{} command executes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_ade93d5e908cecd1e78eeaaa19e9d5387}{game\+\_\+actions\+\_\+take}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of taking an object from the players current space. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a269baddb92b4a469576ff8c3c1ed3440}{game\+\_\+actions\+\_\+drop}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of dropping an object on the players current space. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a68d58c80a2e0f552557788459d60926f}{game\+\_\+actions\+\_\+attack}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of attacking an enemy on your space. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_af712cf743e59ba4c75c95c1bae96a6c9}{game\+\_\+actions\+\_\+chat}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of chatting with a friendly character. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_aba91c42bed50e457b994452bfd717e5d}{game\+\_\+actions\+\_\+inspect}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of inspecting an object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_ac6a72a0e4105ee744442d72adc996f5a}{game\+\_\+actions\+\_\+recruit}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of recruiting a character. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_ac26f56d5a5891c0813c329c755b72149}{game\+\_\+actions\+\_\+abandon}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of abandoning a character. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a552acf1922a783bdfc8bc4ab609bdb1a}{game\+\_\+actions\+\_\+use}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of using an object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a5c2d71a9569f72f252324b15887850ea}{game\+\_\+actions\+\_\+use\+\_\+healer}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}obj, \mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}trg)
+\begin{DoxyCompactList}\small\item\em Action of using a healing item. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_aed44b4e0edb67f512634565768108a50}{game\+\_\+actions\+\_\+equip\+\_\+armor}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}obj, \mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}trg)
+\begin{DoxyCompactList}\small\item\em Action of equipping an armor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a1f05a6bda9316164dfda894f107d17dd}{game\+\_\+actions\+\_\+equip\+\_\+weapon}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}obj, \mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}trg)
+\begin{DoxyCompactList}\small\item\em Action of equipping a weapon. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a8dc008ffd6be8f39208d02f19c0c4e45}{game\+\_\+actions\+\_\+set\+\_\+trap}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}obj)
+\begin{DoxyCompactList}\small\item\em Action of setting a trap on current space. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_ad0cac1a42472a37c234512728284b871}{game\+\_\+actions\+\_\+read\+\_\+note}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}obj)
+\begin{DoxyCompactList}\small\item\em Action of reading a note. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_acd223e2690a308e68d67ecef286d337a}{game\+\_\+actions\+\_\+use\+\_\+switch}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}obj)
+\begin{DoxyCompactList}\small\item\em Action of using a switch. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a94dcda498bf970d8edc7330df30d3364}{game\+\_\+actions\+\_\+save}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of saving the game. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a1a22f1b902fd476e05ffe02178569f6d}{game\+\_\+actions\+\_\+load}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of loading a game. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a698537d4c94edd24d6a46f4dedfa98fb}{game\+\_\+actions\+\_\+open\+\_\+link}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em Tries to open a link with or whithout an object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_ae90a145e93e13d57877738a5b0daa0e9}{game\+\_\+actions\+\_\+close\+\_\+link}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em Closes a link. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a48bcb26e82550917fa74220533d7ad78}{game\+\_\+actions\+\_\+accept}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em Accepts a request. Works paired with game\+\_\+rules. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_ae275ddc633af31b3a55e767eadb049f9}{game\+\_\+actions\+\_\+deny}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em Denies a request. Works paired with game\+\_\+rules. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_add6c27ebff46d72ab0e7a6f6e0bc5287}{game\+\_\+actions\+\_\+cooperate}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em Command to cooperate with another player. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a2198eb66fdc90006ab4450607b7d21eb}{game\+\_\+actions\+\_\+betray}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em Command to betray your team. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__actions_8c_a2c2a34aedd9f2098e09178cd9d4824e7}{game\+\_\+actions\+\_\+view}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em It defines the action of using an object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__actions_8c_a759e554dad7c51ff897414bb18f4110e}{game\+\_\+actions\+\_\+update}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{command_8h_a7d2935971c252377cb0fc1c8545dc2bc}{Command}} \texorpdfstring{$\ast$}{*}command, \mbox{\hyperlink{command_8h_a805cf38fd2b6d5604bf1f1036b80fde2}{Command\+Code}} \texorpdfstring{$\ast$}{*}cmd\+\_\+code, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} update)
+\begin{DoxyCompactList}\small\item\em Sets a given command as last command and executes its corresponding action. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It implements the game update through user actions. 
+
+\begin{DoxyAuthor}{Author}
+Profesores PPROG 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+27-\/01-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{game__actions_8c_ac26f56d5a5891c0813c329c755b72149}\label{game__actions_8c_ac26f56d5a5891c0813c329c755b72149} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_abandon@{game\_actions\_abandon}}
+\index{game\_actions\_abandon@{game\_actions\_abandon}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_abandon()}{game\_actions\_abandon()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+abandon (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of abandoning a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a48bcb26e82550917fa74220533d7ad78}\label{game__actions_8c_a48bcb26e82550917fa74220533d7ad78} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_accept@{game\_actions\_accept}}
+\index{game\_actions\_accept@{game\_actions\_accept}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_accept()}{game\_actions\_accept()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+accept (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+Accepts a request. Works paired with game\+\_\+rules. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a68d58c80a2e0f552557788459d60926f}\label{game__actions_8c_a68d58c80a2e0f552557788459d60926f} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_attack@{game\_actions\_attack}}
+\index{game\_actions\_attack@{game\_actions\_attack}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_attack()}{game\_actions\_attack()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+attack (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of attacking an enemy on your space. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a2198eb66fdc90006ab4450607b7d21eb}\label{game__actions_8c_a2198eb66fdc90006ab4450607b7d21eb} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_betray@{game\_actions\_betray}}
+\index{game\_actions\_betray@{game\_actions\_betray}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_betray()}{game\_actions\_betray()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+betray (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+Command to betray your team. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_af712cf743e59ba4c75c95c1bae96a6c9}\label{game__actions_8c_af712cf743e59ba4c75c95c1bae96a6c9} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_chat@{game\_actions\_chat}}
+\index{game\_actions\_chat@{game\_actions\_chat}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_chat()}{game\_actions\_chat()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+chat (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of chatting with a friendly character. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_ae90a145e93e13d57877738a5b0daa0e9}\label{game__actions_8c_ae90a145e93e13d57877738a5b0daa0e9} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_close\_link@{game\_actions\_close\_link}}
+\index{game\_actions\_close\_link@{game\_actions\_close\_link}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_close\_link()}{game\_actions\_close\_link()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+close\+\_\+link (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+Closes a link. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_add6c27ebff46d72ab0e7a6f6e0bc5287}\label{game__actions_8c_add6c27ebff46d72ab0e7a6f6e0bc5287} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_cooperate@{game\_actions\_cooperate}}
+\index{game\_actions\_cooperate@{game\_actions\_cooperate}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_cooperate()}{game\_actions\_cooperate()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+cooperate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+Command to cooperate with another player. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_ae275ddc633af31b3a55e767eadb049f9}\label{game__actions_8c_ae275ddc633af31b3a55e767eadb049f9} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_deny@{game\_actions\_deny}}
+\index{game\_actions\_deny@{game\_actions\_deny}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_deny()}{game\_actions\_deny()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+deny (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+Denies a request. Works paired with game\+\_\+rules. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a269baddb92b4a469576ff8c3c1ed3440}\label{game__actions_8c_a269baddb92b4a469576ff8c3c1ed3440} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_drop@{game\_actions\_drop}}
+\index{game\_actions\_drop@{game\_actions\_drop}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_drop()}{game\_actions\_drop()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+drop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of dropping an object on the players current space. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & pointer to the game \\
+\hline
+{\em name} & name of the object to drop \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_aed44b4e0edb67f512634565768108a50}\label{game__actions_8c_aed44b4e0edb67f512634565768108a50} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_equip\_armor@{game\_actions\_equip\_armor}}
+\index{game\_actions\_equip\_armor@{game\_actions\_equip\_armor}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_equip\_armor()}{game\_actions\_equip\_armor()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+equip\+\_\+armor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}}]{obj,  }\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{trg }\end{DoxyParamCaption})}
+
+
+
+Action of equipping an armor. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em obj} & Pointer to the object that is the armor \\
+\hline
+{\em trg} & Pointer to the character that will have the armor \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a1f05a6bda9316164dfda894f107d17dd}\label{game__actions_8c_a1f05a6bda9316164dfda894f107d17dd} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_equip\_weapon@{game\_actions\_equip\_weapon}}
+\index{game\_actions\_equip\_weapon@{game\_actions\_equip\_weapon}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_equip\_weapon()}{game\_actions\_equip\_weapon()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+equip\+\_\+weapon (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}}]{obj,  }\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{trg }\end{DoxyParamCaption})}
+
+
+
+Action of equipping a weapon. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em obj} & Pointer to the object that is the weapon \\
+\hline
+{\em trg} & Pointer to the character that will have the weapon \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_afc2847a7b83e67020a117fa8e1a79c5d}\label{game__actions_8c_afc2847a7b83e67020a117fa8e1a79c5d} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_exit@{game\_actions\_exit}}
+\index{game\_actions\_exit@{game\_actions\_exit}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_exit()}{game\_actions\_exit()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+exit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action that the "{}\+Exit"{} command executes. 
+
+\begin{DoxyAuthor}{Author}
+Profesores PProg
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_aba91c42bed50e457b994452bfd717e5d}\label{game__actions_8c_aba91c42bed50e457b994452bfd717e5d} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_inspect@{game\_actions\_inspect}}
+\index{game\_actions\_inspect@{game\_actions\_inspect}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_inspect()}{game\_actions\_inspect()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+inspect (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of inspecting an object. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a1a22f1b902fd476e05ffe02178569f6d}\label{game__actions_8c_a1a22f1b902fd476e05ffe02178569f6d} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_load@{game\_actions\_load}}
+\index{game\_actions\_load@{game\_actions\_load}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_load()}{game\_actions\_load()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+load (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of loading a game. 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Double pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a4a158b09e0b0607e55daee8f2fd04b10}\label{game__actions_8c_a4a158b09e0b0607e55daee8f2fd04b10} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_move@{game\_actions\_move}}
+\index{game\_actions\_move@{game\_actions\_move}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_move()}{game\_actions\_move()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action that the "{}\+Move"{} command executes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em game} & pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a698537d4c94edd24d6a46f4dedfa98fb}\label{game__actions_8c_a698537d4c94edd24d6a46f4dedfa98fb} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_open\_link@{game\_actions\_open\_link}}
+\index{game\_actions\_open\_link@{game\_actions\_open\_link}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_open\_link()}{game\_actions\_open\_link()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+open\+\_\+link (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+Tries to open a link with or whithout an object. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_ad0cac1a42472a37c234512728284b871}\label{game__actions_8c_ad0cac1a42472a37c234512728284b871} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_read\_note@{game\_actions\_read\_note}}
+\index{game\_actions\_read\_note@{game\_actions\_read\_note}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_read\_note()}{game\_actions\_read\_note()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+read\+\_\+note (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}}]{obj }\end{DoxyParamCaption})}
+
+
+
+Action of reading a note. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em obj} & Pointer to the object that is the note \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_ac6a72a0e4105ee744442d72adc996f5a}\label{game__actions_8c_ac6a72a0e4105ee744442d72adc996f5a} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_recruit@{game\_actions\_recruit}}
+\index{game\_actions\_recruit@{game\_actions\_recruit}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_recruit()}{game\_actions\_recruit()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+recruit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of recruiting a character. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a94dcda498bf970d8edc7330df30d3364}\label{game__actions_8c_a94dcda498bf970d8edc7330df30d3364} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_save@{game\_actions\_save}}
+\index{game\_actions\_save@{game\_actions\_save}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_save()}{game\_actions\_save()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+save (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of saving the game. 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a8dc008ffd6be8f39208d02f19c0c4e45}\label{game__actions_8c_a8dc008ffd6be8f39208d02f19c0c4e45} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_set\_trap@{game\_actions\_set\_trap}}
+\index{game\_actions\_set\_trap@{game\_actions\_set\_trap}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_set\_trap()}{game\_actions\_set\_trap()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+set\+\_\+trap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}}]{obj }\end{DoxyParamCaption})}
+
+
+
+Action of setting a trap on current space. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em obj} & Pointer to the object that is the trap \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_ade93d5e908cecd1e78eeaaa19e9d5387}\label{game__actions_8c_ade93d5e908cecd1e78eeaaa19e9d5387} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_take@{game\_actions\_take}}
+\index{game\_actions\_take@{game\_actions\_take}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_take()}{game\_actions\_take()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+take (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of taking an object from the players current space. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & pointer to the game \\
+\hline
+{\em name} & name of the object to take \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a6f4777fc8b60f74ffb82fb3df7e20e07}\label{game__actions_8c_a6f4777fc8b60f74ffb82fb3df7e20e07} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_unknown@{game\_actions\_unknown}}
+\index{game\_actions\_unknown@{game\_actions\_unknown}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_unknown()}{game\_actions\_unknown()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+unknown (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action that the "{}\+Unknown"{} command executes. 
+
+Private functions \begin{DoxyAuthor}{Author}
+Profesores PProg
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & pointer to the game\\
+\hline
+\end{DoxyParams}
+Calls implementation for each action \Hypertarget{game__actions_8c_a759e554dad7c51ff897414bb18f4110e}\label{game__actions_8c_a759e554dad7c51ff897414bb18f4110e} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_update@{game\_actions\_update}}
+\index{game\_actions\_update@{game\_actions\_update}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_update()}{game\_actions\_update()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+actions\+\_\+update (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{command_8h_a7d2935971c252377cb0fc1c8545dc2bc}{Command}} \texorpdfstring{$\ast$}{*}}]{command,  }\item[{\mbox{\hyperlink{command_8h_a805cf38fd2b6d5604bf1f1036b80fde2}{Command\+Code}} \texorpdfstring{$\ast$}{*}}]{cmd\+\_\+code,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}}}]{update }\end{DoxyParamCaption})}
+
+
+
+Sets a given command as last command and executes its corresponding action. 
+
+Game actions implementation \Hypertarget{game__actions_8c_a552acf1922a783bdfc8bc4ab609bdb1a}\label{game__actions_8c_a552acf1922a783bdfc8bc4ab609bdb1a} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_use@{game\_actions\_use}}
+\index{game\_actions\_use@{game\_actions\_use}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_use()}{game\_actions\_use()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+use (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of using an object. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a5c2d71a9569f72f252324b15887850ea}\label{game__actions_8c_a5c2d71a9569f72f252324b15887850ea} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_use\_healer@{game\_actions\_use\_healer}}
+\index{game\_actions\_use\_healer@{game\_actions\_use\_healer}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_use\_healer()}{game\_actions\_use\_healer()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+use\+\_\+healer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}}]{obj,  }\item[{\mbox{\hyperlink{character_8h_a2cd4b80780220bc0f0f1d7424f104fa6}{Character}} \texorpdfstring{$\ast$}{*}}]{trg }\end{DoxyParamCaption})}
+
+
+
+Action of using a healing item. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em obj} & Pointer to the object that is the healer \\
+\hline
+{\em trg} & Pointer to the character being healed \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_acd223e2690a308e68d67ecef286d337a}\label{game__actions_8c_acd223e2690a308e68d67ecef286d337a} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_use\_switch@{game\_actions\_use\_switch}}
+\index{game\_actions\_use\_switch@{game\_actions\_use\_switch}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_use\_switch()}{game\_actions\_use\_switch()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+use\+\_\+switch (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{object_8h_a7f8bbcda919b65ce67f92fba08e0212f}{Object}} \texorpdfstring{$\ast$}{*}}]{obj }\end{DoxyParamCaption})}
+
+
+
+Action of using a switch. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em obj} & Pointer to the object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{game__actions_8c_a2c2a34aedd9f2098e09178cd9d4824e7}\label{game__actions_8c_a2c2a34aedd9f2098e09178cd9d4824e7} 
+\index{game\_actions.c@{game\_actions.c}!game\_actions\_view@{game\_actions\_view}}
+\index{game\_actions\_view@{game\_actions\_view}!game\_actions.c@{game\_actions.c}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_view()}{game\_actions\_view()}}
+{\footnotesize\ttfamily void game\+\_\+actions\+\_\+view (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+It defines the action of using an object. 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}

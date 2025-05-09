@@ -1,0 +1,614 @@
+\doxysection{src/player\+\_\+test.c File Reference}
+\hypertarget{player__test_8c}{}\label{player__test_8c}\index{src/player\_test.c@{src/player\_test.c}}
+
+
+It tests player module.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}player.\+h"{}}\newline
+{\ttfamily \#include "{}player\+\_\+test.\+h"{}}\newline
+{\ttfamily \#include "{}test.\+h"{}}\newline
+Include dependency graph for player\+\_\+test.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{player__test_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{player__test_8c_a2a77d2f2c5b698c69c19e1f8782bf709}\label{player__test_8c_a2a77d2f2c5b698c69c19e1f8782bf709} 
+\#define {\bfseries MAX\+\_\+\+TESTS}~34
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{player__test_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
+\begin{DoxyCompactList}\small\item\em Main function for PLAYER unit tests. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{player__test_8c_ab29768452373e16bb6aaa1f7998f62fb}{test1\+\_\+player\+\_\+create}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a4f6eca5f9d8c08d2a7fc70c209ecf854}{test2\+\_\+player\+\_\+create}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a14d75d99f9fce3bd703b0c242c8690f9}{test1\+\_\+player\+\_\+destroy}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_ae873be01647faf96d3906aa9629e87f0}{test2\+\_\+player\+\_\+destroy}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a790a75dc179c00c60c784d3e34c0e5aa}{test1\+\_\+player\+\_\+get\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a9fa80f0c0e46b45eb9f1685b102a5826}{test2\+\_\+player\+\_\+get\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a64fa15a235953bea694236b9d7841cbc}{test1\+\_\+player\+\_\+set\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a3695e0896bc3d770290e6a691fa212f7}{test2\+\_\+player\+\_\+set\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a94068667d8faa66a4ad293dd2c60f2ef}{test1\+\_\+player\+\_\+get\+\_\+name}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a3aa908fd360b74e7786422260e8e16a0}{test2\+\_\+player\+\_\+get\+\_\+name}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a9d87c09e6af910d695265e3fd77ae3a2}{test1\+\_\+player\+\_\+set\+\_\+name}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a6e7ce8ff791f4bf63749df647a44263f}{test2\+\_\+player\+\_\+set\+\_\+name}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a14a3e4867e2ad3287c8efa99cd36904e}{test1\+\_\+player\+\_\+add\+\_\+object}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a864d3935cf61953950b10df0e656306d}{test2\+\_\+player\+\_\+add\+\_\+object}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_aabc3452e06ab25fb08835566d403890f}{test1\+\_\+player\+\_\+delete\+\_\+object}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a68e87f4f56c421b94269841c5f1ef6c3}{test2\+\_\+player\+\_\+delete\+\_\+object}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_abedc0e75ebffb4e7224f5e5ac0ee3055}{test1\+\_\+player\+\_\+has\+\_\+object}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_ae8953d45d8f555a930dbc8aba101d399}{test2\+\_\+player\+\_\+has\+\_\+object}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a9c5100f98868dcfa807e604f65a297ad}{test1\+\_\+player\+\_\+inventory\+\_\+is\+\_\+full}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a40004ac535720ce3052b91ed16e8c128}{test2\+\_\+player\+\_\+inventory\+\_\+is\+\_\+full}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_adac3c847175868c162543ad9ad52773c}{test1\+\_\+player\+\_\+set\+\_\+inventory\+\_\+size}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_aafc4e9c4346f41f1542cc5fba33951f7}{test2\+\_\+player\+\_\+set\+\_\+inventory\+\_\+size}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a8c187dafe117147cd693931c22cc124d}{test1\+\_\+player\+\_\+get\+\_\+health}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a0d0d1c26e649578825cab7206d78b5c5}{test2\+\_\+player\+\_\+get\+\_\+health}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_accf040138772ebaeeeb75afc9a9e0eae}{test1\+\_\+player\+\_\+set\+\_\+health}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_aca602481af023c45a1fe6825860aa184}{test2\+\_\+player\+\_\+set\+\_\+health}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a408a557a0cff748c10fb9a03445af191}{test1\+\_\+player\+\_\+get\+\_\+location}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a4c5605fac4bd716e1dfb2744db4fa8a1}{test2\+\_\+player\+\_\+get\+\_\+location}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_aec6799a4f46c3f3c471fcb668addcad4}{test1\+\_\+player\+\_\+set\+\_\+location}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a2c702753d9e2e3df9ef4abf2d1b9bc8d}{test2\+\_\+player\+\_\+set\+\_\+location}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a496918ca995d418e8e2696717a9690f4}{test1\+\_\+player\+\_\+get\+\_\+gdesc}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a3e24aeaf9e9cb432d3705df47c840aa4}{test2\+\_\+player\+\_\+get\+\_\+gdesc}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_ae4daf553db9127d55995b100790b01ab}{test1\+\_\+player\+\_\+set\+\_\+gdesc}} ()
+\item 
+void \mbox{\hyperlink{player__test_8c_a15bf1f99a096b1789e1a43bc9bf6d2fb}{test2\+\_\+player\+\_\+set\+\_\+gdesc}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It tests player module. 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+04-\/04-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{player__test_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{player__test_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
+\index{player\_test.c@{player\_test.c}!main@{main}}
+\index{main@{main}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{argv }\end{DoxyParamCaption})}
+
+
+
+Main function for PLAYER unit tests. 
+
+You may execute ALL or a SINGLE test 1.-\/ No parameter -\/\texorpdfstring{$>$}{>} ALL test are executed 2.-\/ A number means a particular test (the one identified by that number) is executed \Hypertarget{player__test_8c_a14a3e4867e2ad3287c8efa99cd36904e}\label{player__test_8c_a14a3e4867e2ad3287c8efa99cd36904e} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_add\_object@{test1\_player\_add\_object}}
+\index{test1\_player\_add\_object@{test1\_player\_add\_object}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_add\_object()}{test1\_player\_add\_object()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+add\+\_\+object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000143}{Test}}]Test adding an object to the player\textquotesingle{}s inventory \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and valid object ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_ab29768452373e16bb6aaa1f7998f62fb}\label{player__test_8c_ab29768452373e16bb6aaa1f7998f62fb} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_create@{test1\_player\_create}}
+\index{test1\_player\_create@{test1\_player\_create}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_create()}{test1\_player\_create()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000131}{Test}}]Test player creation \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Non NULL pointer to player 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_aabc3452e06ab25fb08835566d403890f}\label{player__test_8c_aabc3452e06ab25fb08835566d403890f} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_delete\_object@{test1\_player\_delete\_object}}
+\index{test1\_player\_delete\_object@{test1\_player\_delete\_object}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_delete\_object()}{test1\_player\_delete\_object()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+delete\+\_\+object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000145}{Test}}]Test deleting an object from the player\textquotesingle{}s inventory \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and valid object ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a14d75d99f9fce3bd703b0c242c8690f9}\label{player__test_8c_a14d75d99f9fce3bd703b0c242c8690f9} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_destroy@{test1\_player\_destroy}}
+\index{test1\_player\_destroy@{test1\_player\_destroy}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_destroy()}{test1\_player\_destroy()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000133}{Test}}]Test player destruction \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a496918ca995d418e8e2696717a9690f4}\label{player__test_8c_a496918ca995d418e8e2696717a9690f4} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_get\_gdesc@{test1\_player\_get\_gdesc}}
+\index{test1\_player\_get\_gdesc@{test1\_player\_get\_gdesc}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_get\_gdesc()}{test1\_player\_get\_gdesc()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+get\+\_\+gdesc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000162}{Test}}]Test getting player graphic description \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player with valid graphic description 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected graphic description 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a8c187dafe117147cd693931c22cc124d}\label{player__test_8c_a8c187dafe117147cd693931c22cc124d} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_get\_health@{test1\_player\_get\_health}}
+\index{test1\_player\_get\_health@{test1\_player\_get\_health}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_get\_health()}{test1\_player\_get\_health()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+get\+\_\+health (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000154}{Test}}]Test getting player health \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player with valid health 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected health value 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a790a75dc179c00c60c784d3e34c0e5aa}\label{player__test_8c_a790a75dc179c00c60c784d3e34c0e5aa} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_get\_id@{test1\_player\_get\_id}}
+\index{test1\_player\_get\_id@{test1\_player\_get\_id}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_get\_id()}{test1\_player\_get\_id()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+get\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000135}{Test}}]Test getting player ID \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected ID 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a408a557a0cff748c10fb9a03445af191}\label{player__test_8c_a408a557a0cff748c10fb9a03445af191} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_get\_location@{test1\_player\_get\_location}}
+\index{test1\_player\_get\_location@{test1\_player\_get\_location}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_get\_location()}{test1\_player\_get\_location()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+get\+\_\+location (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000158}{Test}}]Test getting player location \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player with valid location 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected location ID 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a94068667d8faa66a4ad293dd2c60f2ef}\label{player__test_8c_a94068667d8faa66a4ad293dd2c60f2ef} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_get\_name@{test1\_player\_get\_name}}
+\index{test1\_player\_get\_name@{test1\_player\_get\_name}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_get\_name()}{test1\_player\_get\_name()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+get\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000139}{Test}}]Test getting player name \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player with a valid name 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected name 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_abedc0e75ebffb4e7224f5e5ac0ee3055}\label{player__test_8c_abedc0e75ebffb4e7224f5e5ac0ee3055} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_has\_object@{test1\_player\_has\_object}}
+\index{test1\_player\_has\_object@{test1\_player\_has\_object}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_has\_object()}{test1\_player\_has\_object()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+has\+\_\+object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000147}{Test}}]Test checking if the player has an object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and valid object ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == TRUE 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a9c5100f98868dcfa807e604f65a297ad}\label{player__test_8c_a9c5100f98868dcfa807e604f65a297ad} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_inventory\_is\_full@{test1\_player\_inventory\_is\_full}}
+\index{test1\_player\_inventory\_is\_full@{test1\_player\_inventory\_is\_full}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_inventory\_is\_full()}{test1\_player\_inventory\_is\_full()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+inventory\+\_\+is\+\_\+full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000149}{Test}}]Test checking if the player\textquotesingle{}s inventory is full \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Player\textquotesingle{}s inventory is full 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == TRUE 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_ae4daf553db9127d55995b100790b01ab}\label{player__test_8c_ae4daf553db9127d55995b100790b01ab} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_set\_gdesc@{test1\_player\_set\_gdesc}}
+\index{test1\_player\_set\_gdesc@{test1\_player\_set\_gdesc}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_set\_gdesc()}{test1\_player\_set\_gdesc()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+set\+\_\+gdesc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000164}{Test}}]Test setting player graphic description \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and valid graphic description 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_accf040138772ebaeeeb75afc9a9e0eae}\label{player__test_8c_accf040138772ebaeeeb75afc9a9e0eae} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_set\_health@{test1\_player\_set\_health}}
+\index{test1\_player\_set\_health@{test1\_player\_set\_health}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_set\_health()}{test1\_player\_set\_health()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+set\+\_\+health (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000156}{Test}}]Test setting player health \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and valid health value 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a64fa15a235953bea694236b9d7841cbc}\label{player__test_8c_a64fa15a235953bea694236b9d7841cbc} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_set\_id@{test1\_player\_set\_id}}
+\index{test1\_player\_set\_id@{test1\_player\_set\_id}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_set\_id()}{test1\_player\_set\_id()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+set\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000137}{Test}}]Test setting player ID \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and valid ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_adac3c847175868c162543ad9ad52773c}\label{player__test_8c_adac3c847175868c162543ad9ad52773c} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_set\_inventory\_size@{test1\_player\_set\_inventory\_size}}
+\index{test1\_player\_set\_inventory\_size@{test1\_player\_set\_inventory\_size}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_set\_inventory\_size()}{test1\_player\_set\_inventory\_size()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+set\+\_\+inventory\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000151}{Test}}]Test setting the size of the player\textquotesingle{}s inventory \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and valid size 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_aec6799a4f46c3f3c471fcb668addcad4}\label{player__test_8c_aec6799a4f46c3f3c471fcb668addcad4} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_set\_location@{test1\_player\_set\_location}}
+\index{test1\_player\_set\_location@{test1\_player\_set\_location}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_set\_location()}{test1\_player\_set\_location()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+set\+\_\+location (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000160}{Test}}]Test setting player location \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and valid location ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a9d87c09e6af910d695265e3fd77ae3a2}\label{player__test_8c_a9d87c09e6af910d695265e3fd77ae3a2} 
+\index{player\_test.c@{player\_test.c}!test1\_player\_set\_name@{test1\_player\_set\_name}}
+\index{test1\_player\_set\_name@{test1\_player\_set\_name}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_player\_set\_name()}{test1\_player\_set\_name()}}
+{\footnotesize\ttfamily void test1\+\_\+player\+\_\+set\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000141}{Test}}]Test setting player name \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and valid name 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a864d3935cf61953950b10df0e656306d}\label{player__test_8c_a864d3935cf61953950b10df0e656306d} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_add\_object@{test2\_player\_add\_object}}
+\index{test2\_player\_add\_object@{test2\_player\_add\_object}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_add\_object()}{test2\_player\_add\_object()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+add\+\_\+object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000144}{Test}}]Test adding an object with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a4f6eca5f9d8c08d2a7fc70c209ecf854}\label{player__test_8c_a4f6eca5f9d8c08d2a7fc70c209ecf854} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_create@{test2\_player\_create}}
+\index{test2\_player\_create@{test2\_player\_create}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_create()}{test2\_player\_create()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000132}{Test}}]Test player creation with invalid ID \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Invalid ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NULL 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a68e87f4f56c421b94269841c5f1ef6c3}\label{player__test_8c_a68e87f4f56c421b94269841c5f1ef6c3} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_delete\_object@{test2\_player\_delete\_object}}
+\index{test2\_player\_delete\_object@{test2\_player\_delete\_object}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_delete\_object()}{test2\_player\_delete\_object()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+delete\+\_\+object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000146}{Test}}]Test deleting an object with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_ae873be01647faf96d3906aa9629e87f0}\label{player__test_8c_ae873be01647faf96d3906aa9629e87f0} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_destroy@{test2\_player\_destroy}}
+\index{test2\_player\_destroy@{test2\_player\_destroy}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_destroy()}{test2\_player\_destroy()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000134}{Test}}]Test player destruction with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a3e24aeaf9e9cb432d3705df47c840aa4}\label{player__test_8c_a3e24aeaf9e9cb432d3705df47c840aa4} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_get\_gdesc@{test2\_player\_get\_gdesc}}
+\index{test2\_player\_get\_gdesc@{test2\_player\_get\_gdesc}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_get\_gdesc()}{test2\_player\_get\_gdesc()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+get\+\_\+gdesc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000163}{Test}}]Test getting player graphic description with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NULL 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a0d0d1c26e649578825cab7206d78b5c5}\label{player__test_8c_a0d0d1c26e649578825cab7206d78b5c5} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_get\_health@{test2\_player\_get\_health}}
+\index{test2\_player\_get\_health@{test2\_player\_get\_health}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_get\_health()}{test2\_player\_get\_health()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+get\+\_\+health (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000155}{Test}}]Test getting player health with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == -\/1 (or equivalent error value) 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a9fa80f0c0e46b45eb9f1685b102a5826}\label{player__test_8c_a9fa80f0c0e46b45eb9f1685b102a5826} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_get\_id@{test2\_player\_get\_id}}
+\index{test2\_player\_get\_id@{test2\_player\_get\_id}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_get\_id()}{test2\_player\_get\_id()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+get\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000136}{Test}}]Test getting player ID with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NO\+\_\+\+ID 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a4c5605fac4bd716e1dfb2744db4fa8a1}\label{player__test_8c_a4c5605fac4bd716e1dfb2744db4fa8a1} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_get\_location@{test2\_player\_get\_location}}
+\index{test2\_player\_get\_location@{test2\_player\_get\_location}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_get\_location()}{test2\_player\_get\_location()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+get\+\_\+location (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000159}{Test}}]Test getting player location with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NO\+\_\+\+ID 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a3aa908fd360b74e7786422260e8e16a0}\label{player__test_8c_a3aa908fd360b74e7786422260e8e16a0} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_get\_name@{test2\_player\_get\_name}}
+\index{test2\_player\_get\_name@{test2\_player\_get\_name}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_get\_name()}{test2\_player\_get\_name()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+get\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000140}{Test}}]Test getting player name with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NULL 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_ae8953d45d8f555a930dbc8aba101d399}\label{player__test_8c_ae8953d45d8f555a930dbc8aba101d399} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_has\_object@{test2\_player\_has\_object}}
+\index{test2\_player\_has\_object@{test2\_player\_has\_object}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_has\_object()}{test2\_player\_has\_object()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+has\+\_\+object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000148}{Test}}]Test checking if the player has an object with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == FALSE 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a40004ac535720ce3052b91ed16e8c128}\label{player__test_8c_a40004ac535720ce3052b91ed16e8c128} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_inventory\_is\_full@{test2\_player\_inventory\_is\_full}}
+\index{test2\_player\_inventory\_is\_full@{test2\_player\_inventory\_is\_full}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_inventory\_is\_full()}{test2\_player\_inventory\_is\_full()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+inventory\+\_\+is\+\_\+full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000150}{Test}}]Test checking if the player\textquotesingle{}s inventory is full with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == FALSE 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a15bf1f99a096b1789e1a43bc9bf6d2fb}\label{player__test_8c_a15bf1f99a096b1789e1a43bc9bf6d2fb} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_set\_gdesc@{test2\_player\_set\_gdesc}}
+\index{test2\_player\_set\_gdesc@{test2\_player\_set\_gdesc}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_set\_gdesc()}{test2\_player\_set\_gdesc()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+set\+\_\+gdesc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000165}{Test}}]Test setting player graphic description with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_aca602481af023c45a1fe6825860aa184}\label{player__test_8c_aca602481af023c45a1fe6825860aa184} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_set\_health@{test2\_player\_set\_health}}
+\index{test2\_player\_set\_health@{test2\_player\_set\_health}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_set\_health()}{test2\_player\_set\_health()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+set\+\_\+health (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000157}{Test}}]Test setting player health with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a3695e0896bc3d770290e6a691fa212f7}\label{player__test_8c_a3695e0896bc3d770290e6a691fa212f7} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_set\_id@{test2\_player\_set\_id}}
+\index{test2\_player\_set\_id@{test2\_player\_set\_id}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_set\_id()}{test2\_player\_set\_id()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+set\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000138}{Test}}]Test setting player ID with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_aafc4e9c4346f41f1542cc5fba33951f7}\label{player__test_8c_aafc4e9c4346f41f1542cc5fba33951f7} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_set\_inventory\_size@{test2\_player\_set\_inventory\_size}}
+\index{test2\_player\_set\_inventory\_size@{test2\_player\_set\_inventory\_size}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_set\_inventory\_size()}{test2\_player\_set\_inventory\_size()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+set\+\_\+inventory\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000152}{Test}}]Test setting the size of the player\textquotesingle{}s inventory with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR
+\end{DoxyPostcond}
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000153}{Test}}]Test setting the size of the player\textquotesingle{}s inventory with negative size \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to player and negative size 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a2c702753d9e2e3df9ef4abf2d1b9bc8d}\label{player__test_8c_a2c702753d9e2e3df9ef4abf2d1b9bc8d} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_set\_location@{test2\_player\_set\_location}}
+\index{test2\_player\_set\_location@{test2\_player\_set\_location}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_set\_location()}{test2\_player\_set\_location()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+set\+\_\+location (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000161}{Test}}]Test setting player location with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{player__test_8c_a6e7ce8ff791f4bf63749df647a44263f}\label{player__test_8c_a6e7ce8ff791f4bf63749df647a44263f} 
+\index{player\_test.c@{player\_test.c}!test2\_player\_set\_name@{test2\_player\_set\_name}}
+\index{test2\_player\_set\_name@{test2\_player\_set\_name}!player\_test.c@{player\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_player\_set\_name()}{test2\_player\_set\_name()}}
+{\footnotesize\ttfamily void test2\+\_\+player\+\_\+set\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000142}{Test}}]Test setting player name with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to player 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}

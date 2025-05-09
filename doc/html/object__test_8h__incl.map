@@ -1,0 +1,13 @@
+<map id="include/object_test.h" name="include/object_test.h">
+<area shape="rect" id="Node000001" title="It declares the tests for the object module." alt="" coords="101,5,259,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,72,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,33,75,75,73,70,156,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="97,79,167,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,33,150,69,145,66,170,30"/>
+<area shape="rect" id="Node000004" href="$object_8h.html" title="It defines the object module interface." alt="" coords="192,79,267,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="190,29,216,66,211,69,186,33"/>
+<area shape="rect" id="Node000006" href="$test_8h.html" title="It defines test functionality for the whole project." alt="" coords="291,79,349,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="204,28,286,70,284,75,201,33"/>
+<area shape="rect" id="Node000005" href="$types_8h.html" title="It defines common types for the whole project." alt="" coords="194,152,265,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="232,104,232,138,227,138,227,104"/>
+</map>

@@ -79,7 +79,7 @@ Status game_management_load_spaces(Game *game, char *filename) {
   reads data from the file acording to the next structure:
   #s:<id>|<name>|<graphic description>|
   */
-  while (fgets(line, MESG_SIZE, file)) {
+  while (fgets(line, SPACE_LINE, file)) {
     if (strncmp("#s:", line, 3) != 0) continue;
     toks = strtok(line + 3, "|");
     id = atol(toks);
@@ -132,6 +132,46 @@ Status game_management_load_spaces(Game *game, char *filename) {
   return st;
 }
 
+Status game_management_load_minimap(Game *game, const char *filename) {
+  FILE *file = NULL;
+  char line[SPACE_LINE];
+  char *toks = NULL;
+  int floor = 0, i = 0;
+  Status st = OK;
+
+  if (!filename || !game) return ERROR;
+
+  if (!(file = fopen(filename, "r"))) return ERROR;
+
+  while (fgets(line, SPACE_LINE, file)) {
+    if (strncmp("#v:", line, 3) != 0) continue;
+    toks = strtok(line + 3, "!");
+    floor = atol(toks);
+
+    if (floor < 0) {
+      st = ERROR;
+      break;
+    }
+
+    i = 0;
+
+    while (toks && st == OK) {
+      toks = strtok(NULL, "!");
+
+      if (toks) {
+        if (game_set_minimap_at(game, toks, i, floor) == ERROR) st = ERROR;
+      } else {
+        if (game_set_minimap_at(game, " ", i, floor) == ERROR) st = ERROR;
+      }
+
+      i++;
+    }  
+  }
+
+  fclose(file);
+  return st;
+}
+
 /*Function used in game_create_from_file to load the links from a file to a game*/
 Status game_management_load_links(Game *game, char *filename) {
   FILE *file = NULL;
@@ -154,7 +194,7 @@ Status game_management_load_links(Game *game, char *filename) {
   reads data from the file acording to the next structure:
   #l:<id>|<name>|<origin id>|<destination id>|<direction>|<open or closed>|<open_role>|<use_role>|
   */
-  while (fgets(line, WORD_SIZE, file)) {
+  while (fgets(line, LINK_LINE, file)) {
     if (strncmp("#l:", line, 3) != 0) continue;
     toks = strtok(line + 3, "|");
     id = atol(toks);
@@ -231,7 +271,7 @@ Status game_management_load_classes(Game *game, char *filename){
   reads data from the file acording to the next structure:
   #k:<id>|<tag>|<name>|<description>|<movable>|<dependency>|<open>|<luck>|<close_up> 
   */
-  while(fgets(line, WORD_SIZE, file)){
+  while(fgets(line, CLASS_LINE, file)){
     if (strncmp("#k:", line, 3) != 0) continue;
     toks = strtok(line + 3, "|");
     class_id = atol(toks);
@@ -313,7 +353,7 @@ Status game_management_load_objects(Game *game, char *filename) {
   reads data from the file acording to the next structure:
   #o:<id>|<class_id>|<initial pos>|<role>|<use_value>|
   */
-  while (fgets(line, WORD_SIZE, file)) {
+  while (fgets(line, OBJECT_LINE, file)) {
     if (strncmp("#o:", line, 3) != 0) continue;
     toks = strtok(line + 3, "|");
     obj_id = atol(toks);
@@ -385,7 +425,7 @@ Status game_management_load_characters(Game *game, char *filename) {
   reads data from the file acording to the next structure:
   #c:<id>|<name>|<role>|<graphic description>|<location>|<health>|<damage>|<following>|<weapon>|<armor>|<message>|<closeup>
   */
-  while (fgets(line, WORD_SIZE, file)) {
+  while (fgets(line, CHARACTER_LINE, file)) {
     if (strncmp("#c:", line, 3) == 0) {
       toks = strtok(line + 3, "|");
       id_charr = atol(toks);
@@ -482,7 +522,7 @@ Status game_management_load_players(Game *game, char *filename) {
   reads data from the file acording to the next structure:
   #p:<id>|<name>|<role>|<graphic description>|<location>|<health>|<armor>|<weapon>|<backpack size>|<num backpack items>|<item1>|<item2>|...|<close up>|
   */
-  while (fgets(line, WORD_SIZE, file)) {
+  while (fgets(line, PLAYER_LINE, file)) {
     if (strncmp("#p:", line, 3) != 0) continue;
     toks = strtok(line + 3, "|");
     id_play = atol(toks);
@@ -688,6 +728,38 @@ Status game_management_save_spaces(Game *game, char *filename) {
 
   fprintf(file, "\n");
 
+  fclose(file);
+
+  return st;
+}
+
+Status game_management_save_minimap(Game *game, const char *filename) {
+  FILE *file = NULL;
+  Status st = OK;
+  char line[SPACE_LINE], *gdesc_line = NULL;
+  int i = 0, j = 0;
+  int len = 0;
+
+  if (!(file = fopen(filename, "a"))) return ERROR;
+
+  for (i = 0; i < NUM_FLOORS; i++) {
+    len += sprintf(line, "#v:%d!", i);
+
+    for (j = 0; j < MINIMAP_HEIGHT; j++) {
+      if (!(gdesc_line = game_get_minimap_at(game, j, i))) {
+        st = ERROR;
+        break;
+      }
+
+      len += sprintf(line + len, "%s!", gdesc_line);
+    }
+
+    fprintf(file, "%s\n", line);
+
+    len = 0;
+  }
+
+  fprintf(file, "\n");
   fclose(file);
 
   return st;
@@ -1020,4 +1092,187 @@ Status game_management_save_mode(Game *game, char *filename) {
   fclose(file);
 
   return st;
+}
+
+Status game_management_load_interface_data(Game *game, char *filename) {
+  FILE *file = NULL;
+  char line[800] = "";
+  char *token = NULL;
+  int i = 0, j = 0;
+  char *closeup = NULL;
+  char msg[MESG_SIZE+1];
+  Command *cmd = NULL;
+  CommandCode cmd_code = NO_CMD;
+  Status cmd_status = ERROR;
+  Bool visibility = FALSE;
+  Id sender = NO_ID;
+  Type type = NO_TYPE;
+
+  if (!game || !filename) return ERROR;
+
+  if (!(file = fopen(filename, "r"))) return ERROR;
+
+  while (fgets(line, 800, file)) {
+      if (strncmp("#id:", line, 4) == 0) {
+          token = strtok(line + 4, "|");
+          if (!token) {
+              fclose(file);
+              return ERROR;
+          }
+          i = atoi(token);
+
+          /*Close ups*/
+          for (j = 0; j < POV_HGHT; j++) {
+              token = strtok(NULL, "|");
+              if (!token) {
+                  fclose(file);
+                  return ERROR;
+              }
+              closeup = token;
+              if (game_set_last_close_up_at_pos(game, closeup, i, j) == ERROR) {
+                  fclose(file);
+                  return ERROR;
+              }
+          }
+
+          /*Commands*/
+          for (j = 0; j < NUM_CMDS; j++) {
+              token = strtok(NULL, "|");
+              if (!token) {
+                  fclose(file);
+                  return ERROR;
+              }
+              cmd_code = atoi(token);
+
+              token = strtok(NULL, "|");
+              if (!token) {
+                  fclose(file);
+                  return ERROR;
+              }
+              cmd_status = atoi(token);
+
+              cmd = game_get_command_at_pos(game, i, j);
+              if (!cmd || command_set_code(cmd, cmd_code) == ERROR || command_set_status(cmd, cmd_status) == ERROR) {
+                  fclose(file);
+                  return ERROR;
+              }
+          }
+      } /*Messages*/
+      else if (strncmp("#msg:", line, 5) == 0) {
+          token = strtok(line + 5, "|");
+          if (!token) {
+              fclose(file);
+              return ERROR;
+          }
+          i = atoi(token);
+
+          token = strtok(NULL, "|");
+          if (!token) {
+              fclose(file);
+              return ERROR;
+          }
+          j = atoi(token);
+
+          token = strtok(NULL, "|");
+          if (!token) {
+              fclose(file);
+              return ERROR;
+          }
+          visibility = atoi(token);
+
+          token = strtok(NULL, "|");
+          if (!token) {
+              fclose(file);
+              return ERROR;
+          }
+          sender = atoi(token);
+
+          token = strtok(NULL, "|");
+          if (!token) {
+              fclose(file);
+              return ERROR;
+          }
+          type = atoi(token);
+
+          token = strtok(NULL, "|");
+          if (!token) {
+              fclose(file);
+              return ERROR;
+          }
+          strncpy(msg, token, MESG_SIZE);
+
+          if (game_set_last_message_at_pos_with_info(game, i, msg, sender, type) == ERROR ||
+              game_set_last_message_visibility_at_pos(game, i, j, visibility) == ERROR) {
+              fclose(file);
+              return ERROR;
+          }
+      }
+  }
+
+  fclose(file);
+  return OK;
+}
+
+Status game_management_save_interface_data(Game *game, char *filename) {
+  FILE *file = NULL;
+  int num_players = 0, i = 0, j = 0, len = 0;
+  char line[800] = "";
+  char *closeup = NULL;
+  char *msg = NULL;
+  Command *cmd = NULL;
+  CommandCode cmd_code = NO_CMD;
+  Status cmd_status = ERROR;
+  Bool visibility = FALSE;
+  Id sender = NO_ID;
+  Type type = NO_TYPE;
+
+  if (!game || !filename) return ERROR;
+
+  if (!(file = fopen(filename, "a"))) return ERROR;
+
+  if ((num_players = game_get_n_players(game)) <= 0) {
+      fclose(file);
+      return ERROR;
+  }
+  /*#id:<id>|<close_up>|<command_code>|<command_status>*/
+  for (i = 0; i < num_players; i++) {
+      len += sprintf(line, "#id:%d|", i);
+
+      for (j = 0; j < POV_HGHT; j++) {
+          closeup = game_get_last_close_up_at(game, j);
+          len += sprintf(line + len, "%s|", closeup ? closeup : " ");
+      }
+
+      for (j = 0; j < NUM_CMDS; j++) {
+          cmd = game_get_command_at_pos(game, i, j);
+          if (cmd) {
+              cmd_code = command_get_code(cmd);
+              cmd_status = command_get_status(cmd);
+              len += sprintf(line + len, "%d|%d|", cmd_code, cmd_status);
+          } else {
+              len += sprintf(line + len, "NO_CMD|ERROR|");
+          }
+      }
+
+      fprintf(file, "%s\n", line);
+      len = 0;
+  }
+
+  /*#msg: <pos_player>|<pos_message>|<visibility>|<sender>|<type>|<message>|*/
+  for (i = 0; i < num_players; i++) {
+      for (j = 0; j < NUM_MSGS; j++) {
+          msg = game_get_last_message_at_pos(game, i, j);
+          visibility = game_get_last_message_visibility_at_pos(game, i, j);
+          sender = game_get_last_message_sender_at_pos(game, i, j);
+          type = game_get_last_message_sender_type_at_pos(game, i, j);
+          if (visibility == TRUE || msg != NULL || sender != NO_ID) {
+              len += sprintf(line + len, "#msg:%d|%d|%d|%ld|%d|%s|", i, j, visibility, sender, type, msg);
+          }
+      }
+      fprintf(file, "%s\n", line);
+      len = 0;
+  }
+
+  fclose(file);
+  return OK;
 }

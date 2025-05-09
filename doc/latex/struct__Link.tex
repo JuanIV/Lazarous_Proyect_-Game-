@@ -1,0 +1,106 @@
+\doxysection{\+\_\+\+Link Struct Reference}
+\hypertarget{struct__Link}{}\label{struct__Link}\index{\_Link@{\_Link}}
+
+
+Struct that stores the information of a Link\+: Id, name, id of the origin space, id of the destination space, the direction and if its opened.  
+
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Link_a151212e7a8e8274c2a1ee991ba95878b}{id}}
+\item 
+char \mbox{\hyperlink{struct__Link_a020ee863120055b29609157b9de3c84d}{name}} \mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Link_a93d230158127a1629ef591267f1c6f3d}{orig}}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Link_aae5a495d4f85697715abe75da7c59cd0}{destination}}
+\item 
+\mbox{\hyperlink{types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} \mbox{\hyperlink{struct__Link_a46b56d4039e8287a5564e5950d66ca74}{direction}}
+\item 
+\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \mbox{\hyperlink{struct__Link_ab5fcd7f279d39bfc67650459b3e47d79}{open}}
+\item 
+\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \mbox{\hyperlink{struct__Link_a9fc150c11f900be63ddd7d1e37713b62}{locked}}
+\item 
+\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \mbox{\hyperlink{struct__Link_afde36aa94ed89c34b134efa8241ccc61}{connected}}
+\item 
+\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \mbox{\hyperlink{struct__Link_accd72277751b13103d51ec5c57d98607}{op\+\_\+role}}
+\item 
+\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \mbox{\hyperlink{struct__Link_a2724f7bfbed745787d31d246258ed2fa}{use\+\_\+role}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct that stores the information of a Link\+: Id, name, id of the origin space, id of the destination space, the direction and if its opened. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Field Documentation}
+\Hypertarget{struct__Link_afde36aa94ed89c34b134efa8241ccc61}\label{struct__Link_afde36aa94ed89c34b134efa8241ccc61} 
+\index{\_Link@{\_Link}!connected@{connected}}
+\index{connected@{connected}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{connected}{connected}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \+\_\+\+Link\+::connected}
+
+Represents if the two spaces are the same room \Hypertarget{struct__Link_aae5a495d4f85697715abe75da7c59cd0}\label{struct__Link_aae5a495d4f85697715abe75da7c59cd0} 
+\index{\_Link@{\_Link}!destination@{destination}}
+\index{destination@{destination}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{destination}{destination}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Link\+::destination}
+
+Id number of the destination space \Hypertarget{struct__Link_a46b56d4039e8287a5564e5950d66ca74}\label{struct__Link_a46b56d4039e8287a5564e5950d66ca74} 
+\index{\_Link@{\_Link}!direction@{direction}}
+\index{direction@{direction}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{direction}{direction}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} \+\_\+\+Link\+::direction}
+
+The direction of the link (N, S, E, W, UNK\+\_\+\+DIR) \Hypertarget{struct__Link_a151212e7a8e8274c2a1ee991ba95878b}\label{struct__Link_a151212e7a8e8274c2a1ee991ba95878b} 
+\index{\_Link@{\_Link}!id@{id}}
+\index{id@{id}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Link\+::id}
+
+Id number of the link, it must be unique \Hypertarget{struct__Link_a9fc150c11f900be63ddd7d1e37713b62}\label{struct__Link_a9fc150c11f900be63ddd7d1e37713b62} 
+\index{\_Link@{\_Link}!locked@{locked}}
+\index{locked@{locked}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{locked}{locked}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \+\_\+\+Link\+::locked}
+
+Represents if the link needs a key to be opened \Hypertarget{struct__Link_a020ee863120055b29609157b9de3c84d}\label{struct__Link_a020ee863120055b29609157b9de3c84d} 
+\index{\_Link@{\_Link}!name@{name}}
+\index{name@{name}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily char \+\_\+\+Link\+::name\mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}}
+
+Name of the link \Hypertarget{struct__Link_accd72277751b13103d51ec5c57d98607}\label{struct__Link_accd72277751b13103d51ec5c57d98607} 
+\index{\_Link@{\_Link}!op\_role@{op\_role}}
+\index{op\_role@{op\_role}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{op\_role}{op\_role}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \+\_\+\+Link\+::op\+\_\+role}
+
+Role of the only people who can open this link \Hypertarget{struct__Link_ab5fcd7f279d39bfc67650459b3e47d79}\label{struct__Link_ab5fcd7f279d39bfc67650459b3e47d79} 
+\index{\_Link@{\_Link}!open@{open}}
+\index{open@{open}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{open}{open}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \+\_\+\+Link\+::open}
+
+A boolean that represents if the link is open or not \Hypertarget{struct__Link_a93d230158127a1629ef591267f1c6f3d}\label{struct__Link_a93d230158127a1629ef591267f1c6f3d} 
+\index{\_Link@{\_Link}!orig@{orig}}
+\index{orig@{orig}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{orig}{orig}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Link\+::orig}
+
+Id number of the space of origin \Hypertarget{struct__Link_a2724f7bfbed745787d31d246258ed2fa}\label{struct__Link_a2724f7bfbed745787d31d246258ed2fa} 
+\index{\_Link@{\_Link}!use\_role@{use\_role}}
+\index{use\_role@{use\_role}!\_Link@{\_Link}}
+\doxysubsubsection{\texorpdfstring{use\_role}{use\_role}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \+\_\+\+Link\+::use\+\_\+role}
+
+Role of the only people who can use this link 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{link_8c}{link.\+c}}\end{DoxyCompactItemize}

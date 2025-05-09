@@ -1,0 +1,256 @@
+\doxysection{src/set.c File Reference}
+\hypertarget{set_8c}{}\label{set_8c}\index{src/set.c@{src/set.c}}
+
+
+It implements the functionallity of the sets of ids.  
+
+
+{\ttfamily \#include "{}set.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Include dependency graph for set.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=267pt]{set_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct__Set}{\+\_\+\+Set}}
+\begin{DoxyCompactList}\small\item\em Struct that stores the information of a Set\+: an array of the ids of the objects inside of it and the number of said ids. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{set_8c_aaad3bdcac9fbbfc38b4800b12bb17449}{set\+\_\+create}} ()
+\begin{DoxyCompactList}\small\item\em Creates a new set of ids initialazing its members. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{set_8c_a5b4e14914ec3c85b83363f57697f175a}{set\+\_\+destroy}} (\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}set)
+\begin{DoxyCompactList}\small\item\em Destroys a set freeing all allocated memory. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{set_8c_a5e43ce1308b7be0f3a4bc679d697e384}{set\+\_\+add}} (\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}set, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em Adds a new id to the last position of a set. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{set_8c_a8ea9f446992c429b277ce929278c99ef}{set\+\_\+remove}} (\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}set, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em Removes an id from a set. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{set_8c_afaa9d55d67526584aba2e0688ca189b3}{set\+\_\+get\+\_\+num\+\_\+ids}} (\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}set)
+\begin{DoxyCompactList}\small\item\em Gets the number of ids in a set. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{set_8c_af99cb8fd25b9a99ee2aa1b905b42d5cc}{set\+\_\+get\+\_\+id\+\_\+at\+\_\+pos}} (\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}set, int pos)
+\begin{DoxyCompactList}\small\item\em Gets the id in the given position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \mbox{\hyperlink{set_8c_ac7d909be8d430622bce3b4d6c53d0c5b}{set\+\_\+find}} (\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}set, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em Checks if an id is in a set or not. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \mbox{\hyperlink{set_8c_a062553f3f2057c46b370731a302583ce}{set\+\_\+is\+\_\+full}} (\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}set)
+\begin{DoxyCompactList}\small\item\em Checks if a set is full or not. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{set_8c_accefca13e6049b67a10652a030bcdddc}{set\+\_\+print}} (\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}set)
+\begin{DoxyCompactList}\small\item\em Prints all information about a set. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It implements the functionallity of the sets of ids. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025-\/02-\/18
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2025 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{set_8c_a5e43ce1308b7be0f3a4bc679d697e384}\label{set_8c_a5e43ce1308b7be0f3a4bc679d697e384} 
+\index{set.c@{set.c}!set\_add@{set\_add}}
+\index{set\_add@{set\_add}!set.c@{set.c}}
+\doxysubsubsection{\texorpdfstring{set\_add()}{set\_add()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} set\+\_\+add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}}]{set,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+Adds a new id to the last position of a set. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em set} & Pointer to the target set \\
+\hline
+{\em id} & Id being added to the set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if the id was added correctly, ERROR if the parameters are wrong or the set is full 
+\end{DoxyReturn}
+\Hypertarget{set_8c_aaad3bdcac9fbbfc38b4800b12bb17449}\label{set_8c_aaad3bdcac9fbbfc38b4800b12bb17449} 
+\index{set.c@{set.c}!set\_create@{set\_create}}
+\index{set\_create@{set\_create}!set.c@{set.c}}
+\doxysubsubsection{\texorpdfstring{set\_create()}{set\_create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*} set\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates a new set of ids initialazing its members. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+\begin{DoxyReturn}{Returns}
+Pointer to the new initialized set 
+\end{DoxyReturn}
+\Hypertarget{set_8c_a5b4e14914ec3c85b83363f57697f175a}\label{set_8c_a5b4e14914ec3c85b83363f57697f175a} 
+\index{set.c@{set.c}!set\_destroy@{set\_destroy}}
+\index{set\_destroy@{set\_destroy}!set.c@{set.c}}
+\doxysubsubsection{\texorpdfstring{set\_destroy()}{set\_destroy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} set\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}}]{set }\end{DoxyParamCaption})}
+
+
+
+Destroys a set freeing all allocated memory. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em set} & Pointer to the set being destroyed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if it was destroyed correctly, ERROR if the set was non-\/existing 
+\end{DoxyReturn}
+\Hypertarget{set_8c_ac7d909be8d430622bce3b4d6c53d0c5b}\label{set_8c_ac7d909be8d430622bce3b4d6c53d0c5b} 
+\index{set.c@{set.c}!set\_find@{set\_find}}
+\index{set\_find@{set\_find}!set.c@{set.c}}
+\doxysubsubsection{\texorpdfstring{set\_find()}{set\_find()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} set\+\_\+find (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}}]{set,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+Checks if an id is in a set or not. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em set} & Pointer to the set \\
+\hline
+{\em id} & Id that we want to find \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+TRUE if the id is inside the set, FALSE if not 
+\end{DoxyReturn}
+\Hypertarget{set_8c_af99cb8fd25b9a99ee2aa1b905b42d5cc}\label{set_8c_af99cb8fd25b9a99ee2aa1b905b42d5cc} 
+\index{set.c@{set.c}!set\_get\_id\_at\_pos@{set\_get\_id\_at\_pos}}
+\index{set\_get\_id\_at\_pos@{set\_get\_id\_at\_pos}!set.c@{set.c}}
+\doxysubsubsection{\texorpdfstring{set\_get\_id\_at\_pos()}{set\_get\_id\_at\_pos()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} set\+\_\+get\+\_\+id\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}}]{set,  }\item[{int}]{pos }\end{DoxyParamCaption})}
+
+
+
+Gets the id in the given position. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em set} & Pointer to the set \\
+\hline
+{\em pos} & Position of the id we want to get \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Id of the id in the given position, NO\+\_\+\+ID if the set does not exist or 
+\end{DoxyReturn}
+\Hypertarget{set_8c_afaa9d55d67526584aba2e0688ca189b3}\label{set_8c_afaa9d55d67526584aba2e0688ca189b3} 
+\index{set.c@{set.c}!set\_get\_num\_ids@{set\_get\_num\_ids}}
+\index{set\_get\_num\_ids@{set\_get\_num\_ids}!set.c@{set.c}}
+\doxysubsubsection{\texorpdfstring{set\_get\_num\_ids()}{set\_get\_num\_ids()}}
+{\footnotesize\ttfamily int set\+\_\+get\+\_\+num\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}}]{set }\end{DoxyParamCaption})}
+
+
+
+Gets the number of ids in a set. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em set} & Pointer to the set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of ids in the set, -\/1 if the set does not exist 
+\end{DoxyReturn}
+\Hypertarget{set_8c_a062553f3f2057c46b370731a302583ce}\label{set_8c_a062553f3f2057c46b370731a302583ce} 
+\index{set.c@{set.c}!set\_is\_full@{set\_is\_full}}
+\index{set\_is\_full@{set\_is\_full}!set.c@{set.c}}
+\doxysubsubsection{\texorpdfstring{set\_is\_full()}{set\_is\_full()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} set\+\_\+is\+\_\+full (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}}]{set }\end{DoxyParamCaption})}
+
+
+
+Checks if a set is full or not. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em set} & Pointer to the set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+TRUE if the set is full, FALSE if not 
+\end{DoxyReturn}
+\Hypertarget{set_8c_accefca13e6049b67a10652a030bcdddc}\label{set_8c_accefca13e6049b67a10652a030bcdddc} 
+\index{set.c@{set.c}!set\_print@{set\_print}}
+\index{set\_print@{set\_print}!set.c@{set.c}}
+\doxysubsubsection{\texorpdfstring{set\_print()}{set\_print()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} set\+\_\+print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}}]{set }\end{DoxyParamCaption})}
+
+
+
+Prints all information about a set. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em set} & Pointer to the set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if the set does not exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{set_8c_a8ea9f446992c429b277ce929278c99ef}\label{set_8c_a8ea9f446992c429b277ce929278c99ef} 
+\index{set.c@{set.c}!set\_remove@{set\_remove}}
+\index{set\_remove@{set\_remove}!set.c@{set.c}}
+\doxysubsubsection{\texorpdfstring{set\_remove()}{set\_remove()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} set\+\_\+remove (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*}}]{set,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+Removes an id from a set. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em set} & Pointer to the set \\
+\hline
+{\em id} & Id that will be removed from the set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if the set or id dont exist, OK otherwise when finished 
+\end{DoxyReturn}

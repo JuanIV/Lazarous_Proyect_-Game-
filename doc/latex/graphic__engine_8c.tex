@@ -1,0 +1,393 @@
+\doxysection{src/graphic\+\_\+engine.c File Reference}
+\hypertarget{graphic__engine_8c}{}\label{graphic__engine_8c}\index{src/graphic\_engine.c@{src/graphic\_engine.c}}
+
+
+It implements a textual graphic engine.  
+
+
+{\ttfamily \#include "{}graphic\+\_\+engine.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}command.\+h"{}}\newline
+{\ttfamily \#include "{}libscreen.\+h"{}}\newline
+{\ttfamily \#include "{}space.\+h"{}}\newline
+{\ttfamily \#include "{}types.\+h"{}}\newline
+Include dependency graph for graphic\+\_\+engine.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{graphic__engine_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct__Graphic__engine}{\+\_\+\+Graphic\+\_\+engine}}
+\begin{DoxyCompactList}\small\item\em Struct that stores the information of the graphic engine\+: Id, name and desc. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{graphic__engine_8c_aac38b3188d51727be5b2ee2bf3f9d856}\label{graphic__engine_8c_aac38b3188d51727be5b2ee2bf3f9d856} 
+\#define {\bfseries WIDTH\+\_\+\+MAP}~(3\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{graphic__engine_8c_aabdce1ff37cbe8d794f21e68ce03d817}{SQ\+\_\+\+SZ}}+4)
+\begin{DoxyCompactList}\small\item\em Width of the map area of the screen. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_ad02fab50eba3e27969ad00f27a73ea92}\label{graphic__engine_8c_ad02fab50eba3e27969ad00f27a73ea92} 
+\#define {\bfseries HEIGHT\+\_\+\+MAP}~34
+\begin{DoxyCompactList}\small\item\em Height of the map area of the screen. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_ab8374f005e615bc3c1e3b7deed8ed7f4}\label{graphic__engine_8c_ab8374f005e615bc3c1e3b7deed8ed7f4} 
+\#define {\bfseries WIDTH\+\_\+\+MSG}~120
+\begin{DoxyCompactList}\small\item\em Width of the description area of the screen. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a0c6fa1d18d64e7ac6dead1f795d26713}\label{graphic__engine_8c_a0c6fa1d18d64e7ac6dead1f795d26713} 
+\#define {\bfseries HEIGHT\+\_\+\+MSG}~(\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}} + \mbox{\hyperlink{graphic__engine_8c_aec4928b7d7a0e91ad936d76d79bedbf2}{HEIGHT\+\_\+\+FDB}} + 1)
+\begin{DoxyCompactList}\small\item\em Height of the message area of the screen. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a0460874515477829148773ff46be7420}\label{graphic__engine_8c_a0460874515477829148773ff46be7420} 
+\#define {\bfseries WIDTH\+\_\+\+PINF}~30
+\begin{DoxyCompactList}\small\item\em Width of the player info area. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_af92841936a2c06c3402c2ab65fcc4285}\label{graphic__engine_8c_af92841936a2c06c3402c2ab65fcc4285} 
+\#define {\bfseries HEIGHT\+\_\+\+PINF}~(\mbox{\hyperlink{graphic__engine_8c_ad02fab50eba3e27969ad00f27a73ea92}{HEIGHT\+\_\+\+MAP}})
+\begin{DoxyCompactList}\small\item\em Height of the player info area. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_ac37354e084960a292e9d90d36dc87d14}\label{graphic__engine_8c_ac37354e084960a292e9d90d36dc87d14} 
+\#define {\bfseries WIDTH\+\_\+\+FDB}~(\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}})
+\begin{DoxyCompactList}\small\item\em Width of the feedback area of the screen. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_aec4928b7d7a0e91ad936d76d79bedbf2}\label{graphic__engine_8c_aec4928b7d7a0e91ad936d76d79bedbf2} 
+\#define {\bfseries HEIGHT\+\_\+\+FDB}~3
+\begin{DoxyCompactList}\small\item\em Height of the feedback area of the screen. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a2889b427ac21bc5bee2bd7f7b9027274}\label{graphic__engine_8c_a2889b427ac21bc5bee2bd7f7b9027274} 
+\#define {\bfseries WIDTH\+\_\+\+DESC}~((\mbox{\hyperlink{graphic__engine_8c_ab8374f005e615bc3c1e3b7deed8ed7f4}{WIDTH\+\_\+\+MSG}} + \mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}} + 1)-\/(\mbox{\hyperlink{graphic__engine_8c_aac38b3188d51727be5b2ee2bf3f9d856}{WIDTH\+\_\+\+MAP}} + \mbox{\hyperlink{graphic__engine_8c_a0460874515477829148773ff46be7420}{WIDTH\+\_\+\+PINF}} + 2))
+\begin{DoxyCompactList}\small\item\em Width of the description area. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a090dd760a31e94656ad65109f66f0012}\label{graphic__engine_8c_a090dd760a31e94656ad65109f66f0012} 
+\#define {\bfseries HEIGHT\+\_\+\+DESC}~(\mbox{\hyperlink{graphic__engine_8c_ad02fab50eba3e27969ad00f27a73ea92}{HEIGHT\+\_\+\+MAP}})
+\begin{DoxyCompactList}\small\item\em Height of the description area. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{graphic__engine_8c_a6606d820a9b246f77b4ccb3d60aeba89}{SP\+\_\+\+ID\+\_\+\+PRINT}}~4
+\begin{DoxyCompactList}\small\item\em Ammount of characters from the space id that will be printed in the map. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a6e67cd452138f9cba2a7d63ea3f969fc}\label{graphic__engine_8c_a6e67cd452138f9cba2a7d63ea3f969fc} 
+\#define {\bfseries SP\+\_\+\+NAME\+\_\+\+PRINT}~(\mbox{\hyperlink{graphic__engine_8c_ab5dce5de41b6109e1a6e3d2e89b10181}{SQ\+\_\+\+IN\+\_\+\+SZ}}-\/1-\/\mbox{\hyperlink{graphic__engine_8c_a6606d820a9b246f77b4ccb3d60aeba89}{SP\+\_\+\+ID\+\_\+\+PRINT}})
+\begin{DoxyCompactList}\small\item\em Ammount of characters from the space name that will be printed in the map. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_aabdce1ff37cbe8d794f21e68ce03d817}\label{graphic__engine_8c_aabdce1ff37cbe8d794f21e68ce03d817} 
+\#define {\bfseries SQ\+\_\+\+SZ}~(4\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{player_8h_a203a7ae497c7c9e28922ba7af8718378}{PLY\+\_\+\+GD\+\_\+\+SZ}}+3)
+\begin{DoxyCompactList}\small\item\em Size of a square in the map. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a33696969d629e70cce6975bafa0a7e59}\label{graphic__engine_8c_a33696969d629e70cce6975bafa0a7e59} 
+\#define {\bfseries SQ\+\_\+\+LINES}~(\mbox{\hyperlink{space_8h_a828c41c0f3f342cb161793ba4e315ae7}{SP\+\_\+\+GD\+\_\+\+HGHT}} + 3 + 2)
+\begin{DoxyCompactList}\small\item\em Number of lines a square takes vertically. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_ab5dce5de41b6109e1a6e3d2e89b10181}\label{graphic__engine_8c_ab5dce5de41b6109e1a6e3d2e89b10181} 
+\#define {\bfseries SQ\+\_\+\+IN\+\_\+\+SZ}~(\mbox{\hyperlink{graphic__engine_8c_aabdce1ff37cbe8d794f21e68ce03d817}{SQ\+\_\+\+SZ}})
+\begin{DoxyCompactList}\small\item\em Size of a square in the map. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a53820d72335b56039a383495443a4633}\label{graphic__engine_8c_a53820d72335b56039a383495443a4633} 
+\#define {\bfseries NUM\+\_\+\+OBJS\+\_\+\+PRINT}~5
+\begin{DoxyCompactList}\small\item\em Maximum number of objects in a space that will be printed. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_ac092d83afee15e90cc8119411a8f4a4b}\label{graphic__engine_8c_ac092d83afee15e90cc8119411a8f4a4b} 
+\#define {\bfseries NUM\+\_\+\+CHARR\+\_\+\+PRINT}~3
+\begin{DoxyCompactList}\small\item\em Maximum number of characters in a space that will be printed. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a46e3d6145e4692a67f2cd42804aae057}\label{graphic__engine_8c_a46e3d6145e4692a67f2cd42804aae057} 
+\#define {\bfseries OBJ\+\_\+\+GD\+\_\+\+SZ}~3
+\begin{DoxyCompactList}\small\item\em Characters of the name of the object that will be printed. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a19a8d0467f6af90dbcaf2bdcd0972284}\label{graphic__engine_8c_a19a8d0467f6af90dbcaf2bdcd0972284} 
+\#define {\bfseries DESC\+\_\+\+NAMES\+\_\+\+SZ}~14
+\begin{DoxyCompactList}\small\item\em Space in the descriprion area to put the names of players and characters. \end{DoxyCompactList}\item 
+\Hypertarget{graphic__engine_8c_a38274b8c913f76023122f29fb538d2f8}\label{graphic__engine_8c_a38274b8c913f76023122f29fb538d2f8} 
+\#define {\bfseries DESC\+\_\+\+ID\+\_\+\+SZ}~5
+\begin{DoxyCompactList}\small\item\em Space in the description area to put the locations info. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{graphic__engine_8c_a0c1d10e5713cf060cbe6362a1bd995d4}\label{graphic__engine_8c_a0c1d10e5713cf060cbe6362a1bd995d4} 
+enum \mbox{\hyperlink{graphic__engine_8c_a0c1d10e5713cf060cbe6362a1bd995d4}{Wall\+\_\+style}} \{ \newline
+{\bfseries ERR\+\_\+\+WALL} = -\/1
+, {\bfseries NO\+\_\+\+WALL}
+, {\bfseries CLSD\+\_\+\+WALL}
+, {\bfseries LOCK\+\_\+\+WALL}
+, \newline
+{\bfseries CONEX\+\_\+\+WALL}
+, {\bfseries OPEN\+\_\+\+WALL}
+, {\bfseries HUMAN\+\_\+\+WALL}
+, {\bfseries MNSTR\+\_\+\+WALL}
+ \}
+\begin{DoxyCompactList}\small\item\em Type of wall that should be printed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{graphic__engine_8c_a3ad2424dac7ce319b192e29a37cace44}{graphic\+\_\+engine\+\_\+map\+\_\+print\+\_\+row}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}ge, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} left, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} center, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} right, char lines\mbox{[}\mbox{\hyperlink{graphic__engine_8c_a33696969d629e70cce6975bafa0a7e59}{SQ\+\_\+\+LINES}}\mbox{]}\mbox{[}\mbox{\hyperlink{graphic__engine_8c_aac38b3188d51727be5b2ee2bf3f9d856}{WIDTH\+\_\+\+MAP}}+1\mbox{]})
+\begin{DoxyCompactList}\small\item\em It prints a row of spaces in the map area. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{graphic__engine_8c_ac4897c898041956a6ce61a39fdbbcdaa}{graphic\+\_\+engine\+\_\+map\+\_\+print\+\_\+map}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}ge, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id\mbox{[}9\mbox{]})
+\begin{DoxyCompactList}\small\item\em Prints a map with 9 spaces in order. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{graphic__engine_8c_aeb93da843d56730d3bf793877498e6b5}{graphic\+\_\+engine\+\_\+map\+\_\+print\+\_\+square}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}ge, char lines\mbox{[}\mbox{\hyperlink{graphic__engine_8c_a33696969d629e70cce6975bafa0a7e59}{SQ\+\_\+\+LINES}}\mbox{]}\mbox{[}\mbox{\hyperlink{graphic__engine_8c_aac38b3188d51727be5b2ee2bf3f9d856}{WIDTH\+\_\+\+MAP}}+1\mbox{]}, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em Prints into a group of strings the visuals of one space. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{graphic__engine_8c_ad859a840ffc2e5e14672ceb61619d916}{graphic\+\_\+engine\+\_\+get\+\_\+surroundings}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} center, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} neighbor\mbox{[}8\mbox{]})
+\begin{DoxyCompactList}\small\item\em Gets the 8 spaces that are surrounding one space. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{graphic__engine_8c_a0c1d10e5713cf060cbe6362a1bd995d4}{Wall\+\_\+style}} \mbox{\hyperlink{graphic__engine_8c_a63131b7bb06720ab01ee962128ca1397}{graphic\+\_\+engine\+\_\+get\+\_\+wall\+\_\+style}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em Reports the way a link should be printed according to its assets. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{graphic__engine_8c_a36652333e27bd9892b9ab139f99eaf38}{graphic\+\_\+engine\+\_\+print\+\_\+vertical\+\_\+wall}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, char lines\mbox{[}\mbox{\hyperlink{graphic__engine_8c_a33696969d629e70cce6975bafa0a7e59}{SQ\+\_\+\+LINES}}\mbox{]}\mbox{[}\mbox{\hyperlink{graphic__engine_8c_aac38b3188d51727be5b2ee2bf3f9d856}{WIDTH\+\_\+\+MAP}}+1\mbox{]})
+\begin{DoxyCompactList}\small\item\em Prints a vertical wall between two spaces according to their conexion. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{graphic__engine_8c_ab499223f1de8d2f7c394f975ebfb7860}{graphic\+\_\+engine\+\_\+print\+\_\+horizontal\+\_\+wall}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, char line\mbox{[}\mbox{\hyperlink{graphic__engine_8c_aac38b3188d51727be5b2ee2bf3f9d856}{WIDTH\+\_\+\+MAP}}+1\mbox{]})
+\begin{DoxyCompactList}\small\item\em Prints a horizontal wall between two spaces according to their conexion. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{graphic__engine_8c_a13589222972bb07c859fac855b940612}{graphic\+\_\+engine\+\_\+print\+\_\+minimap}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}ge)
+\begin{DoxyCompactList}\small\item\em Prints the minimap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{graphic__engine_8c_a943c75487b750e5b0aafde34ac739b16}{graphic\+\_\+engine\+\_\+create}} ()
+\begin{DoxyCompactList}\small\item\em Creates a new graphic engine initializing all screen areas according to their area resolution. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{graphic__engine_8c_a5a5eac4ef2033c5ad71aa6895f362f79}{graphic\+\_\+engine\+\_\+destroy}} (\mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}ge)
+\begin{DoxyCompactList}\small\item\em Destroys a graphic engine destroying each dedicated area and freeing allocated memory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{graphic__engine_8c_a0e275aa477d5fa59e903da33a2a40a5d}{graphic\+\_\+engine\+\_\+paint\+\_\+game}} (\mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}ge, \mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em Paints each area according to its function with the necessary information. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It implements a textual graphic engine. 
+
+\begin{DoxyAuthor}{Author}
+Profesores PPROG 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+27-\/01-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{graphic__engine_8c_a6606d820a9b246f77b4ccb3d60aeba89}\label{graphic__engine_8c_a6606d820a9b246f77b4ccb3d60aeba89} 
+\index{graphic\_engine.c@{graphic\_engine.c}!SP\_ID\_PRINT@{SP\_ID\_PRINT}}
+\index{SP\_ID\_PRINT@{SP\_ID\_PRINT}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{SP\_ID\_PRINT}{SP\_ID\_PRINT}}
+{\footnotesize\ttfamily \#define SP\+\_\+\+ID\+\_\+\+PRINT~4}
+
+
+
+Ammount of characters from the space id that will be printed in the map. 
+
+\DoxyHorRuler{0}
+ \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} PRINTING INFO MACROS \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}  
+
+\doxysubsection{Function Documentation}
+\Hypertarget{graphic__engine_8c_a943c75487b750e5b0aafde34ac739b16}\label{graphic__engine_8c_a943c75487b750e5b0aafde34ac739b16} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_create@{graphic\_engine\_create}}
+\index{graphic\_engine\_create@{graphic\_engine\_create}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_create()}{graphic\_engine\_create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*} graphic\+\_\+engine\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates a new graphic engine initializing all screen areas according to their area resolution. 
+
+\begin{DoxyReturn}{Returns}
+initialized graphic engine 
+\end{DoxyReturn}
+\Hypertarget{graphic__engine_8c_a5a5eac4ef2033c5ad71aa6895f362f79}\label{graphic__engine_8c_a5a5eac4ef2033c5ad71aa6895f362f79} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_destroy@{graphic\_engine\_destroy}}
+\index{graphic\_engine\_destroy@{graphic\_engine\_destroy}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_destroy()}{graphic\_engine\_destroy()}}
+{\footnotesize\ttfamily void graphic\+\_\+engine\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}}]{ge }\end{DoxyParamCaption})}
+
+
+
+Destroys a graphic engine destroying each dedicated area and freeing allocated memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ge} & pointer to the graphic engine to be destroyed \\
+\hline
+\end{DoxyParams}
+\Hypertarget{graphic__engine_8c_ad859a840ffc2e5e14672ceb61619d916}\label{graphic__engine_8c_ad859a840ffc2e5e14672ceb61619d916} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_get\_surroundings@{graphic\_engine\_get\_surroundings}}
+\index{graphic\_engine\_get\_surroundings@{graphic\_engine\_get\_surroundings}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_get\_surroundings()}{graphic\_engine\_get\_surroundings()}}
+{\footnotesize\ttfamily void graphic\+\_\+engine\+\_\+get\+\_\+surroundings (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{center,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{neighbor\mbox{[}8\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Gets the 8 spaces that are surrounding one space. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em center} & Id of the space in the middle \\
+\hline
+{\em neighbor} & Ids where the id of the surroundings will be saved \\
+\hline
+\end{DoxyParams}
+The ids will be saved in the respective position of the array acording to the next reference\+: \mbox{[}0\mbox{]} \mbox{[}1\mbox{]} \mbox{[}2\mbox{]} \mbox{[}7\mbox{]} \mbox{[}-\/\mbox{]} \mbox{[}3\mbox{]} \mbox{[}6\mbox{]} \mbox{[}5\mbox{]} \mbox{[}4\mbox{]}\Hypertarget{graphic__engine_8c_a63131b7bb06720ab01ee962128ca1397}\label{graphic__engine_8c_a63131b7bb06720ab01ee962128ca1397} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_get\_wall\_style@{graphic\_engine\_get\_wall\_style}}
+\index{graphic\_engine\_get\_wall\_style@{graphic\_engine\_get\_wall\_style}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_get\_wall\_style()}{graphic\_engine\_get\_wall\_style()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{graphic__engine_8c_a0c1d10e5713cf060cbe6362a1bd995d4}{Wall\+\_\+style}} graphic\+\_\+engine\+\_\+get\+\_\+wall\+\_\+style (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+Reports the way a link should be printed according to its assets. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em link} & Pointer to the link \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The type of wall the link represents 
+\end{DoxyReturn}
+\Hypertarget{graphic__engine_8c_ac4897c898041956a6ce61a39fdbbcdaa}\label{graphic__engine_8c_ac4897c898041956a6ce61a39fdbbcdaa} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_map\_print\_map@{graphic\_engine\_map\_print\_map}}
+\index{graphic\_engine\_map\_print\_map@{graphic\_engine\_map\_print\_map}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_map\_print\_map()}{graphic\_engine\_map\_print\_map()}}
+{\footnotesize\ttfamily void graphic\+\_\+engine\+\_\+map\+\_\+print\+\_\+map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}}]{ge,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id\mbox{[}9\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Prints a map with 9 spaces in order. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em ge} & Pointer to the graphic engine \\
+\hline
+{\em id} & Array of 9 ids of the spaces which will be printed as the map \\
+\hline
+\end{DoxyParams}
+\Hypertarget{graphic__engine_8c_a3ad2424dac7ce319b192e29a37cace44}\label{graphic__engine_8c_a3ad2424dac7ce319b192e29a37cace44} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_map\_print\_row@{graphic\_engine\_map\_print\_row}}
+\index{graphic\_engine\_map\_print\_row@{graphic\_engine\_map\_print\_row}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_map\_print\_row()}{graphic\_engine\_map\_print\_row()}}
+{\footnotesize\ttfamily void graphic\+\_\+engine\+\_\+map\+\_\+print\+\_\+row (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}}]{ge,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{left,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{center,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{right,  }\item[{char}]{lines\mbox{[}\+SQ\+\_\+\+LINES\mbox{]}\mbox{[}\+WIDTH\+\_\+\+MAP+1\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+It prints a row of spaces in the map area. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em ge} & Pointer to the graphic engine \\
+\hline
+{\em left} & Id of the space on the left of the row \\
+\hline
+{\em center} & Id of the space on the center of the row \\
+\hline
+{\em right} & Id of the space on the right of the row \\
+\hline
+{\em lines} & Lines in which the spaces will be printed \\
+\hline
+\end{DoxyParams}
+\Hypertarget{graphic__engine_8c_aeb93da843d56730d3bf793877498e6b5}\label{graphic__engine_8c_aeb93da843d56730d3bf793877498e6b5} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_map\_print\_square@{graphic\_engine\_map\_print\_square}}
+\index{graphic\_engine\_map\_print\_square@{graphic\_engine\_map\_print\_square}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_map\_print\_square()}{graphic\_engine\_map\_print\_square()}}
+{\footnotesize\ttfamily void graphic\+\_\+engine\+\_\+map\+\_\+print\+\_\+square (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}}]{ge,  }\item[{char}]{lines\mbox{[}\+SQ\+\_\+\+LINES\mbox{]}\mbox{[}\+WIDTH\+\_\+\+MAP+1\mbox{]},  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+Prints into a group of strings the visuals of one space. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em ge} & Pointer to the graphic engine \\
+\hline
+{\em lines} & Strings where the visuals will be saved \\
+\hline
+{\em id} & Id of the space that will be printed \\
+\hline
+\end{DoxyParams}
+\Hypertarget{graphic__engine_8c_a0e275aa477d5fa59e903da33a2a40a5d}\label{graphic__engine_8c_a0e275aa477d5fa59e903da33a2a40a5d} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_paint\_game@{graphic\_engine\_paint\_game}}
+\index{graphic\_engine\_paint\_game@{graphic\_engine\_paint\_game}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_paint\_game()}{graphic\_engine\_paint\_game()}}
+{\footnotesize\ttfamily void graphic\+\_\+engine\+\_\+paint\+\_\+game (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}}]{ge,  }\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+Paints each area according to its function with the necessary information. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ge} & pointer to the graphic engine where the areas of the screen are stored \\
+\hline
+{\em game} & pointer to the game \\
+\hline
+\end{DoxyParams}
+\Hypertarget{graphic__engine_8c_ab499223f1de8d2f7c394f975ebfb7860}\label{graphic__engine_8c_ab499223f1de8d2f7c394f975ebfb7860} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_print\_horizontal\_wall@{graphic\_engine\_print\_horizontal\_wall}}
+\index{graphic\_engine\_print\_horizontal\_wall@{graphic\_engine\_print\_horizontal\_wall}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_print\_horizontal\_wall()}{graphic\_engine\_print\_horizontal\_wall()}}
+{\footnotesize\ttfamily void graphic\+\_\+engine\+\_\+print\+\_\+horizontal\+\_\+wall (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{char}]{line\mbox{[}\+WIDTH\+\_\+\+MAP+1\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Prints a horizontal wall between two spaces according to their conexion. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em link} & Pointer to the link \\
+\hline
+{\em line} & Pointer to the line where the wall will be printed \\
+\hline
+\end{DoxyParams}
+\Hypertarget{graphic__engine_8c_a13589222972bb07c859fac855b940612}\label{graphic__engine_8c_a13589222972bb07c859fac855b940612} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_print\_minimap@{graphic\_engine\_print\_minimap}}
+\index{graphic\_engine\_print\_minimap@{graphic\_engine\_print\_minimap}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_print\_minimap()}{graphic\_engine\_print\_minimap()}}
+{\footnotesize\ttfamily void graphic\+\_\+engine\+\_\+print\+\_\+minimap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{graphic__engine_8h_ae1bc5cdbfce93098f066274fdea49af1}{Graphic\+\_\+engine}} \texorpdfstring{$\ast$}{*}}]{ge }\end{DoxyParamCaption})}
+
+
+
+Prints the minimap. 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em link} & Pointer to the graphic engine \\
+\hline
+\end{DoxyParams}
+\Hypertarget{graphic__engine_8c_a36652333e27bd9892b9ab139f99eaf38}\label{graphic__engine_8c_a36652333e27bd9892b9ab139f99eaf38} 
+\index{graphic\_engine.c@{graphic\_engine.c}!graphic\_engine\_print\_vertical\_wall@{graphic\_engine\_print\_vertical\_wall}}
+\index{graphic\_engine\_print\_vertical\_wall@{graphic\_engine\_print\_vertical\_wall}!graphic\_engine.c@{graphic\_engine.c}}
+\doxysubsubsection{\texorpdfstring{graphic\_engine\_print\_vertical\_wall()}{graphic\_engine\_print\_vertical\_wall()}}
+{\footnotesize\ttfamily void graphic\+\_\+engine\+\_\+print\+\_\+vertical\+\_\+wall (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{char}]{lines\mbox{[}\+SQ\+\_\+\+LINES\mbox{]}\mbox{[}\+WIDTH\+\_\+\+MAP+1\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Prints a vertical wall between two spaces according to their conexion. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em link} & Pointer to the link \\
+\hline
+{\em lines} & Pointer to the lines where the wall will be printed \\
+\hline
+\end{DoxyParams}

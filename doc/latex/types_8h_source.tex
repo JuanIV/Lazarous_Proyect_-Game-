@@ -1,0 +1,54 @@
+\doxysection{types.\+h}
+\hypertarget{types_8h_source}{}\label{types_8h_source}\index{include/types.h@{include/types.h}}
+\mbox{\hyperlink{types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ TYPES\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ TYPES\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ WORD\_SIZE\ 1000}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ MESG\_SIZE\ 2000}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ POV\_WDTH\ 25}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ POV\_HGHT\ 10}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ NO\_ID\ -\/1}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ N\_ROLES\ 8}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ N\_DIR\ 7}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{\ FALSE,\ TRUE\ \}\ \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{\ ERROR,\ OK\ \}\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00080\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{\ UNK\_DIR\ =\ -\/1,\ N,\ S,\ E,\ W,\ U,\ D\ \}\ \mbox{\hyperlink{types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00087\ \ \ NO\_ROLE\ =\ -\/1,\ \textcolor{comment}{/*We\ define\ this\ as\ the\ error\ role*/}}
+\DoxyCodeLine{00088\ \ \ UNDEFINED,\ \ \ \ \textcolor{comment}{/*Predefined\ team*/}}
+\DoxyCodeLine{00089\ \ \ TEAM1,\ \ \ \ \ \ \ \ \textcolor{comment}{/*Part\ of\ the\ team\ 1*/}}
+\DoxyCodeLine{00090\ \ \ TEAM2,\ \ \ \ \ \ \ \ \textcolor{comment}{/*Part\ of\ the\ team\ 2*/}}
+\DoxyCodeLine{00091\ \ \ MONSTER,\ \ \ \ \ \ \textcolor{comment}{/*Part\ of\ the\ monsters*/}}
+\DoxyCodeLine{00092\ \ \ HOSTILE,\ \ \ \ \ \ \textcolor{comment}{/*Hostile\ towards\ everyone*/}}
+\DoxyCodeLine{00093\ \ \ PEACEFUL\ \ \ \ \ \textcolor{comment}{/*Peaceful\ towards\ everyone*/}}
+\DoxyCodeLine{00094\ \}\ \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00100\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00101\ \ \ NO\_TYPE\ =\ -\/1,\ \ \ \ \ \textcolor{comment}{/*We\ define\ this\ as\ the\ error\ class*/}}
+\DoxyCodeLine{00102\ \ \ THOUGHTS,\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Sent\ by\ oneself*/}}
+\DoxyCodeLine{00103\ \ \ PLAYER,\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Sent\ by\ a\ player*/}}
+\DoxyCodeLine{00104\ \ \ CHARACTER,\ \ \ \ \ \ \ \ \textcolor{comment}{/*Sent\ by\ a\ character*/}}
+\DoxyCodeLine{00105\ \ \ OBJECT,\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Sent\ by\ a\ object*/}}
+\DoxyCodeLine{00106\ \ \ GAME\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Sent\ by\ the\ game*/}}
+\DoxyCodeLine{00107\ \}\ \mbox{\hyperlink{types_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00113\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{\ NO\_TAG\ =\ -\/1,\ NORMAL,\ HEALER,\ WEAPON,\ ARMOR,\ TRAP,\ NOTE,\ SWITCH\ \}\ \mbox{\hyperlink{types_8h_a305263dd89ad9fde1863aece00907351}{Tag}};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

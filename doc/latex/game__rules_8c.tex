@@ -1,0 +1,166 @@
+\doxysection{src/game\+\_\+rules.c File Reference}
+\hypertarget{game__rules_8c}{}\label{game__rules_8c}\index{src/game\_rules.c@{src/game\_rules.c}}
+
+
+It implements the game rules module.  
+
+
+{\ttfamily \#include "{}game\+\_\+rules.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$strings.\+h$>$}\newline
+Include dependency graph for game\+\_\+rules.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{game__rules_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__rules_8c_abf23ec3f52a0ea0912c19043aec8b4df}{game\+\_\+rules\+\_\+force\+\_\+cooperation}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*}bool)
+\begin{DoxyCompactList}\small\item\em Forces the cooperation between players in the first round. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__rules_8c_a8c0546604d448a5d1b2d5e9a98a19582}{game\+\_\+rules\+\_\+connected\+\_\+move}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*}bool)
+\begin{DoxyCompactList}\small\item\em Move only updates the turn if the rooms are not connected. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__rules_8c_ab7b9a6406afa369f60a23ff65d5b3cbb}{game\+\_\+rules\+\_\+update\+\_\+actions}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*}bool)
+\begin{DoxyCompactList}\small\item\em Function that gets if the game actions should be updated. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__rules_8c_a8c13858ff58996b6f0555e38fb67e083}{game\+\_\+rules\+\_\+update\+\_\+turn}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*}bool)
+\begin{DoxyCompactList}\small\item\em Function that gets if the turn should be updated. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__rules_8c_ad82426a080abe4af9d766e17c382744e}{game\+\_\+rules\+\_\+run}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}game)
+\begin{DoxyCompactList}\small\item\em Runs all the needed game rules. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It implements the game rules module. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+02-\/05-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{game__rules_8c_a8c0546604d448a5d1b2d5e9a98a19582}\label{game__rules_8c_a8c0546604d448a5d1b2d5e9a98a19582} 
+\index{game\_rules.c@{game\_rules.c}!game\_rules\_connected\_move@{game\_rules\_connected\_move}}
+\index{game\_rules\_connected\_move@{game\_rules\_connected\_move}!game\_rules.c@{game\_rules.c}}
+\doxysubsubsection{\texorpdfstring{game\_rules\_connected\_move()}{game\_rules\_connected\_move()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+rules\+\_\+connected\+\_\+move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+Move only updates the turn if the rooms are not connected. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em bool} & Pointer to a boolean that represents whether the turn should be updated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if everything went well and ERROR otherwise ~\newline
+ 
+\end{DoxyReturn}
+\Hypertarget{game__rules_8c_abf23ec3f52a0ea0912c19043aec8b4df}\label{game__rules_8c_abf23ec3f52a0ea0912c19043aec8b4df} 
+\index{game\_rules.c@{game\_rules.c}!game\_rules\_force\_cooperation@{game\_rules\_force\_cooperation}}
+\index{game\_rules\_force\_cooperation@{game\_rules\_force\_cooperation}!game\_rules.c@{game\_rules.c}}
+\doxysubsubsection{\texorpdfstring{game\_rules\_force\_cooperation()}{game\_rules\_force\_cooperation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+rules\+\_\+force\+\_\+cooperation (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+Forces the cooperation between players in the first round. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em bool} & Pointer to a boolean that represents whether the game actions update should be updated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK if everything went well and ERROR otherwise 
+\end{DoxyReturn}
+\Hypertarget{game__rules_8c_ad82426a080abe4af9d766e17c382744e}\label{game__rules_8c_ad82426a080abe4af9d766e17c382744e} 
+\index{game\_rules.c@{game\_rules.c}!game\_rules\_run@{game\_rules\_run}}
+\index{game\_rules\_run@{game\_rules\_run}!game\_rules.c@{game\_rules.c}}
+\doxysubsubsection{\texorpdfstring{game\_rules\_run()}{game\_rules\_run()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+rules\+\_\+run (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game }\end{DoxyParamCaption})}
+
+
+
+Runs all the needed game rules. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{game__rules_8c_ab7b9a6406afa369f60a23ff65d5b3cbb}\label{game__rules_8c_ab7b9a6406afa369f60a23ff65d5b3cbb} 
+\index{game\_rules.c@{game\_rules.c}!game\_rules\_update\_actions@{game\_rules\_update\_actions}}
+\index{game\_rules\_update\_actions@{game\_rules\_update\_actions}!game\_rules.c@{game\_rules.c}}
+\doxysubsubsection{\texorpdfstring{game\_rules\_update\_actions()}{game\_rules\_update\_actions()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+rules\+\_\+update\+\_\+actions (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+Function that gets if the game actions should be updated. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em bool} & Boolean value whose value is updated to true if the game actions should be updated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{game__rules_8c_a8c13858ff58996b6f0555e38fb67e083}\label{game__rules_8c_a8c13858ff58996b6f0555e38fb67e083} 
+\index{game\_rules.c@{game\_rules.c}!game\_rules\_update\_turn@{game\_rules\_update\_turn}}
+\index{game\_rules\_update\_turn@{game\_rules\_update\_turn}!game\_rules.c@{game\_rules.c}}
+\doxysubsubsection{\texorpdfstring{game\_rules\_update\_turn()}{game\_rules\_update\_turn()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+rules\+\_\+update\+\_\+turn (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+Function that gets if the turn should be updated. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Pointer to the game \\
+\hline
+{\em bool} & Boolean value whose value is updated to true if the turn should be updated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}

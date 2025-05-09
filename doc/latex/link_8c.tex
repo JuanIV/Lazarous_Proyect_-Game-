@@ -1,0 +1,475 @@
+\doxysection{src/link.c File Reference}
+\hypertarget{link_8c}{}\label{link_8c}\index{src/link.c@{src/link.c}}
+
+
+It implements the link module.  
+
+
+{\ttfamily \#include "{}link.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+Include dependency graph for link.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{link_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct__Link}{\+\_\+\+Link}}
+\begin{DoxyCompactList}\small\item\em Struct that stores the information of a Link\+: Id, name, id of the origin space, id of the destination space, the direction and if its opened. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{link_8c_a1e662c55d1ea0191b66372f0fa57ac1c}{link\+\_\+create}} (\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} id)
+\begin{DoxyCompactList}\small\item\em It creates a new link, allocating memory and initializing its members. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_a9db25e3b95dbce3ccd993329e103ef0f}{link\+\_\+destroy}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em It destroys a link, freeing the allocated memory. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{link_8c_a2bbd320f995a72b2ea7ea639b1c81892}{link\+\_\+get\+\_\+id}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em It gets the id of a link. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{link_8c_a83e4213e55c22889d0aa441d1d2c24aa}{link\+\_\+get\+\_\+name}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em It gets the name of a link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_ab56e0464805b4bb827b9e35219853fa9}{link\+\_\+set\+\_\+name}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, char \texorpdfstring{$\ast$}{*}name)
+\begin{DoxyCompactList}\small\item\em It sets the name of a link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{link_8c_a81f666049e88c948d6c58aa41076da08}{link\+\_\+get\+\_\+orig}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em It gets the id of the space located at the origin of the link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_a08797f6cd50fb5540617ae12cd8fdef2}{link\+\_\+set\+\_\+orig}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} origin)
+\begin{DoxyCompactList}\small\item\em It sets the id of the space located at the origin of the link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{link_8c_af20d558a6f47c4fd030424dd8a7e85c1}{link\+\_\+get\+\_\+dest}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em It gets the id of the space located at the destination of the link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_aaf66294212fa079634485ac8bff86034}{link\+\_\+set\+\_\+dest}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} destination)
+\begin{DoxyCompactList}\small\item\em It sets the id of the space located at the destination of the link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} \mbox{\hyperlink{link_8c_a45c192f1efaa9863a150e51d1a0f2756}{link\+\_\+get\+\_\+direction}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em It gets the direction followed when traversing the link orig -\/\texorpdfstring{$>$}{>} dest. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_ae8acb2f221c7484c5ffcc8e32cd08b81}{link\+\_\+set\+\_\+direction}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} direction)
+\begin{DoxyCompactList}\small\item\em It sets the direction followed when traversing the link orig -\/\texorpdfstring{$>$}{>} dest. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_a5a8abbc19fcc850bb9eefa88b898997c}{link\+\_\+get\+\_\+open}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*}bool)
+\begin{DoxyCompactList}\small\item\em It gets the state of the link, TRUE if it\textquotesingle{}s opened or FALSE if its closed. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_a7845816ccbb5d93c2732dce1566291fa}{link\+\_\+set\+\_\+open}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} bool)
+\begin{DoxyCompactList}\small\item\em It sets the state of the link, TRUE if it\textquotesingle{}s opened or FALSE if its closed. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_a701ddea339acfcb21521e5fbb85a0bde}{link\+\_\+get\+\_\+locked}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*}bool)
+\begin{DoxyCompactList}\small\item\em Gets if the link needs a key or not to be opened. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_aa1b2045326f3cac6c61939334457a2d6}{link\+\_\+set\+\_\+locked}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} bool)
+\begin{DoxyCompactList}\small\item\em Sets if the link needs a key or not to be opened. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_a3397a7dffaccdc85a09215afabd528ac}{link\+\_\+get\+\_\+connected}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*}bool)
+\begin{DoxyCompactList}\small\item\em Gets if the two spaces are connected. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_a7d57c19422ff0ba97fe707d92aae77b6}{link\+\_\+set\+\_\+connected}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} bool)
+\begin{DoxyCompactList}\small\item\em Sets the state of conexion between the spaces. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \mbox{\hyperlink{link_8c_a9fa8eac828c1519fdd998467f6b6350e}{link\+\_\+get\+\_\+open\+\_\+role}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em Gets the role that can open or close the link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_ace5fd31794960a771c79a847643f73be}{link\+\_\+set\+\_\+open\+\_\+role}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} role)
+\begin{DoxyCompactList}\small\item\em Sets the role that can open the link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \mbox{\hyperlink{link_8c_a2e2e2dfe0348fbb893a0b97bab250b52}{link\+\_\+get\+\_\+use\+\_\+role}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em Gets the role that can use the link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_a041c3fcc5ae03c250411e602928254c1}{link\+\_\+set\+\_\+use\+\_\+role}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link, \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} role)
+\begin{DoxyCompactList}\small\item\em Sets the only role that can use the link. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{link_8c_a63adc8ec3b6a842f6e2dee947ae0d15b}{link\+\_\+print}} (\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}link)
+\begin{DoxyCompactList}\small\item\em It prints the link information. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{link_8c_ac3151744879bdbfeeb77820c34916b74}{dir\+\_\+to\+\_\+str}} \mbox{[}\mbox{\hyperlink{types_8h_a3f4d52308426b9a5693a74dff3a5c255}{N\+\_\+\+DIR}}\mbox{]}\mbox{[}\mbox{\hyperlink{link_8h_a37dc74fd84181247e17c4eb9ad074b2b}{N\+\_\+\+DIRT}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em converts a direction into a string \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It implements the link module. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+21-\/3-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{link_8c_a1e662c55d1ea0191b66372f0fa57ac1c}\label{link_8c_a1e662c55d1ea0191b66372f0fa57ac1c} 
+\index{link.c@{link.c}!link\_create@{link\_create}}
+\index{link\_create@{link\_create}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_create()}{link\_create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*} link\+\_\+create (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+It creates a new link, allocating memory and initializing its members. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Link data management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a9db25e3b95dbce3ccd993329e103ef0f}\label{link_8c_a9db25e3b95dbce3ccd993329e103ef0f} 
+\index{link.c@{link.c}!link\_destroy@{link\_destroy}}
+\index{link\_destroy@{link\_destroy}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_destroy()}{link\_destroy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+It destroys a link, freeing the allocated memory. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & a pointer to the link that must be destroyed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{link_8c_a3397a7dffaccdc85a09215afabd528ac}\label{link_8c_a3397a7dffaccdc85a09215afabd528ac} 
+\index{link.c@{link.c}!link\_get\_connected@{link\_get\_connected}}
+\index{link\_get\_connected@{link\_get\_connected}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_connected()}{link\_get\_connected()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+get\+\_\+connected (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+Gets if the two spaces are connected. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Connected management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_af20d558a6f47c4fd030424dd8a7e85c1}\label{link_8c_af20d558a6f47c4fd030424dd8a7e85c1} 
+\index{link.c@{link.c}!link\_get\_dest@{link\_get\_dest}}
+\index{link\_get\_dest@{link\_get\_dest}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_dest()}{link\_get\_dest()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} link\+\_\+get\+\_\+dest (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+It gets the id of the space located at the destination of the link. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Destination management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a45c192f1efaa9863a150e51d1a0f2756}\label{link_8c_a45c192f1efaa9863a150e51d1a0f2756} 
+\index{link.c@{link.c}!link\_get\_direction@{link\_get\_direction}}
+\index{link\_get\_direction@{link\_get\_direction}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_direction()}{link\_get\_direction()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} link\+\_\+get\+\_\+direction (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+It gets the direction followed when traversing the link orig -\/\texorpdfstring{$>$}{>} dest. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Direction management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a2bbd320f995a72b2ea7ea639b1c81892}\label{link_8c_a2bbd320f995a72b2ea7ea639b1c81892} 
+\index{link.c@{link.c}!link\_get\_id@{link\_get\_id}}
+\index{link\_get\_id@{link\_get\_id}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_id()}{link\_get\_id()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} link\+\_\+get\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+It gets the id of a link. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & a pointer to the link \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the id of the link 
+\end{DoxyReturn}
+\Hypertarget{link_8c_a701ddea339acfcb21521e5fbb85a0bde}\label{link_8c_a701ddea339acfcb21521e5fbb85a0bde} 
+\index{link.c@{link.c}!link\_get\_locked@{link\_get\_locked}}
+\index{link\_get\_locked@{link\_get\_locked}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_locked()}{link\_get\_locked()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+get\+\_\+locked (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+Gets if the link needs a key or not to be opened. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Locked management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a83e4213e55c22889d0aa441d1d2c24aa}\label{link_8c_a83e4213e55c22889d0aa441d1d2c24aa} 
+\index{link.c@{link.c}!link\_get\_name@{link\_get\_name}}
+\index{link\_get\_name@{link\_get\_name}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_name()}{link\_get\_name()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} link\+\_\+get\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+It gets the name of a link. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Name management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a5a8abbc19fcc850bb9eefa88b898997c}\label{link_8c_a5a8abbc19fcc850bb9eefa88b898997c} 
+\index{link.c@{link.c}!link\_get\_open@{link\_get\_open}}
+\index{link\_get\_open@{link\_get\_open}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_open()}{link\_get\_open()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+get\+\_\+open (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \texorpdfstring{$\ast$}{*} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+It gets the state of the link, TRUE if it\textquotesingle{}s opened or FALSE if its closed. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Open management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a9fa8eac828c1519fdd998467f6b6350e}\label{link_8c_a9fa8eac828c1519fdd998467f6b6350e} 
+\index{link.c@{link.c}!link\_get\_open\_role@{link\_get\_open\_role}}
+\index{link\_get\_open\_role@{link\_get\_open\_role}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_open\_role()}{link\_get\_open\_role()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} link\+\_\+get\+\_\+open\+\_\+role (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+Gets the role that can open or close the link. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Open Role management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a81f666049e88c948d6c58aa41076da08}\label{link_8c_a81f666049e88c948d6c58aa41076da08} 
+\index{link.c@{link.c}!link\_get\_orig@{link\_get\_orig}}
+\index{link\_get\_orig@{link\_get\_orig}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_orig()}{link\_get\_orig()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} link\+\_\+get\+\_\+orig (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+It gets the id of the space located at the origin of the link. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Origin management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a2e2e2dfe0348fbb893a0b97bab250b52}\label{link_8c_a2e2e2dfe0348fbb893a0b97bab250b52} 
+\index{link.c@{link.c}!link\_get\_use\_role@{link\_get\_use\_role}}
+\index{link\_get\_use\_role@{link\_get\_use\_role}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_get\_use\_role()}{link\_get\_use\_role()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} link\+\_\+get\+\_\+use\+\_\+role (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+Gets the role that can use the link. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Use Role management \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a63adc8ec3b6a842f6e2dee947ae0d15b}\label{link_8c_a63adc8ec3b6a842f6e2dee947ae0d15b} 
+\index{link.c@{link.c}!link\_print@{link\_print}}
+\index{link\_print@{link\_print}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_print()}{link\_print()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link }\end{DoxyParamCaption})}
+
+
+
+It prints the link information. 
+
+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Debugging functions \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \Hypertarget{link_8c_a7d57c19422ff0ba97fe707d92aae77b6}\label{link_8c_a7d57c19422ff0ba97fe707d92aae77b6} 
+\index{link.c@{link.c}!link\_set\_connected@{link\_set\_connected}}
+\index{link\_set\_connected@{link\_set\_connected}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_set\_connected()}{link\_set\_connected()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+set\+\_\+connected (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+Sets the state of conexion between the spaces. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & Pointer to the link \\
+\hline
+{\em bool} & New state of conexion (True or False) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{link_8c_aaf66294212fa079634485ac8bff86034}\label{link_8c_aaf66294212fa079634485ac8bff86034} 
+\index{link.c@{link.c}!link\_set\_dest@{link\_set\_dest}}
+\index{link\_set\_dest@{link\_set\_dest}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_set\_dest()}{link\_set\_dest()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+set\+\_\+dest (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{destination }\end{DoxyParamCaption})}
+
+
+
+It sets the id of the space located at the destination of the link. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & a pointer to the link \\
+\hline
+{\em destination} & the id number of the space located at the destination \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{link_8c_ae8acb2f221c7484c5ffcc8e32cd08b81}\label{link_8c_ae8acb2f221c7484c5ffcc8e32cd08b81} 
+\index{link.c@{link.c}!link\_set\_direction@{link\_set\_direction}}
+\index{link\_set\_direction@{link\_set\_direction}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_set\_direction()}{link\_set\_direction()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+set\+\_\+direction (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}}}]{direction }\end{DoxyParamCaption})}
+
+
+
+It sets the direction followed when traversing the link orig -\/\texorpdfstring{$>$}{>} dest. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & a pointer to the link \\
+\hline
+{\em direction} & the said direction \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{link_8c_aa1b2045326f3cac6c61939334457a2d6}\label{link_8c_aa1b2045326f3cac6c61939334457a2d6} 
+\index{link.c@{link.c}!link\_set\_locked@{link\_set\_locked}}
+\index{link\_set\_locked@{link\_set\_locked}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_set\_locked()}{link\_set\_locked()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+set\+\_\+locked (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+Sets if the link needs a key or not to be opened. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & Pointer to the link \\
+\hline
+{\em bool} & New state of the lock \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if link doesnt exist, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{link_8c_ab56e0464805b4bb827b9e35219853fa9}\label{link_8c_ab56e0464805b4bb827b9e35219853fa9} 
+\index{link.c@{link.c}!link\_set\_name@{link\_set\_name}}
+\index{link\_set\_name@{link\_set\_name}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_set\_name()}{link\_set\_name()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+set\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{char \texorpdfstring{$\ast$}{*}}]{name }\end{DoxyParamCaption})}
+
+
+
+It sets the name of a link. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & a pointer to the link \\
+\hline
+{\em name} & a string with the name to store \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{link_8c_a7845816ccbb5d93c2732dce1566291fa}\label{link_8c_a7845816ccbb5d93c2732dce1566291fa} 
+\index{link.c@{link.c}!link\_set\_open@{link\_set\_open}}
+\index{link\_set\_open@{link\_set\_open}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_set\_open()}{link\_set\_open()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+set\+\_\+open (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} bool}]{ }\end{DoxyParamCaption})}
+
+
+
+It sets the state of the link, TRUE if it\textquotesingle{}s opened or FALSE if its closed. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & a pointer to the link \\
+\hline
+{\em bool} & boolean that represents the state of the link \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{link_8c_ace5fd31794960a771c79a847643f73be}\label{link_8c_ace5fd31794960a771c79a847643f73be} 
+\index{link.c@{link.c}!link\_set\_open\_role@{link\_set\_open\_role}}
+\index{link\_set\_open\_role@{link\_set\_open\_role}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_set\_open\_role()}{link\_set\_open\_role()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+set\+\_\+open\+\_\+role (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}}}]{role }\end{DoxyParamCaption})}
+
+
+
+Sets the role that can open the link. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & Pointer to the link \\
+\hline
+{\em role} & New role for the link \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if link or role are invalid, OK otherwise 
+\end{DoxyReturn}
+\Hypertarget{link_8c_a08797f6cd50fb5540617ae12cd8fdef2}\label{link_8c_a08797f6cd50fb5540617ae12cd8fdef2} 
+\index{link.c@{link.c}!link\_set\_orig@{link\_set\_orig}}
+\index{link\_set\_orig@{link\_set\_orig}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_set\_orig()}{link\_set\_orig()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+set\+\_\+orig (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}}]{origin }\end{DoxyParamCaption})}
+
+
+
+It sets the id of the space located at the origin of the link. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & a pointer to the link \\
+\hline
+{\em origin} & the id number of the space located at the origin \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+OK, if everything goes well or ERROR if there was some mistake 
+\end{DoxyReturn}
+\Hypertarget{link_8c_a041c3fcc5ae03c250411e602928254c1}\label{link_8c_a041c3fcc5ae03c250411e602928254c1} 
+\index{link.c@{link.c}!link\_set\_use\_role@{link\_set\_use\_role}}
+\index{link\_set\_use\_role@{link\_set\_use\_role}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{link\_set\_use\_role()}{link\_set\_use\_role()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} link\+\_\+set\+\_\+use\+\_\+role (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{link_8h_ae3b299941e67be6971bfd64a25505eff}{Link}} \texorpdfstring{$\ast$}{*}}]{link,  }\item[{\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}}}]{role }\end{DoxyParamCaption})}
+
+
+
+Sets the only role that can use the link. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em link} & Pointer to the link \\
+\hline
+{\em role} & New role that can use it \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if link or role are invalid, OK otherwise 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{link_8c_ac3151744879bdbfeeb77820c34916b74}\label{link_8c_ac3151744879bdbfeeb77820c34916b74} 
+\index{link.c@{link.c}!dir\_to\_str@{dir\_to\_str}}
+\index{dir\_to\_str@{dir\_to\_str}!link.c@{link.c}}
+\doxysubsubsection{\texorpdfstring{dir\_to\_str}{dir\_to\_str}}
+{\footnotesize\ttfamily char\texorpdfstring{$\ast$}{*} dir\+\_\+to\+\_\+str\mbox{[}\mbox{\hyperlink{types_8h_a3f4d52308426b9a5693a74dff3a5c255}{N\+\_\+\+DIR}}\mbox{]}\mbox{[}\mbox{\hyperlink{link_8h_a37dc74fd84181247e17c4eb9ad074b2b}{N\+\_\+\+DIRT}}\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \{\textcolor{stringliteral}{"{}"{}},\ \textcolor{stringliteral}{"{}Unknown"{}}\},\ \{\textcolor{stringliteral}{"{}n"{}},\ \textcolor{stringliteral}{"{}North"{}}\},\ \{\textcolor{stringliteral}{"{}s"{}},\ \textcolor{stringliteral}{"{}South"{}}\},\ \{\textcolor{stringliteral}{"{}e"{}},\ \textcolor{stringliteral}{"{}East"{}}\},\ }
+\DoxyCodeLine{\ \ \{\textcolor{stringliteral}{"{}w"{}},\ \textcolor{stringliteral}{"{}West"{}}\},\ \{\textcolor{stringliteral}{"{}u"{}},\ \textcolor{stringliteral}{"{}Up"{}}\},\ \{\textcolor{stringliteral}{"{}d"{}},\ \textcolor{stringliteral}{"{}Down"{}}\}\}}
+
+\end{DoxyCode}
+
+
+converts a direction into a string 
+

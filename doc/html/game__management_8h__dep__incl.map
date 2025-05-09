@@ -1,0 +1,9 @@
+<map id="include/game_management.h" name="include/game_management.h">
+<area shape="rect" id="Node000001" title="It allows to load games saved from files." alt="" coords="79,5,295,31"/>
+<area shape="rect" id="Node000002" href="$game_8c.html" title="It implements the game structure." alt="" coords="5,79,99,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,39,75,81,73,76,152,35"/>
+<area shape="rect" id="Node000003" href="$game__loop_8c.html" title="It defines the game loop." alt="" coords="123,79,251,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,44,189,79,184,79,184,44"/>
+<area shape="rect" id="Node000004" href="$game__management_8c.html" title="It implements the game management module." alt="" coords="275,79,461,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="229,33,339,76,337,81,227,38"/>
+</map>

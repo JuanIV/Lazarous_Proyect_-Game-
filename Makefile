@@ -6,7 +6,7 @@ LIBDIR = ./lib
 OBJDIR = ./obj
 EXEDIR = ./exe
 LDFLAGS = -L$(LIBDIR) -lscreen  
-files = $(OBJDIR)/command.o $(OBJDIR)/set.o $(OBJDIR)/character.o $(OBJDIR)/space.o $(OBJDIR)/player.o $(OBJDIR)/inventory.o $(OBJDIR)/object.o $(OBJDIR)/class.o $(OBJDIR)/link.o $(OBJDIR)/game.o $(OBJDIR)/game_actions.o $(OBJDIR)/graphic_engine.o $(OBJDIR)/game_management.o $(OBJDIR)/game_loop.o
+files = $(OBJDIR)/command.o $(OBJDIR)/set.o $(OBJDIR)/character.o $(OBJDIR)/space.o $(OBJDIR)/player.o $(OBJDIR)/inventory.o $(OBJDIR)/object.o $(OBJDIR)/class.o $(OBJDIR)/link.o $(OBJDIR)/game.o $(OBJDIR)/game_actions.o $(OBJDIR)/graphic_engine.o $(OBJDIR)/game_management.o $(OBJDIR)/game_loop.o $(OBJDIR)/game_rules.o
 vpath %.h $(INCDIR)
 vpath %.c $(SRCDIR)
 vpath %.o $(OBJDIR)
@@ -101,7 +101,10 @@ $(OBJDIR)/graphic_engine.o: $(SRCDIR)/graphic_engine.c $(INCDIR)/graphic_engine.
 $(OBJDIR)/game_management.o: $(SRCDIR)/game_management.c $(INCDIR)/game_management.h $(INCDIR)/game.h $(INCDIR)/command.h $(INCDIR)/types.h $(INCDIR)/space.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/game_loop.o: $(SRCDIR)/game_loop.c $(INCDIR)/command.h $(INCDIR)/types.h $(INCDIR)/game.h $(INCDIR)/space.h $(INCDIR)/game_actions.h $(INCDIR)/graphic_engine.h $(INCDIR)/game_management.h
+$(OBJDIR)/game_loop.o: $(SRCDIR)/game_loop.c $(INCDIR)/command.h $(INCDIR)/types.h $(INCDIR)/game.h $(INCDIR)/space.h $(INCDIR)/game_actions.h $(INCDIR)/graphic_engine.h $(INCDIR)/game_management.h $(INCDIR)/game_rules.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/game_rules.o: $(SRCDIR)/game_rules.c $(INCDIR)/game_rules.h $(INCDIR)/game.h $(INCDIR)/types.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
@@ -179,12 +182,10 @@ run_tests:
 
 run :
 	@echo "Running project"
-	@echo "Remember to assign a valid position to the characters"
 	./$(EXEDIR)/project anthill.dat
 
 run_lab:
 	@echo "Running project"
-	@echo "Remember to assign a valid position to the characters"
 	./$(EXEDIR)/project lab.dat
 
 runv :

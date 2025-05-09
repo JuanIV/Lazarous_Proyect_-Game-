@@ -15,7 +15,7 @@
  * @brief It defines the length for strings in the project
  *
  */
-#define WORD_SIZE 2000
+#define WORD_SIZE 1000
 
 /**
  * @brief Defines the maximum length of a message
@@ -90,7 +90,7 @@ typedef enum {
   TEAM2,        /*Part of the team 2*/
   MONSTER,      /*Part of the monsters*/
   HOSTILE,      /*Hostile towards everyone*/
-  PEACEFUL,     /*Peaceful towards everyone*/
+  PEACEFUL     /*Peaceful towards everyone*/
 } Role;
 
 /**

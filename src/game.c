@@ -57,7 +57,7 @@ struct _Game {
   int n_spaces;								/*!< Number of spaces in the game*/
   Link *links[MAX_LINKS];     /*!< Array of links that connect the spaces*/
   int n_links;                /*!< Number of links in the game*/
-  Class *class[MAX_CLASS]; /*!< Array of classes of objects in the game*/
+  Class *class[MAX_CLASS];    /*!< Array of classes of objects in the game*/
   int n_classes;              /*!< Number of classes in the game*/
   Object *object[MAX_OBJ];		/*!< Array of objects in the game*/
   int n_objects;							/*!< Number of objects in the game*/
@@ -66,6 +66,7 @@ struct _Game {
   Bool deterministic;						/*!< If the game is deterministic or not*/  
   InterfaceData *data[MAX_PLAY];    /*!< Array of the data of each player*/
   Bool finished;							/*!< Status of the game. TRUE if it has finished. FALSE if not*/
+  char minimap[NUM_FLOORS][MINIMAP_HEIGHT][MINIMAP_WIDTH + 1]; /*!< Graphic description of the mini map*/
 };
 
 /************************ Private functions **************************** */
@@ -264,7 +265,7 @@ Status game_interface_data_print_at_pos(Game *game, int pos) {
 /*It creates a new game, initializing the spaces and its other members*/
 Game *game_create() {
   Game *game = NULL;
-  int i;
+  int i = 0, j = 0;
 
   if ((game = (Game *)calloc(1, sizeof(Game))) == NULL) return NULL;
 
@@ -302,6 +303,12 @@ Game *game_create() {
 
   game->finished = FALSE;
 
+  for (i = 0; i < NUM_FLOORS; i++) {
+    for (j = 0; j < MINIMAP_HEIGHT; j++) {
+      game->minimap[i][j][0] = '\0'; 
+    }
+  }
+
   return game;
 }
 
@@ -328,6 +335,8 @@ Status game_create_from_file(Game *game, char *filename) {
   printf("Players loaded...\n");
   if (game_management_load_turn(game, filename) == ERROR) return ERROR;
   printf("Turn loaded...\n");
+  if (game_management_load_minimap(game, filename) == ERROR) return ERROR;
+  printf("Minimap loaded...\n");
 
   return OK;
 }
@@ -740,6 +749,20 @@ Status game_set_spaces_discovered (Game *game, Space *space) {
   game_set_spaces_discovered_rec(game, space);
  
   return OK;
+}
+
+int game_get_floor(Game *game, Space *space) {
+  Id id = NO_ID;
+  int floor = 0;
+
+  if (!game || !space) return -1;
+
+  if ((id = space_get_id(space)) == NO_ID) return -1;
+  floor = (int)id;
+
+  while (floor > 10) floor /= 10;
+
+  return floor;
 }
 
 /**
@@ -1232,10 +1255,41 @@ Status game_get_friendly(Role role1, Role role2, Bool *relationship) {
       else (*relationship = FALSE);
       return OK;
       break;
+
+    default:
+      break;
   }
 
   *relationship = FALSE;
   return ERROR;
+}
+
+/**
+ * ***************  Minimap management  ***************
+ */
+
+/*Sets the graphic description of a minimap*/
+Status game_set_minimap_at(Game *game, char *gdesc, int pos, int floor) {
+  int i = 0;
+
+  if (!game || !gdesc || floor < 0 || floor >= NUM_FLOORS || pos < 0 || pos >= MINIMAP_HEIGHT) return ERROR;
+
+  sprintf(game->minimap[floor][pos], "%s", gdesc);
+
+  /*We prevent from saving a line break in the gdesc*/
+  for (i = 0; i < MINIMAP_WIDTH; i++) {
+    if ((game->minimap[floor][pos][i] == '\n') || (game->minimap[floor][pos][i] == '\r'))
+      game->minimap[floor][pos][i] = ' ';
+  }
+
+  return OK;
+}
+
+/*Gets the graphic descrpition of a minimap*/
+char *game_get_minimap_at(Game *game, int line, int floor) {
+  if (!game || line < 0 || line >= MINIMAP_HEIGHT || floor < 0 || floor >= NUM_FLOORS) return NULL;
+
+  return game->minimap[floor][line];
 }
 
 /**
@@ -1644,7 +1698,8 @@ Status game_save(Game *game, char *filename) {
   if (game_management_save_characters(game, filename) == ERROR) return ERROR;
   if (game_management_save_players(game, filename) == ERROR) return ERROR;
   if (game_management_save_turn(game, filename) == ERROR) return ERROR;
-  if(game_management_save_mode(game, filename) == ERROR) return ERROR;
+  if (game_management_save_mode(game, filename) == ERROR) return ERROR;
+  if (game_management_save_minimap(game, filename) == ERROR) return ERROR;
 
   return OK;
 }
@@ -1680,7 +1735,8 @@ Status game_load(Game **game, char *filename) {
 
 /*Prints information about every space in the game and the object and player's location*/
 Status game_print(Game *game) {
-  int i = 0;
+  int i = 0, j = 0;
+  char *minimap = NULL;
 
   if (!game) return ERROR;
 
@@ -1715,6 +1771,25 @@ Status game_print(Game *game) {
     fprintf(stdout, "\n-> Character %d:\n", i);
     character_print(game->characters[i]);
     fprintf(stdout, "--> Character location: %d\n", (int)game_get_character_location(game, character_get_id(game->characters[i])));
+  }
+
+  fprintf(stdout, "=> Classes: \n");
+  for (i = 0; i < game->n_classes; i++) {
+    fprintf(stdout, "\n-> Class %d:\n", i);
+    class_print(game->class[i]);
+  }
+
+  fprintf(stdout, "=> Deterministic: %d\n", (int)game->deterministic);
+
+  fprintf(stdout, "=> Finished: %d\n", (int)game->finished);
+
+  fprintf(stdout, "=> Minimaps: \n");
+  for (i = 0; i < NUM_FLOORS; i++) {
+    fprintf(stdout, "\n-> Floor %d:\n", i);
+    for (j = 0; j < MINIMAP_HEIGHT; j++) {
+      minimap = game_get_minimap_at(game, j, i);
+      fprintf(stdout, "%s\n", minimap);
+    }
   }
 
   return OK;

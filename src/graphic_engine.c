@@ -241,6 +241,15 @@ void graphic_engine_print_vertical_wall(Game *game, Link *link, char lines[SQ_LI
  */
 void graphic_engine_print_horizontal_wall(Game *game, Link *link, char line[WIDTH_MAP + 1]);
 
+/**
+ * @brief Prints the minimap
+ * @author Alina Datsko
+ * 
+ * @param game Pointer to the game
+ * @param link Pointer to the graphic engine
+ */
+void graphic_engine_print_minimap(Game *game, Graphic_engine *ge);
+
 /*
  * ************** Implementation of private functions ****************
 */
@@ -590,6 +599,11 @@ void graphic_engine_map_print_map(Game *game, Graphic_engine *ge, Id id[9]){
   Space *space[9];
   int i = 0;
 
+  if (command_get_code(game_get_last_command(game)) == VIEW) {
+    graphic_engine_print_minimap(game, ge);
+    return;
+  }
+
   for(i=0;i<SQ_LINES;i++){
     lines[i][0] = '\0';
   }
@@ -670,6 +684,25 @@ void graphic_engine_map_print_map(Game *game, Graphic_engine *ge, Id id[9]){
   screen_area_puts(ge->map,interm);
   
 
+}
+
+void graphic_engine_print_minimap(Game *game, Graphic_engine *ge) {
+  Space *sp = NULL;
+  Id id_act = NO_ID;
+  int i = 0, floor = 0;
+  char *minimap = NULL;
+
+  if (!game || ! ge) return;
+
+  if ((id_act = game_get_player_location(game)) == NO_ID) return;
+  if ((sp = game_get_space(game, id_act)) == NULL) return;
+
+  if ((floor = game_get_floor(game, sp)) == -1) return;
+
+  while ((minimap = game_get_minimap_at(game, i, floor))) {
+    screen_area_puts(ge->map, minimap);
+    i++;
+  }
 }
 
 /*

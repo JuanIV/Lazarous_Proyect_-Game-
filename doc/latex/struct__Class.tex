@@ -1,0 +1,98 @@
+\doxysection{\+\_\+\+Class Struct Reference}
+\hypertarget{struct__Class}{}\label{struct__Class}\index{\_Class@{\_Class}}
+
+
+Stores all information about a class of objects that share same values.  
+
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Class_a76dff471d8dee1a2f141a106846289e2}{id}}
+\item 
+\mbox{\hyperlink{types_8h_a305263dd89ad9fde1863aece00907351}{Tag}} \mbox{\hyperlink{struct__Class_a3f8039ea039fcdd96be8070b3ebf14a5}{tag}}
+\item 
+char \mbox{\hyperlink{struct__Class_a586f6144c1978482a1133ec4f53e859c}{name}} \mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}
+\item 
+char \mbox{\hyperlink{struct__Class_a1b7b7c073bae5065513dba3cd31e50c1}{desc}} \mbox{[}\mbox{\hyperlink{class_8h_ab720afd8c7e3d72e1537cda8c5114951}{OBJ\+\_\+\+DESC\+\_\+\+MX}}+1\mbox{]}
+\item 
+char \mbox{\hyperlink{struct__Class_a87975079ba9bf15022069cf68768a3c9}{close\+\_\+up}} \mbox{[}\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}}+1\mbox{]}
+\item 
+\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \mbox{\hyperlink{struct__Class_a56888a9859cdd9e3d2cd737c749f8bc1}{movable}}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Class_a288da28be48459b624ea4cacc7768ed8}{depedency}}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Class_ae402ec27a3657b4b5779e2d293f78ad0}{open}}
+\item 
+int \mbox{\hyperlink{struct__Class_aa2c7f0656d020ef2756b215b2cdf6f61}{luck}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Stores all information about a class of objects that share same values. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Field Documentation}
+\Hypertarget{struct__Class_a87975079ba9bf15022069cf68768a3c9}\label{struct__Class_a87975079ba9bf15022069cf68768a3c9} 
+\index{\_Class@{\_Class}!close\_up@{close\_up}}
+\index{close\_up@{close\_up}!\_Class@{\_Class}}
+\doxysubsubsection{\texorpdfstring{close\_up}{close\_up}}
+{\footnotesize\ttfamily char \+\_\+\+Class\+::close\+\_\+up\mbox{[}\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}}+1\mbox{]}}
+
+Close up aspect of the object \Hypertarget{struct__Class_a288da28be48459b624ea4cacc7768ed8}\label{struct__Class_a288da28be48459b624ea4cacc7768ed8} 
+\index{\_Class@{\_Class}!depedency@{depedency}}
+\index{depedency@{depedency}!\_Class@{\_Class}}
+\doxysubsubsection{\texorpdfstring{depedency}{depedency}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Class\+::depedency}
+
+Id of the object class that is needed to use this one \Hypertarget{struct__Class_a1b7b7c073bae5065513dba3cd31e50c1}\label{struct__Class_a1b7b7c073bae5065513dba3cd31e50c1} 
+\index{\_Class@{\_Class}!desc@{desc}}
+\index{desc@{desc}!\_Class@{\_Class}}
+\doxysubsubsection{\texorpdfstring{desc}{desc}}
+{\footnotesize\ttfamily char \+\_\+\+Class\+::desc\mbox{[}\mbox{\hyperlink{class_8h_ab720afd8c7e3d72e1537cda8c5114951}{OBJ\+\_\+\+DESC\+\_\+\+MX}}+1\mbox{]}}
+
+Description of the class \Hypertarget{struct__Class_a76dff471d8dee1a2f141a106846289e2}\label{struct__Class_a76dff471d8dee1a2f141a106846289e2} 
+\index{\_Class@{\_Class}!id@{id}}
+\index{id@{id}!\_Class@{\_Class}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Class\+::id}
+
+Id number of the class, it must be unique \Hypertarget{struct__Class_aa2c7f0656d020ef2756b215b2cdf6f61}\label{struct__Class_aa2c7f0656d020ef2756b215b2cdf6f61} 
+\index{\_Class@{\_Class}!luck@{luck}}
+\index{luck@{luck}!\_Class@{\_Class}}
+\doxysubsubsection{\texorpdfstring{luck}{luck}}
+{\footnotesize\ttfamily int \+\_\+\+Class\+::luck}
+
+Luck that it gives or takes to the player \Hypertarget{struct__Class_a56888a9859cdd9e3d2cd737c749f8bc1}\label{struct__Class_a56888a9859cdd9e3d2cd737c749f8bc1} 
+\index{\_Class@{\_Class}!movable@{movable}}
+\index{movable@{movable}!\_Class@{\_Class}}
+\doxysubsubsection{\texorpdfstring{movable}{movable}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \+\_\+\+Class\+::movable}
+
+True if the objects of thie class are movable or False if not \Hypertarget{struct__Class_a586f6144c1978482a1133ec4f53e859c}\label{struct__Class_a586f6144c1978482a1133ec4f53e859c} 
+\index{\_Class@{\_Class}!name@{name}}
+\index{name@{name}!\_Class@{\_Class}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily char \+\_\+\+Class\+::name\mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}}
+
+Name of the space \Hypertarget{struct__Class_ae402ec27a3657b4b5779e2d293f78ad0}\label{struct__Class_ae402ec27a3657b4b5779e2d293f78ad0} 
+\index{\_Class@{\_Class}!open@{open}}
+\index{open@{open}!\_Class@{\_Class}}
+\doxysubsubsection{\texorpdfstring{open}{open}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Class\+::open}
+
+Id of the link that this class\textquotesingle{} objects can open \Hypertarget{struct__Class_a3f8039ea039fcdd96be8070b3ebf14a5}\label{struct__Class_a3f8039ea039fcdd96be8070b3ebf14a5} 
+\index{\_Class@{\_Class}!tag@{tag}}
+\index{tag@{tag}!\_Class@{\_Class}}
+\doxysubsubsection{\texorpdfstring{tag}{tag}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a305263dd89ad9fde1863aece00907351}{Tag}} \+\_\+\+Class\+::tag}
+
+Represents the type of object that it is 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{class_8c}{class.\+c}}\end{DoxyCompactItemize}

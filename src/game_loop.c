@@ -205,6 +205,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
       if(game_rules_update_turn(*game, &update_turn) == ERROR) return;
       if (update_turn == TRUE) {
         graphic_engine_paint_game(gengine, *game);
+        if(game_erase_all_messages(*game) == ERROR) return;
         sleep(3);
         game_next_turn(*game);
       }

@@ -176,13 +176,13 @@ void game_actions_equip_weapon(Game *game, Object *obj, Character *trg);
 void game_actions_set_trap(Game *game, Object *obj);
 
 /**
- * @brief Action of reading a NOTE
+ * @brief Action of reading a note
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @param obj Pointer to the object that is the NOTE
+ * @param obj Pointer to the object that is the note
  */
-void game_actions_read_NOTE(Game *game, Object *obj);
+void game_actions_read_note(Game *game, Object *obj);
 
 /**
  * @brief Action of using a switch
@@ -256,6 +256,14 @@ void game_actions_cooperate(Game *game);
  * @param game Pointer to the game
  */
 void game_actions_betray(Game *game);
+
+/**
+ * @brief It defines the action of using an object
+ * @author Alina Datsko
+ * 
+ * @param game Pointer to the game
+ */
+void game_actions_view(Game *game);
 
 /**
      Game actions implementation
@@ -359,11 +367,17 @@ Status game_actions_update(Game **game, Command *command, CommandCode *cmd_code,
     case DENY:
       game_actions_deny(*game);
       break;
+
     case COOPERATE:
       game_actions_cooperate(*game);
       break;
+
     case BETRAY:
       game_actions_betray(*game);
+
+    case VIEW:
+      game_actions_view(*game);
+      break;
 
     default:
       break;
@@ -537,7 +551,7 @@ void game_actions_take(Game *game) {
 
   tag = class_get_tag(class);
 
-  /*If you try to pick up a NOTE or a switch, the game should advice you how to use it*/
+  /*If you try to pick up a note or a switch, the game should advice you how to use it*/
   if(tag == NOTE){
     game_set_last_message(game, "That's a note. To read it i must type \"use\" followed by its name...");
     return;
@@ -1111,7 +1125,7 @@ void game_actions_use(Game *game){
       game_actions_set_trap(game, obj);
       break;
     case NOTE:
-      game_actions_read_NOTE(game, obj);
+      game_actions_read_note(game, obj);
       break;
     case SWITCH:
       game_actions_use_switch(game, obj);
@@ -1235,7 +1249,7 @@ void game_actions_set_trap(Game *game, Object *obj){
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
-void game_actions_read_NOTE(Game *game, Object *obj){
+void game_actions_read_note(Game *game, Object *obj){
   char *desc = NULL, *closeup = NULL;
   Class *class = NULL;
   int i, use_value, turn, multiplier[8] = {2,3,5,7,11,13,17,19} ;
@@ -1264,15 +1278,18 @@ void game_actions_read_NOTE(Game *game, Object *obj){
 }
 
 void game_actions_use_switch(Game *game, Object *obj){
-  int use_value;
+  int state;
 
-  use_value = object_get_use_value(obj);
-  if(use_value == -1) return;
+  if (!game || !obj) return;
 
-  if(use_value) object_set_use_value(obj, 0);
-  else object_set_use_value(obj, 1);
+  state = object_get_use_value(obj);
+  if(state == -1) return;
 
-  game_set_last_message(game, "*pip!*");
+  /*Alternates the state between 0 and 1*/
+  state = (state + 1) % 2;
+  if (object_set_use_value(obj, state) == ERROR) return;
+
+  if(game_set_last_message_at_pos_with_info(game, game_get_turn(game),"*pip!*",object_get_id(obj),OBJECT) == ERROR) return;
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -1565,4 +1582,10 @@ void game_actions_betray(Game *game) {
   if(!game) return;
 
   if (game_set_last_status(game, ERROR) == ERROR) return;
+}
+
+void game_actions_view(Game *game) {
+if(!game) return;
+
+  if (game_set_last_status(game, OK) == ERROR) return;
 }

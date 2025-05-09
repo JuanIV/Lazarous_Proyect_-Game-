@@ -74,6 +74,24 @@
 #define PLY_BASE_DMG 5
 
 /**
+ * @brief Number of floors in the game
+ * 
+ */
+#define NUM_FLOORS 10
+
+/**
+ * @brief Height of the minimap
+ * 
+ */
+#define MINIMAP_HEIGHT 34
+
+/**
+ * @brief Width of the minimap
+ * 
+ */
+#define MINIMAP_WIDTH 72
+
+/**
  * @brief It stores the game information
  *
  */
@@ -349,6 +367,15 @@ Status game_add_space(Game *game, Space *space);
  */
 Status game_set_spaces_discovered (Game *game, Space *space);
 
+/**
+ * @brief Gets the floor of a space by its id
+ * @author Alina Datsko
+ * 
+ * @param game Pointer to the game
+ * @param space Pointer to the space which floor will be get
+ * @return The floor or -1 if there was a mistake
+ */
+int game_get_floor(Game *game, Space *space);
 
 
 /**
@@ -838,6 +865,27 @@ Status game_set_last_close_up(Game *game, char *closeup, int pos);
  * @return ERROR if there was any mistake, OK otherwise
  */
 Status game_set_last_close_up_at_pos(Game *game, char *closeup, int pos, int line);
+
+/** 
+ * @brief Sets the minimap description at a specific line and floor
+ * @author Alina Datsko
+ * 
+ * @param game Pointer to the game
+ * @param gdesc Description to be set
+ * @param pos Line where the description is going to be set
+ * @param floor Floor where the description is going to be set
+ */
+Status game_set_minimap_at(Game *game, char *gdesc, int pos, int floor);
+
+/**
+ * @brief Gets the minimap description at a specific line and floor
+ * @author Alina Datsko
+ * 
+ * @param game Pointer to the game
+ * @param line Line of the minimap to get
+ * @param floor Floor which minimap will be get
+ */
+char *game_get_minimap_at(Game *game, int line, int floor);
 
 /**
  * @brief It gets the last command from the game struct

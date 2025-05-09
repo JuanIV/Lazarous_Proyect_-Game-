@@ -1,0 +1,60 @@
+\doxysection{Interface\+Data Struct Reference}
+\hypertarget{structInterfaceData}{}\label{structInterfaceData}\index{InterfaceData@{InterfaceData}}
+
+
+Struct that stores the information of the interface data of each player\+: last message and last 3 commands.  
+
+
+
+
+Collaboration diagram for Interface\+Data\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{structInterfaceData__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structMessage}{Message}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structInterfaceData_a9a4f60edc94aa637f9b90ce76a7373ba}{messages}} \mbox{[}\mbox{\hyperlink{game_8h_a8259bbeef0c598730055df66c5e7e9e5}{NUM\+\_\+\+MSGS}}\mbox{]}
+\item 
+char \mbox{\hyperlink{structInterfaceData_a0dc33238f8c25197c1ab0dbb507104e5}{last\+\_\+closeup}} \mbox{[}\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}}+1\mbox{]}
+\item 
+\mbox{\hyperlink{command_8h_a7d2935971c252377cb0fc1c8545dc2bc}{Command}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structInterfaceData_ace4bdc3dcee6624f4bc12f7ab1c11f87}{last\+\_\+cmds}} \mbox{[}\mbox{\hyperlink{game_8h_ace8e1a4bd0ac9195ac70783a9ae92470}{NUM\+\_\+\+CMDS}}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct that stores the information of the interface data of each player\+: last message and last 3 commands. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Field Documentation}
+\Hypertarget{structInterfaceData_a0dc33238f8c25197c1ab0dbb507104e5}\label{structInterfaceData_a0dc33238f8c25197c1ab0dbb507104e5} 
+\index{InterfaceData@{InterfaceData}!last\_closeup@{last\_closeup}}
+\index{last\_closeup@{last\_closeup}!InterfaceData@{InterfaceData}}
+\doxysubsubsection{\texorpdfstring{last\_closeup}{last\_closeup}}
+{\footnotesize\ttfamily char Interface\+Data\+::last\+\_\+closeup\mbox{[}\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}}+1\mbox{]}}
+
+Last close up to be shown \Hypertarget{structInterfaceData_ace4bdc3dcee6624f4bc12f7ab1c11f87}\label{structInterfaceData_ace4bdc3dcee6624f4bc12f7ab1c11f87} 
+\index{InterfaceData@{InterfaceData}!last\_cmds@{last\_cmds}}
+\index{last\_cmds@{last\_cmds}!InterfaceData@{InterfaceData}}
+\doxysubsubsection{\texorpdfstring{last\_cmds}{last\_cmds}}
+{\footnotesize\ttfamily \mbox{\hyperlink{command_8h_a7d2935971c252377cb0fc1c8545dc2bc}{Command}}\texorpdfstring{$\ast$}{*} Interface\+Data\+::last\+\_\+cmds\mbox{[}\mbox{\hyperlink{game_8h_ace8e1a4bd0ac9195ac70783a9ae92470}{NUM\+\_\+\+CMDS}}\mbox{]}}
+
+Last command used \Hypertarget{structInterfaceData_a9a4f60edc94aa637f9b90ce76a7373ba}\label{structInterfaceData_a9a4f60edc94aa637f9b90ce76a7373ba} 
+\index{InterfaceData@{InterfaceData}!messages@{messages}}
+\index{messages@{messages}!InterfaceData@{InterfaceData}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structMessage}{Message}}\texorpdfstring{$\ast$}{*} Interface\+Data\+::messages\mbox{[}\mbox{\hyperlink{game_8h_a8259bbeef0c598730055df66c5e7e9e5}{NUM\+\_\+\+MSGS}}\mbox{]}}
+
+Messages to be shown on screen 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{game_8c}{game.\+c}}\end{DoxyCompactItemize}

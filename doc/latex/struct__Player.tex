@@ -1,0 +1,116 @@
+\doxysection{\+\_\+\+Player Struct Reference}
+\hypertarget{struct__Player}{}\label{struct__Player}\index{\_Player@{\_Player}}
+
+
+Struct that stores the information of a player\+: Id, name, its backpack, its health, location and graphic description.  
+
+
+
+
+Collaboration diagram for \+\_\+\+Player\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=164pt]{struct__Player__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Player_a60d635cd063816a9c1bd873f4868bb90}{id}}
+\item 
+char \mbox{\hyperlink{struct__Player_ac89715f913cc607b75eb7236765c41f5}{name}} \mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}
+\item 
+\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \mbox{\hyperlink{struct__Player_a7888e09a156c9fe1938b062cd9ba780d}{role}}
+\item 
+char \mbox{\hyperlink{struct__Player_a8759109d475dd85c9523063e38400b36}{gdesc}} \mbox{[}\mbox{\hyperlink{player_8h_a203a7ae497c7c9e28922ba7af8718378}{PLY\+\_\+\+GD\+\_\+\+SZ}}+1\mbox{]}
+\item 
+char \mbox{\hyperlink{struct__Player_ad47cc9c4d959ad92c9a8867e1136a9a3}{close\+\_\+up}} \mbox{[}\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}}+1\mbox{]}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Player_adbb6195d15b88f3f658e74274eff52d8}{location}}
+\item 
+int \mbox{\hyperlink{struct__Player_a660f836f5258dd532ae6bc77e447b80f}{health}}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Player_a4e31be7389edc858b3e99e85a1284beb}{armor}}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Player_aea19f31eb8725e8bc4cceed3fb545fe1}{weapon}}
+\item 
+\mbox{\hyperlink{inventory_8h_a2253bf64ac4ce6a9c1d6f39c0b0d32a3}{Inventory}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{struct__Player_a566b4fc26d28f33d9bd2a1743ae6c067}{backpack}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct that stores the information of a player\+: Id, name, its backpack, its health, location and graphic description. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Field Documentation}
+\Hypertarget{struct__Player_a4e31be7389edc858b3e99e85a1284beb}\label{struct__Player_a4e31be7389edc858b3e99e85a1284beb} 
+\index{\_Player@{\_Player}!armor@{armor}}
+\index{armor@{armor}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{armor}{armor}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Player\+::armor}
+
+Id of the object that serves as armor \Hypertarget{struct__Player_a566b4fc26d28f33d9bd2a1743ae6c067}\label{struct__Player_a566b4fc26d28f33d9bd2a1743ae6c067} 
+\index{\_Player@{\_Player}!backpack@{backpack}}
+\index{backpack@{backpack}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{backpack}{backpack}}
+{\footnotesize\ttfamily \mbox{\hyperlink{inventory_8h_a2253bf64ac4ce6a9c1d6f39c0b0d32a3}{Inventory}}\texorpdfstring{$\ast$}{*} \+\_\+\+Player\+::backpack}
+
+Inventory that the player carries \Hypertarget{struct__Player_ad47cc9c4d959ad92c9a8867e1136a9a3}\label{struct__Player_ad47cc9c4d959ad92c9a8867e1136a9a3} 
+\index{\_Player@{\_Player}!close\_up@{close\_up}}
+\index{close\_up@{close\_up}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{close\_up}{close\_up}}
+{\footnotesize\ttfamily char \+\_\+\+Player\+::close\+\_\+up\mbox{[}\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}}+1\mbox{]}}
+
+Close up aspect of the player \Hypertarget{struct__Player_a8759109d475dd85c9523063e38400b36}\label{struct__Player_a8759109d475dd85c9523063e38400b36} 
+\index{\_Player@{\_Player}!gdesc@{gdesc}}
+\index{gdesc@{gdesc}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{gdesc}{gdesc}}
+{\footnotesize\ttfamily char \+\_\+\+Player\+::gdesc\mbox{[}\mbox{\hyperlink{player_8h_a203a7ae497c7c9e28922ba7af8718378}{PLY\+\_\+\+GD\+\_\+\+SZ}}+1\mbox{]}}
+
+Graphic description of the player \Hypertarget{struct__Player_a660f836f5258dd532ae6bc77e447b80f}\label{struct__Player_a660f836f5258dd532ae6bc77e447b80f} 
+\index{\_Player@{\_Player}!health@{health}}
+\index{health@{health}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{health}{health}}
+{\footnotesize\ttfamily int \+\_\+\+Player\+::health}
+
+The player\textquotesingle{}s health \Hypertarget{struct__Player_a60d635cd063816a9c1bd873f4868bb90}\label{struct__Player_a60d635cd063816a9c1bd873f4868bb90} 
+\index{\_Player@{\_Player}!id@{id}}
+\index{id@{id}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Player\+::id}
+
+Id number of the player, it must be unique \Hypertarget{struct__Player_adbb6195d15b88f3f658e74274eff52d8}\label{struct__Player_adbb6195d15b88f3f658e74274eff52d8} 
+\index{\_Player@{\_Player}!location@{location}}
+\index{location@{location}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{location}{location}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Player\+::location}
+
+Id number of the space where the player is currently located \Hypertarget{struct__Player_ac89715f913cc607b75eb7236765c41f5}\label{struct__Player_ac89715f913cc607b75eb7236765c41f5} 
+\index{\_Player@{\_Player}!name@{name}}
+\index{name@{name}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily char \+\_\+\+Player\+::name\mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}}
+
+Name of the player \Hypertarget{struct__Player_a7888e09a156c9fe1938b062cd9ba780d}\label{struct__Player_a7888e09a156c9fe1938b062cd9ba780d} 
+\index{\_Player@{\_Player}!role@{role}}
+\index{role@{role}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{role}{role}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \+\_\+\+Player\+::role}
+
+Role of the player in the game \Hypertarget{struct__Player_aea19f31eb8725e8bc4cceed3fb545fe1}\label{struct__Player_aea19f31eb8725e8bc4cceed3fb545fe1} 
+\index{\_Player@{\_Player}!weapon@{weapon}}
+\index{weapon@{weapon}!\_Player@{\_Player}}
+\doxysubsubsection{\texorpdfstring{weapon}{weapon}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Player\+::weapon}
+
+Id of the object that serves as weapon 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{player_8c}{player.\+c}}\end{DoxyCompactItemize}

@@ -1,0 +1,34 @@
+<map id="include/character.h" name="include/character.h">
+<area shape="rect" id="Node000001" title="It defines the character module." alt="" coords="577,5,722,31"/>
+<area shape="rect" id="Node000002" href="$game_8h.html" title="It defines the game interface." alt="" coords="444,79,567,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="615,39,530,81,528,76,613,34"/>
+<area shape="rect" id="Node000013" href="$character_8c.html" title="It implements the character module." alt="" coords="591,79,707,104"/>
+<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="652,44,652,79,647,79,647,44"/>
+<area shape="rect" id="Node000014" href="$character__test_8c.html" title="It tests the character module." alt="" coords="732,79,881,104"/>
+<area shape="poly" id="edge18_Node000001_Node000014" title=" " alt="" coords="688,34,782,76,780,81,686,39"/>
+<area shape="rect" id="Node000003" href="$game__actions_8h.html" title="It defines the game update interface." alt="" coords="33,152,209,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="431,109,184,155,183,149,430,104"/>
+<area shape="rect" id="Node000005" href="$game__loop_8c.html" title="It defines the game loop." alt="" coords="333,225,461,251"/>
+<area shape="poly" id="edge16_Node000002_Node000005" title=" " alt="" coords="490,116,461,154,408,227,403,223,457,150,485,113"/>
+<area shape="rect" id="Node000006" href="$game__management_8h.html" title="It allows to load games saved from files." alt="" coords="471,152,687,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="529,112,569,150,565,154,525,116"/>
+<area shape="rect" id="Node000007" href="$game_8c.html" title="It implements the game structure." alt="" coords="696,225,789,251"/>
+<area shape="poly" id="edge15_Node000002_Node000007" title=" " alt="" coords="572,105,647,125,678,137,700,150,716,167,728,188,742,224,737,226,724,190,712,171,697,154,676,142,645,130,571,110"/>
+<area shape="rect" id="Node000009" href="$game__rules_8h.html" title="It defines the game rules module interface." alt="" coords="234,152,395,177"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="463,111,347,154,345,149,461,106"/>
+<area shape="rect" id="Node000011" href="$graphic__engine_8h.html" title="It defines the textual graphic engine interface." alt="" coords="761,152,945,177"/>
+<area shape="poly" id="edge12_Node000002_Node000011" title=" " alt="" coords="575,104,798,149,796,155,574,109"/>
+<area shape="rect" id="Node000004" href="$game__actions_8c.html" title="It implements the game update through user actions." alt="" coords="5,225,152,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="110,191,88,227,83,224,105,188"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="180,178,353,223,352,228,178,183"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="538,185,428,228,426,223,536,180"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="619,180,717,223,715,228,617,185"/>
+<area shape="rect" id="Node000008" href="$game__management_8c.html" title="It implements the game management module." alt="" coords="485,225,672,251"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="581,191,581,225,576,225,576,191"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="340,184,386,223,382,227,337,188"/>
+<area shape="rect" id="Node000010" href="$game__rules_8c.html" title="It implements the game rules module." alt="" coords="177,225,309,251"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="295,189,256,227,252,223,291,185"/>
+<area shape="poly" id="edge13_Node000011_Node000005" title=" " alt="" coords="767,182,462,229,461,224,766,177"/>
+<area shape="rect" id="Node000012" href="$graphic__engine_8c.html" title="It implements a textual graphic engine." alt="" coords="813,225,968,251"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="868,188,887,224,882,226,863,191"/>
+</map>

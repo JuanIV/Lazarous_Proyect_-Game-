@@ -1,0 +1,92 @@
+\doxysection{\+\_\+\+Space Struct Reference}
+\hypertarget{struct__Space}{}\label{struct__Space}\index{\_Space@{\_Space}}
+
+
+Struct that stores the information of a space\+: id, name, graphic description, a set of objects, the character in the space and whether it is discovered.  
+
+
+
+
+Collaboration diagram for \+\_\+\+Space\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=161pt]{struct__Space__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Space_a70cb461deb9ac073e401b607339b567f}{id}}
+\item 
+char \mbox{\hyperlink{struct__Space_aa1c9c994c2d16ecf3ef46138685fdfdc}{name}} \mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}
+\item 
+char \mbox{\hyperlink{struct__Space_a27c4606863bf8ab0a6a9b8bf80603e27}{gdesc}} \mbox{[}\mbox{\hyperlink{space_8h_a828c41c0f3f342cb161793ba4e315ae7}{SP\+\_\+\+GD\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{space_8h_ae1d06d5a4f2592322bbae9e6094d8dc7}{SP\+\_\+\+GD\+\_\+\+WTH}}+1\mbox{]}
+\item 
+\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{struct__Space_a661ed8b0fc8085b6db70188aa5085625}{objects}}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Space_a93efffdb4a64205cb7fe220fe23a8815}{trap}}
+\item 
+\mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{struct__Space_a59a51b1add065eaf16c620e9fa801f0e}{characters}}
+\item 
+\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \mbox{\hyperlink{struct__Space_abb3388dbc84f4a0f70fe5b588b0a3619}{discovered}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct that stores the information of a space\+: id, name, graphic description, a set of objects, the character in the space and whether it is discovered. 
+
+\begin{DoxyAuthor}{Author}
+Juan Ibáñez 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Field Documentation}
+\Hypertarget{struct__Space_a59a51b1add065eaf16c620e9fa801f0e}\label{struct__Space_a59a51b1add065eaf16c620e9fa801f0e} 
+\index{\_Space@{\_Space}!characters@{characters}}
+\index{characters@{characters}!\_Space@{\_Space}}
+\doxysubsubsection{\texorpdfstring{characters}{characters}}
+{\footnotesize\ttfamily \mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}}\texorpdfstring{$\ast$}{*} \+\_\+\+Space\+::characters}
+
+Set of the characters in the space \Hypertarget{struct__Space_abb3388dbc84f4a0f70fe5b588b0a3619}\label{struct__Space_abb3388dbc84f4a0f70fe5b588b0a3619} 
+\index{\_Space@{\_Space}!discovered@{discovered}}
+\index{discovered@{discovered}!\_Space@{\_Space}}
+\doxysubsubsection{\texorpdfstring{discovered}{discovered}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \+\_\+\+Space\+::discovered}
+
+Bool to know if the space has been discovered \Hypertarget{struct__Space_a27c4606863bf8ab0a6a9b8bf80603e27}\label{struct__Space_a27c4606863bf8ab0a6a9b8bf80603e27} 
+\index{\_Space@{\_Space}!gdesc@{gdesc}}
+\index{gdesc@{gdesc}!\_Space@{\_Space}}
+\doxysubsubsection{\texorpdfstring{gdesc}{gdesc}}
+{\footnotesize\ttfamily char \+\_\+\+Space\+::gdesc\mbox{[}\mbox{\hyperlink{space_8h_a828c41c0f3f342cb161793ba4e315ae7}{SP\+\_\+\+GD\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{space_8h_ae1d06d5a4f2592322bbae9e6094d8dc7}{SP\+\_\+\+GD\+\_\+\+WTH}}+1\mbox{]}}
+
+Graphic description of the space \Hypertarget{struct__Space_a70cb461deb9ac073e401b607339b567f}\label{struct__Space_a70cb461deb9ac073e401b607339b567f} 
+\index{\_Space@{\_Space}!id@{id}}
+\index{id@{id}!\_Space@{\_Space}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Space\+::id}
+
+Id number of the space, it must be unique \Hypertarget{struct__Space_aa1c9c994c2d16ecf3ef46138685fdfdc}\label{struct__Space_aa1c9c994c2d16ecf3ef46138685fdfdc} 
+\index{\_Space@{\_Space}!name@{name}}
+\index{name@{name}!\_Space@{\_Space}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily char \+\_\+\+Space\+::name\mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}}
+
+Name of the space \Hypertarget{struct__Space_a661ed8b0fc8085b6db70188aa5085625}\label{struct__Space_a661ed8b0fc8085b6db70188aa5085625} 
+\index{\_Space@{\_Space}!objects@{objects}}
+\index{objects@{objects}!\_Space@{\_Space}}
+\doxysubsubsection{\texorpdfstring{objects}{objects}}
+{\footnotesize\ttfamily \mbox{\hyperlink{set_8h_a6d3b7f7c92cbb4577ef3ef7ddbf93161}{Set}}\texorpdfstring{$\ast$}{*} \+\_\+\+Space\+::objects}
+
+Set of the objects in the space \Hypertarget{struct__Space_a93efffdb4a64205cb7fe220fe23a8815}\label{struct__Space_a93efffdb4a64205cb7fe220fe23a8815} 
+\index{\_Space@{\_Space}!trap@{trap}}
+\index{trap@{trap}!\_Space@{\_Space}}
+\doxysubsubsection{\texorpdfstring{trap}{trap}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Space\+::trap}
+
+Id of the trap currently set on the space 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{space_8c}{space.\+c}}\end{DoxyCompactItemize}

@@ -1,0 +1,114 @@
+\doxysection{\+\_\+\+Character Struct Reference}
+\hypertarget{struct__Character}{}\label{struct__Character}\index{\_Character@{\_Character}}
+
+
+Struct that stores the information of a character\+: Id, name, gdesc, message and health.  
+
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Character_a6e1672c83f75d4b27acf56a54fca5f68}{id}}
+\item 
+\mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \mbox{\hyperlink{struct__Character_aa69086e5bd33b8e15a5bcaea1e4b127b}{role}}
+\item 
+char \mbox{\hyperlink{struct__Character_a809c1f8d0e467133b7fc33f4b7c54968}{name}} \mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}
+\item 
+char \mbox{\hyperlink{struct__Character_a50575f73a52c78601999d96aba428fcd}{gdesc}} \mbox{[}\mbox{\hyperlink{character_8h_a73408ff43aafb65b3b61cb75689900c6}{CHR\+\_\+\+GD\+\_\+\+SZ}}+1\mbox{]}
+\item 
+char \mbox{\hyperlink{struct__Character_ad5952f8b534efbe814c10fe14998da5d}{close\+\_\+up}} \mbox{[}\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}}+1\mbox{]}
+\item 
+char \mbox{\hyperlink{struct__Character_a690d3ba46ee864b2148834d14a326102}{message}} \mbox{[}\mbox{\hyperlink{types_8h_a33dfe63efe4e2b434738bf439080c063}{MESG\+\_\+\+SIZE}}+1\mbox{]}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Character_a260a82e7dc40251f2ea2bb09615208de}{following}}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Character_a9033b4f560d4654d7d0ac7ef59e842a3}{weapon}}
+\item 
+\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \mbox{\hyperlink{struct__Character_a961edfec4cb77411899815c16ff78109}{armor}}
+\item 
+int \mbox{\hyperlink{struct__Character_a1e1daf65298eecf5777947f86d6b2568}{health}}
+\item 
+int \mbox{\hyperlink{struct__Character_ae83629c148bd39c069a5bbe743b68eda}{damage}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct that stores the information of a character\+: Id, name, gdesc, message and health. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Field Documentation}
+\Hypertarget{struct__Character_a961edfec4cb77411899815c16ff78109}\label{struct__Character_a961edfec4cb77411899815c16ff78109} 
+\index{\_Character@{\_Character}!armor@{armor}}
+\index{armor@{armor}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{armor}{armor}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Character\+::armor}
+
+Id of the object that serves as armor \Hypertarget{struct__Character_ad5952f8b534efbe814c10fe14998da5d}\label{struct__Character_ad5952f8b534efbe814c10fe14998da5d} 
+\index{\_Character@{\_Character}!close\_up@{close\_up}}
+\index{close\_up@{close\_up}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{close\_up}{close\_up}}
+{\footnotesize\ttfamily char \+\_\+\+Character\+::close\+\_\+up\mbox{[}\mbox{\hyperlink{types_8h_a0755920fb2f1f8a6074314248c776e69}{POV\+\_\+\+HGHT}}\mbox{]}\mbox{[}\mbox{\hyperlink{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}{POV\+\_\+\+WDTH}}+1\mbox{]}}
+
+Close up aspect of the character \Hypertarget{struct__Character_ae83629c148bd39c069a5bbe743b68eda}\label{struct__Character_ae83629c148bd39c069a5bbe743b68eda} 
+\index{\_Character@{\_Character}!damage@{damage}}
+\index{damage@{damage}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{damage}{damage}}
+{\footnotesize\ttfamily int \+\_\+\+Character\+::damage}
+
+Damage that the character deals \Hypertarget{struct__Character_a260a82e7dc40251f2ea2bb09615208de}\label{struct__Character_a260a82e7dc40251f2ea2bb09615208de} 
+\index{\_Character@{\_Character}!following@{following}}
+\index{following@{following}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{following}{following}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Character\+::following}
+
+Id of the player it\textquotesingle{}s following \Hypertarget{struct__Character_a50575f73a52c78601999d96aba428fcd}\label{struct__Character_a50575f73a52c78601999d96aba428fcd} 
+\index{\_Character@{\_Character}!gdesc@{gdesc}}
+\index{gdesc@{gdesc}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{gdesc}{gdesc}}
+{\footnotesize\ttfamily char \+\_\+\+Character\+::gdesc\mbox{[}\mbox{\hyperlink{character_8h_a73408ff43aafb65b3b61cb75689900c6}{CHR\+\_\+\+GD\+\_\+\+SZ}}+1\mbox{]}}
+
+Graphic description of the character \Hypertarget{struct__Character_a1e1daf65298eecf5777947f86d6b2568}\label{struct__Character_a1e1daf65298eecf5777947f86d6b2568} 
+\index{\_Character@{\_Character}!health@{health}}
+\index{health@{health}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{health}{health}}
+{\footnotesize\ttfamily int \+\_\+\+Character\+::health}
+
+Health of the character \Hypertarget{struct__Character_a6e1672c83f75d4b27acf56a54fca5f68}\label{struct__Character_a6e1672c83f75d4b27acf56a54fca5f68} 
+\index{\_Character@{\_Character}!id@{id}}
+\index{id@{id}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Character\+::id}
+
+Id number of the character, it must be unique \Hypertarget{struct__Character_a690d3ba46ee864b2148834d14a326102}\label{struct__Character_a690d3ba46ee864b2148834d14a326102} 
+\index{\_Character@{\_Character}!message@{message}}
+\index{message@{message}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{message}{message}}
+{\footnotesize\ttfamily char \+\_\+\+Character\+::message\mbox{[}\mbox{\hyperlink{types_8h_a33dfe63efe4e2b434738bf439080c063}{MESG\+\_\+\+SIZE}}+1\mbox{]}}
+
+\doxylink{structMessage}{Message} of the character \Hypertarget{struct__Character_a809c1f8d0e467133b7fc33f4b7c54968}\label{struct__Character_a809c1f8d0e467133b7fc33f4b7c54968} 
+\index{\_Character@{\_Character}!name@{name}}
+\index{name@{name}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily char \+\_\+\+Character\+::name\mbox{[}\mbox{\hyperlink{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}{WORD\+\_\+\+SIZE}}+1\mbox{]}}
+
+Name of the character \Hypertarget{struct__Character_aa69086e5bd33b8e15a5bcaea1e4b127b}\label{struct__Character_aa69086e5bd33b8e15a5bcaea1e4b127b} 
+\index{\_Character@{\_Character}!role@{role}}
+\index{role@{role}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{role}{role}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \+\_\+\+Character\+::role}
+
+Role of the character in the game \Hypertarget{struct__Character_a9033b4f560d4654d7d0ac7ef59e842a3}\label{struct__Character_a9033b4f560d4654d7d0ac7ef59e842a3} 
+\index{\_Character@{\_Character}!weapon@{weapon}}
+\index{weapon@{weapon}!\_Character@{\_Character}}
+\doxysubsubsection{\texorpdfstring{weapon}{weapon}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}} \+\_\+\+Character\+::weapon}
+
+Id of the object that serves as weapon 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{character_8c}{character.\+c}}\end{DoxyCompactItemize}

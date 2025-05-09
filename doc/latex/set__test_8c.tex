@@ -1,0 +1,350 @@
+\doxysection{src/set\+\_\+test.c File Reference}
+\hypertarget{set__test_8c}{}\label{set__test_8c}\index{src/set\_test.c@{src/set\_test.c}}
+
+
+It tests set module.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}set.\+h"{}}\newline
+{\ttfamily \#include "{}set\+\_\+test.\+h"{}}\newline
+{\ttfamily \#include "{}test.\+h"{}}\newline
+Include dependency graph for set\+\_\+test.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{set__test_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{set__test_8c_a2a77d2f2c5b698c69c19e1f8782bf709}\label{set__test_8c_a2a77d2f2c5b698c69c19e1f8782bf709} 
+\#define {\bfseries MAX\+\_\+\+TESTS}~18
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{set__test_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
+\begin{DoxyCompactList}\small\item\em Main function for SET unit tests. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{set__test_8c_a6f654ab4b44e8a9b9cedfb78c378a5d7}{test1\+\_\+set\+\_\+create}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_abed3d273788e23fc31ae7f5ed59277b9}{test2\+\_\+set\+\_\+create}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_abbf27b57efa5c91184003ec07d1f5708}{test1\+\_\+set\+\_\+destroy}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_a8418524584e638fc6f2d03f726db61f1}{test2\+\_\+set\+\_\+destroy}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_a014ebe1b46af5ea318143fc61894d9c0}{test1\+\_\+set\+\_\+add}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_ab09827322a313bf97b9757c98c2bdbb0}{test2\+\_\+set\+\_\+add}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_af71fed6f79d687763c7b623affd98f8e}{test3\+\_\+set\+\_\+add}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_aef76d78c2dceb2578f57f4d008f75c89}{test1\+\_\+set\+\_\+remove}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_a38ad5b8f54959557cfd86a9f583e1524}{test2\+\_\+set\+\_\+remove}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_a4c852b23db6d63a9a8f0902bb91601c3}{test1\+\_\+set\+\_\+get\+\_\+id\+\_\+at\+\_\+pos}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_ab9287d9bceed22291dd5be4a9ddbf43f}{test2\+\_\+set\+\_\+get\+\_\+id\+\_\+at\+\_\+pos}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_a1fcf3e14365b8645d62ba1279eee06c2}{test3\+\_\+set\+\_\+get\+\_\+id\+\_\+at\+\_\+pos}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_a63cde9ac2062aa348653f626ef6290b8}{test1\+\_\+set\+\_\+find}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_add28fa44c4fc4f97ae35451cd7979c67}{test2\+\_\+set\+\_\+find}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_a174af19b3c638e96c62c4b4c8282cb74}{test3\+\_\+set\+\_\+find}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_a7bae6941906dd98c8d8ffb2da8a409f6}{test1\+\_\+set\+\_\+is\+\_\+full}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_ab1de430f3e313725897f9b0b1aba543b}{test2\+\_\+set\+\_\+is\+\_\+full}} ()
+\item 
+void \mbox{\hyperlink{set__test_8c_ac9078be0a2f086b649cb04e72065e6e3}{test3\+\_\+set\+\_\+is\+\_\+full}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It tests set module. 
+
+\begin{DoxyAuthor}{Author}
+Tiago Oselka 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+24-\/02-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{set__test_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{set__test_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
+\index{set\_test.c@{set\_test.c}!main@{main}}
+\index{main@{main}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{argv }\end{DoxyParamCaption})}
+
+
+
+Main function for SET unit tests. 
+
+You may execute ALL or a SINGLE test 1.-\/ No parameter -\/\texorpdfstring{$>$}{>} ALL test are executed 2.-\/ A number means a particular test (the one identified by that number) is executed \Hypertarget{set__test_8c_a014ebe1b46af5ea318143fc61894d9c0}\label{set__test_8c_a014ebe1b46af5ea318143fc61894d9c0} 
+\index{set\_test.c@{set\_test.c}!test1\_set\_add@{test1\_set\_add}}
+\index{test1\_set\_add@{test1\_set\_add}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_set\_add()}{test1\_set\_add()}}
+{\footnotesize\ttfamily void test1\+\_\+set\+\_\+add (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000170}{Test}}]Test adding an id to the set \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to set and valid id 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_a6f654ab4b44e8a9b9cedfb78c378a5d7}\label{set__test_8c_a6f654ab4b44e8a9b9cedfb78c378a5d7} 
+\index{set\_test.c@{set\_test.c}!test1\_set\_create@{test1\_set\_create}}
+\index{test1\_set\_create@{test1\_set\_create}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_set\_create()}{test1\_set\_create()}}
+{\footnotesize\ttfamily void test1\+\_\+set\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000166}{Test}}]Test set creation \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Non NULL pointer to set 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_abbf27b57efa5c91184003ec07d1f5708}\label{set__test_8c_abbf27b57efa5c91184003ec07d1f5708} 
+\index{set\_test.c@{set\_test.c}!test1\_set\_destroy@{test1\_set\_destroy}}
+\index{test1\_set\_destroy@{test1\_set\_destroy}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_set\_destroy()}{test1\_set\_destroy()}}
+{\footnotesize\ttfamily void test1\+\_\+set\+\_\+destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000168}{Test}}]Test set destruction \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to set 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_a63cde9ac2062aa348653f626ef6290b8}\label{set__test_8c_a63cde9ac2062aa348653f626ef6290b8} 
+\index{set\_test.c@{set\_test.c}!test1\_set\_find@{test1\_set\_find}}
+\index{test1\_set\_find@{test1\_set\_find}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_set\_find()}{test1\_set\_find()}}
+{\footnotesize\ttfamily void test1\+\_\+set\+\_\+find (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000178}{Test}}]Test finding an id in the set \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to set and valid id 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == TRUE 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_a4c852b23db6d63a9a8f0902bb91601c3}\label{set__test_8c_a4c852b23db6d63a9a8f0902bb91601c3} 
+\index{set\_test.c@{set\_test.c}!test1\_set\_get\_id\_at\_pos@{test1\_set\_get\_id\_at\_pos}}
+\index{test1\_set\_get\_id\_at\_pos@{test1\_set\_get\_id\_at\_pos}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_set\_get\_id\_at\_pos()}{test1\_set\_get\_id\_at\_pos()}}
+{\footnotesize\ttfamily void test1\+\_\+set\+\_\+get\+\_\+id\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000175}{Test}}]Test getting an id at a specific position \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to set and valid position 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected id 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_a7bae6941906dd98c8d8ffb2da8a409f6}\label{set__test_8c_a7bae6941906dd98c8d8ffb2da8a409f6} 
+\index{set\_test.c@{set\_test.c}!test1\_set\_is\_full@{test1\_set\_is\_full}}
+\index{test1\_set\_is\_full@{test1\_set\_is\_full}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_set\_is\_full()}{test1\_set\_is\_full()}}
+{\footnotesize\ttfamily void test1\+\_\+set\+\_\+is\+\_\+full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000181}{Test}}]Test if the set is full \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Set is full 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == TRUE 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_aef76d78c2dceb2578f57f4d008f75c89}\label{set__test_8c_aef76d78c2dceb2578f57f4d008f75c89} 
+\index{set\_test.c@{set\_test.c}!test1\_set\_remove@{test1\_set\_remove}}
+\index{test1\_set\_remove@{test1\_set\_remove}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_set\_remove()}{test1\_set\_remove()}}
+{\footnotesize\ttfamily void test1\+\_\+set\+\_\+remove (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000173}{Test}}]Test removing an id from the set \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to set and valid id 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_ab09827322a313bf97b9757c98c2bdbb0}\label{set__test_8c_ab09827322a313bf97b9757c98c2bdbb0} 
+\index{set\_test.c@{set\_test.c}!test2\_set\_add@{test2\_set\_add}}
+\index{test2\_set\_add@{test2\_set\_add}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_set\_add()}{test2\_set\_add()}}
+{\footnotesize\ttfamily void test2\+\_\+set\+\_\+add (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000171}{Test}}]Test adding an id to the set \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Set is full 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_abed3d273788e23fc31ae7f5ed59277b9}\label{set__test_8c_abed3d273788e23fc31ae7f5ed59277b9} 
+\index{set\_test.c@{set\_test.c}!test2\_set\_create@{test2\_set\_create}}
+\index{test2\_set\_create@{test2\_set\_create}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_set\_create()}{test2\_set\_create()}}
+{\footnotesize\ttfamily void test2\+\_\+set\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000167}{Test}}]Test set creation \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Number of ids in the set is 0 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_a8418524584e638fc6f2d03f726db61f1}\label{set__test_8c_a8418524584e638fc6f2d03f726db61f1} 
+\index{set\_test.c@{set\_test.c}!test2\_set\_destroy@{test2\_set\_destroy}}
+\index{test2\_set\_destroy@{test2\_set\_destroy}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_set\_destroy()}{test2\_set\_destroy()}}
+{\footnotesize\ttfamily void test2\+\_\+set\+\_\+destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000169}{Test}}]Test set destruction \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to set 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_add28fa44c4fc4f97ae35451cd7979c67}\label{set__test_8c_add28fa44c4fc4f97ae35451cd7979c67} 
+\index{set\_test.c@{set\_test.c}!test2\_set\_find@{test2\_set\_find}}
+\index{test2\_set\_find@{test2\_set\_find}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_set\_find()}{test2\_set\_find()}}
+{\footnotesize\ttfamily void test2\+\_\+set\+\_\+find (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000179}{Test}}]Test finding an id in the set \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Id not in the set 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == FALSE 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_ab9287d9bceed22291dd5be4a9ddbf43f}\label{set__test_8c_ab9287d9bceed22291dd5be4a9ddbf43f} 
+\index{set\_test.c@{set\_test.c}!test2\_set\_get\_id\_at\_pos@{test2\_set\_get\_id\_at\_pos}}
+\index{test2\_set\_get\_id\_at\_pos@{test2\_set\_get\_id\_at\_pos}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_set\_get\_id\_at\_pos()}{test2\_set\_get\_id\_at\_pos()}}
+{\footnotesize\ttfamily void test2\+\_\+set\+\_\+get\+\_\+id\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000176}{Test}}]Test getting an id at a specific position \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Invalid position (negative) 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NO\+\_\+\+ID 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_ab1de430f3e313725897f9b0b1aba543b}\label{set__test_8c_ab1de430f3e313725897f9b0b1aba543b} 
+\index{set\_test.c@{set\_test.c}!test2\_set\_is\_full@{test2\_set\_is\_full}}
+\index{test2\_set\_is\_full@{test2\_set\_is\_full}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_set\_is\_full()}{test2\_set\_is\_full()}}
+{\footnotesize\ttfamily void test2\+\_\+set\+\_\+is\+\_\+full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000182}{Test}}]Test if the set is full \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Set is not full 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == FALSE 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_a38ad5b8f54959557cfd86a9f583e1524}\label{set__test_8c_a38ad5b8f54959557cfd86a9f583e1524} 
+\index{set\_test.c@{set\_test.c}!test2\_set\_remove@{test2\_set\_remove}}
+\index{test2\_set\_remove@{test2\_set\_remove}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_set\_remove()}{test2\_set\_remove()}}
+{\footnotesize\ttfamily void test2\+\_\+set\+\_\+remove (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000174}{Test}}]Test removing an id from the set \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to set and valid id 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Id is removed from the set 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_af71fed6f79d687763c7b623affd98f8e}\label{set__test_8c_af71fed6f79d687763c7b623affd98f8e} 
+\index{set\_test.c@{set\_test.c}!test3\_set\_add@{test3\_set\_add}}
+\index{test3\_set\_add@{test3\_set\_add}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test3\_set\_add()}{test3\_set\_add()}}
+{\footnotesize\ttfamily void test3\+\_\+set\+\_\+add (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000172}{Test}}]Test adding an id to the set \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to set and valid id 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Id is added to the set 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_a174af19b3c638e96c62c4b4c8282cb74}\label{set__test_8c_a174af19b3c638e96c62c4b4c8282cb74} 
+\index{set\_test.c@{set\_test.c}!test3\_set\_find@{test3\_set\_find}}
+\index{test3\_set\_find@{test3\_set\_find}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test3\_set\_find()}{test3\_set\_find()}}
+{\footnotesize\ttfamily void test3\+\_\+set\+\_\+find (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000180}{Test}}]Test finding an id in the set \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to set 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == FALSE 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_a1fcf3e14365b8645d62ba1279eee06c2}\label{set__test_8c_a1fcf3e14365b8645d62ba1279eee06c2} 
+\index{set\_test.c@{set\_test.c}!test3\_set\_get\_id\_at\_pos@{test3\_set\_get\_id\_at\_pos}}
+\index{test3\_set\_get\_id\_at\_pos@{test3\_set\_get\_id\_at\_pos}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test3\_set\_get\_id\_at\_pos()}{test3\_set\_get\_id\_at\_pos()}}
+{\footnotesize\ttfamily void test3\+\_\+set\+\_\+get\+\_\+id\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000177}{Test}}]Test getting an id at a specific position \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to set 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NO\+\_\+\+ID 
+\end{DoxyPostcond}
+\Hypertarget{set__test_8c_ac9078be0a2f086b649cb04e72065e6e3}\label{set__test_8c_ac9078be0a2f086b649cb04e72065e6e3} 
+\index{set\_test.c@{set\_test.c}!test3\_set\_is\_full@{test3\_set\_is\_full}}
+\index{test3\_set\_is\_full@{test3\_set\_is\_full}!set\_test.c@{set\_test.c}}
+\doxysubsubsection{\texorpdfstring{test3\_set\_is\_full()}{test3\_set\_is\_full()}}
+{\footnotesize\ttfamily void test3\+\_\+set\+\_\+is\+\_\+full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000183}{Test}}]Test if the set is full \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to set 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == TRUE 
+\end{DoxyPostcond}

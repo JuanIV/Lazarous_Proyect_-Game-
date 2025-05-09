@@ -1,0 +1,123 @@
+\doxysection{include/types.h File Reference}
+\hypertarget{types_8h}{}\label{types_8h}\index{include/types.h@{include/types.h}}
+
+
+It defines common types for the whole project.  
+
+
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{types_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89}\label{types_8h_a92ed8507d1cd2331ad09275c5c4c1c89} 
+\#define {\bfseries WORD\+\_\+\+SIZE}~1000
+\begin{DoxyCompactList}\small\item\em It defines the length for strings in the project. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a33dfe63efe4e2b434738bf439080c063}\label{types_8h_a33dfe63efe4e2b434738bf439080c063} 
+\#define {\bfseries MESG\+\_\+\+SIZE}~2000
+\begin{DoxyCompactList}\small\item\em Defines the maximum length of a message. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7}\label{types_8h_a1326be41a48dcdd9fdc55b1a2371b9f7} 
+\#define {\bfseries POV\+\_\+\+WDTH}~25
+\begin{DoxyCompactList}\small\item\em Size in characters of the visible POV of the player. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a0755920fb2f1f8a6074314248c776e69}\label{types_8h_a0755920fb2f1f8a6074314248c776e69} 
+\#define {\bfseries POV\+\_\+\+HGHT}~10
+\begin{DoxyCompactList}\small\item\em Size in lines of the visible POV of the player. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a642e16f35aa1e585c25e405ede76e115}\label{types_8h_a642e16f35aa1e585c25e405ede76e115} 
+\#define {\bfseries NO\+\_\+\+ID}~-\/1
+\begin{DoxyCompactList}\small\item\em Defines the value associated as a non existing id. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a833a451cc7ebaab7cdf771db4194c3de}\label{types_8h_a833a451cc7ebaab7cdf771db4194c3de} 
+\#define {\bfseries N\+\_\+\+ROLES}~8
+\begin{DoxyCompactList}\small\item\em Defines the number of roles in the game. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a3f4d52308426b9a5693a74dff3a5c255}\label{types_8h_a3f4d52308426b9a5693a74dff3a5c255} 
+\#define {\bfseries N\+\_\+\+DIR}~7
+\begin{DoxyCompactList}\small\item\em Total number of directions that exist. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{types_8h_a845e604fb28f7e3d97549da3448149d3}\label{types_8h_a845e604fb28f7e3d97549da3448149d3} 
+typedef long {\bfseries Id}
+\begin{DoxyCompactList}\small\item\em Defines the type Id as a long. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{types_8h_a39db6982619d623273fad8a383489309}\label{types_8h_a39db6982619d623273fad8a383489309} 
+enum \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} \{ {\bfseries FALSE}
+, {\bfseries TRUE}
+ \}
+\begin{DoxyCompactList}\small\item\em Defines a boolean type of variable with two possible states (True, False) \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}\label{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b} 
+enum \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \{ {\bfseries ERROR}
+, {\bfseries OK}
+ \}
+\begin{DoxyCompactList}\small\item\em It has two possible states, ERROR or OK, and will be used for checking errors on functions. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a224b9163917ac32fc95a60d8c1eec3aa}\label{types_8h_a224b9163917ac32fc95a60d8c1eec3aa} 
+enum \mbox{\hyperlink{types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} \{ \newline
+{\bfseries UNK\+\_\+\+DIR} = -\/1
+, {\bfseries N}
+, {\bfseries S}
+, {\bfseries E}
+, \newline
+{\bfseries W}
+, {\bfseries U}
+, {\bfseries D}
+ \}
+\begin{DoxyCompactList}\small\item\em Defines all four possible directions. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}\label{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951} 
+enum \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}} \{ \newline
+{\bfseries NO\+\_\+\+ROLE} = -\/1
+, {\bfseries UNDEFINED}
+, {\bfseries TEAM1}
+, {\bfseries TEAM2}
+, \newline
+{\bfseries MONSTER}
+, {\bfseries HOSTILE}
+, {\bfseries PEACEFUL}
+ \}
+\begin{DoxyCompactList}\small\item\em Defines all possible teams. This replaces friendly. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a1d1cfd8ffb84e947f82999c682b666a7}\label{types_8h_a1d1cfd8ffb84e947f82999c682b666a7} 
+enum \mbox{\hyperlink{types_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}} \{ \newline
+{\bfseries NO\+\_\+\+TYPE} = -\/1
+, {\bfseries THOUGHTS}
+, {\bfseries PLAYER}
+, {\bfseries CHARACTER}
+, \newline
+{\bfseries OBJECT}
+, {\bfseries GAME}
+ \}
+\begin{DoxyCompactList}\small\item\em Defines all possible message senders. \end{DoxyCompactList}\item 
+\Hypertarget{types_8h_a305263dd89ad9fde1863aece00907351}\label{types_8h_a305263dd89ad9fde1863aece00907351} 
+enum \mbox{\hyperlink{types_8h_a305263dd89ad9fde1863aece00907351}{Tag}} \{ \newline
+{\bfseries NO\+\_\+\+TAG} = -\/1
+, {\bfseries NORMAL}
+, {\bfseries HEALER}
+, {\bfseries WEAPON}
+, \newline
+{\bfseries ARMOR}
+, {\bfseries TRAP}
+, {\bfseries NOTE}
+, {\bfseries SWITCH}
+ \}
+\begin{DoxyCompactList}\small\item\em It defines the type of objects there are in the game. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It defines common types for the whole project. 
+
+\begin{DoxyAuthor}{Author}
+Profesores PPROG 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+27-\/01-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}

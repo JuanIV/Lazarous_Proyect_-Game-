@@ -1,0 +1,14 @@
+var searchData=
+[
+  ['object_5fcreate_0',['object_create',['../object_8c.html#a8957c5ad32a83df414b44361d2833c1d',1,'object_create(Id id):&#160;object.c'],['../object_8h.html#a8957c5ad32a83df414b44361d2833c1d',1,'object_create(Id id):&#160;object.c']]],
+  ['object_5fdestroy_1',['object_destroy',['../object_8h.html#a95a3d095c6c9f2eb94cf6b0af0e8ba78',1,'object_destroy(Object *obj):&#160;object.c'],['../object_8c.html#a95a3d095c6c9f2eb94cf6b0af0e8ba78',1,'object_destroy(Object *obj):&#160;object.c']]],
+  ['object_5fget_5fclass_5fid_2',['object_get_class_id',['../object_8h.html#a2ea9e553384b22b3cd5b7a1e87e8fe62',1,'object_get_class_id(Object *obj):&#160;object.c'],['../object_8c.html#a2ea9e553384b22b3cd5b7a1e87e8fe62',1,'object_get_class_id(Object *obj):&#160;object.c']]],
+  ['object_5fget_5fid_3',['object_get_id',['../object_8h.html#ac9c3ace11b0440f373c67ccd3801398e',1,'object_get_id(Object *obj):&#160;object.c'],['../object_8c.html#ac9c3ace11b0440f373c67ccd3801398e',1,'object_get_id(Object *obj):&#160;object.c']]],
+  ['object_5fget_5frole_4',['object_get_role',['../object_8h.html#ac9c9751ae4accc5250e367db5aee8eef',1,'object_get_role(Object *obj):&#160;object.c'],['../object_8c.html#ac9c9751ae4accc5250e367db5aee8eef',1,'object_get_role(Object *obj):&#160;object.c']]],
+  ['object_5fget_5fuse_5fvalue_5',['object_get_use_value',['../object_8c.html#a66afbeeb8231b59679fc34ffeeafc357',1,'object_get_use_value(Object *obj):&#160;object.c'],['../object_8h.html#a66afbeeb8231b59679fc34ffeeafc357',1,'object_get_use_value(Object *obj):&#160;object.c']]],
+  ['object_5fprint_6',['object_print',['../object_8h.html#af87ed8133fb218693e1d7dd7738e19dd',1,'object_print(Object *obj):&#160;object.c'],['../object_8c.html#af87ed8133fb218693e1d7dd7738e19dd',1,'object_print(Object *obj):&#160;object.c']]],
+  ['object_5fset_5fclass_5fid_7',['object_set_class_id',['../object_8h.html#a40437a2004cf8100eebeafd6333f3b7f',1,'object_set_class_id(Object *obj, Id class):&#160;object.c'],['../object_8c.html#a40437a2004cf8100eebeafd6333f3b7f',1,'object_set_class_id(Object *obj, Id class):&#160;object.c']]],
+  ['object_5fset_5fid_8',['object_set_id',['../object_8h.html#ad417edc8119d9e74428ce03809cf6de3',1,'object_set_id(Object *obj, Id id):&#160;object.c'],['../object_8c.html#ad417edc8119d9e74428ce03809cf6de3',1,'object_set_id(Object *obj, Id id):&#160;object.c']]],
+  ['object_5fset_5frole_9',['object_set_role',['../object_8h.html#a3785c36298138efc8ce87067475039c6',1,'object_set_role(Object *obj, Role role):&#160;object.c'],['../object_8c.html#a3785c36298138efc8ce87067475039c6',1,'object_set_role(Object *obj, Role role):&#160;object.c']]],
+  ['object_5fset_5fuse_5fvalue_10',['object_set_use_value',['../object_8h.html#a1aa1e5d92abd2d5fa99e8863e41a36a3',1,'object_set_use_value(Object *obj, int value):&#160;object.c'],['../object_8c.html#a1aa1e5d92abd2d5fa99e8863e41a36a3',1,'object_set_use_value(Object *obj, int value):&#160;object.c']]]
+];

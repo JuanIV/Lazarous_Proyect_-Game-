@@ -1,0 +1,373 @@
+\doxysection{src/object\+\_\+test.c File Reference}
+\hypertarget{object__test_8c}{}\label{object__test_8c}\index{src/object\_test.c@{src/object\_test.c}}
+
+
+It tests object module.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}object.\+h"{}}\newline
+{\ttfamily \#include "{}object\+\_\+test.\+h"{}}\newline
+{\ttfamily \#include "{}test.\+h"{}}\newline
+Include dependency graph for object\+\_\+test.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{object__test_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{object__test_8c_a2a77d2f2c5b698c69c19e1f8782bf709}\label{object__test_8c_a2a77d2f2c5b698c69c19e1f8782bf709} 
+\#define {\bfseries MAX\+\_\+\+TESTS}~20
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{object__test_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{object__test_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
+int {\bfseries main} (int argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
+\item 
+void \mbox{\hyperlink{object__test_8c_a3836d69f92ce7149d56bafcaec83f516}{test1\+\_\+object\+\_\+create}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_add54ab5e33a1b0a93e9ddcf73591bd9f}{test2\+\_\+object\+\_\+create}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a498384b62d11142a84e4a95bc12c42bc}{test1\+\_\+object\+\_\+destroy}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a89657f6a794c261bd6666e03a1acb9f4}{test2\+\_\+object\+\_\+destroy}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_aa88e9e9dab92ba9c58851d7a7a8415f0}{test1\+\_\+object\+\_\+get\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a1ff250f0f43297f57fcce1f3a6ae490b}{test2\+\_\+object\+\_\+get\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a6f19ebf6034115c2cdcc3c7bfea25964}{test1\+\_\+object\+\_\+set\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a1f0cfd69428a6cf954fe37c9c21f8cb3}{test2\+\_\+object\+\_\+set\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_aebf0a05dc6879d8f5c635fd24c6ac4a8}{test1\+\_\+object\+\_\+get\+\_\+class\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a5348c6a77cecef6d740e28684af6cf89}{test2\+\_\+object\+\_\+get\+\_\+class\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_aa68544c5291d17ea25aae04f2751bcae}{test1\+\_\+object\+\_\+set\+\_\+class\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a94947641df66c4f3f38c7720a7d7dde1}{test2\+\_\+object\+\_\+set\+\_\+class\+\_\+id}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a7d1756859ffa37f115d7040cc7640971}{test1\+\_\+object\+\_\+get\+\_\+role}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a6211e84944f89844529bd220492e9b7e}{test2\+\_\+object\+\_\+get\+\_\+role}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_af4eeb56536e723e7fa5e83d3e30e491b}{test1\+\_\+object\+\_\+set\+\_\+role}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_ac0a0e5442507ecc608fb6543e31bd314}{test2\+\_\+object\+\_\+set\+\_\+role}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a8f1d049488cedbdea180c1ec8d9c0b5c}{test1\+\_\+object\+\_\+get\+\_\+use\+\_\+value}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_ad75034dd6344c028a5805e7d6af23920}{test2\+\_\+object\+\_\+get\+\_\+use\+\_\+value}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_a699c0d2b25704877b892ed04c6696893}{test1\+\_\+object\+\_\+set\+\_\+use\+\_\+value}} ()
+\item 
+void \mbox{\hyperlink{object__test_8c_ae09e3800d553d0fafa4faae0ec7d0b1e}{test2\+\_\+object\+\_\+set\+\_\+use\+\_\+value}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It tests object module. 
+
+\begin{DoxyAuthor}{Author}
+Alina Datsko 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+06-\/05-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{object__test_8c_a3836d69f92ce7149d56bafcaec83f516}\label{object__test_8c_a3836d69f92ce7149d56bafcaec83f516} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_create@{test1\_object\_create}}
+\index{test1\_object\_create@{test1\_object\_create}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_create()}{test1\_object\_create()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000111}{Test}}]Test object creation with valid ID \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Valid ID (e.\+g., 1) 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Non NULL pointer to object 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a498384b62d11142a84e4a95bc12c42bc}\label{object__test_8c_a498384b62d11142a84e4a95bc12c42bc} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_destroy@{test1\_object\_destroy}}
+\index{test1\_object\_destroy@{test1\_object\_destroy}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_destroy()}{test1\_object\_destroy()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000113}{Test}}]Test object destruction with valid object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to object 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_aebf0a05dc6879d8f5c635fd24c6ac4a8}\label{object__test_8c_aebf0a05dc6879d8f5c635fd24c6ac4a8} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_get\_class\_id@{test1\_object\_get\_class\_id}}
+\index{test1\_object\_get\_class\_id@{test1\_object\_get\_class\_id}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_get\_class\_id()}{test1\_object\_get\_class\_id()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+get\+\_\+class\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000119}{Test}}]Test getting class ID from valid object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to object with known class ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected class ID 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_aa88e9e9dab92ba9c58851d7a7a8415f0}\label{object__test_8c_aa88e9e9dab92ba9c58851d7a7a8415f0} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_get\_id@{test1\_object\_get\_id}}
+\index{test1\_object\_get\_id@{test1\_object\_get\_id}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_get\_id()}{test1\_object\_get\_id()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+get\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000115}{Test}}]Test getting object ID from valid object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to object with known ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected ID 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a7d1756859ffa37f115d7040cc7640971}\label{object__test_8c_a7d1756859ffa37f115d7040cc7640971} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_get\_role@{test1\_object\_get\_role}}
+\index{test1\_object\_get\_role@{test1\_object\_get\_role}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_get\_role()}{test1\_object\_get\_role()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+get\+\_\+role (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000123}{Test}}]Test getting role from valid object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to object with known role 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected role 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a8f1d049488cedbdea180c1ec8d9c0b5c}\label{object__test_8c_a8f1d049488cedbdea180c1ec8d9c0b5c} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_get\_use\_value@{test1\_object\_get\_use\_value}}
+\index{test1\_object\_get\_use\_value@{test1\_object\_get\_use\_value}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_get\_use\_value()}{test1\_object\_get\_use\_value()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+get\+\_\+use\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000127}{Test}}]Test getting use value from valid object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer to object with known use value 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == Expected use value 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_aa68544c5291d17ea25aae04f2751bcae}\label{object__test_8c_aa68544c5291d17ea25aae04f2751bcae} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_set\_class\_id@{test1\_object\_set\_class\_id}}
+\index{test1\_object\_set\_class\_id@{test1\_object\_set\_class\_id}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_set\_class\_id()}{test1\_object\_set\_class\_id()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+set\+\_\+class\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000121}{Test}}]Test setting class ID with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid class ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a6f19ebf6034115c2cdcc3c7bfea25964}\label{object__test_8c_a6f19ebf6034115c2cdcc3c7bfea25964} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_set\_id@{test1\_object\_set\_id}}
+\index{test1\_object\_set\_id@{test1\_object\_set\_id}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_set\_id()}{test1\_object\_set\_id()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+set\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000117}{Test}}]Test setting object ID with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_af4eeb56536e723e7fa5e83d3e30e491b}\label{object__test_8c_af4eeb56536e723e7fa5e83d3e30e491b} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_set\_role@{test1\_object\_set\_role}}
+\index{test1\_object\_set\_role@{test1\_object\_set\_role}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_set\_role()}{test1\_object\_set\_role()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+set\+\_\+role (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000125}{Test}}]Test setting role with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid role 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a699c0d2b25704877b892ed04c6696893}\label{object__test_8c_a699c0d2b25704877b892ed04c6696893} 
+\index{object\_test.c@{object\_test.c}!test1\_object\_set\_use\_value@{test1\_object\_set\_use\_value}}
+\index{test1\_object\_set\_use\_value@{test1\_object\_set\_use\_value}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test1\_object\_set\_use\_value()}{test1\_object\_set\_use\_value()}}
+{\footnotesize\ttfamily void test1\+\_\+object\+\_\+set\+\_\+use\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000129}{Test}}]Test setting use value with valid input \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+Non NULL pointer and valid integer 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == OK 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_add54ab5e33a1b0a93e9ddcf73591bd9f}\label{object__test_8c_add54ab5e33a1b0a93e9ddcf73591bd9f} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_create@{test2\_object\_create}}
+\index{test2\_object\_create@{test2\_object\_create}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_create()}{test2\_object\_create()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000112}{Test}}]Test object creation with invalid ID (NO\+\_\+\+ID) \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NO\+\_\+\+ID as ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NULL 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a89657f6a794c261bd6666e03a1acb9f4}\label{object__test_8c_a89657f6a794c261bd6666e03a1acb9f4} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_destroy@{test2\_object\_destroy}}
+\index{test2\_object\_destroy@{test2\_object\_destroy}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_destroy()}{test2\_object\_destroy()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000114}{Test}}]Test object destruction with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to object 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a5348c6a77cecef6d740e28684af6cf89}\label{object__test_8c_a5348c6a77cecef6d740e28684af6cf89} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_get\_class\_id@{test2\_object\_get\_class\_id}}
+\index{test2\_object\_get\_class\_id@{test2\_object\_get\_class\_id}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_get\_class\_id()}{test2\_object\_get\_class\_id()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+get\+\_\+class\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000120}{Test}}]Test getting class ID from NULL object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to object 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NO\+\_\+\+ID 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a1ff250f0f43297f57fcce1f3a6ae490b}\label{object__test_8c_a1ff250f0f43297f57fcce1f3a6ae490b} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_get\_id@{test2\_object\_get\_id}}
+\index{test2\_object\_get\_id@{test2\_object\_get\_id}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_get\_id()}{test2\_object\_get\_id()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+get\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000116}{Test}}]Test getting ID from NULL object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to object 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NO\+\_\+\+ID 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a6211e84944f89844529bd220492e9b7e}\label{object__test_8c_a6211e84944f89844529bd220492e9b7e} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_get\_role@{test2\_object\_get\_role}}
+\index{test2\_object\_get\_role@{test2\_object\_get\_role}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_get\_role()}{test2\_object\_get\_role()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+get\+\_\+role (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000124}{Test}}]Test getting role from NULL object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to object 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == NO\+\_\+\+ROLE 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_ad75034dd6344c028a5805e7d6af23920}\label{object__test_8c_ad75034dd6344c028a5805e7d6af23920} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_get\_use\_value@{test2\_object\_get\_use\_value}}
+\index{test2\_object\_get\_use\_value@{test2\_object\_get\_use\_value}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_get\_use\_value()}{test2\_object\_get\_use\_value()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+get\+\_\+use\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000128}{Test}}]Test getting use value from NULL object \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to object 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == -\/1 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a94947641df66c4f3f38c7720a7d7dde1}\label{object__test_8c_a94947641df66c4f3f38c7720a7d7dde1} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_set\_class\_id@{test2\_object\_set\_class\_id}}
+\index{test2\_object\_set\_class\_id@{test2\_object\_set\_class\_id}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_set\_class\_id()}{test2\_object\_set\_class\_id()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+set\+\_\+class\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000122}{Test}}]Test setting class ID with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to object 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_a1f0cfd69428a6cf954fe37c9c21f8cb3}\label{object__test_8c_a1f0cfd69428a6cf954fe37c9c21f8cb3} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_set\_id@{test2\_object\_set\_id}}
+\index{test2\_object\_set\_id@{test2\_object\_set\_id}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_set\_id()}{test2\_object\_set\_id()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+set\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000118}{Test}}]Test setting ID with NULL pointer or NO\+\_\+\+ID \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to object or NO\+\_\+\+ID 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_ac0a0e5442507ecc608fb6543e31bd314}\label{object__test_8c_ac0a0e5442507ecc608fb6543e31bd314} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_set\_role@{test2\_object\_set\_role}}
+\index{test2\_object\_set\_role@{test2\_object\_set\_role}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_set\_role()}{test2\_object\_set\_role()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+set\+\_\+role (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000126}{Test}}]Test setting role with NULL pointer or NO\+\_\+\+ROLE \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to object or NO\+\_\+\+ROLE 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}
+\Hypertarget{object__test_8c_ae09e3800d553d0fafa4faae0ec7d0b1e}\label{object__test_8c_ae09e3800d553d0fafa4faae0ec7d0b1e} 
+\index{object\_test.c@{object\_test.c}!test2\_object\_set\_use\_value@{test2\_object\_set\_use\_value}}
+\index{test2\_object\_set\_use\_value@{test2\_object\_set\_use\_value}!object\_test.c@{object\_test.c}}
+\doxysubsubsection{\texorpdfstring{test2\_object\_set\_use\_value()}{test2\_object\_set\_use\_value()}}
+{\footnotesize\ttfamily void test2\+\_\+object\+\_\+set\+\_\+use\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Test}
+\item[\mbox{\hyperlink{test__test000130}{Test}}]Test setting use value with NULL pointer \end{DoxyRefDesc}
+\begin{DoxyPrecond}{Precondition}
+NULL pointer to object 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Output == ERROR 
+\end{DoxyPostcond}

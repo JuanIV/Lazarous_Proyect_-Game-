@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['n_5fcharacters_0',['n_characters',['../struct__Game.html#a2980ef5670fb746630cbcfd7e65a4098',1,'_Game']]],
+  ['n_5fclasses_1',['n_classes',['../struct__Game.html#a8636154fdf33177732d276bd806f2c01',1,'_Game']]],
+  ['n_5fcmd_2',['N_CMD',['../command_8h.html#ae180fe89f0ae48ce5c80ffaa18de9271',1,'command.h']]],
+  ['n_5fcmdt_3',['N_CMDT',['../command_8h.html#a8d93932dcdc527c13e06b688b68c7ffc',1,'command.h']]],
+  ['n_5fdir_4',['N_DIR',['../types_8h.html#a3f4d52308426b9a5693a74dff3a5c255',1,'types.h']]],
+  ['n_5fdirt_5',['N_DIRT',['../link_8h.html#a37dc74fd84181247e17c4eb9ad074b2b',1,'link.h']]],
+  ['n_5fids_6',['n_ids',['../struct__Set.html#aff8fb061f3279f176735b4f9fcac2122',1,'_Set']]],
+  ['n_5flinks_7',['n_links',['../struct__Game.html#ae7f86ec86a503598a4b8932658218f69',1,'_Game']]],
+  ['n_5fobjects_8',['n_objects',['../struct__Game.html#afb42dc6613851a59029787af6ca28aa6',1,'_Game']]],
+  ['n_5fplayers_9',['n_players',['../struct__Game.html#ada91dbe872248188499a2cfb14542f9f',1,'_Game']]],
+  ['n_5froles_10',['N_ROLES',['../types_8h.html#a833a451cc7ebaab7cdf771db4194c3de',1,'types.h']]],
+  ['n_5fspaces_11',['n_spaces',['../struct__Game.html#af091df2bb12ae5c6ec3f63bfc8d7877d',1,'_Game']]],
+  ['name_12',['name',['../struct__Space.html#aa1c9c994c2d16ecf3ef46138685fdfdc',1,'_Space::name'],['../struct__Player.html#ac89715f913cc607b75eb7236765c41f5',1,'_Player::name'],['../struct__Link.html#a020ee863120055b29609157b9de3c84d',1,'_Link::name'],['../struct__Class.html#a586f6144c1978482a1133ec4f53e859c',1,'_Class::name'],['../struct__Character.html#a809c1f8d0e467133b7fc33f4b7c54968',1,'_Character::name']]],
+  ['no_5fid_13',['NO_ID',['../types_8h.html#a642e16f35aa1e585c25e405ede76e115',1,'types.h']]],
+  ['num_5fcharr_5fprint_14',['NUM_CHARR_PRINT',['../graphic__engine_8c.html#ac092d83afee15e90cc8119411a8f4a4b',1,'graphic_engine.c']]],
+  ['num_5fcmds_15',['NUM_CMDS',['../game_8h.html#ace8e1a4bd0ac9195ac70783a9ae92470',1,'game.h']]],
+  ['num_5ffloors_16',['NUM_FLOORS',['../game_8h.html#affdf9ef4f6bd054f77fa5a2585ded26a',1,'game.h']]],
+  ['num_5fmsgs_17',['NUM_MSGS',['../game_8h.html#a8259bbeef0c598730055df66c5e7e9e5',1,'game.h']]],
+  ['num_5fobjs_5fprint_18',['NUM_OBJS_PRINT',['../graphic__engine_8c.html#a53820d72335b56039a383495443a4633',1,'graphic_engine.c']]]
+];

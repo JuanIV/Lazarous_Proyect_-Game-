@@ -1,0 +1,76 @@
+\doxysection{include/game\+\_\+actions.h File Reference}
+\hypertarget{game__actions_8h}{}\label{game__actions_8h}\index{include/game\_actions.h@{include/game\_actions.h}}
+
+
+It defines the game update interface.  
+
+
+{\ttfamily \#include "{}game.\+h"{}}\newline
+{\ttfamily \#include "{}types.\+h"{}}\newline
+Include dependency graph for game\+\_\+actions.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{game__actions_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{game__actions_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} \mbox{\hyperlink{game__actions_8h_ade805db7fc5d897c5ac0c8b9d63b732b}{game\+\_\+actions\+\_\+update}} (\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}game, \mbox{\hyperlink{command_8h_a7d2935971c252377cb0fc1c8545dc2bc}{Command}} \texorpdfstring{$\ast$}{*}cmd, \mbox{\hyperlink{command_8h_a805cf38fd2b6d5604bf1f1036b80fde2}{Command\+Code}} \texorpdfstring{$\ast$}{*}cmd\+\_\+code, \mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}} update)
+\begin{DoxyCompactList}\small\item\em Sets a given command as last command and executes its corresponding action. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+It defines the game update interface. 
+
+\begin{DoxyAuthor}{Author}
+Profesores PPROG 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+27-\/01-\/2025 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+GNU Public License 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{game__actions_8h_ade805db7fc5d897c5ac0c8b9d63b732b}\label{game__actions_8h_ade805db7fc5d897c5ac0c8b9d63b732b} 
+\index{game\_actions.h@{game\_actions.h}!game\_actions\_update@{game\_actions\_update}}
+\index{game\_actions\_update@{game\_actions\_update}!game\_actions.h@{game\_actions.h}}
+\doxysubsubsection{\texorpdfstring{game\_actions\_update()}{game\_actions\_update()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}} game\+\_\+actions\+\_\+update (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{game_8h_a57156d39c530aec3fba3a9dad8c2dc6a}{Game}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{game,  }\item[{\mbox{\hyperlink{command_8h_a7d2935971c252377cb0fc1c8545dc2bc}{Command}} \texorpdfstring{$\ast$}{*}}]{command,  }\item[{\mbox{\hyperlink{command_8h_a805cf38fd2b6d5604bf1f1036b80fde2}{Command\+Code}} \texorpdfstring{$\ast$}{*}}]{cmd\+\_\+code,  }\item[{\mbox{\hyperlink{types_8h_a39db6982619d623273fad8a383489309}{Bool}}}]{update }\end{DoxyParamCaption})}
+
+
+
+Sets a given command as last command and executes its corresponding action. 
+
+\begin{DoxyAuthor}{Author}
+Profesores PPROG
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em game} & double pointer to the game \\
+\hline
+{\em cmd} & command of the desired action \\
+\hline
+{\em cmd\+\_\+code} & the code of the command entered \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ERROR if there is any mistake while executing the action or setting the last command, OK if everything goes well
+\end{DoxyReturn}
+Game actions implementation 

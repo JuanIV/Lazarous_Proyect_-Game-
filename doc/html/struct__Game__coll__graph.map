@@ -1,0 +1,26 @@
+<map id="_Game" name="_Game">
+<area shape="rect" id="Node000001" title="Struct that stores the information of a game: players, turn, spaces, links, objects,..." alt="" coords="297,295,365,320"/>
+<area shape="rect" id="Node000002" href="$struct__Player.html" title="Struct that stores the information of a player: Id, name, its backpack, its health,..." alt="" coords="21,207,91,232"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,245,67,258,75,269,91,278,114,285,174,295,296,303,296,308,174,301,113,290,89,282,72,273,62,261,57,247"/>
+<area shape="rect" id="Node000003" href="$struct__Inventory.html" title="Struct that stores the information of an Inventory: a set of objects and the max number of objects to..." alt="" coords="5,108,96,133"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="44,147,40,164,41,182,51,205,46,207,36,183,35,164,39,146"/>
+<area shape="rect" id="Node000004" href="$struct__Set.html" title="Struct that stores the information of a Set: an array of the ids of the objects inside of it and the ..." alt="" coords="79,5,129,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="78,41,66,56,57,83,54,108,48,107,52,82,62,53,74,38"/>
+<area shape="rect" id="Node000005" href="$struct__Space.html" title="Struct that stores the information of a space: id, name, graphic description, a set of objects,..." alt="" coords="118,157,186,183"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="115,43,119,54,151,157,146,158,113,55,110,45"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="151,196,153,214,160,230,189,259,225,279,263,292,297,299,296,304,262,297,223,284,186,263,155,234,148,215,146,197"/>
+<area shape="rect" id="Node000006" href="$struct__Link.html" title="Struct that stores the information of a Link: Id, name, id of the origin space, id of the destination..." alt="" coords="219,207,275,232"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="266,241,291,269,318,292,314,296,287,273,262,244"/>
+<area shape="rect" id="Node000007" href="$struct__Class.html" title="Stores all information about a class of objects that share same values." alt="" coords="299,207,363,232"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="333,246,333,294,328,294,328,246"/>
+<area shape="rect" id="Node000008" href="$struct__Object.html" title="Stores information for a single object: its class and specific id." alt="" coords="387,207,458,232"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="405,244,375,273,347,297,343,293,372,269,401,240"/>
+<area shape="rect" id="Node000009" href="$struct__Character.html" title="Struct that stores the information of a character: Id, name, gdesc, message and health." alt="" coords="482,207,574,232"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="500,242,441,273,366,299,364,294,439,268,497,237"/>
+<area shape="rect" id="Node000010" href="$structInterfaceData.html" title="Struct that stores the information of the interface data of each player: last message and last 3 comm..." alt="" coords="598,207,709,232"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="622,241,587,258,547,273,449,295,365,306,365,301,448,290,546,268,585,253,620,236"/>
+<area shape="rect" id="Node000011" href="$structMessage.html" title=" " alt="" coords="557,108,637,133"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="601,147,605,164,612,181,622,194,635,204,632,209,618,198,607,184,599,166,596,148"/>
+<area shape="rect" id="Node000012" href="$struct__Command.html" title="Struct that stores the information of a command: code, cmd_desc and status." alt="" coords="661,108,757,133"/>
+<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="701,147,682,184,665,208,661,205,678,181,697,145"/>
+</map>

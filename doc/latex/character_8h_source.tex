@@ -1,0 +1,67 @@
+\doxysection{character.\+h}
+\hypertarget{character_8h_source}{}\label{character_8h_source}\index{include/character.h@{include/character.h}}
+\mbox{\hyperlink{character_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ CHARACTER\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ CHARACTER\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{types_8h}{types.h}}"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ CHR\_GD\_SZ\ 6}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__Character}{\_Character}}\ \mbox{\hyperlink{struct__Character}{Character}};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00038\ \mbox{\hyperlink{struct__Character}{Character}}\ *\mbox{\hyperlink{character_8h_a04e381f3485e883f8c5638cbcd67e686}{character\_create}}(\mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00047\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a456b1ceccd0b53c4bf73e3dec88cc7f6}{character\_destroy}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00056\ \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}\ \mbox{\hyperlink{character_8h_a4c4778b87b9e16a84f3a4604c2722f98}{character\_get\_id}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00066\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_aa3a62e8bb8108783e1e3c94cbef2e8aa}{character\_set\_id}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00075\ \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}}\ \mbox{\hyperlink{character_8h_aebdef3f8f6ebe229b600c69e2ef4e2bc}{character\_get\_role}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00085\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a9b390e6135179288bedb4dc2502f9b9e}{character\_set\_role}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \mbox{\hyperlink{types_8h_acdd79a1a4f81dd6ee5cddcb21149b951}{Role}}\ \mbox{\hyperlink{struct__Character_aa69086e5bd33b8e15a5bcaea1e4b127b}{role}});}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00094\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{character_8h_ace48c21f878a664f6b95e35da84c25f0}{character\_get\_name}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00104\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a67bfcd01030a1d921b057f4bdaba5246}{character\_set\_name}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{struct__Character_a809c1f8d0e467133b7fc33f4b7c54968}{name}});}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00113\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{character_8h_a044ded4407fe9b2783f7cb524a86092e}{character\_get\_gdesc}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00124\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_abbbfad69476733001caff89142adc08c}{character\_set\_gdesc}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{struct__Character_a50575f73a52c78601999d96aba428fcd}{gdesc}});}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00134\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{character_8h_a08fc9e9e202cb47335979321e0453a13}{character\_get\_closeup\_at\_pos}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \textcolor{keywordtype}{int}\ pos);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00145\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a728ebe4bfe068a94f4e5a66bee298949}{character\_set\_closeup\_at\_pos}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \textcolor{keywordtype}{int}\ pos,\ \textcolor{keywordtype}{char}\ *closeup);}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00156\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a64423dacb4f57875631a82917054f8ba}{character\_get\_following}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}\ *\mbox{\hyperlink{struct__Character_a260a82e7dc40251f2ea2bb09615208de}{following}});}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00166\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_aff4ba4700df6c6fa461284e2eb0ab877}{character\_set\_following}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00175\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{character_8h_a86712ecb279b3a095d6611f4dbf5543b}{character\_get\_message}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr);}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00185\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_af368a27649b139f72e644b1c631bf666}{character\_set\_message}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{struct__Character_a690d3ba46ee864b2148834d14a326102}{message}});}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00196\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a5b8cd6816b3fc398b825ffce5e401905}{character\_get\_weapon}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}\ *\mbox{\hyperlink{struct__Character_a9033b4f560d4654d7d0ac7ef59e842a3}{weapon}});}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00206\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a8501064caf3df97be0453e07a0eb99e7}{character\_set\_weapon}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}\ weapon\_id);}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00217\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_acb7b1160a4119c6aeda66d2e627d5cc4}{character\_get\_armor}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}\ *\mbox{\hyperlink{struct__Character_a961edfec4cb77411899815c16ff78109}{armor}});}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00227\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a23d2bcdc06113a6e02e4578f213c167c}{character\_set\_armor}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \mbox{\hyperlink{types_8h_a845e604fb28f7e3d97549da3448149d3}{Id}}\ armor\_id);}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00236\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{character_8h_aa0d00eea2b2dabbe4543d84fac770cde}{character\_get\_health}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr);}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00247\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a1eecbae07757747ea33db64583b40220}{character\_set\_health}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct__Character_a1e1daf65298eecf5777947f86d6b2568}{health}});}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00256\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{character_8h_a488dd69c9383160dc2adb0b68f12d144}{character\_get\_damage}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr);}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00266\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_a76eb2eb22b08d7b737ffc8d03b07888c}{character\_set\_damage}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct__Character_ae83629c148bd39c069a5bbe743b68eda}{damage}});}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00277\ \mbox{\hyperlink{types_8h_a67a0db04d321a74b7e7fcfd3f1a3f70b}{Status}}\ \mbox{\hyperlink{character_8h_ad2c829eac0d90986084d9849d7833cfc}{character\_print}}(\mbox{\hyperlink{struct__Character}{Character}}\ *charr);}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
