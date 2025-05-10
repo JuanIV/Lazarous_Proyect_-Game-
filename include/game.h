@@ -83,13 +83,13 @@
  * @brief Height of the minimap
  * 
  */
-#define MINIMAP_HEIGHT 34
+#define MAP_HEIGHT 34
 
 /**
  * @brief Width of the minimap
  * 
  */
-#define MINIMAP_WIDTH 72
+#define MAP_WIDTH 72
 
 /**
  * @brief It stores the game information

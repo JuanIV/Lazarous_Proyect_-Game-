@@ -28,6 +28,12 @@
 #define SPACE_LINE (EXTRAS + WORD_SIZE + SP_GD_HGHT * (SP_GD_WTH + 1))
 
 /**
+ * @brief length of the line printed when saving a minimap
+ * 
+ */
+#define MINIMAP_LINE ((MAP_HEIGHT * (MAP_WIDTH + 1)) + EXTRAS)
+
+/**
  * @brief length of the line printed while saving a link
  * 
  */
@@ -55,7 +61,7 @@
  * @brief length of the line printed while saving a player
  * 
  */
-#define PLAYER_LINE (EXTRAS + WORD_SIZE + (PLY_GD_SZ + 1) )
+#define PLAYER_LINE (EXTRAS + WORD_SIZE + MESG_SIZE + (PLY_GD_SZ + 1) + (POV_HGHT * (POV_WDTH + 1)))
 
 /*############################ GAME LOADING FUNCTIONS ############################*/
 
@@ -194,6 +200,7 @@ Status game_management_load_links(Game *game, char *filename) {
   reads data from the file acording to the next structure:
   #l:<id>|<name>|<origin id>|<destination id>|<direction>|<open or closed>|<open_role>|<use_role>|
   */
+
   while (fgets(line, LINK_LINE, file)) {
     if (strncmp("#l:", line, 3) != 0) continue;
     toks = strtok(line + 3, "|");
@@ -721,7 +728,7 @@ Status game_management_save_spaces(Game *game, char *filename) {
 Status game_management_save_minimap(Game *game, const char *filename) {
   FILE *file = NULL;
   Status st = OK;
-  char line[SPACE_LINE], *gdesc_line = NULL;
+  char line[MINIMAP_LINE], *gdesc_line = NULL;
   int i = 0, j = 0;
   int len = 0;
 
@@ -730,7 +737,7 @@ Status game_management_save_minimap(Game *game, const char *filename) {
   for (i = 0; i < NUM_FLOORS; i++) {
     len += sprintf(line, "#v:%d!", i);
 
-    for (j = 0; j < MINIMAP_HEIGHT; j++) {
+    for (j = 0; j < MAP_HEIGHT; j++) {
       if (!(gdesc_line = game_get_minimap_at(game, j, i))) {
         st = ERROR;
         break;
@@ -755,7 +762,7 @@ Status game_management_save_links(Game *game, char *filename) {
   Status st = OK;
   Link *link = NULL;
   Id link_id = NO_ID, orig_id = NO_ID, dest_id = NO_ID;
-  Bool open = FALSE;
+  Bool open = FALSE, locked = FALSE, connected = FALSE;
   Role use_role = NO_ROLE, open_role = NO_ROLE;
   Direction dir;
   char line[LINK_LINE], *name = NULL;
@@ -764,7 +771,7 @@ Status game_management_save_links(Game *game, char *filename) {
   if(!(file = fopen(filename, "a"))) return ERROR;
   if((num_links = game_get_n_links(game)) == -1) st = ERROR;
 
-  /*#l:<id>|<name>|<origin id>|<destination id>|<direction>|<open or closed>|*/
+  /* #l:<id>|<name>|<origin id>|<destination id>|<direction>|<open or closed>|<open_role>|<use_role>|  */
   for(i = 0; i < num_links && st == OK; i++) {
     if (!(link = game_get_link_at_pos(game, i))) st = ERROR;
     if ((link_id = link_get_id(link)) == NO_ID) st = ERROR;
@@ -773,6 +780,8 @@ Status game_management_save_links(Game *game, char *filename) {
     if ((dest_id = link_get_dest(link)) == NO_ID) st = ERROR;
     if ((dir = link_get_direction(link)) == UNK_DIR) st = ERROR;
     if (link_get_open(link, &open) == ERROR) st = ERROR;
+    if ((link_get_connected(link, &connected)) == ERROR) st = ERROR;
+    if ((link_get_locked(link, &locked)) == ERROR) st = ERROR;
     if ((open_role = link_get_open_role(link)) == NO_ROLE) st = ERROR;
     if ((use_role = link_get_use_role(link)) == NO_ROLE) st = ERROR;
 
@@ -785,6 +794,8 @@ Status game_management_save_links(Game *game, char *filename) {
     len += sprintf(line + len, "%ld|", dest_id);
     len += sprintf(line + len, "%d|", dir);
     len += sprintf(line + len, "%d|", open);
+    len += sprintf(line + len, "%d|", locked);
+    len += sprintf(line + len, "%d|", connected);
     len += sprintf(line + len, "%d|", open_role);
     len += sprintf(line + len, "%d|", use_role);
 
@@ -813,7 +824,7 @@ Status game_management_save_players(Game *game, char *filename) {
   if(!(file = fopen(filename, "a"))) return ERROR;
   if((num_players = game_get_n_players(game)) == -1) st = ERROR;
 
-  /*#p:<id>|<name>|<role>|<graphic description>|<location>|<health>|<armor>|<weapon>|<backpack size>|<num backpack items>|<item1>|<item2>|...*/
+  /*#p:<id>|<name>|<role>|<graphic description>|<location>|<health>|<armor>|<weapon>|<backpack size>|<num backpack items>|<item1>|<item2>|...|<close up line 1>|<c.u. line2|...*/
   for(i = 0; i < num_players && st == OK; i++) {
     if (!(player = game_get_player_at(game, i))) st = ERROR;
     if ((player_id = player_get_id(player)) == NO_ID) st = ERROR;
@@ -860,6 +871,7 @@ Status game_management_save_players(Game *game, char *filename) {
 
     fprintf(file, "%s\n", line);
     len = 0;
+    line[0] = '\0';
   }
 
   fprintf(file, "\n");
@@ -1030,15 +1042,15 @@ Status game_management_save_characters(Game *game, char *filename) {
 Status game_management_save_turn(Game *game, char *filename) {
   FILE *file = NULL;
   Status st = OK;
-  int turn = 0;
+  int turn = 0, round = 0;
 
   if(!game || !filename) return ERROR;
 
   if(!(file = fopen(filename, "a"))) return ERROR;
 
   if ((turn = game_get_turn(game)) == -1) st = ERROR;
-
-  if (st == OK) fprintf(file, "#t:%d|\n\n", turn);
+  if ((round = game_get_round(game)) == -1) st = ERROR;
+  if (st == OK) fprintf(file, "#t:%d|%d|\n\n", turn, round);
 
   fclose(file);
 

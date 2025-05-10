@@ -1286,6 +1286,31 @@ Status game_rules_force_inspection(Game *game, Bool *bool, Id id) {
 }
 /* Implementation of private functions */
 
+Screen game_rules_get_screen (Game *game) {
+  Command *last_cmd = NULL;
+  CommandCode code = NO_CMD;
+
+  if (!game) return NO_SCREEN;
+
+  if (!(last_cmd = game_get_last_command(game))) return ERROR;
+  if ((code = command_get_code(last_cmd)) == NO_CMD) return ERROR;
+
+  switch (code) {
+    case VIEW:
+      return MINIMAP;
+      break;
+    case HELP:
+      return INSTRUCTIONS;
+      break;
+    
+    default:
+      return MAP;
+      break;
+  }
+
+  return MAP;
+}
+
 Status game_rules_update_actions(Game *game, Bool *bool) {
   Id player_loc;
   int round = 0, turn = 0;

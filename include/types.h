@@ -113,6 +113,23 @@ typedef enum {
 } Type;
 
 /**
+ * @brief Defines the screens that is going to be printed in the map area
+ * 
+ */
+typedef enum {
+  NO_SCREEN = -1,      /* We define this as the error class */
+  MAP,                 /* The normal map is printed */
+  MINIMAP,             /* The minimap is printed */
+  INSTRUCTIONS,        /* The instructions are printed */
+  WIN_1,               /* The win screen for player 1 is printed */
+  WIN_2,               /* The win screen for player 2 is printed */
+  WIN_3,               /* The win screen for player 3 is printed */
+  WIN_4,               /* The win screen for player 4 is printed */
+  LOSS,                /* The loss screen for players is printed */
+  INTERTURN            /* The screen that is printed in between turns is printed */
+} Screen;
+
+/**
  * @brief It defines the type of objects there are in the game
  *
  */

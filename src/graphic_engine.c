@@ -83,6 +83,16 @@
  */
 #define HEIGHT_DESC (HEIGHT_MAP)
 
+/**
+ * @brief Defines the possible screen printing styles
+ * 
+ */
+typedef enum {
+  PRINT_ERROR = -1,   /* We define this as the error style */
+  PRINT_ALL,          /* All the information needs to be printed */
+  PRINT_MAP           /* Only the map needs to be printed */
+} Screen_style;
+
 
 /** *********************************************************
  * **************** PRINTING INFO MACROS ********************
@@ -149,10 +159,19 @@
 #define DESC_ID_SZ 5
 
 /**
- * @brief Type of wall that should be printed
+ * @brief Defines the types of walls/ conections that should be printed
  * 
  */
-typedef enum { ERR_WALL = -1, NO_WALL, CLSD_WALL, LOCK_WALL, CONEX_WALL, OPEN_WALL, HUMAN_WALL, MNSTR_WALL} Wall_style;
+typedef enum { 
+  ERR_WALL = -1,        /* We define this as the error wall */
+  WALL,                 /* A normal wall is printed */
+  CLSD_DOOR,            /* A closed door is printed */
+  LOCK_DOOR,            /* A locked door is printed */
+  CONEX_WALL,           /* No wall is printed, it represents that multiple spaces form a room*/
+  OPEN_DOOR,            /* An open door is printed */
+  HUMAN_DOOR,           /* A door that can only be opened/ traversed by humans is printed */
+  MNSTR_DOOR            /* A door that can only be opened/ traversed by humans is printed*/
+} Wall_style;
 
 /**
  * @brief Struct that stores the information of the graphic engine: Id, name and desc
@@ -186,9 +205,8 @@ void graphic_engine_map_print_row(Game *game, Graphic_engine *ge, Id left, Id ce
  * 
  * @param game Pointer to the game
  * @param ge Pointer to the graphic engine
- * @param id Array of 9 ids of the spaces which will be printed as the map
  */
-void graphic_engine_map_print_map(Game *game, Graphic_engine *ge, Id id[9]);
+void graphic_engine_map_print_map(Game *game, Graphic_engine *ge);
 
 /**
  * @brief Prints into a group of strings the visuals of one space
@@ -242,13 +260,62 @@ void graphic_engine_print_vertical_wall(Game *game, Link *link, char lines[SQ_LI
 void graphic_engine_print_horizontal_wall(Game *game, Link *link, char line[WIDTH_MAP + 1]);
 
 /**
+ * @brief Prints the win screen depending on the position of the player that has won
+ * @author
+ * 
+ * @param game Pointer to the game
+ * @param ge Pointer to the graphic engine
+ * @param pos Position of the player inside the array
+ */
+void graphic_engine_map_print_win(Game *game, Graphic_engine *ge, int pos);
+
+/**
+ * @brief Prints the win screen depending on the position of the player that has won
+ * @author
+ * 
+ * @param game Pointer to the game
+ * @param ge Pointer to the graphic engine
+ */
+void graphic_engine_map_print_loss(Game *game, Graphic_engine *ge);
+
+
+/**
+ * @brief Prints the screen that prevents the player behind you from seeing your information
+ * @author
+ * 
+ * @param game Pointer to the game
+ * @param ge Pointer to the graphic engine
+ */
+void graphic_engine_map_print_interturn(Game *game, Graphic_engine *ge);
+
+/**
+ * @brief Prints all the instructions needed to play the game
+ * @author
+ * 
+ * @param game Pointer to the game
+ * @param ge Pointer to the graphic engine
+ */
+void graphic_engine_map_print_instructions(Game *game, Graphic_engine *ge);
+
+/**
  * @brief Prints the minimap
  * @author Alina Datsko
  * 
  * @param game Pointer to the game
- * @param link Pointer to the graphic engine
+ * @param ge Pointer to the graphic engine
  */
-void graphic_engine_print_minimap(Game *game, Graphic_engine *ge);
+void graphic_engine_map_print_minimap(Game *game, Graphic_engine *ge);
+
+/**
+ * @brief Prints the map depending on the screen option inserted
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param ge Pointer to the graphic engine 
+ * @param print Screen option inserted
+ * @return The printing style of the map region
+ */
+Screen_style graphic_engine_print_map_region (Game *game, Graphic_engine *ge, Screen print);
 
 /*
  * ************** Implementation of private functions ****************
@@ -260,7 +327,7 @@ Wall_style graphic_engine_get_wall_style(Game *game, Link *link) {
 
   if(!game) return ERR_WALL;
 
-  if(!link) return NO_WALL;
+  if(!link) return WALL;
 
   link_role = link_get_use_role(link);
 
@@ -271,14 +338,14 @@ Wall_style graphic_engine_get_wall_style(Game *game, Link *link) {
   if(open == TRUE){
     if(connected) return CONEX_WALL;
     else{
-      if((link_role == TEAM1) || (link_role == TEAM2)) return HUMAN_WALL;
+      if((link_role == TEAM1) || (link_role == TEAM2)) return HUMAN_DOOR;
       else if(link_role == MONSTER) return MONSTER;
-      else return OPEN_WALL;
+      else return OPEN_DOOR;
     }
     
-  } else if(locked == TRUE) return LOCK_WALL;
+  } else if(locked == TRUE) return LOCK_DOOR;
 
-  return CLSD_WALL;
+  return CLSD_DOOR;
 }
 
 void graphic_engine_print_vertical_wall(Game *game, Link *link, char lines[SQ_LINES][WIDTH_MAP + 1]) {
@@ -291,15 +358,15 @@ void graphic_engine_print_vertical_wall(Game *game, Link *link, char lines[SQ_LI
   if(wall_style == ERR_WALL) return;
 
   switch(wall_style){
-    case NO_WALL:
+    case WALL:
     for(i=0;i<SQ_LINES;i++) strcat(lines[i],"H");
     break;
 
-    case CLSD_WALL:
+    case CLSD_DOOR:
       for(i=0;i<SQ_LINES;i++) strcat(lines[i],"|");
       break;
 
-    case LOCK_WALL:
+    case LOCK_DOOR:
       for(i=0;i<SQ_LINES;i++) {
         if(i==(SQ_LINES/2)) strcat(lines[i], "&");
         else strcat(lines[i], "|");
@@ -310,21 +377,21 @@ void graphic_engine_print_vertical_wall(Game *game, Link *link, char lines[SQ_LI
       for(i=0;i<SQ_LINES;i++) strcat(lines[i]," ");
       break;
     
-    case OPEN_WALL:
+    case OPEN_DOOR:
       for(i=0;i<SQ_LINES;i++) {
         if(i<3 || i>SQ_LINES-4) strcat(lines[i],"|");
         else strcat(lines[i]," ");
       }
       break;
 
-    case HUMAN_WALL:
+    case HUMAN_DOOR:
     for(i=0;i<SQ_LINES;i++) {
       if(i<3 || i>SQ_LINES-4) strcat(lines[i],"Z");
       else strcat(lines[i],":");
     }
     break;
 
-    case MNSTR_WALL:
+    case MNSTR_DOOR:
       for(i=0;i<SQ_LINES;i++) {
         if(i<3 || i>SQ_LINES-4) strcat(lines[i],"|");
         else strcat(lines[i],"/");
@@ -344,17 +411,17 @@ void graphic_engine_print_horizontal_wall(Game *game, Link *link, char line[WIDT
   wall_style = graphic_engine_get_wall_style(game, link);
 
   switch(wall_style){
-    case NO_WALL:
+    case WALL:
       strcat(line,"+");
       for(i=0;i<SQ_IN_SZ;i++) strcat(line,"=");
       break;
 
-    case CLSD_WALL:
+    case CLSD_DOOR:
       strcat(line,"+");
       for(i=0;i<SQ_IN_SZ;i++) strcat(line,"-");
       break;
 
-    case LOCK_WALL:
+    case LOCK_DOOR:
       strcat(line,"+");
       for(i=0;i<SQ_IN_SZ;i++) {
         if(i==(SQ_IN_SZ/2)) strcat(line,"&");
@@ -367,7 +434,7 @@ void graphic_engine_print_horizontal_wall(Game *game, Link *link, char line[WIDT
       for(i=0;i<SQ_IN_SZ;i++) strcat(line," ");
       break;
     
-    case OPEN_WALL:
+    case OPEN_DOOR:
       strcat(line,"+");
       for(i=0;i<SQ_IN_SZ;i++) {
         if(i<7 || i>SQ_IN_SZ-8) strcat(line,"-");
@@ -375,7 +442,7 @@ void graphic_engine_print_horizontal_wall(Game *game, Link *link, char line[WIDT
       }
       break;
 
-    case HUMAN_WALL:
+    case HUMAN_DOOR:
       strcat(line,"+");
       for(i=0;i<SQ_IN_SZ;i++) {
         if(i<7 || i>SQ_IN_SZ-8) strcat(line,"N");
@@ -383,7 +450,7 @@ void graphic_engine_print_horizontal_wall(Game *game, Link *link, char line[WIDT
       }
     break;
 
-    case MNSTR_WALL:
+    case MNSTR_DOOR:
       strcat(line,"+");
       for(i=0;i<SQ_IN_SZ;i++) {
         if(i<7 || i>SQ_IN_SZ-8) strcat(line,"-");
@@ -592,18 +659,103 @@ void graphic_engine_map_print_row(Game *game, Graphic_engine *ge, Id left, Id ce
 
 }
 
-void graphic_engine_map_print_map(Game *game, Graphic_engine *ge, Id id[9]){
+Screen_style graphic_engine_print_map_region (Game *game, Graphic_engine *ge, Screen print) {
+  if (!ge || !game) return PRINT_ERROR;
+
+  switch (print) {
+    case MAP:
+      graphic_engine_map_print_map(game, ge);
+      return PRINT_ALL;
+      break;
+    case MINIMAP:
+      graphic_engine_map_print_minimap(game, ge);
+      return PRINT_ALL;
+    break;
+    case INSTRUCTIONS:
+      graphic_engine_map_print_instructions(game, ge);
+      return PRINT_ALL;
+      break;
+    case WIN_1:
+      graphic_engine_map_print_win(game, ge, 1);
+      return PRINT_MAP;
+      break;
+    case WIN_2:
+      graphic_engine_map_print_win(game, ge, 2);
+      return PRINT_MAP;
+      break;
+    case WIN_3:
+      graphic_engine_map_print_win(game, ge, 3);
+      return PRINT_MAP;
+      break;
+    case WIN_4:
+      graphic_engine_map_print_win(game, ge, 4);
+      return PRINT_MAP;
+      break;
+    case LOSS:
+      graphic_engine_map_print_loss(game, ge);
+      return PRINT_MAP;
+      break;
+    case INTERTURN:
+      graphic_engine_map_print_interturn(game, ge);
+      return PRINT_MAP;
+      break;
+    default:
+      graphic_engine_map_print_map(game, ge);
+      return PRINT_ALL;
+      break;
+  }
+
+  return PRINT_ALL;
+}
+
+void graphic_engine_map_print_win(Game *game, Graphic_engine *ge, int pos) {
+  return;
+}
+
+void graphic_engine_map_print_loss(Game *game, Graphic_engine *ge) {
+  return;
+}
+
+void graphic_engine_map_print_interturn(Game *game, Graphic_engine *ge) {
+  screen_area_clear(ge->map);
+  screen_area_clear(ge->descript);
+  screen_area_clear(ge->feedback);
+  screen_area_clear(ge->message);
+  screen_area_clear(ge->player_inf);
+  screen_area_clear(ge->pov);
+  return;
+}
+
+void graphic_engine_map_print_instructions(Game *game, Graphic_engine *ge) {
+  return;
+}
+
+void graphic_engine_map_print_map(Game *game, Graphic_engine *ge){
   char lines[SQ_LINES][WIDTH_MAP + 1];
   char interm[WIDTH_MAP + 1], aux[WORD_SIZE + 1];
   Link *link = NULL;
-  Command *last_cmd = NULL;
+  Id id_act = NO_ID, neighbors[8], id[9];
+  Space *sp = NULL;
+  Player *act_player = NULL;
   Space *space[9];
-  int i = 0;
+  int i = 0, index_convert[9] = {0,1,2,7,-1,3,6,5,4};
 
-  if (!(last_cmd = game_get_last_command(game))) return;
-  if ((command_get_code(last_cmd) == VIEW) && (command_get_status(last_cmd) == OK)) {
-    graphic_engine_print_minimap(game, ge);
-    return;
+  id_act = game_get_player_location(game);
+  if(id_act == NO_ID) return;
+  sp = game_get_space(game, id_act);
+  act_player = game_get_player(game);
+
+  if(!act_player || !sp) return;
+
+  /* Paint the in the map area */
+  screen_area_clear(ge->map);
+  graphic_engine_get_surroundings(game, id_act,neighbors);
+  for(i=0;i<9;i++){
+    if(i==4){
+      id[i] = id_act;
+      continue;
+    }
+    id[i] = neighbors[index_convert[i]];
   }
 
   for(i=0;i<SQ_LINES;i++){
@@ -688,7 +840,7 @@ void graphic_engine_map_print_map(Game *game, Graphic_engine *ge, Id id[9]){
 
 }
 
-void graphic_engine_print_minimap(Game *game, Graphic_engine *ge) {
+void graphic_engine_map_print_minimap(Game *game, Graphic_engine *ge) {
   Space *sp = NULL;
   Id id_act = NO_ID;
   int i = 0, floor = 0;
@@ -748,14 +900,14 @@ void graphic_engine_destroy(Graphic_engine *ge) {
 }
 
 /*Paints each area according to its function with the necessary information*/
-void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
-  Id id_act = NO_ID, neighbors[8], map_spaces[9];
+void graphic_engine_paint_game(Graphic_engine *ge, Game *game, Screen print) {
+  Id id_act = NO_ID;
   Status last_status = ERROR;
   char str[MESG_SIZE + 1], *aux_name = NULL, *close_up = NULL, *msg = NULL, msg_aux[MESG_SIZE], 
   objective_aux[WORD_SIZE + 1], *objective = NULL, *partial_objective = NULL, *partial_msg = NULL;
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
-  int i, aux_health, turn, index_convert[9] = {0,1,2,7,-1,3,6,5,4}, chars = 0, num_followers = 0;
+  int i, aux_health, turn, chars = 0, num_followers = 0;
   Object *aux_obj = NULL;
   Character *aux_charr = NULL;
   Space *sp = NULL;
@@ -776,16 +928,11 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   if(role == NO_ROLE) return;
 
   /* Paint the in the map area */
-  screen_area_clear(ge->map);
-  graphic_engine_get_surroundings(game, id_act,neighbors);
-  for(i=0;i<9;i++){
-    if(i==4){
-      map_spaces[i] = id_act;
-      continue;
-    }
-    map_spaces[i] = neighbors[index_convert[i]];
+  if (graphic_engine_print_map_region(game, ge, print) != PRINT_ALL) {
+    if((turn = game_get_turn(game)) == -1) return;
+    screen_paint(BLUE + turn);
+    return;
   }
-  graphic_engine_map_print_map(game,ge,map_spaces);
 
   /* Paint the description area */
   screen_area_clear(ge->descript);

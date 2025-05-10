@@ -29,7 +29,7 @@ char *cmd_to_str[N_CMD][N_CMDT] = {
     {"s", "save"},      {"lo", "load"},      {"o", "open"},
     {"cl", "close"},    {"sk", "skip"},      {"ac", "accept"},
     {"de", "deny"},     {"co", "cooperate"}, {"b", "betray"},
-    {"v", "view"}};
+    {"v", "view"},     {"h", "help"}};
 
 /**
  * @brief Struct that stores the information of a command: code, cmd_desc and

@@ -742,8 +742,9 @@ void game_actions_attack(Game *game) {
         if (deterministic == FALSE) dice = (rand() % ATK_RNG) + total_luck;
         else dice = ATK_WIN + 1;
 
+        follower = game_get_character_from_id(game, set_get_id_at_pos(followers, i));
+
         if(dice >= ATK_WIN){
-          follower = game_get_character_from_id(game, set_get_id_at_pos(followers, i));
           if(!follower) continue;
           damage += character_get_damage(follower);
         }
@@ -971,11 +972,15 @@ void game_actions_chat(Game *game) {
   Command *last_cmd = NULL;
   Space *current_space = NULL;
   Character *charr = NULL;
+  Class *class1 = NULL, *class2 = NULL;
+  Inventory *backpack1 = NULL, *backpack2 = NULL;
+  Object *talkie1 = NULL, *talkie2 = NULL;
   Player *play_reciever = NULL, *play_sender = NULL;
-  Bool friendly = FALSE;
-  Id reciever_id = NO_ID, player_loc = NO_ID, reciever_loc = NO_ID, sender_id = NO_ID, charr_id = NO_ID;
+  Role role1 = NO_ROLE, role2 = NO_ROLE;
+  Bool friendly = FALSE, found = FALSE;
+  Id player_loc = NO_ID, reciever_loc = NO_ID, sender_id = NO_ID, charr_id = NO_ID, obj1 = NO_ID, obj2 = NO_ID;
   char *name = NULL, *closeup = NULL, *desc = NULL, *mesg = NULL, message[MESG_SIZE];
-  int i, pos;
+  int i, j, pos, n_objs = -1, n_objs2 = -1, use_value = -1;
 
   if (!game) return;
 
@@ -988,7 +993,7 @@ void game_actions_chat(Game *game) {
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(desc = command_get_desc(last_cmd))) return;
   if (!(name = strtok(desc, " "))) return;
-  mesg = strtok(NULL, "\r\n");
+  if (!(mesg = strtok(NULL, "\r\n"))) return;
 
   charr_id = game_get_charr_id_from_name(game, name);
   play_reciever = game_get_player_from_name(game, name);
@@ -996,36 +1001,99 @@ void game_actions_chat(Game *game) {
   if ((charr_id == NO_ID) && !play_reciever) return;
 
   if ((charr_id == NO_ID) && play_reciever) {
-    if (!mesg) return;
     if (player_get_health(play_reciever) <= 0) return;
-    if ((reciever_id = player_get_id(play_reciever)) == NO_ID) return;
-
-    if (game_get_friendly(player_get_role(play_sender), player_get_role(play_reciever), &friendly) == ERROR) return;
-    if (friendly == FALSE) {
-      game_set_last_message(game, "This player is not from your team...");
-      return;
-    }
+    if ((pos = game_get_player_pos_from_name(game, name)) < 0) return;
 
     if ((reciever_loc = player_get_location(play_reciever)) == NO_ID) return;
-    if (reciever_loc != player_loc) {
-      game_set_last_message(game, "This player is out of reach...");
-      return;
+
+    if (reciever_loc == player_loc) {
+      sender_id = player_get_id(play_sender);
+      if(sender_id == NO_ID) return;
+
+      if (game_set_last_message_at_pos_with_info(game, pos, mesg, sender_id, PLAYER) == ERROR) return;
+      sprintf(message, "You to %s: %s", player_get_name(game_get_player_at(game, pos)), mesg);
+      if (game_set_last_message(game, message) == ERROR) return;
+
+      for (i = 0; i < POV_HGHT; i++) {
+        if (!(closeup = player_get_closeup_at(play_reciever, i))) return;
+        if (game_set_last_close_up(game, closeup, i) == ERROR) return;
+      }
+
+      for (i = 0; i < POV_HGHT; i++) {
+        if (!(closeup = player_get_closeup_at(play_sender, i))) return;
+        if (game_set_last_close_up_at_pos(game, closeup, pos, i) == ERROR) return;
+      }
+      /* In case that you are not in the same space */
+    } else {
+      if (!(backpack1 = player_get_backpack(play_sender))) return;
+      if ((n_objs = inventory_get_num_objects(backpack1)) == -1) return;
+
+      for(i = 0; (i < n_objs) && (found == FALSE); i++) {
+        obj1 = inventory_get_object_at_pos(backpack1, i);
+        if (!(class1 = game_get_class_from_id_obj(game, obj1))) continue;
+        if (class_get_tag(class1) != WALKIE_TALKIE) continue;
+
+        if (!(talkie1 = game_get_object(game, obj1))) continue;
+        if ((role1 = object_get_role(talkie1)) == NO_ROLE) continue;
+
+        if (!(backpack2 = player_get_backpack(play_sender))) return;
+        if ((n_objs2 = inventory_get_num_objects(backpack2)) == -1) return;
+
+        for(j = 0; j < n_objs2; j++) {
+          obj2 = inventory_get_object_at_pos(backpack2, i);
+          if (!(class2 = game_get_class_from_id_obj(game, obj2))) continue;
+          if (class_get_tag(class2) != WALKIE_TALKIE) continue;
+
+          if (!(talkie2 = game_get_object(game, obj1))) continue;
+          if ((role2 = object_get_role(talkie1)) == NO_ROLE) continue;
+
+          if(role1 == role2) {
+            found = TRUE;
+            break;
+          }
+        }
+      }
+
+      if (found == FALSE) {
+        game_set_last_message(game, "This player is out of reach...");
+        return;
+      }
+
+      if ((use_value = object_get_use_value(talkie1)) <= 0) {
+        if (game_set_last_message_at_pos_with_info(game, game_get_turn(game), "Damn, my WalkieTalkie broke down...", sender_id, THOUGHTS) == ERROR) return;
+      
+        for (i = 0; i < POV_HGHT; i++) {
+          if (!(closeup = class_get_closeup_at_pos(class1, i))) return;
+          if (game_set_last_close_up_at_pos(game, closeup, pos, i) == ERROR) return;
+        }
+
+        return;
+      } 
+
+      if (object_set_use_value(talkie1, use_value - 1) == ERROR) return;
+
+      /* Sets the message to you */
+      if (!(name = player_get_name(play_reciever))) return;
+      sprintf(message, "You to %s: %s", name, mesg);
+      if (game_set_last_message(game, message) == ERROR) return;
+
+      for (i = 0; i < POV_HGHT; i++) {
+        if (!(closeup = class_get_closeup_at_pos(class1, i))) return;
+        if (game_set_last_close_up(game, closeup, i) == ERROR) return;
+      }
+
+      /* Sets the message to the player you are chatting with */
+      if (!(name = player_get_name(play_sender))) return;
+      sprintf(message, "(%s) %s", name, mesg);
+      if (game_set_last_message_at_pos_with_info(game, pos, message, obj2, OBJECT) == ERROR) return;
+
+      for (i = 0; i < POV_HGHT; i++) {
+        if (!(closeup = class_get_closeup_at_pos(class2, i))) return;
+        if (game_set_last_close_up_at_pos(game, closeup, pos, i) == ERROR) return;
+      }
     }
 
-    sender_id = player_get_id(play_sender);
-    if(sender_id == NO_ID) return;
-
-    if ((pos = game_get_player_pos_from_name(game, name)) < 0) return;
-    if (game_set_last_message_at_pos_with_info(game, pos, mesg, sender_id, PLAYER) == ERROR) return;
-    sprintf(message, "You to %s: %s", player_get_name(game_get_player_at(game, pos)), mesg);
-    if (game_set_last_message(game, message) == ERROR) return;
-
-    for (i = 0; i < POV_HGHT; i++) {
-      if (!(closeup = player_get_closeup_at(play_reciever, i))) return;
-      if (game_set_last_close_up(game, closeup, i) == ERROR) return;
-    }
-  }
-  else if ((charr_id != NO_ID) && !play_reciever) {
+  } else if ((charr_id != NO_ID) && !play_reciever) {
     charr = game_get_character_from_id(game, charr_id);
     if(!charr) return;
 

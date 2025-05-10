@@ -23,7 +23,7 @@
  * @brief Total number of commands that can be executed
  *
  */
-#define N_CMD 22
+#define N_CMD 23
 
 /**
  * @brief Defines the ways a command can be written (short, long)
@@ -57,7 +57,8 @@ typedef enum {
   DENY,
   COOPERATE,
   BETRAY,
-  VIEW
+  VIEW, 
+  HELP
 } CommandCode;
 
 /**

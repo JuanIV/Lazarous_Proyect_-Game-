@@ -147,7 +147,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
   if(deterministic == TRUE) game_set_deterministic(*game, deterministic);
   
   do {
-    graphic_engine_paint_game(gengine, *game);
+    graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
     if(game_erase_all_messages(*game) == ERROR) return;
 
     last_cmd = game_get_last_command_at_pos(*game, NUM_CMDS - 1);
@@ -172,7 +172,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
       if (turn == 0) return;
       sprintf(message, "Heaven or hell? What will my future depare@Sadly Player %d: %s passed away@End of the game", turn, name);
       game_set_last_message(*game, message);
-      graphic_engine_paint_game(gengine, *game);
+      graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
       return;
     }
 
@@ -206,8 +206,10 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
       if(game_rules_update_turn(*game, &update_turn) == ERROR) return;
       if (update_turn == TRUE) {
         if((last_cmd_code != EXIT) && (last_cmd_code != SKIP)) {
-          graphic_engine_paint_game(gengine, *game);
+          graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
           sleep(1);
+          /*graphic_engine_paint_game(gengine, *game, INTERTURN);
+          sleep(3);*/
         }
         game_next_turn(*game);
       }

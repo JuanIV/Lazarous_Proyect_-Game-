@@ -66,7 +66,10 @@ struct _Game {
   Bool deterministic;						/*!< If the game is deterministic or not*/  
   InterfaceData *data[MAX_PLAY];    /*!< Array of the data of each player*/
   Bool finished;							/*!< Status of the game. TRUE if it has finished. FALSE if not*/
-  char minimap[NUM_FLOORS][MINIMAP_HEIGHT][MINIMAP_WIDTH + 1]; /*!< Graphic description of the mini map*/
+  char minimap[NUM_FLOORS][MAP_HEIGHT][MAP_WIDTH + 1]; /*!< Graphic description of the mini map*/
+  char win_screens[TOT_PLAYERS][MAP_HEIGHT][MAP_WIDTH + 1]; /*!< Graphic description of the win screens, one for each player*/
+  char loss_screen[MAP_HEIGHT][MAP_WIDTH + 1]; /*!< Graphic description of the screen printed when someone looses */
+  char interturn_screen[MAP_HEIGHT]; /*!< Graphic description of the screen printed between each turn*/
 };
 
 /************************ Private functions **************************** */
@@ -130,6 +133,15 @@ Status game_interface_data_destroy(InterfaceData *interfaceData);
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status game_interface_data_print(InterfaceData *interfaceData);
+
+/**
+ * @brief Recursive part of game_set_spaces_discovered. Sets all connected spaces as discovered
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param space Pointer to a space
+ */
+void game_set_spaces_discovered_rec(Game *game, Space *space);
 /**************** Implementation of private functions ****************** */
 
 Id game_get_space_id_at(Game *game, int position) {
@@ -304,7 +316,7 @@ Game *game_create() {
   game->finished = FALSE;
 
   for (i = 0; i < NUM_FLOORS; i++) {
-    for (j = 0; j < MINIMAP_HEIGHT; j++) {
+    for (j = 0; j < MAP_HEIGHT; j++) {
       game->minimap[i][j][0] = '\0'; 
     }
   }
@@ -780,9 +792,7 @@ int game_get_floor(Game *game, Space *space) {
   if (!game || !space) return -1;
 
   if ((id = space_get_id(space)) == NO_ID) return -1;
-  floor = (int)id;
-
-  while (floor > 10) floor /= 10;
+  floor = (int)id / 1000;
 
   return floor;
 }
@@ -1275,12 +1285,12 @@ Status game_get_friendly(Role role1, Role role2, Bool *relationship) {
 Status game_set_minimap_at(Game *game, char *gdesc, int pos, int floor) {
   int i = 0;
 
-  if (!game || !gdesc || floor < 0 || floor >= NUM_FLOORS || pos < 0 || pos >= MINIMAP_HEIGHT) return ERROR;
+  if (!game || !gdesc || floor < 0 || floor >= NUM_FLOORS || pos < 0 || pos >= MAP_HEIGHT) return ERROR;
 
   sprintf(game->minimap[floor][pos], "%s", gdesc);
 
   /*We prevent from saving a line break in the gdesc*/
-  for (i = 0; i < MINIMAP_WIDTH; i++) {
+  for (i = 0; i < MAP_WIDTH; i++) {
     if ((game->minimap[floor][pos][i] == '\n') || (game->minimap[floor][pos][i] == '\r'))
       game->minimap[floor][pos][i] = ' ';
   }
@@ -1290,7 +1300,7 @@ Status game_set_minimap_at(Game *game, char *gdesc, int pos, int floor) {
 
 /*Gets the graphic descrpition of a minimap*/
 char *game_get_minimap_at(Game *game, int line, int floor) {
-  if (!game || line < 0 || line >= MINIMAP_HEIGHT || floor < 0 || floor >= NUM_FLOORS) return NULL;
+  if (!game || line < 0 || line >= MAP_HEIGHT || floor < 0 || floor >= NUM_FLOORS) return NULL;
 
   return game->minimap[floor][line];
 }
@@ -1792,7 +1802,7 @@ Status game_print(Game *game) {
   fprintf(stdout, "=> Minimaps: \n");
   for (i = 0; i < NUM_FLOORS; i++) {
     fprintf(stdout, "\n-> Floor %d:\n", i);
-    for (j = 0; j < MINIMAP_HEIGHT; j++) {
+    for (j = 0; j < MAP_HEIGHT; j++) {
       minimap = game_get_minimap_at(game, j, i);
       fprintf(stdout, "%s\n", minimap);
     }

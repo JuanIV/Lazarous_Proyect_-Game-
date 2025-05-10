@@ -46,6 +46,15 @@ Status game_rules_update_actions(Game *game, Bool *bool);
 Status game_rules_update_turn(Game *game, Bool *bool);
 
 /**
+ * @brief Gets what should be printed in the map region of the graphic engine
+ * depending on the state of the game
+ * 
+ * @param game Pointer to the game
+ * @return The information that should be printed 
+ */
+Screen game_rules_get_screen (Game *game);
+
+/**
  * @brief Does all the checkings necessary and the respective responses AFTER player's action has been updated this turn
  * @author Juan Ibáñez
  * 
