@@ -54,6 +54,12 @@
 #define N_DIR 7
 
 /**
+ * @brief Number of players in the game
+ * 
+ */
+#define TOT_PLAYERS 4
+
+/**
  * @brief Defines the type Id as a long
  *
  */
@@ -110,6 +116,6 @@ typedef enum {
  * @brief It defines the type of objects there are in the game
  *
  */
-typedef enum { NO_TAG = -1, NORMAL, HEALER, WEAPON, ARMOR, TRAP, NOTE, SWITCH } Tag;
+typedef enum { NO_TAG = -1, NORMAL, HEALER, WEAPON, ARMOR, TRAP, NOTE, SWITCH, WALKIE_TALKIE} Tag;
 
 #endif

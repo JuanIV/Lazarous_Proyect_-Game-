@@ -261,6 +261,15 @@ Id game_get_object_from_player(Game *game, char *name);
 int game_get_turn(Game *game);
 
 /**
+ * @brief Gets the prime associated with a player from its id
+ * 
+ * @param game Pointer to the game
+ * @param id Id of the player
+ * @return The prime associated or -1 in case of error 
+ */
+int game_get_prime_from_id(Game *game, Id id);
+
+/**
  * @brief Sets the position of the player who has the turn of the game
  * @author Alina Datsko Yaskerska
  * 

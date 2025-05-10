@@ -1044,7 +1044,6 @@ void game_actions_chat(Game *game) {
     }
 
     pos = game_get_turn(game);
-    printf("\n%s\n",  character_get_message(charr));
     if (game_set_last_message_at_pos_with_info(game, pos, character_get_message(charr), sender_id, CHARACTER) == ERROR) return;
 
     for (i = 0; i < POV_HGHT; i++) {
@@ -1060,10 +1059,11 @@ void game_actions_chat(Game *game) {
 void game_actions_inspect(Game *game){
   Command *last_cmd = NULL;
   char *name = NULL;
-  Id obj_id = NO_ID;
+  Id obj_id = NO_ID, play_id = NO_ID;
   Object *obj = NULL;
+  Class *class = NULL;
   char *desc = NULL, *closeup = NULL;
-  int i;
+  int i, prime = -1, use_value = -1;
 
   if (!game) return; 
   
@@ -1080,18 +1080,28 @@ void game_actions_inspect(Game *game){
     if(obj_id == NO_ID) return;
   }
 
-  obj = game_get_object(game, obj_id);
-  if(!obj) return;
+  if (!(obj = game_get_object(game, obj_id))) return;  
 
-  desc = class_get_desc(game_get_class_from_id_obj(game, obj_id));
-  if(!desc) return;
+  if (!(class = game_get_class_from_id_obj(game, obj_id))) return;
+  if (!(desc = class_get_desc(class))) return;
+
+  if(game_set_last_message_at_pos_with_info(game, game_get_turn(game), desc, obj_id, OBJECT) == ERROR) return;
+
+  /* Multiplies by the prime associated if the obj is a note*/
+  if (class_get_tag(class) == NOTE) {
+    if ((use_value = object_get_use_value(obj)) == -1) return;
+    if ((play_id = player_get_id(game_get_player(game))) == NO_ID) return;
+    if ((prime = game_get_prime_from_id(game, play_id)) == -1) return;
+    
+    if ((use_value % prime) != 0) {
+      if (object_set_use_value(obj, use_value * prime) == ERROR) return;
+    }
+  }
 
   for (i = 0; i < POV_HGHT; i++) {
     if (!(closeup = class_get_closeup_at_pos(game_get_class_from_id_obj(game, obj_id), i))) return;
     if (game_set_last_close_up(game, closeup, i) == ERROR) return;
   }
-
-  game_set_last_message_at_pos_with_info(game, game_get_turn(game), desc, obj_id, OBJECT);
 
   if (game_set_last_status(game, OK) == ERROR) return;
 }
@@ -1433,8 +1443,9 @@ void game_actions_save(Game *game) {
   /*Gets the description of the last cmd to name the file*/
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
-  len = strlen(cmd_desc);
-  
+  if ((len = strlen(cmd_desc)) <= 0) return;
+
+  printf("Entra a ga_save: %d\n", len);
   if (len >= 4 && strcmp(cmd_desc + len - 4, ".dat") != 0) {
     sprintf(file_save /*+ strlen(file_save)*/, "%s.dat", cmd_desc);
   }

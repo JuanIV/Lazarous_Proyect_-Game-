@@ -271,7 +271,7 @@ Wall_style graphic_engine_get_wall_style(Game *game, Link *link) {
   if(open == TRUE){
     if(connected) return CONEX_WALL;
     else{
-      if(link_role == TEAM1 || link_role == TEAM2) return HUMAN_WALL;
+      if((link_role == TEAM1) || (link_role == TEAM2)) return HUMAN_WALL;
       else if(link_role == MONSTER) return MONSTER;
       else return OPEN_WALL;
     }
@@ -376,11 +376,11 @@ void graphic_engine_print_horizontal_wall(Game *game, Link *link, char line[WIDT
       break;
 
     case HUMAN_WALL:
-    strcat(line,"+");
-    for(i=0;i<SQ_IN_SZ;i++) {
-      if(i<7 || i>SQ_IN_SZ-8) strcat(line,"N");
-      else strcat(line,".");
-    }
+      strcat(line,"+");
+      for(i=0;i<SQ_IN_SZ;i++) {
+        if(i<7 || i>SQ_IN_SZ-8) strcat(line,"N");
+        else strcat(line,".");
+      }
     break;
 
     case MNSTR_WALL:
@@ -883,10 +883,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   if (objective) strcpy(objective_aux, objective);
 
   if (objective) {
-    printf("%s\n", objective);
     partial_objective = strtok(objective_aux, "@\n\r\0");
     if (partial_objective) {
-      printf("%s\n", partial_objective);
       sprintf(str, " %s", partial_objective);
     }
     else sprintf(str, " ");
@@ -895,7 +893,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     str[0] = '\0';
 
     while ((partial_objective = strtok(NULL, "@\n\r\0"))) {
-      printf("%s\n", partial_objective);
       sprintf(str, " %s", partial_objective);
       screen_area_puts(ge->player_inf, str);
     }

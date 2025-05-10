@@ -36,15 +36,16 @@
 Status game_rules_force_cooperation(Game *game, Bool *bool);
 
 /**
- * @brief Forces the players to read a note when he is at a space
+ * @brief Forces the players to read a note/ inspect an object when it is at a space
  * @author Tiago Oselka
  *
  * @param game Pointer to the game
  * @param bool Pointer to a boolean that represents whether the game actions
  * update should be updated
+ * @param id id of the object to be inspected
  * @return OK if everything went well and ERROR otherwise
  */
-Status game_rules_force_cooperation(Game *game, Bool *bool);
+Status game_rules_force_inspection(Game *game, Bool *bool, Id id);
 
 
 /**
@@ -1141,7 +1142,7 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
       if (player_get_role(play1) == TEAM1) {
         *bool = TRUE;
         return OK;
-      } else if (code == COOPERATE || code == EXIT) {
+      } else if (code == COOPERATE) {
         *bool = TRUE;
         return OK;
       } else {
@@ -1161,7 +1162,7 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
       if (player_get_role(play1) == TEAM2) {
         *bool = TRUE;
         return OK;
-      } else if (code == COOPERATE || code == EXIT) {
+      } else if (code == COOPERATE) {
         *bool = TRUE;
         return OK;
       } else {
@@ -1181,7 +1182,7 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
       if (player_get_role(play2) == TEAM2) {
         *bool = TRUE;
         return OK;
-      } else if (code == ACCEPT || code == EXIT) {
+      } else if (code == ACCEPT) {
         *bool = TRUE;
         return player_set_role(play2, TEAM2);
       } else {
@@ -1199,7 +1200,7 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
       if (player_get_role(play2) == TEAM1) {
         *bool = TRUE;
         return OK;
-      } else if (code == ACCEPT || code == EXIT) {
+      } else if (code == ACCEPT) {
         *bool = TRUE;
         return player_set_role(play2, TEAM1);
       } else {
@@ -1217,6 +1218,72 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
   return OK;
 }
 
+Status game_rules_force_inspection(Game *game, Bool *bool, Id id) {
+  Player *player = NULL;
+  Space *space = NULL;
+  Class *class = NULL;
+  Object *obj = NULL;
+  Command *last_cmd;
+  CommandCode code;
+  Id obj_id = NO_ID, loc = NO_ID;
+  Bool has_obj = FALSE;
+  char *name = NULL, msg[MESG_SIZE] = "";
+  int turn = 0, prime, use_value = -1, count = 0;
+
+  if ((turn = game_get_turn(game)) == -1) return ERROR;
+  if (!(last_cmd = game_get_last_command(game))) return ERROR;
+  if ((code = command_get_code(last_cmd)) == NO_CMD) return ERROR;
+
+  if (code == LOAD || code == SAVE || code == EXIT) {
+    *bool = TRUE;
+    return OK;
+  }
+
+  if (!(player = game_get_player(game))) return ERROR;
+  if ((loc = player_get_location(player)) == NO_ID) return ERROR;
+  if (!(space = game_get_space(game, loc))) return ERROR;
+  if (!(class = game_get_class_from_id_obj(game, id))) return ERROR;
+  if (!(obj = game_get_object(game, id))) return ERROR;
+  if (((has_obj = player_has_object(player, id)) == FALSE) && (space_find_object(space, id) == FALSE)) {
+    *bool = TRUE;
+    return OK;
+  }
+  if ((use_value = object_get_use_value(obj)) == -1) return ERROR;
+  if ((prime = game_get_prime_from_id(game, player_get_id(player))) == -1) return ERROR;
+
+  if ((use_value % prime) == 0) {
+    *bool = TRUE;
+    return OK;
+  } else if (code == INSPECT) {
+    if (!(name = command_get_desc(last_cmd))) {
+      *bool = FALSE;
+      return OK;
+    }
+
+    obj_id = game_get_obj_id_from_name_at_space(game, name, loc);
+    if (obj_id == NO_ID) {
+      *bool = FALSE;
+      return OK;
+    }
+
+    if (obj_id == id) {
+      *bool = TRUE;
+      return OK;
+    }
+
+  } else {
+    if (!(name = class_get_name(class))) return ERROR;
+    if(has_obj == TRUE) count = sprintf(msg, "What is this that I have?");
+    else count = sprintf(msg, "What is this?");
+
+    sprintf(msg + count, "@Suggested command: inspect %s", name);
+    game_set_last_message_at_pos_with_info(game, turn, msg, turn + 1, THOUGHTS);
+    *bool = FALSE;
+    return OK;
+  }
+
+  return OK;
+}
 /* Implementation of private functions */
 
 Status game_rules_update_actions(Game *game, Bool *bool) {
@@ -1229,8 +1296,17 @@ Status game_rules_update_actions(Game *game, Bool *bool) {
   if ((turn = game_get_turn(game)) == -1) return ERROR;
 
   /*if (round == 0) return game_rules_force_cooperation(game, bool);*/
-
+  *bool = TRUE;
   if ((player_loc = game_get_player_location(game)) == NO_ID) return ERROR;
+
+  switch (player_loc) {
+  case 1006:
+    game_rules_force_inspection(game, bool, 5101);
+    break;
+  
+  default:
+    break;
+  }
 
   return OK;
 }

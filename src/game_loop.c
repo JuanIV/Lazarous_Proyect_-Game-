@@ -205,9 +205,10 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
     if (game_get_n_players(*game) > 1) {
       if(game_rules_update_turn(*game, &update_turn) == ERROR) return;
       if (update_turn == TRUE) {
-        if((last_cmd_code != EXIT) && (last_cmd_code != SKIP)) graphic_engine_paint_game(gengine, *game);
-        if(game_erase_all_messages(*game) == ERROR) return;
-        sleep(1);
+        if((last_cmd_code != EXIT) && (last_cmd_code != SKIP)) {
+          graphic_engine_paint_game(gengine, *game);
+          sleep(1);
+        }
         game_next_turn(*game);
       }
     }

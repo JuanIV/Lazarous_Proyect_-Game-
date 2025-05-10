@@ -611,6 +611,20 @@ int game_get_turn(Game *game) {
   return (game->turn);
 }
 
+int game_get_prime_from_id(Game *game, Id id) {
+  int primes[TOT_PLAYERS] = {2, 3, 5, 7}, i = 0;
+
+  if (!game || id == NO_ID) return -1;
+
+  for(i = 0; i < game->n_players; i++) {
+    if (id == player_get_id(game->players[i])) break;
+  }
+
+  if (i == game->n_players || i < 0) return -1;
+
+  return primes[i];
+}
+
 int game_get_round(Game *game) {
   if (!game) return -1;
 
@@ -1022,7 +1036,7 @@ Id game_get_obj_id_from_name_at_space(Game *game, char *obj_name, Id space_id) {
   Space *space = NULL;
   Class *class = NULL;
   char *name = NULL;
-  printf("entra");
+  
   if (!game || !obj_name || space_id == NO_ID) return NO_ID;
   
   name_length = strlen(obj_name);

@@ -854,22 +854,6 @@ Status game_management_save_players(Game *game, char *filename) {
       len += sprintf(line + len, "%ld|", obj_id);
     }
 
-    msg = game_get_last_message_msg_at_pos(game, i);
-    if(!msg) {
-      len += sprintf(line + len, " |");
-    }else {
-      len += sprintf(line + len, "%s|", msg);
-    }
-
-    for (j = 0; j < NUM_CMDS; j++) {
-      if (!(cmd = game_get_command_at_pos(game, i, j))) st = ERROR;
-      if ((cmd_code = command_get_code(cmd)) == NO_CMD) st = ERROR;
-      cmd_status = command_get_status(cmd);
-
-      len += sprintf(line + len, "%d|", cmd_code);
-      len += sprintf(line + len, "%d|", cmd_status);
-    }
-
     for (j = 0; j < POV_HGHT && st == OK; j++) {
       if (!(closeup = player_get_closeup_at(player, j))) st = ERROR;
 
