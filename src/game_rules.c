@@ -966,13 +966,7 @@ void game_rules_objective_change_by_note(Game *game, Id player_id, char *new_goa
   }  
 }
 
-void game_rules_objective_change_by_location(Game *game, Id player_id, Id location, char *new_goal){
 
-}
-
-void game_rules_objective_change_by_object(Game *game, Id player_id, Id obj_id, char *new_goal){
-  
-}
 
 
 
