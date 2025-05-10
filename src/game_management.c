@@ -382,7 +382,7 @@ Status game_management_load_objects(Game *game, char *filename) {
     }
     if(object_set_role(object, role) == ERROR) st = ERROR;
     if (object_set_use_value(object, use_value) == ERROR) st = ERROR;
-    object_print(object);
+    
     if (st == ERROR) {
       object_destroy(object);
       break;

@@ -36,6 +36,18 @@
 Status game_rules_force_cooperation(Game *game, Bool *bool);
 
 /**
+ * @brief Forces the players to read a note when he is at a space
+ * @author Tiago Oselka
+ *
+ * @param game Pointer to the game
+ * @param bool Pointer to a boolean that represents whether the game actions
+ * update should be updated
+ * @return OK if everything went well and ERROR otherwise
+ */
+Status game_rules_force_cooperation(Game *game, Bool *bool);
+
+
+/**
  * @brief Move only updates the turn if the rooms are not connected
  * @author Tiago Oselka
  *
@@ -1116,6 +1128,11 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
   if (!(last_cmd = game_get_last_command(game))) return ERROR;
   if ((code = command_get_code(last_cmd)) == NO_CMD) return ERROR;
 
+  if (code == LOAD || code == SAVE || code == EXIT) {
+    *bool = TRUE;
+    return OK;
+  }
+
   switch (turn) {
     case 0:
       if (!(play1 = game_get_player_from_id(game, 1)) ||
@@ -1211,7 +1228,7 @@ Status game_rules_update_actions(Game *game, Bool *bool) {
   if ((round = game_get_round(game)) == -1) return ERROR;
   if ((turn = game_get_turn(game)) == -1) return ERROR;
 
-  if (round == 0) return game_rules_force_cooperation(game, bool);
+  /*if (round == 0) return game_rules_force_cooperation(game, bool);*/
 
   if ((player_loc = game_get_player_location(game)) == NO_ID) return ERROR;
 
@@ -1232,6 +1249,7 @@ Status game_rules_update_turn(Game *game, Bool *bool) {
 
   if ((code = command_get_code(cmd)) == NO_CMD) return ERROR;
 
+  /* Enters cases once we know the */
   switch (code) {
     case MOVE:
       return game_rules_connected_move(game, bool);

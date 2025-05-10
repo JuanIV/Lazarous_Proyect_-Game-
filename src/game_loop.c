@@ -178,8 +178,6 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
 
     /*If the LOG is enabled it prints the last action and status*/
     if (log_implemented == 1 && log_file) {
-      last_cmd_code = command_get_code(last_cmd);
-      if (last_cmd_code == NO_CMD) return;
       last_status = game_get_last_status(*game);
       strcpy(last_desc, command_get_desc(last_cmd));
       turn =game_get_turn(*game);
@@ -207,7 +205,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
     if (game_get_n_players(*game) > 1) {
       if(game_rules_update_turn(*game, &update_turn) == ERROR) return;
       if (update_turn == TRUE) {
-        graphic_engine_paint_game(gengine, *game);
+        if((last_cmd_code != EXIT) && (last_cmd_code != SKIP)) graphic_engine_paint_game(gengine, *game);
         if(game_erase_all_messages(*game) == ERROR) return;
         sleep(1);
         game_next_turn(*game);

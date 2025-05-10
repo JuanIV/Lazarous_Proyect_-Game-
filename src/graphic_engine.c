@@ -596,10 +596,12 @@ void graphic_engine_map_print_map(Game *game, Graphic_engine *ge, Id id[9]){
   char lines[SQ_LINES][WIDTH_MAP + 1];
   char interm[WIDTH_MAP + 1], aux[WORD_SIZE + 1];
   Link *link = NULL;
+  Command *last_cmd = NULL;
   Space *space[9];
   int i = 0;
 
-  if (command_get_code(game_get_last_command(game)) == VIEW) {
+  if (!(last_cmd = game_get_last_command(game))) return;
+  if ((command_get_code(last_cmd) == VIEW) && (command_get_status(last_cmd) == OK)) {
     graphic_engine_print_minimap(game, ge);
     return;
   }
@@ -749,7 +751,8 @@ void graphic_engine_destroy(Graphic_engine *ge) {
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Id id_act = NO_ID, neighbors[8], map_spaces[9];
   Status last_status = ERROR;
-  char str[MESG_SIZE + 1], *aux_name = NULL, *close_up = NULL, *msg = NULL, msg_aux[MESG_SIZE], *partial_msg = NULL;
+  char str[MESG_SIZE + 1], *aux_name = NULL, *close_up = NULL, *msg = NULL, msg_aux[MESG_SIZE], 
+  objective_aux[WORD_SIZE + 1], *objective = NULL, *partial_objective = NULL, *partial_msg = NULL;
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
   int i, aux_health, turn, index_convert[9] = {0,1,2,7,-1,3,6,5,4}, chars = 0, num_followers = 0;
@@ -875,8 +878,29 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   screen_area_puts(ge->player_inf, str);
   sprintf(str, " <<<<<<<  Objective  >>>>>>>");
   screen_area_puts(ge->player_inf, str);
-  sprintf(str, " %s",player_get_objective(act_player));
-  screen_area_puts(ge->player_inf, str);
+
+  objective = player_get_objective(act_player);
+  if (objective) strcpy(objective_aux, objective);
+
+  if (objective) {
+    printf("%s\n", objective);
+    partial_objective = strtok(objective_aux, "@\n\r\0");
+    if (partial_objective) {
+      printf("%s\n", partial_objective);
+      sprintf(str, " %s", partial_objective);
+    }
+    else sprintf(str, " ");
+
+    screen_area_puts(ge->player_inf, str);
+    str[0] = '\0';
+
+    while ((partial_objective = strtok(NULL, "@\n\r\0"))) {
+      printf("%s\n", partial_objective);
+      sprintf(str, " %s", partial_objective);
+      screen_area_puts(ge->player_inf, str);
+    }
+  }
+
   sprintf(str, " <<<<<<<<<<<<<<>>>>>>>>>>>>>");
   screen_area_puts(ge->player_inf, str);
   sprintf(str, " ");

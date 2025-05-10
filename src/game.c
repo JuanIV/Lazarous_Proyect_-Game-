@@ -1376,6 +1376,9 @@ Status game_erase_all_messages(Game *game) {
 
   for(i = 0; i < NUM_MSGS; i++) {
     game->data[game->turn]->messages[i]->visible = FALSE;
+    game->data[game->turn]->messages[i]->sender = NO_ID;
+    game->data[game->turn]->messages[i]->sender_type = NO_TYPE;
+    game->data[game->turn]->messages[i]->msg[0] = '\0';
   }
 
   return OK;
