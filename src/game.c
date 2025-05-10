@@ -1125,25 +1125,6 @@ Character *game_get_character_from_id(Game *game, Id id) {
   return NULL;
 }
 
-/*Gets the pointer to a character from its name*/
-Character *game_get_character_from_name(Game *game, char *name) {
-  int i;
-  char *aux_name = NULL;
-  if(!game || !name) return NULL;
-  if(game->n_characters <= 0) return NULL;
-
-  for(i = 0; i < game->n_characters; i++) {
-    aux_name = character_get_name(game->characters[i]);
-    if(!aux_name) return NULL;
-
-    if(strcasecmp(aux_name, name) == 0) {
-      return game->characters[i];
-    }
-  }
-
-  return NULL;
-}
-
 /*Gets the number of characters in a game*/
 int game_get_n_characters(Game *game) {
   if (!game) return -1;
@@ -1197,7 +1178,7 @@ Id game_get_charr_id_from_name(Game *game, char *charr_name){
 
     /*Strstr allows us to get an character from  a fraction of its name, but we set
      * the minimum as 2 characters */
-    if (strstr(charr_name, aux_name) != NULL && aux_name[0] == charr_name[0]) {
+    if (!strncasecmp(aux_name + 1, charr_name + 1, name_length-1) && toupper(aux_name[0]) == toupper(charr_name[0])) {
       charr_id = character_get_id(game->characters[i]);
       
       if (charr_id == NO_ID) return NO_ID;

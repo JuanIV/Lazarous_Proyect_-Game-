@@ -504,6 +504,7 @@ Status game_management_load_players(Game *game, char *filename) {
   char line[PLAYER_LINE + 1] = "";
   char name[WORD_SIZE] = "";
   char desc[WORD_SIZE] = ""; 
+  char objective[WORD_SIZE + 1];
   char *toks = NULL;
   Id id_play = NO_ID, id_location = NO_ID, obj_id = NO_ID, armor_id = NO_ID, weapon_id = NO_ID;
   Role role = NO_ROLE;
@@ -518,7 +519,7 @@ Status game_management_load_players(Game *game, char *filename) {
 
   /*
   reads data from the file acording to the next structure:
-  #p:<id>|<name>|<role>|<graphic description>|<location>|<health>|<armor>|<weapon>|<backpack size>|<num backpack items>|<item1>|<item2>|...|<close up>|
+  #p:<id>|<name>|<role>|<graphic description>|<objective>|<location>|<health>|<armor>|<weapon>|<backpack size>|<num backpack items>|<item1>|<item2>|...|<close up>|
   */
   while (fgets(line, PLAYER_LINE, file)) {
     if (strncmp("#p:", line, 3) != 0) continue;
@@ -530,6 +531,8 @@ Status game_management_load_players(Game *game, char *filename) {
     role = atoi(toks);
     toks = strtok(NULL, "|");
     strcpy(desc, toks);
+    toks = strtok(NULL, "|");
+    strcpy(objective, toks);
     toks = strtok(NULL, "|");
     id_location = atol(toks);
     toks = strtok(NULL, "|");
@@ -559,6 +562,7 @@ Status game_management_load_players(Game *game, char *filename) {
     }
 
     /*Now we set the parameters read from the file*/
+    if (player_set_objective(play, objective) == ERROR) st = ERROR;
     if (player_set_name(play, name) == ERROR) st = ERROR;
     if (player_set_role(play, role) == ERROR) st = ERROR;
     if (player_set_gdesc(play, desc) == ERROR) st = ERROR;
@@ -804,7 +808,7 @@ Status game_management_save_players(Game *game, char *filename) {
   Command *cmd = NULL; 
   CommandCode cmd_code = NO_CMD;
   Id player_id = NO_ID, location = NO_ID, weapon_id = NO_ID, armor_id = NO_ID, obj_id = NO_ID;
-  char line[PLAYER_LINE], *name = NULL, *gdesc = NULL, *msg = NULL, *closeup = NULL;
+  char line[PLAYER_LINE], *name = NULL, *gdesc = NULL, *objective = NULL, *msg = NULL, *closeup = NULL;
   int i = 0, j = 0, num_players = -1, len = 0, health = -1, 
   max_back_size = -1, back_n_objs = -1;
 
@@ -818,6 +822,7 @@ Status game_management_save_players(Game *game, char *filename) {
     if (!(name = player_get_name(player))) st = ERROR;
     if ((role = player_get_role(player)) == NO_ROLE) st = ERROR;
     if (!(gdesc = player_get_gdesc(player))) st = ERROR;
+    if (!(objective = player_get_objective(player))) st = ERROR;
     if ((location = player_get_location(player)) == NO_ID) st = ERROR;
     if (player_get_weapon(player, &weapon_id) == ERROR) st = ERROR;
     if (player_get_armor(player, &armor_id) == ERROR) st = ERROR;
@@ -833,6 +838,7 @@ Status game_management_save_players(Game *game, char *filename) {
     len += sprintf(line + len, "%s|", name);
     len += sprintf(line + len, "%d|", role);
     len += sprintf(line + len, "%s|", gdesc);
+    len += sprintf(line + len, "%s|", objective);
     len += sprintf(line + len, "%ld|", location);
     len += sprintf(line + len, "%d|", health);
     len += sprintf(line + len, "%ld|", weapon_id);

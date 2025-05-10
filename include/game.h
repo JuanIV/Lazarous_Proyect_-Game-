@@ -542,15 +542,6 @@ Status game_add_character(Game *game, Character *charr, Id location);
  */
 Character *game_get_character_from_id(Game *game, Id id);
 
-/**
- * @brief Gets the pointer to a character from its name
- * @author Tiago oselka
- * 
- * @param game Pointer to the game
- * @param name Name of the character
- * @return Pointer to the wanted character
- */
-Character *game_get_character_from_name(Game *game, char *name);
 
 
 /**

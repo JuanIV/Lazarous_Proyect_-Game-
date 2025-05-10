@@ -295,6 +295,25 @@ char *player_get_closeup_at(Player *play, int pos);
 Status player_get_closeup(Player *play, char closeup[POV_HGHT][POV_WDTH + 1]);
 
 /**
+ * @brief Gets the objective of a player
+ * @author Juan Ibáñez
+ * 
+ * @param pl Pointer to the player
+ * @return String with a description of the objective
+ */
+char *player_get_objective(Player *pl);
+
+/**
+ * @brief Sets the objective of a player
+ * @author Juan Ibáñez
+ * 
+ * @param pl Pointer to the player
+ * @param objective New description of the objective
+ * @return OK if everything went well, ERROR otherwise
+ */
+Status player_set_objective(Player *pl, char *objective);
+
+/**
  * @brief Sets a line of the close up aspect of the player
  * @author Juan Ibáñez
  * 

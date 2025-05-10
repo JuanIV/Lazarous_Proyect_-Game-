@@ -158,8 +158,10 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
     player = game_get_player(*game);
     if (!player) return;
 
+    /*Updating the actions af states of multiple assets*/
     if(game_rules_update_actions(*game, &update_ga) == ERROR) return;
     if(game_actions_update(game, last_cmd, &last_cmd_code, update_ga) == ERROR) return;
+    if(game_rules_update_states_after_action(*game) == ERROR) return;
 
     if (last_cmd_code == LOAD) continue;
 

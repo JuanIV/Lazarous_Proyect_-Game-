@@ -758,10 +758,11 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Space *sp = NULL;
   Type sender_type = NO_TYPE;
   Player *act_player = NULL, *aux_player = NULL;
-  Role role = NO_ROLE;
+  Role role = NO_ROLE, role2 = NO_ROLE;
   Id aux_obj_id = NO_ID, aux_charr_id = NO_ID, weapon = NO_ID, armor = NO_ID;
   Inventory *inventory = NULL;
   Set *followers = NULL;
+  Bool friendly = FALSE;
 
   id_act = game_get_player_location(game);
   if(id_act == NO_ID) return;
@@ -831,15 +832,55 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     aux_charr = game_get_character_from_id(game, aux_charr_id);
     if(!aux_charr) continue;
 
+    role2 = character_get_role(aux_charr);
+    if(role2 == NO_ROLE) continue;
+
+    if(game_get_friendly(role, role2, &friendly) == ERROR) continue;
+    if(friendly == FALSE) continue;
+
     aux_health = character_get_health(aux_charr);
     if (aux_health <= 0) continue;
 
-    sprintf(str, "  %-*.*s (%d)", DESC_NAMES_SZ,DESC_NAMES_SZ, character_get_gdesc(aux_charr), aux_health);
+    sprintf(str, "  %-*.*s | %-*.*s | (%d)", CHR_GD_SZ,CHR_GD_SZ, character_get_gdesc(aux_charr), DESC_NAMES_SZ, DESC_NAMES_SZ, character_get_name(aux_charr), aux_health);
+    screen_area_puts(ge->descript, str);
+  }
+  sprintf(str, " ");
+  screen_area_puts(ge->descript, str);
+
+  sprintf(str, " Enemies:");
+  screen_area_puts(ge->descript, str);
+  for(i=0; i<space_get_num_characters(sp);i++){
+    aux_charr_id = space_get_character_at_pos(sp, i);
+    if (aux_charr_id == NO_ID) continue;
+
+    aux_charr = game_get_character_from_id(game, aux_charr_id);
+    if(!aux_charr) continue;
+
+    role2 = character_get_role(aux_charr);
+    if(role2 == NO_ROLE) continue;
+
+    if(game_get_friendly(role, role2, &friendly) == ERROR) continue;
+    if(friendly == TRUE) continue;
+
+    aux_health = character_get_health(aux_charr);
+    if (aux_health <= 0) continue;
+
+    sprintf(str, "  %-*.*s | %-*.*s | (%d)", CHR_GD_SZ,CHR_GD_SZ, character_get_gdesc(aux_charr), DESC_NAMES_SZ, DESC_NAMES_SZ, character_get_name(aux_charr), aux_health);
     screen_area_puts(ge->descript, str);
   }
 
   /* Paint the player info area */
   screen_area_clear(ge->player_inf);
+  sprintf(str, " ");
+  screen_area_puts(ge->player_inf, str);
+  sprintf(str, " <<<<<<<  Objective  >>>>>>>");
+  screen_area_puts(ge->player_inf, str);
+  sprintf(str, " %s",player_get_objective(act_player));
+  screen_area_puts(ge->player_inf, str);
+  sprintf(str, " <<<<<<<<<<<<<<>>>>>>>>>>>>>");
+  screen_area_puts(ge->player_inf, str);
+  sprintf(str, " ");
+  screen_area_puts(ge->player_inf, str);
   /*HEALTH*/
   sprintf(str, " Health: %d", player_get_health(act_player));
   screen_area_puts(ge->player_inf, str);
@@ -952,7 +993,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
         chars = sprintf(str, " You:");
         break;
       case NO_TYPE:
-        chars = sprintf(str, " The voices:");
+        chars = sprintf(str, " ");
         break;
       default:
         aux_name = game_get_last_message_sender_name_at_pos(game, turn, NUM_MSGS-i);

@@ -184,6 +184,10 @@ run :
 	@echo "Running project"
 	./$(EXEDIR)/project anthill.dat
 
+run_lab:
+	@echo "Running project"
+	./$(EXEDIR)/project lab.dat
+
 runv :
 	@echo "Running Valgrind"
 	valgrind --leak-check=full -s --track-origins=yes ./$(EXEDIR)/project lab.dat

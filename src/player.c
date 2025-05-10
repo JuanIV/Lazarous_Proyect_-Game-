@@ -39,6 +39,7 @@ struct _Player {
   Id armor;                 /*!< Id of the object that serves as armor */
   Id weapon;                /*!< Id of the object that serves as weapon */
   Inventory *backpack;     /*!< Inventory that the player carries */
+  char objective[WORD_SIZE +1]; /*!< A short description of the player's current objective*/
 };
 
 /*It creates a new player by allocating its memory and initializing its members*/
@@ -56,6 +57,7 @@ Player *player_create(Id id) {
   play->backpack = inventory_create();
 	inventory_set_max_objects(play->backpack,INIT_BAG_SIZE);
   play->health = 10;
+  play->objective[0] = '\0';
   play->location = NO_ID;
 
   return play;
@@ -293,6 +295,22 @@ Status player_set_closeup_at(Player *play, int pos, char *closeup) {
     if ((play->close_up[pos][i] == '\n') || (play->close_up[pos][i] == '\r'))
       play->close_up[pos][i] = ' ';
   }
+
+  return OK;
+}
+
+/*Gets the objective of a player*/
+char *player_get_objective(Player *pl){
+  if(!pl) return NULL;
+
+  return pl->objective;
+}
+
+/*Sets the objective of a player*/
+Status player_set_objective(Player *pl, char *objective){
+  if(!pl || !objective) return ERROR;
+
+  sprintf(pl->objective, "%.*s", WORD_SIZE, objective);
 
   return OK;
 }
