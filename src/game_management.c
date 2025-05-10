@@ -801,14 +801,12 @@ Status game_management_save_links(Game *game, char *filename) {
 
 Status game_management_save_players(Game *game, char *filename) {
   FILE *file = NULL;
-  Status st = OK, cmd_status = ERROR;
+  Status st = OK;
   Player *player = NULL;
   Inventory *backpack = NULL;
   Role role = NO_ROLE;
-  Command *cmd = NULL; 
-  CommandCode cmd_code = NO_CMD;
   Id player_id = NO_ID, location = NO_ID, weapon_id = NO_ID, armor_id = NO_ID, obj_id = NO_ID;
-  char line[PLAYER_LINE], *name = NULL, *gdesc = NULL, *objective = NULL, *msg = NULL, *closeup = NULL;
+  char line[PLAYER_LINE], *name = NULL, *gdesc = NULL, *objective = NULL, *closeup = NULL;
   int i = 0, j = 0, num_players = -1, len = 0, health = -1, 
   max_back_size = -1, back_n_objs = -1;
 
