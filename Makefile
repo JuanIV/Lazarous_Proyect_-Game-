@@ -182,10 +182,6 @@ run_tests:
 
 run :
 	@echo "Running project"
-	./$(EXEDIR)/project anthill.dat
-
-run_lab:
-	@echo "Running project"
 	./$(EXEDIR)/project lab.dat
 
 runv :
@@ -194,22 +190,26 @@ runv :
 
 runl :
 	@echo "Running Log"
-	./$(EXEDIR)/project anthill.dat -l logFile
+	./$(EXEDIR)/project lab.dat -l logFile
 
 rund :
 	@echo "Running Deterministic mode"
-	./$(EXEDIR)/project anthill.dat -d
+	./$(EXEDIR)/project lab.dat -d
+
+runvd :
+	@echo "Running Deterministic mode"
+	valgrind --leak-check=full -s --track-origins=yes ./$(EXEDIR)/project lab.dat -d
 
 runld :
 	@echo "Running Deterministic mode with Log"
-	./$(EXEDIR)/project anthill.dat -l -d logFile
+	./$(EXEDIR)/project lab.dat -l -d logFile
 
 run_test:
 	@echo "Running global test"
-	./$(EXEDIR)/project anthill.dat -l output <game1.cmd
+	./$(EXEDIR)/project lab.dat -l output <game1.cmd
 
 run_test2:
-	./$(EXEDIR)/project anthill.dat -l output <game2.cmd
+	./$(EXEDIR)/project lab.dat -l output <game2.cmd
 
 doxygen:
 	@echo "Generating html documentation"
