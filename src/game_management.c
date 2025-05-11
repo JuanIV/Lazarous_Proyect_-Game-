@@ -63,6 +63,55 @@
  */
 #define PLAYER_LINE (EXTRAS + WORD_SIZE + MESG_SIZE + (PLY_GD_SZ + 1) + (POV_HGHT * (POV_WDTH + 1)))
 
+/*############################### MAIN FUNCTIONS ############################*/
+/* Saves the game to a file */
+Status game_management_save(Game *game, char *filename) {
+  FILE *create_file = NULL;
+
+  if (!game || !filename) return ERROR;
+
+  create_file = fopen(filename, "w");
+  fclose(create_file);
+
+  if (game_management_save_spaces(game, filename) == ERROR) return ERROR;
+  if (game_management_save_links(game, filename) == ERROR) return ERROR;
+  if (game_management_save_classes(game, filename) == ERROR) return ERROR;
+  if (game_management_save_objects(game, filename) == ERROR) return ERROR;
+  if (game_management_save_characters(game, filename) == ERROR) return ERROR;
+  if (game_management_save_players(game, filename) == ERROR) return ERROR;
+  if (game_management_save_turn(game, filename) == ERROR) return ERROR;
+  if (game_management_save_mode(game, filename) == ERROR) return ERROR;
+  if (game_management_save_minimap(game, filename) == ERROR) return ERROR;
+
+  return OK;
+}
+
+/* Loads the game from a file */
+Status game_management_load(Game **game, char *filename) {
+  Status st = OK;
+  FILE *file = NULL;
+  if (!game || !(*game) || !filename) return ERROR;
+
+  /* We first check if the file exists */
+  if(!(file = fopen(filename, "r"))) return ERROR;
+  fclose(file);
+  
+  /* In order to load a new game, we save it in savetoload.dat. This way, in case of error we reload the game from here */
+  if (game_management_save(*game, "savetoload.dat") == ERROR) return ERROR;
+  game_destroy(*game);
+
+  if (!((*game) = game_create())) st = ERROR;
+  if (game_create_from_file(*game, filename) == ERROR) st = ERROR;
+
+  /* In case of error, we try to reload the game. The second check is in order to avoid loops */
+  if ((st = ERROR) && strcmp(filename, "savetoload.dat") != 0) {
+    game_management_load(game, "savetoload.dat");
+    return ERROR;
+  }
+
+  return st;
+}
+
 /*############################ GAME LOADING FUNCTIONS ############################*/
 
 /*Function used in game_create_from_file to load the space from a file to a game*/

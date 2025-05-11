@@ -14,6 +14,28 @@
 #include "game.h"
 #include "types.h"
 
+/* #################### PUBLIC FUNCTIONS #################*/
+
+/**
+ * @brief Saves the game to a file
+ * @author Alina Datsko
+ *
+ * @param game pointer to the game
+ * @param filename name of the file where the game will be saved
+ * @return OK if everything went well, ERROR if there was any mistake
+ */
+Status game_management_save(Game *game, char *filename);
+
+/**
+ * @brief Loads a game from a file
+ * @author Tiago Oselka
+ *
+ * @param game Double pointer to the game
+ * @param filename name of the file where the game will be loaded from
+ * @return OK if everything went well, ERROR if there was any mistake
+ */
+Status game_management_load(Game **game, char *filename);
+
 /**
  * @brief function used in game_create_from_file to load the links from
  * a file to a game

@@ -12,6 +12,7 @@
 #define GAME_ACTIONS_H
 
 #include "game.h"
+#include "game_management.h"
 #include "types.h"
 
 /**

@@ -67,9 +67,6 @@ struct _Game {
   InterfaceData *data[MAX_PLAY];    /*!< Array of the data of each player*/
   Bool finished;							/*!< Status of the game. TRUE if it has finished. FALSE if not*/
   char minimap[NUM_FLOORS][MAP_HEIGHT][MAP_WIDTH + 1]; /*!< Graphic description of the mini map*/
-  char win_screens[TOT_PLAYERS][MAP_HEIGHT][MAP_WIDTH + 1]; /*!< Graphic description of the win screens, one for each player*/
-  char loss_screen[MAP_HEIGHT][MAP_WIDTH + 1]; /*!< Graphic description of the screen printed when someone looses */
-  char interturn_screen[MAP_HEIGHT]; /*!< Graphic description of the screen printed between each turn*/
 };
 
 /************************ Private functions **************************** */
@@ -1788,55 +1785,6 @@ Status game_set_finished(Game *game, Bool finished) {
   game->finished = finished;
 
   return OK;
-}
-
-/**
- * ***************  Saved management  ***************
- */
-Status game_save(Game *game, char *filename) {
-  FILE *create_file = NULL;
-
-  if (!game || !filename) return ERROR;
-
-  create_file = fopen(filename, "w");
-  fclose(create_file);
-
-  if (game_management_save_spaces(game, filename) == ERROR) return ERROR;
-  if (game_management_save_links(game, filename) == ERROR) return ERROR;
-  if (game_management_save_classes(game, filename) == ERROR) return ERROR;
-  if (game_management_save_objects(game, filename) == ERROR) return ERROR;
-  if (game_management_save_characters(game, filename) == ERROR) return ERROR;
-  if (game_management_save_players(game, filename) == ERROR) return ERROR;
-  if (game_management_save_turn(game, filename) == ERROR) return ERROR;
-  if (game_management_save_mode(game, filename) == ERROR) return ERROR;
-  if (game_management_save_minimap(game, filename) == ERROR) return ERROR;
-
-  return OK;
-}
-
-Status game_load(Game **game, char *filename) {
-  Status st = OK;
-  FILE *file = NULL;
-  if (!game || !(*game) || !filename) return ERROR;
-
-  /* We first check if the file exists */
-  if(!(file = fopen(filename, "r"))) return ERROR;
-  fclose(file);
-  
-  /* In order to load a new game, we save it in savetoload.dat. This way, in case of error we reload the game from here */
-  if (game_save(*game, "savetoload.dat") == ERROR) return ERROR;
-  game_destroy(*game);
-
-  if (!((*game) = game_create())) st = ERROR;
-  if (game_create_from_file(*game, filename) == ERROR) st = ERROR;
-
-  /* In case of error, we try to reload the game. The second check is in order to avoid loops */
-  if ((st = ERROR) && strcmp(filename, "savetoload.dat") != 0) {
-    game_load(game, "savetoload.dat");
-    return ERROR;
-  }
-
-  return st;
 }
 
 /**

@@ -1508,8 +1508,9 @@ void game_actions_save(Game *game) {
     sprintf(file_save, "%s", cmd_desc);
   }
 
+  /* Si no se pone antes luego saldría save error*/
   if ((game_set_last_status(game, OK) == ERROR)) return;
-  if (game_save(game, file_save) == ERROR) game_set_last_status(game, ERROR);
+  if (game_management_save(game, file_save) == ERROR) game_set_last_status(game, ERROR);
 }
 
 void game_actions_load(Game **game) {
@@ -1532,7 +1533,7 @@ void game_actions_load(Game **game) {
     sprintf(file_load, "%s", cmd_desc);
   }
 
-  if(game_load(game, file_load) == ERROR) return;
+  if(game_management_load(game, file_load) == ERROR) return;
   
   if (game_set_last_status(*game, OK) == ERROR) return;
 }
