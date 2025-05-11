@@ -137,4 +137,19 @@ void test2_set_is_full() ;
  */
 void test3_set_is_full() ;
 
+/**
+ * @test Test getting the number of ids in the set
+ * @pre Non NULL pointer to set
+ * @post Output == Expected number of ids
+ */
+void test1_set_get_num_ids() ;
+
+/**
+ * @test Test getting the number of ids in the set
+ * @pre NULL pointer to set
+ * @post Output == -1
+ */
+void test2_set_get_num_ids() ;
+
+
 #endif

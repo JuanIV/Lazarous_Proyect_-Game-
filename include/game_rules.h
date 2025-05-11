@@ -24,6 +24,15 @@
 Status game_rules_run(Game *game);
 
 /**
+* @brief Defines the movement of the characters
+* @author Juan Ibáñez
+* 
+* @param game Pointer to the game
+* @return OK, if everything goes well or ERROR if there was some mistake
+*/
+Status game_rules_enemies_move(Game *game);
+
+/**
  * @brief Function that gets if the game actions should be updated
  * @author Tiago Oselka
  *

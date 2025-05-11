@@ -263,9 +263,44 @@ void game_rules_objective_change_by_location(Game *game, Id player_id, Id locati
  * @param obj_id Id of the object that will trigger the change
  * @param new_goal New objective for the player
  */
-void game_rules_objective_change_by_object(Game *game, Id player_id, Id obj_id, char *new_goal){
-  
-}
+void game_rules_objective_change_by_object(Game *game, Id player_id, Id obj_id, char *new_goal);
+
+/**
+ * @brief Defines the conditions for Alaric to win the game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return OK if everything went well and ERROR otherwise
+ */
+Status game_rules_win_condition_Alaric(Game *game);
+
+/**
+ * @brief Defines the conditions for Brannon to win the game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return OK if everything went well and ERROR otherwise
+ */
+Status game_rules_win_condition_Brannon(Game *game);
+
+/**
+ * @brief Defines the conditions for Kyle to win the game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return OK if everything went well and ERROR otherwise
+ */
+Status game_rules_win_condition_Kyle(Game *game);
+
+/**
+ * @brief Defines the conditions for Rourke to win the game
+ * @author Juan Ibáñez
+ * 
+ * @param game Pointer to the game
+ * @return OK if everything went well and ERROR otherwise
+ */
+Status game_rules_win_condition_Rourke(Game *game);
+
 
 /**
  * ********************************   SWITCHES AND PUZZLES   ***********************************
@@ -949,15 +984,20 @@ Status game_rules_cure_Grendel(Game *game){
 void game_rules_objective_change_by_note(Game *game, Id player_id, char *new_goal, Id note_id){
   Command *cmd = NULL;
   Player *pl = NULL;
-  char *desc = NULL, *name = NULL, *toks = NULL;
+  char *desc = NULL, *name = NULL, *toks = NULL, *old_goal = NULL;
   Id obj_id = NO_ID;
 
-  if(!game)return;
+  if(!game || (player_id == NO_ID) || (!new_goal) || (note_id == NO_ID))return;
 
   pl = game_get_player(game);
   if(!pl) return;
 
   if(player_get_id(pl) != player_id) return;
+
+  old_goal = player_get_objective(pl);
+  if(!old_goal) return;
+
+  if(old_goal[0] > new_goal[0]) return;
 
   if (!(cmd = game_get_last_command(game))) return;
 
@@ -977,6 +1017,155 @@ void game_rules_objective_change_by_note(Game *game, Id player_id, char *new_goa
       }
     }
   }  
+}
+
+void game_rules_objective_change_by_location(Game *game, Id player_id, Id location, char *new_goal){
+  Player *pl = NULL;
+  char *old_goal = NULL;
+
+  if(!game || player_id == NO_ID || location == NO_ID || !new_goal) return;
+
+  if(!(pl = game_get_player_from_id(game, player_id)))return;
+
+  old_goal = player_get_objective(pl);
+  if(!old_goal) return;
+
+  if(old_goal[0] > new_goal[0]) return;
+
+  if(player_get_location(pl) == location){
+    if (player_set_objective(pl, new_goal) == ERROR) return;
+  }
+}
+
+void game_rules_objective_change_by_object(Game *game, Id player_id, Id obj_id, char *new_goal){
+  Player *pl = NULL;
+  char *old_goal = NULL;
+
+  if(!game || player_id == NO_ID || obj_id == NO_ID || !new_goal) return;
+
+  if(!(pl = game_get_player_from_id(game, player_id)))return;
+
+  old_goal = player_get_objective(pl);
+  if(!old_goal) return;
+
+  if(old_goal[0] > new_goal[0]) return;
+
+  if(player_has_object(pl, obj_id) == TRUE){
+    if (player_set_objective(pl, new_goal) == ERROR) return;
+  }
+}
+
+Status game_rules_win_condition_Alaric(Game *game){
+  Player *pl[4] = {NULL, NULL, NULL, NULL};
+  Space *core = NULL;
+
+  if(!game) return ERROR;
+
+  pl[0] = game_get_player_from_id(game, 1);
+  pl[1] = game_get_player_from_id(game, 2);
+  pl[2] = game_get_player_from_id(game, 3);
+  pl[3] = game_get_player_from_id(game, 4);
+
+  if(!pl[1] | !pl[2] | !pl[3] | !pl[0]) return ERROR;
+
+  core = game_get_space(game, 9006);
+  if(!core) return ERROR;
+
+  if(player_get_location(pl[0]) == 9008) game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I can't leave. I have to finish Project Lazarus and bring Evelyn back.",1,PLAYER);
+
+
+  if(space_find_object(core, 8004)){
+    if(player_get_health(pl[1]) <= 0 || player_get_health(pl[1]) <= 0 || player_get_health(pl[1]) <= 0 ){
+      game_set_last_message(game, "As soon as Alaric starts the machine the floor starts to shake. A huge beam of light floods the room@As the light simmers down the eyes of death show themselves. @Alaric Wins! Game Over");
+      game_set_finished(game, TRUE);
+    } else if(player_get_location(pl[0]) == 9008) game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I still need a recently passed cadaver as a bridge between life and death.",1,PLAYER);
+  }
+  return OK;
+}
+
+Status game_rules_win_condition_Brannon(Game *game){
+  Player *Brannon = NULL;
+  Character *Grendel = NULL;
+  Id following = NO_ID;
+
+  if(!game) return ERROR;
+
+  Brannon = game_get_player_from_id(game, 2);
+  Grendel = game_get_character_from_id(game, 1602);
+
+  if(!Brannon || !Grendel) return ERROR;
+
+  if(character_get_following(Grendel, &following) == ERROR) return ERROR;
+
+  if(player_get_location(Brannon) == 9008){
+    if(following == 2){
+      game_set_last_message(game, "Brannon and his son, finally reunited, flee the lab through the inestable tunnels causing the lab to collapse. @Brannon Wins! Game Over");
+      game_set_finished(game, TRUE);
+    } else {
+      if(game_get_turn(game) == 1)
+      game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I can't leave without my son",2,PLAYER);
+    }
+  }
+  
+
+  return OK;
+}
+
+Status game_rules_win_condition_Rourke(Game *game){
+  Player *rourke = NULL;
+  Player *alaric = NULL;
+  Character *boss = NULL;
+
+  if(!game) return ERROR;
+
+  rourke = game_get_player_from_id(game, 4);
+  alaric = game_get_player_from_id(game, 1);
+  boss = game_get_character_from_id(game, 2701);
+
+  if((!boss) || (!rourke) || (!alaric)) return ERROR;
+
+  if(player_get_location(rourke) == 9008){
+    if(character_get_health(boss) < 0){
+      if(player_get_health(alaric) < 0){
+        game_set_last_message(game, "Sg. Rourke makes it to the exit of the lab after finally having unveiled the suspects he had been after for years. @Sg.Rourke Wins! Game Over");
+        game_set_finished(game, TRUE);
+      } else {
+        if(game_get_turn(game) == 3)
+        game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I must stop Alaric before leaving. Lethal force will be needed.",2,PLAYER);
+      }
+    } else {
+      if(game_get_turn(game) == 3)
+      game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I have to kill this monster before leaving. It will be a threat.",2,PLAYER);
+    }
+  }
+
+  return OK;
+}
+
+Status game_rules_win_condition_Kyle(Game *game){
+  Player *pl[4] = {NULL, NULL, NULL, NULL};
+  Space *core = NULL;
+
+  if(!game) return ERROR;
+
+  pl[0] = game_get_player_from_id(game, 1);
+  pl[1] = game_get_player_from_id(game, 2);
+  pl[2] = game_get_player_from_id(game, 3);
+  pl[3] = game_get_player_from_id(game, 4);
+
+  if(!pl[1] | !pl[2] | !pl[3] | !pl[0]) return ERROR;
+
+  core = game_get_space(game, 9006);
+  if(!core) return ERROR;
+
+  if(player_get_location(pl[3]) == 9008) game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I can't leave. I must stop Alaric at any cost.",3,PLAYER);
+
+
+  if(space_find_object(core, 8004)){
+    game_set_last_message(game, "Kyle Reaches the CORE and destroys it along with the rest of the lab succesfully stoping Vexleigh's plan @Kyle Wins! Game Over");
+    game_set_finished(game, TRUE);
+  }
+  return OK;
 }
 
 
@@ -1013,6 +1202,65 @@ Status game_rules_errase_used_keys(Game *game){
       if(player_has_object(p2, keys[i])) player_delete_object(p2, keys[i]);
       if(player_has_object(p3, keys[i])) player_delete_object(p3, keys[i]);
       if(player_has_object(p4, keys[i])) player_delete_object(p4, keys[i]);
+    }
+  }
+  return OK;
+}
+
+/*Defines the movement of the characters*/
+Status game_rules_enemies_move(Game *game){
+  Character *aux_chr = NULL;
+  Id chr_id = NO_ID, loc = NO_ID, destin = NO_ID;
+  Space *aux_sp = NULL, *dest_sp = NULL;
+  Direction dir = UNK_DIR;
+  Bool determ = FALSE, open = FALSE;
+  Link *link = NULL;
+  Role chr_role = NO_ROLE, use_role = NO_ROLE;
+  int i=0, n_chrs = 0;
+
+  if(!game) return ERROR;
+
+  if(game_get_deterministic(game, &determ) == ERROR) return ERROR; 
+
+  n_chrs = game_get_n_characters(game);
+
+  for(i=0;i<n_chrs;i++){
+    aux_chr = game_get_character_at_pos(game, i);
+    if(!aux_chr) continue;
+
+    chr_id = character_get_id(aux_chr);
+    if(chr_id == NO_ID) continue;
+
+    loc = game_get_character_location(game, chr_id);
+    if(loc == NO_ID) continue;
+
+    chr_role = character_get_role(aux_chr);
+    if(chr_role != MONSTER) continue;
+
+    /*If game is deterministic, characters just spin around*/
+    if(determ) dir = (game_get_round(game)%4);
+    else dir = rand()%4;
+
+    link = game_get_link(game, loc, dir);
+    if(!link) continue;
+
+    if(link_get_open(link, &open) == ERROR) continue;
+    if(open == FALSE) continue;
+
+    use_role = link_get_use_role(link);
+    if(use_role == NO_ROLE) continue;
+
+    if(use_role == UNDEFINED || use_role == chr_role) {
+      destin = link_get_dest(link);
+      if (destin == NO_ID) continue;
+
+      if (!(dest_sp = game_get_space(game, destin))) continue;
+
+      if (!(aux_sp = game_get_space(game, loc))) continue;
+
+      if (space_remove_character(aux_sp, chr_id) == ERROR) continue;
+
+      if (space_add_character(dest_sp, chr_id) == ERROR) continue;
     }
   }
   return OK;
@@ -1320,14 +1568,59 @@ Status game_rules_update_actions(Game *game, Bool *bool) {
   if ((round = game_get_round(game)) == -1) return ERROR;
   if ((turn = game_get_turn(game)) == -1) return ERROR;
 
-  /*if (round == 0) return game_rules_force_cooperation(game, bool);*/
-  *bool = TRUE;
+  if (round == 0) return game_rules_force_cooperation(game, bool);
+  /* *bool = TRUE;*/
   if ((player_loc = game_get_player_location(game)) == NO_ID) return ERROR;
 
   switch (player_loc) {
   case 1006:
     game_rules_force_inspection(game, bool, 5101);
     break;
+
+  case 1003:
+    game_rules_force_inspection(game, bool, 5105);
+    break;
+    
+  case 2017:
+    game_rules_force_inspection(game, bool, 5203);
+    break;
+
+  case 4014:
+    game_rules_force_inspection(game, bool, 5401);
+    break;
+
+  case 4017:
+    game_rules_force_inspection(game, bool, 5402);
+    break;
+
+  case 6008:
+    game_rules_force_inspection(game, bool, 5601);
+    break;
+
+  case 6009:
+    game_rules_force_inspection(game, bool, 5602);
+    break;
+
+  case 7018:
+    game_rules_force_inspection(game, bool, 5703);
+    break;
+
+  case 7048:
+    game_rules_force_inspection(game, bool, 5704);
+    break;
+
+  case 7056:
+    game_rules_force_inspection(game, bool, 5706);
+    break;
+
+  case 7045:
+    game_rules_force_inspection(game, bool, 5705);
+    break;
+
+  case 7051:
+    game_rules_force_inspection(game, bool, 5707);
+    break;
+  
   
   default:
     break;
@@ -1374,6 +1667,10 @@ Status game_rules_update_turn(Game *game, Bool *bool) {
       break;
   }
 
+  if ((game_get_turn(game) == TOT_PLAYERS - 1) && (*bool == TRUE)) {
+    return game_rules_enemies_move(game);
+  }
+
   return OK;
 }
 
@@ -1409,10 +1706,39 @@ Status game_rules_update_states_after_action(Game *game){
   if(game_rules_cure_Grendel(game) == ERROR) st = ERROR;
 
   /*Objectives*/
-  game_rules_objective_change_by_note(game, 1, "Head to level 3 for suplies", 5103);
-  game_rules_objective_change_by_note(game, 2, "Head to level 3 for suplies", 5103);
-  game_rules_objective_change_by_note(game, 3, "Head to level 3 for suplies", 5103);
-  game_rules_objective_change_by_note(game, 4, "Head to level 3 for suplies", 5103);
+  game_rules_objective_change_by_note(game, 1, "1Head to level 3 for suplies", 5103);
+  game_rules_objective_change_by_note(game, 2, "1Head to level 3 for suplies", 5103);
+  game_rules_objective_change_by_note(game, 3, "1Head to level 3 for suplies", 5103);
+  game_rules_objective_change_by_note(game, 4, "1Head to level 3 for suplies", 5103);
+
+  game_rules_objective_change_by_location(game, 1, 3001, "2Investigate the lab further");
+  game_rules_objective_change_by_location(game, 2, 3001, "2Investigate the lab further");
+  game_rules_objective_change_by_location(game, 3, 3001, "2Investigate the lab further");
+  game_rules_objective_change_by_location(game, 4, 3001, "2Investigate the lab further");
+
+  game_rules_objective_change_by_note(game, 1, "3...", 5703);
+  game_rules_objective_change_by_note(game, 1, "4Finish Project Lazarus@Get a corpse (kill a player)@Take Eve-9 from lvl 8@and pour it the CORE", 5707);
+
+  game_rules_objective_change_by_note(game, 2, "3Find your lost son", 5601);
+  game_rules_objective_change_by_note(game, 2, "4Get the key to cell 6005@and the cure to mutation@at the storage on level 8", 5705);
+  game_rules_objective_change_by_object(game, 2, 9801, "5Rescue Grendel at lvl 6");
+  game_rules_objective_change_by_location(game, 2, 6005, "6Cure Grendel and scape@the lab with him");
+
+  game_rules_objective_change_by_note(game, 3, "3...", 5602);
+  game_rules_objective_change_by_note(game, 3, "4Stop Alaric.@Make a corrosive solution@and destroy the lab", 5706);
+  game_rules_objective_change_by_note(game, 3, "5Get Vexite_Nitrate and @FerroSilicate_Gel from the @storage and mix them at the@Alchemy Stand", 5801);
+  game_rules_objective_change_by_object(game, 3, 8004, "6Pour the corrosive solution@to the CORE");
+
+  game_rules_objective_change_by_note(game, 4, "3Find out what is going@ on at the lab", 5402);
+  game_rules_objective_change_by_note(game, 4, "4Find the people responsable", 5703);
+  game_rules_objective_change_by_note(game, 4, "5Stop Alaric", 5707);
+  game_rules_objective_change_by_location(game, 4, 9001, "6Kill Alaric@Kill S0001 at lvl 9");
+
+  /*Win conditions*/
+  if(game_rules_win_condition_Alaric(game) == ERROR) st = ERROR;
+  if(game_rules_win_condition_Kyle(game) == ERROR) st = ERROR;
+  if(game_rules_win_condition_Brannon(game) == ERROR) st = ERROR;
+  if(game_rules_win_condition_Rourke(game) == ERROR) st = ERROR;
 
   return st;
 }

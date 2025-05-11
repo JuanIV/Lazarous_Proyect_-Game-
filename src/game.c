@@ -1214,6 +1214,36 @@ Id game_get_charr_id_from_name(Game *game, char *charr_name){
   return NO_ID;
 }
 
+/*Gets a character's id from its name in a specific space*/
+Id game_get_charr_id_from_name_at_space(Game *game, char *charr_name, Id space_id) {
+  int i, n_charr, name_length;
+  Id charr_id = NO_ID;
+  Space *space = NULL;
+  Character *aux_char = NULL;
+  char *name = NULL;
+  
+  if (!game || !charr_name || space_id == NO_ID) return NO_ID;
+  
+  name_length = strlen(charr_name);
+  space = game_get_space(game, space_id);
+  
+  if (((n_charr = space_get_num_characters(space)) <= 0) || name_length > WORD_SIZE || name_length < MIN_ESPECIF || !space) return NO_ID;
+  
+  for (i = 0; i < n_charr; i++) {
+    if ((charr_id = space_get_character_at_pos(space, i)) == NO_ID) continue;
+    if(!(aux_char = game_get_character_from_id(game, charr_id))) continue;
+
+    name = character_get_name(aux_char);
+    if(!name) continue;
+
+    /*Strstr allows us to get an object from  a fraction of its name, but we set
+     * the minimum as 2 characters */     
+    if ((strncasecmp(name+1,charr_name+1, name_length-1) == 0) && (toupper(name[0]) == toupper(charr_name[0]))) return charr_id;
+  }
+
+  return NO_ID;
+}
+
 /*Gets the character in a position of the array of characters*/
 Character *game_get_character_at_pos(Game *game, int pos) {
   if (!game) return NULL;

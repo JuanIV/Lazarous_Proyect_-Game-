@@ -594,6 +594,16 @@ Status game_set_character_location(Game *game, Id charr, Id loc);
 Id game_get_charr_id_from_name(Game *game, char *name);
 
 /**
+ * @brief Gets the id of a character from its name at a specific space
+ * 
+ * @param game Pointer to the game
+ * @param charr_name Name of the character
+ * @param space_id Id of the space where we are looking at
+ * @return Id of the character or NO_ID if it wasnt found
+ */
+Id game_get_charr_id_from_name_at_space(Game *game, char *charr_name, Id space_id);
+
+/**
  * @brief Gets the character in a position of the array of objects
  * @author Tiago Oselka
  * 

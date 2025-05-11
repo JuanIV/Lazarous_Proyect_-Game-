@@ -23,7 +23,7 @@
 #k:11|0|Torn_paper|A piece of paper. Half of a name reads "Alaric"|1|-1|-1|0|  __..---...._____..'    | !                  /    | !__               /     |  __\               \    |  !    Alaric        !   |   >                /_   |  !                  /   | !                   !   |'.___...----.._______\   |                         |
 #o:11|11|-1|0|0|
 
-#o:10|10|-1|0|20|
+#o:10|10|-1|0|1|
 
 
 //Brannon
@@ -49,7 +49,7 @@
 #k:41|0|Badge|A Sargent badge from the Blue Hollow, PA. Name reads "Sargent Silas Rourke"|1|-1|-1|0|    ,      /"\      ,    |   / \    /   \    / \   |   !  '--'     '--'  !   |   ! BLUE HOLLOW, PA !   |   !     .-----.     !   |   !    /       \    !   |   !    \  1 9  /    !   |    \    '.___.'    /    |     '----.   .----'     |           \_/           |
 #o:41|41|-1|0|0|
 
-#k:42|2|Empty_Gun|An empty gun. Hurts to hit someone with it... i guess...|1|-1|-1|20|                 />   | ___________\___/ /|     |()_________   / /|/\     |  /0 0  -\|-    /---\| |0 o 0 -||  --|      \|  \0_0/_/ | ___:\      \|           \_____|      !|                 |      !|                 |      !|                 |_____.'|
+#k:42|2|Empty_Gun|An empty gun. Hurts to hit someone with it... i guess...|1|-1|-1|20|                         |                         | _______--------_ /!     |()_________'.    '._     |    ()  ()__!___    \    |     '()___.'\\ !#   \   |              ""!##   !  |                !##   !  |                !###.'   |                         |
 #o:42|42|-1|0|0|
 
 #k:43|0|Rejected_Warrant|A rejected warrant petition to search the laboratory on the mountain|1|-1|-1|0|                         |             ____        |   ,----"""""   .'       |  !  ___.""   __ \       |  !          _ _  \      |   \    __.' _ __  \     |    \    __.'       \    |     \    .--''   __ \_. |      \         ______.' |       '!.--""""         |
@@ -66,7 +66,7 @@
 // ************************* | |_| | |_) | |  __/ (__| |_\__ \ *************************
 // *************************  \___/|_.__// |\___|\___|\__|___/ *************************
 //  ************************           |__/                    *************************
-//#k:<id>|<tag>|<name>|<description>|<movable>|<dependency>|<open>|<luck>|<close_up> 
+// #k:<id>|<tag>|<name>|<description>|<movable>|<dependency>|<open>|<luck>|<close_up> 
 
 //PROGRESSION OBJECTS//
 #k:8001|0|Vexite_Nitrate|A very reactant unestable solution. Dangerously explosive.|1|-1|-1|0|         (""""")         |          !"""!          |         /  +  \         |        / .     \        |       /   ___ . \       |      /.'     O '.\      |     /'.  o      .'\     |    !  O """""""    !    |    '.         o   .'    |       """""""""""       |
@@ -76,10 +76,13 @@
 #o:8002|8002|8008|0|0|
 
 #k:8003|2|Cure_Mutation|Kyle left this solution at the lab for himself but it could convert back Grendel@ @To use it on someone type "use Cure_Mutation over {name}"|1|-1|-1|0|         (""""")         |          !"""!          |         /  +  \         |        / .     \        |       /   ___ . \       |      /.'     O '.\      |     /'.  o      .'\     |    !  O """""""    !    |    '.         o   .'    |       """""""""""       |
-#o:8003|8003|6005|0|0|
+#o:8003|8003|8006|0|0|
 
 #k:8004|0|Corrosive_solution|Use this on the CORE to destroy it along the lab|1|-1|-1|0|         (""""")         |          !"""!          |         /  +  \         |        / .     \        |       /   ___ . \       |      /.'     O '.\      |     /'.  o      .'\     |    !  O """""""    !    |    '.         o   .'    |       """""""""""       |
 #o:8004|8004|-1|0|0|
+
+#k:8005|0|Eve-9|The final piece of project Lazarus. It's the necessary fuel for the CORE machine to bring back Evelyn.|1|-1|-1|0|         (""""")         |          !"""!          |         /  +  \         |        / .     \        |       /   ___ . \       |      /.'     O '.\      |     /'.  o      .'\     |    !  O """""""    !    |    '.         o   .'    |       """""""""""       |
+#o:8005|8005|-1|0|0|
 
 
 
@@ -128,7 +131,7 @@
 #o:6703|6703|7013|0|0|
 
 #k:6704|6|Terminal_D|[DOOR D - ACCESS TERMINAL]@Function: Opens or closes Door A@ @ @ @Usage: To change states of the door type "use Terminal_D" on this location.|0|-1|-1|0| .---------------------. |!  __[##%+#*+]________  !|! !                 . ! !|! ! ----- -----     . ! !|! ! ---- -          . ! !|! !                 . ! !|! ! --- ---- ---    . ! !|! ! ---- --         . ! !|! !___________________! !|'._[]_[]______==+__(o)_.'|
-#o:6704|6704|7005|0|0|
+#o:6704|6704|7006|0|0|
 
 
 
@@ -175,7 +178,7 @@
 
 
 
-#k:9501|0|Key_K's|Opens the door to K's room (east wing)@ @ @Usage: Type "open {direction} with {key}" to open a door with a key|1|-1|50509|0|                         |                         | .---.                   |/  _  \________________  |! ! !  ________   _   _) |\ ''' /        ! ! ! !   | `---'         "-" !_!   |                         |                         |                         |
+#k:9501|0|Key_K's|Opens the door to K's room (east wing)@ @ @Usage: Type "open {direction} with {key}" to open a door with a key|1|-1|50809|0|                         |                         | .---.                   |/  _  \________________  |! ! !  ________   _   _) |\ ''' /        ! ! ! !   | `---'         "-" !_!   |                         |                         |                         |
 #o:9501|9501|5002|0|0|
 
 #k:9502|0|Key_Elevator5|Opens the door to the elevator of level 5@ @ @Usage: Type "open {direction} with {key}" to open a door with a key|1|-1|50511|0|                         |                         | .---.                   |/  _  \________________  |! ! !  ________   _   _) |\ ''' /        ! ! ! !   | `---'         "-" !_!   |                         |                         |                         |
@@ -221,7 +224,7 @@
 #k:5102|5|Status_report|[STATUS REPORT]@ @Structural Damage:@67% damage to Research Wing Infrastructure.@48% collapse of access tunnels between Core Laboratory and Surface Exit.@Power failure in 4 of 7 auxiliary generators.@To move through the facility, laboratory personnel can open and close doors using the command "open/close {direction}"@for the door in that direction from current position.@Laser-Safety doors such as the one to the south from here can only be passed by human-identified users.@ @[END OF REPORT]|0|-1|-1|0| .---------------------. |!  __[%#9+%*#]________  !|! !                 . ! !|! ! ----- -----     . ! !|! ! ---- -          . ! !|! !                 . ! !|! ! --- ---- ---    . ! !|! ! ---- --         . ! !|! !___________________! !|'._[]_[]______==+__(o)_.'|
 #o:5102|5102|1005|0|1|
 
-#k:5103|5|Safety_report|[AUTOMATED SAFETY REPORT - SYSTEM ID: CERBERUS V-12.4]@ @Status: RED LEVEL ALERT@Summary: 85% failure on security locks in containment cells. All lab exits blocked expect for Level 9.@Location: Levels 2, 3, 4, 5, 6, 8@@Level 6: 91% of experimental subjects confirmed free-roaming.@Level 4: Total loss of command over containment systems; manual overrides nonfunctional.@Avoid Levels 4 and 6 if possible. If unavoidable, access Level 3 for extreme security measures: @Electromagnetic dischargers, and Class-6 fire suppression grenades.@ @[END OF REPORT]|0|-1|-1|0| .---------------------. |!  __[%#9+%*#]________  !|! !                 . ! !|! ! ----- -----     . ! !|! ! ---- -          . ! !|! !                 . ! !|! ! --- ---- ---    . ! !|! ! ---- --         . ! !|! !___________________! !|'._[]_[]______==+__(o)_.'|
+#k:5103|5|Safety_report|[AUTOMATED SAFETY REPORT - SYSTEM ID: CERBERUS V-12.4]@ @Status: RED LEVEL ALERT@Summary: 85% failure on security locks in containment cells. All lab exits blocked except for Level 9.@Location: Levels 2, 3, 4, 5, 6, 8@@Level 6: 91% of experimental subjects confirmed free-roaming.@Level 4: Total loss of command over containment systems; manual overrides nonfunctional.@Avoid Levels 4 and 6 if possible. If unavoidable, access Level 3 for extreme security measures: @Electromagnetic dischargers, and Class-6 fire suppression grenades.@ @[END OF REPORT]|0|-1|-1|0| .---------------------. |!  __[%#9+%*#]________  !|! !                 . ! !|! ! ----- -----     . ! !|! ! ---- -          . ! !|! !                 . ! !|! ! --- ---- ---    . ! !|! ! ---- --         . ! !|! !___________________! !|'._[]_[]______==+__(o)_.'|
 #o:5103|5103|1010|0|1|
 
 #k:5104|5|Indications_to_exit|[INTERNAL SECURITY MEMORANDUM]@Issuer: PROMETHEUS CORE V-1.4@ @The LGR currently maintains an active catalog of 147 biological experimental subjects across Levels 4 through 8. The @majority of these entities are the result of classified research programs focusing on genetic manipulation, @regenerative augmentation, neural reconditioning, and anomalous lifeform synthesis. Due to the nature of their @enhancements and instability, several subjects have been classified under Hazard Category IV or higher, indicating @significant potential threat to personnel, infrastructure, and wider operational integrity if not properly contained. @ @In case of emergency weaponary is available on Level 3 and a emergency exit is located on Level 9.|0|-1|-1|0| .---------------------. |!  __[%#9+%*#]________  !|! !                 . ! !|! ! ----- -----     . ! !|! ! ---- -          . ! !|! !                 . ! !|! ! --- ---- ---    . ! !|! ! ---- --         . ! !|! !___________________! !|'._[]_[]______==+__(o)_.'|
@@ -354,7 +357,7 @@
 
 //Level 9 Notes//
 
-#k:5901|5|Instructions|[CORE POURING USAGE]@ @In order to pour any solution into the CORE system use command "drop". @ @WARNING: Pouring a corrosive mix could cause fatal damage to the facility. Act with caution.|0|-1|-1|0| .---------------------. |!  __[##%+#*+]________  !|! !                 . ! !|! ! ----- -----     . ! !|! ! ---- -          . ! !|! !                 . ! !|! ! --- ---- ---    . ! !|! ! ---- --         . ! !|! !___________________! !|'._[]_[]______==+__(o)_.'|
+#k:5901|5|Instructions|[CORE POURING USAGE]@ @In order to pour any solution into the CORE system use command "drop". @In order for the CORE to execute Project Lazarus it will be needed a vial of Eve-9 and a fresh human corpse.@ @WARNING: Pouring a corrosive mix could cause fatal damage to the facility. Act with caution.|0|-1|-1|0| .---------------------. |!  __[##%+#*+]________  !|! !                 . ! !|! ! ----- -----     . ! !|! ! ---- -          . ! !|! !                 . ! !|! ! --- ---- ---    . ! !|! ! ---- --         . ! !|! !___________________! !|'._[]_[]______==+__(o)_.'|
 #o:5901|5901|9006|0|1|
 
 
@@ -549,12 +552,12 @@
 
 #c:2401|Deerclops|3|\<0>/|4021|50|25|-1|-1|-1|*Mehhh*|    !\.-^-.-^-.-^-./!    |    !#+#*#+#*#+#*#+#!    |     )+***+ * **+***(    |   _/:.. // ! \\ ..:\_   |   \__)#((-(0)-))#(__/   |    \#*' \\   // '*#/    |     \    \._./    /     |      ;.+#**'**#+.;      |      '\##_.'._##/'      |         "(\#/)"         |
 #c:2402|Deerclops|3|\<0>/|4025|50|25|-1|-1|-1|*Mehhh*|    !\.-^-.-^-.-^-./!    |    !#+#*#+#*#+#*#+#!    |     )+***+ * **+***(    |   _/:.. // ! \\ ..:\_   |   \__)#((-(0)-))#(__/   |    \#*' \\   // '*#/    |     \    \._./    /     |      ;.+#**'**#+.;      |      '\##_.'._##/'      |         "(\#/)"         |
-#c:2403|Deerclops|3|\<0>/|6009|50|25|-1|-1|-1|*Mehhh*|    !\.-^-.-^-.-^-./!    |    !#+#*#+#*#+#*#+#!    |     )+***+ * **+***(    |   _/:.. // ! \\ ..:\_   |   \__)#((-(0)-))#(__/   |    \#*' \\   // '*#/    |     \    \._./    /     |      ;.+#**'**#+.;      |      '\##_.'._##/'      |         "(\#/)"         |
+#c:2403|Deerclops|3|\<0>/|6002|50|25|-1|-1|-1|*Mehhh*|    !\.-^-.-^-.-^-./!    |    !#+#*#+#*#+#*#+#!    |     )+***+ * **+***(    |   _/:.. // ! \\ ..:\_   |   \__)#((-(0)-))#(__/   |    \#*' \\   // '*#/    |     \    \._./    /     |      ;.+#**'**#+.;      |      '\##_.'._##/'      |         "(\#/)"         |
 #c:2404|Deerclops|3|\<0>/|6019|50|25|-1|-1|-1|*Mehhh*|    !\.-^-.-^-.-^-./!    |    !#+#*#+#*#+#*#+#!    |     )+***+ * **+***(    |   _/:.. // ! \\ ..:\_   |   \__)#((-(0)-))#(__/   |    \#*' \\   // '*#/    |     \    \._./    /     |      ;.+#**'**#+.;      |      '\##_.'._##/'      |         "(\#/)"         |
 
-#c:2501|Ghast|3|(¡o¡)|4007|25|30|-1|-1|-1|*Buaaaa!*|        ____             |    .''      '''-._      |  .'               '.    |  !                  \   |   \ +#*''.   .''*#+  \  |  .' '*#!*'   '*!#*'  !  | !      !  .'.  !     !  |  !     ! !   ! !     !  |   '._  ! '._.' !  _.'   |      '''..___..'''      |
-#c:2502|Ghast|3|(¡o¡)|6003|25|30|-1|-1|-1|*Buaaaa!*|        ____             |    .''      '''-._      |  .'               '.    |  !                  \   |   \ +#*''.   .''*#+  \  |  .' '*#!*'   '*!#*'  !  | !      !  .'.  !     !  |  !     ! !   ! !     !  |   '._  ! '._.' !  _.'   |      '''..___..'''      |
-#c:2503|Ghast|3|(¡o¡)|4030|25|30|-1|-1|-1|*Buaaaa!*|        ____             |    .''      '''-._      |  .'               '.    |  !                  \   |   \ +#*''.   .''*#+  \  |  .' '*#!*'   '*!#*'  !  | !      !  .'.  !     !  |  !     ! !   ! !     !  |   '._  ! '._.' !  _.'   |      '''..___..'''      |
+#c:2501|Ghast|3|(ioi)|4007|25|30|-1|-1|-1|*Buaaaa!*|        ____             |    .''      '''-._      |  .'               '.    |  !                  \   |   \ +#*''.   .''*#+  \  |  .' '*#!*'   '*!#*'  !  | !      !  .'.  !     !  |  !     ! !   ! !     !  |   '._  ! '._.' !  _.'   |      '''..___..'''      |
+#c:2502|Ghast|3|(ioi)|6003|25|30|-1|-1|-1|*Buaaaa!*|        ____             |    .''      '''-._      |  .'               '.    |  !                  \   |   \ +#*''.   .''*#+  \  |  .' '*#!*'   '*!#*'  !  | !      !  .'.  !     !  |  !     ! !   ! !     !  |   '._  ! '._.' !  _.'   |      '''..___..'''      |
+#c:2503|Ghast|3|(ioi)|4030|25|30|-1|-1|-1|*Buaaaa!*|        ____             |    .''      '''-._      |  .'               '.    |  !                  \   |   \ +#*''.   .''*#+  \  |  .' '*#!*'   '*!#*'  !  | !      !  .'.  !     !  |  !     ! !   ! !     !  |   '._  ! '._.' !  _.'   |      '''..___..'''      |
 
 #c:2601|Gryphon|3|/*V*\|4004|40|10|-1|-1|-1|*KWAHHHH*|       .'!/!'!\!'.       |      ( '._.-._.' )      |      ! ._  !  _. !      |      !<a>'_!_'<a>!      |     /' .""   "". '\     |    /   !\'   '/!   \    |--./    '.\   /.'    \.--|###".      \ /      ."###|#####"".    V    .""#####|########"",,,,,""########|
 #c:2601|Gryphon|3|/*V*\|6004|40|10|-1|-1|-1|*KWAHHHH*|       .'!/!'!\!'.       |      ( '._.-._.' )      |      ! ._  !  _. !      |      !<a>'_!_'<a>!      |     /' .""   "". '\     |    /   !\'   '/!   \    |--./    '.\   /.'    \.--|###".      \ /      ."###|#####"".    V    .""#####|########"",,,,,""########|
@@ -666,12 +669,12 @@
 #l:10067|Main_Door|1006|1007|2|1|0|1|0|0|
 
 // From Safety (1009) to Corridor (1004)
-#l:10094|Emergency_Exit|1009|1004|0|0|0|0|1|1|
-#l:10049|Emergency_Exit|1004|1009|1|0|0|0|1|1| 
+#l:10094|Emergency_Exit|1009|1004|0|0|0|0|0|0|
+#l:10049|Emergency_Exit|1004|1009|1|0|0|0|0|0| 
 
 // From Safety (1010) to Control (1005)
-#l:10105|Lab_Door|1010|1005|0|0|0|0|1|1|
-#l:100510|Lab_Door|1005|1010|1|0|0|0|1|1|
+#l:10105|Lab_Door|1010|1005|0|0|0|0|0|0|
+#l:100510|Lab_Door|1005|1010|1|0|0|0|0|0|
 
 
 
@@ -717,8 +720,8 @@
 // HORIZONTAL CONNECTIONS (East-West)
 #l:20203|Storage_Access|2002|2003|2|1|0|1|0|0|
 #l:20302|Storage_Access|2003|2002|3|1|0|1|0|0|
-#l:20506|Storage_Access|2005|2006|2|0|0|0|4|0|
-#l:20605|Storage_Access|2006|2005|3|0|0|0|4|0|
+#l:20506|Storage_Access|2005|2006|2|0|0|1|4|0|
+#l:20605|Storage_Access|2006|2005|3|0|0|1|4|0|
 
 #l:20708|Corridor|2007|2008|2|1|0|1|0|0|
 #l:20807|Corridor|2008|2007|3|1|0|1|0|0|
@@ -737,8 +740,8 @@
 #l:21817|Main_Hall|2018|2017|3|1|0|0|0|0|
 #l:21819|Corridor|2018|2019|2|1|0|0|4|0|
 #l:21918|Corridor|2019|2018|3|1|0|0|4|0|
-#l:21920|Terminal_Access|2019|2020|2|0|0|0|4|0|
-#l:22019|Terminal_Access|2020|2019|3|0|0|0|4|0|
+#l:21920|Terminal_Access|2019|2020|2|0|0|1|4|0|
+#l:22019|Terminal_Access|2020|2019|3|0|0|1|4|0|
 
 #l:22122|Elevator_Shaft|2021|2022|2|1|0|0|0|0|
 #l:22221|Elevator_Shaft|2022|2021|3|1|0|0|0|0|
@@ -750,17 +753,17 @@
 // VERTICAL CONEXIONS (North/South)
 
 // First row (2001-2006) to second row (2007-2013)
-#l:20107|Access|2001|2007|1|1|0|0|4|0|
-#l:20701|Access|2007|2001|0|1|0|0|4|0|
+#l:20107|Access|2001|2007|1|1|0|1|4|0|
+#l:20701|Access|2007|2001|0|1|0|1|4|0|
 
-#l:20208|Access|2002|2008|1|0|0|0|4|0|
-#l:20802|Access|2008|2002|0|0|0|0|4|0|
+#l:20208|Access|2002|2008|1|0|0|1|4|0|
+#l:20802|Access|2008|2002|0|0|0|1|4|0|
 
 #l:20410|Access|2004|2010|1|1|0|1|0|0|
 #l:20104|Access|2010|2004|0|1|0|1|0|0|
 
-#l:20511|Access|2005|2011|1|0|0|0|4|0|
-#l:21105|Access|2011|2005|0|0|0|0|4|0|
+#l:20511|Access|2005|2011|1|0|0|1|4|0|
+#l:21105|Access|2011|2005|0|0|0|1|4|0|
 
 // Second row (2007-2013) to third row (2014-2020)
 #l:20714|Access|2007|2014|1|0|0|0|4|0|
@@ -775,8 +778,8 @@
 #l:21118|Access|2011|2018|1|1|0|1|0|0|
 #l:21811|Access|2018|2011|0|1|0|1|0|0|
 
-#l:21320|Access|2013|2020|1|0|0|0|4|0|
-#l:22013|Access|2020|2013|0|0|0|0|4|0|
+#l:21320|Access|2013|2020|1|0|0|1|4|0|
+#l:22013|Access|2020|2013|0|0|0|1|4|0|
 
 // Third row (2014-2020) to fourth row (2021-2024)
 #l:21724|Access|2017|2024|1|1|0|1|0|0|
@@ -899,20 +902,18 @@
 //EXPERIMENTATION ROOM//
  
 
-#s:4001|Biogenetics|-1|0|   /====\ !   #====#   |   #::::# !   #////#   |   \====/ !   #====#   | _____________________ |/   /    /   \    \   \|
-#s:4002|Biogenetics|-1|0|\_\_\_\_\_\_\_\_\_\_\_/|  /!#!\   !!     !!    | ==!#!====!!  #==!!    | _\!#!/_______!_____[] |/_/_/_/_/_/_/_/_/_/_/_\|
-#s:4003|Biogenetics|-1|0|\#+   !    !!  [ ]  +#/|! )]  !==[####]    [( !|! .'  !  [####]==#  '.!|!_____!____!!____!____!|/__\/_________()______\|
-#s:4004|Cryoreception|-1|0|      o       ======   |   /o'''\     ====== # |  !_.____!  ========== | __\__'_/____!______!_ |/   /    /   \    \   \|
-#s:4005|Cryoreception|-1|0|   /====\ !   #====#   |   #::::# !   #////#   |   \====/ !   #====#   | _____________________ |/   /    /   \    \   \|
-#s:4006|Cryoreception|-1|0|\_\_\_\_\_\_\_\_\_\_\_/|  /!#!\   !!     !!    | ==!#!====!!  #==!!    | _\!#!/_______!_____[] |/_/_/_/_/_/_/_/_/_/_/_\|
-
-#s:4007|Biogenetics|-1|0|      o       ======   |   /o'''\     ====== # |  !_.____!  ========== | __\__'_/____!______!_ |/   /    /   \    \   \|
-#s:4008|Biogenetics|-1|0|\_\_\_\_\_\_\_\_\_\_\_/|   !#!    !#!    !#!   | ==!#!====!#!====!#!=  | __!#!____!#!____!#!__ |/_/_/_/_/_/_/_/_/_/_/_\|
-#s:4009|Biogenetics|-1|0|!  .'.   !========='  !|!  \ /   !===========.'|(===0===)!             |!  / \   !____________ |!__'.'___!___\____\___\|
-#s:4010|Cryoreception|-1|0|\#+   !    !!  [ ]  +#/|! )]  !==[####]    [( !|! .'  !  [####]==#  '.!|!_____!____!!____!____!|/__\/_________()______\|
-#s:4011|Cryoreception|-1|0|\_\_\_\_\_\_\_\_\_\_\_/|   !#!    !#!    !#!   | ==!#!====!#!====!#!=  | __!#!____!#!____!#!__ |/_/_/_/_/_/_/_/_/_/_/_\|
-#s:4012|Cryoreception|-1|0|!  .'.   !========='  !|!  \ /   !===========.'|(===0===)!             |!  / \   !____________ |!__'.'___!___\____\___\|
-
+#s:4001|Biogenetics|-1|0|   ! /"""""""""""/!    |   ! !"!""!!""!"! !    |   !_! !  !!  ! { !____|  /  !_!__!!__!_!/"    | /   "          "      |
+#s:4002|Biogenetics|-1|0| !"""""""""""""""!     | !(3 + 17)%3 = 2 ! !   |_!  *       #    !_!   | !========[]=====!  \  | o               o   \ |
+#s:4003|Biogenetics|-1|0|  ! \\\       /,    !  |  !          ///    !  |  !_________________!  | /                   \ |/                     \|
+#s:4004|Cryoreception|-1|0|  !                    |  !====================|  !____________________| /                     |/                      |
+#s:4005|Cryoreception|-1|0|   !!._______.'!'._____|   !!     .    !     O |   !! o      . !  o    |  / !  .  O    !     . | /  '._______.''.______|
+#s:4006|Cryoreception|-1|0|  .       !=====#  ! ! |!       . !_    #====# |!     O   !_'._____!   |! ( )     ! !!      \  |''.______.'          \ |
+#s:4007|Biogenetics|-1|0|   /\                  |  // \     \           |  \ / \                |   \ / '.__     ==C    |    '.    /            |
+#s:4008|Biogenetics|-1|0|       .======.        |    .=====.   !        |    !_____!   ! .==.   |  .==.    !__.===. !   |[]!__!____!__!___!_!   |
+#s:4009|Biogenetics|-1|0|  !  /            \    |  ! /              \   |__!/                \  |                     \ |                      \|
+#s:4010|Cryoreception|-1|0|          .========.   |    .======.       !   |\   !      !       !  /| \  !______!_______! / |  \                 /  |
+#s:4011|Cryoreception|-1|0|  .-.  ( ""-..-"""-.   | -.__)  /            ) |\     .'           .'  | \   (     .---..-'    |  \   '._.'        ( ) |
+#s:4012|Cryoreception|-1|0|                       |       !\"\"\"\"\      |       ! !"!"!"!"!    /|       \ ! ! ! ! !   / |        \!_!_!_!_!  /  |
 #s:4013|Elevator|-1|1|    !'''''!!'''''!     | (^)!     !!     !     | (v)!     !!     !     | ___!_____!!_____!___  |/____________________\ |
 #s:4014|Corridor|-1|0| /!                    |/ !                    |  !====================|__!____________________|                       |
 #s:4015|Corridor|-1|0|       !''''''!        |       !      !        |=======!      !========|_______!      !________|  /                 \  |
@@ -923,18 +924,18 @@
 #s:4020|Elevator|-1|1|    !'''''!!'''''!     | (^)!     !!     !     | (v)!     !!     !     | ___!_____!!_____!___  |/____________________\ |
 
 #s:4021|Necropsion_Experimentation|-1|0|      o       ======   |   /o'''\     ====== # |  !_.____!  ========== | __\__'_/____!______!_ |/   /    /   \    \   \|
-#s:4022|Necropsion_Experimentation|-1|0|
-#s:4023|Necropsion_Experimentation|-1|0|
+#s:4022|Necropsion_Experimentation|-1|0|   !  !                | =====#             ___|   !____________ .'    |  /           .'   ( ) | /           /  .      |
+#s:4023|Necropsion_Experimentation|-1|0|                   !   |___                !   |    '._____________!   |       '.           \  | ( )     \           \ |
 #s:4024|Experimentation|-1|0|
 #s:4025|Experimentation|-1|0|
-#s:4026|Experimentation|-1|0|
+#s:4026|Experimentation|-1|0|      o       ======   |   /o'''\     ====== # |  !_.____!  ========== | __\__'_/____!______!_ |/   /    /   \    \   \|
 
-#s:4027|Necropsion_Experimentation|-1|0|
-#s:4028|Necropsion_Experimentation|-1|0|
-#s:4029|Necropsion_Experimentation|-1|0|
+#s:4027|Necropsion_Experimentation|-1|0|      o       ======   |   /o'''\     ====== # |  !_.____!  ========== | __\__'_/____!______!_ |/   /    /   \    \   \|
+#s:4028|Necropsion_Experimentation|-1|0|            !   O  .   |    ___      \       0 |\   \__\      '..___   | \        /         """|  \                    |
+#s:4029|Necropsion_Experimentation|-1|0|     .    !            |o        /             |   ___..'     _  .==. /|"""          !_! !__!/ |                    /  |
 #s:4030|Experimentation|-1|0|
 #s:4031|Experimentation|-1|0|
-#s:4032|Experimentation|-1|0|
+#s:4032|Experimentation|-1|0|      o       ======   |   /o'''\     ====== # |  !_.____!  ========== | __\__'_/____!______!_ |/   /    /   \    \   \|
 
 
 
@@ -1072,10 +1073,10 @@
 // PERSONAL ROOMS LINK STRUCTURE
 
 // MAIN CORRIDOR SYSTEM
-#l:50105|Main_Corridor|5001|5005|1|1|0|0|0|0|
-#l:50501|Main_Corridor|5005|5001|0|1|0|0|0|0|
-#l:50508|Main_Corridor|5005|5008|1|1|0|0|0|0|
-#l:50805|Main_Corridor|5008|5005|0|1|0|0|0|0|
+#l:50105|Main_Corridor|5001|5005|1|1|0|1|0|0|
+#l:50501|Main_Corridor|5005|5001|0|1|0|1|0|0|
+#l:50508|Main_Corridor|5005|5008|1|1|0|1|0|0|
+#l:50805|Main_Corridor|5008|5005|0|1|0|1|0|0|
 #l:50811|Main_Corridor|5008|5011|1|0|1|0|0|0|
 #l:51108|Main_Corridor|5011|5008|0|0|1|0|0|0|
 #l:51115|Main_Corridor|5011|5015|1|1|0|0|0|0|
@@ -1566,8 +1567,8 @@
 #l:90605|Core_Access|9006|9005|3|1|0|1|0|0|
 #l:90607|Core_Passage|9006|9007|2|1|0|1|0|0|
 #l:90706|Core_Passage|9007|9006|3|1|0|1|0|0|
-#l:90708|Exit_Path|9007|9008|2|1|0|0|0|0|
-#l:90807|Exit_Path|9008|9007|3|1|0|0|0|0|
+#l:90708|Exit_Path|9007|9008|2|1|0|1|0|0|
+#l:90807|Exit_Path|9008|9007|3|1|0|1|0|0|
 
 #l:90910|Arena_Passage|9009|9010|2|1|0|1|0|0|
 #l:91009|Arena_Passage|9010|9009|3|1|0|1|0|0|

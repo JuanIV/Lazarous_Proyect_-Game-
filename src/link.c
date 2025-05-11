@@ -268,7 +268,6 @@ Status link_set_use_role(Link *link, Role role) {
 
 /*It prints the link information*/
 Status link_print(Link *link) {
-  extern char *role_to_str[N_ROLES];
   /* Error control */
   if (!link) return ERROR;
   /* 1. Print the Id and name of the link */
@@ -289,8 +288,8 @@ Status link_print(Link *link) {
   else fprintf(stdout, "--> Locked: FALSE\n");
 
   /* 5. Prints the role of those who can open or use the link */
-  fprintf(stdout, "--> %s and allies can open the link\n", role_to_str[link->op_role - NO_ROLE]);
-  fprintf(stdout, "--> %s and allies can use the link\n", role_to_str[link->use_role - NO_ROLE]);
+  fprintf(stdout, "--> %d and allies can open the link\n", link->op_role);
+  fprintf(stdout, "--> %d and allies can use the link\n", link->use_role);
 
   return OK;
 }

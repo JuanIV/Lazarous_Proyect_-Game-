@@ -179,4 +179,18 @@ void test2_inventory_is_full();
  */
 void test3_inventory_is_full();
 
-#endif /* INVENTORY_TEST_H */
+/**
+ * @test Test getting object at position in inventory
+ * @pre Non NULL pointer to inventory and valid position
+ * @post Output == expected object ID
+ */
+void test1_inventory_get_object_at_pos();
+
+/**
+ * @test Test getting object at position in inventory
+ * @pre NULL pointer to inventory
+ * @post Output == NO_ID
+ */
+void test2_inventory_get_object_at_pos();
+
+#endif 

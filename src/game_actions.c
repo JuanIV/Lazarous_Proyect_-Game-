@@ -633,45 +633,24 @@ void game_actions_attack(Game *game) {
   int armor_def,damage = 0, damaged, num_followers = -1, num_followers2 = -1, total_luck = 0, count = 0, pos;
 
   if (!game) return;
+  
   if (!(player = game_get_player(game))) return;
   if ((player_health = player_get_health(player)) == -1) return;
   if ((player_loc = player_get_location(player)) == NO_ID) return;
   if (!(current_space = game_get_space(game, player_loc))) return;
-
-  player_get_weapon(player, &weapon_id);
-  weapon = game_get_object(game, weapon_id);
-  weapon_class = game_get_class(game, object_get_id(weapon));
-  if(weapon_class && weapon){
-    total_luck += class_get_luck(weapon_class);
-    weapon_dmg = object_get_use_value(weapon);
-  }
-
-  player_get_armor(player, &armor_id);
-  armor = game_get_object(game, armor_id);
-  armor_class = game_get_class(game, object_get_class_id(armor));
-  if(armor_class && armor){
-    total_luck += class_get_luck(armor_class);
-    armor_def = object_get_use_value(armor);
-  }
 
 
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(name = command_get_desc(last_cmd))) return;
 
   /*Case of attacking a character*/
-  if ((charr_id = game_get_charr_id_from_name(game, name)) != NO_ID){
+  if ((charr_id = game_get_charr_id_from_name_at_space(game, name, player_loc)) != NO_ID){
 
     charr = game_get_character_from_id(game, charr_id);
     if(!charr) return;
 
     if (character_get_health(charr) <= 0) return;
-    
-    /*Checks if the character and the player are in the same space*/
-    if(space_find_character(current_space, charr_id) == FALSE) {
-      if (game_set_last_message(game, "This character is out of reach...") == ERROR)return;
-      return;
-    }
-  
+
     /*Attack happens only if the character is not friendly and alive*/
     if (game_get_friendly(player_get_role(player), character_get_role(charr), &friendly) == ERROR) return;
     if (friendly == TRUE) {
@@ -680,6 +659,22 @@ void game_actions_attack(Game *game) {
     }
 
     /*  PLAYER ATTACKS  */
+
+    player_get_weapon(player, &weapon_id);
+    weapon = game_get_object(game, weapon_id);
+    weapon_class = game_get_class(game, object_get_id(weapon));
+    if(weapon_class && weapon){
+      total_luck += class_get_luck(weapon_class);
+      weapon_dmg = object_get_use_value(weapon);
+    }
+
+    player_get_armor(player, &armor_id);
+    armor = game_get_object(game, armor_id);
+    armor_class = game_get_class(game, object_get_class_id(armor));
+    if(armor_class && armor){
+      total_luck += class_get_luck(armor_class);
+      armor_def = object_get_use_value(armor);
+    }
     
     if(game_get_deterministic(game, &deterministic)==ERROR) return;
   
@@ -693,7 +688,9 @@ void game_actions_attack(Game *game) {
       
       damage = PLY_BASE_DMG + weapon_dmg;
 
-      if (character_set_health(charr, charr_health - damage) == ERROR) return;
+      charr_health -= damage;
+
+      if (character_set_health(charr, charr_health) == ERROR) return;
 
       if(character_get_health(charr) > 0) {
         if(weapon) count += sprintf(message, " @You hit %s with %s dealing %d dmg pts. @", character_get_name(charr), class_get_name(weapon_class), damage);
@@ -752,7 +749,9 @@ void game_actions_attack(Game *game) {
 
       set_destroy(followers);
 
-      if (character_set_health(charr, charr_health - damage) == ERROR) return;
+      charr_health -= damage;
+
+      if (character_set_health(charr, charr_health) == ERROR) return;
 
       if(character_get_health(charr) > 0) {
         if(num_followers > 1) count += sprintf(message + count, "Your followers attacked %s dealing %d dmg pts. @", character_get_name(charr), damage);
@@ -793,7 +792,9 @@ void game_actions_attack(Game *game) {
 
         damage = (charr_dmg * (100-armor_def))/100;
 
-        if (player_set_health(player, player_health - damage) == ERROR) return;
+        player_health -= damage;
+
+        if (player_set_health(player, player_health) == ERROR) return;
   
         if(player_get_health(player) > 0) {
           count += sprintf(message + count, "%s attacked you! You lose %d hp. @", character_get_name(charr), damage);
@@ -1000,7 +1001,7 @@ void game_actions_chat(Game *game) {
 
   if ((charr_id == NO_ID) && !play_reciever) return;
 
-  if ((charr_id == NO_ID) && play_reciever) {
+  if (play_reciever) {
     if (player_get_health(play_reciever) <= 0) return;
     if ((pos = game_get_player_pos_from_name(game, name)) < 0) return;
 
@@ -1058,7 +1059,7 @@ void game_actions_chat(Game *game) {
         game_set_last_message(game, "This player is out of reach...");
         return;
       }
-
+      printf("encuentra");
       if ((use_value = object_get_use_value(talkie1)) <= 0) {
         if (game_set_last_message_at_pos_with_info(game, game_get_turn(game), "Damn, my WalkieTalkie broke down...", sender_id, THOUGHTS) == ERROR) return;
       

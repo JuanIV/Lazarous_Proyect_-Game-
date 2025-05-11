@@ -15,7 +15,7 @@
 #include "set_test.h"
 #include "test.h"
 
-#define MAX_TESTS 18
+#define MAX_TESTS 20
 
 /**
  * @brief Main function for SET unit tests.
@@ -67,6 +67,9 @@ int main(int argc, char** argv) {
     if (all || test == 16) test1_set_is_full();
     if (all || test == 17) test2_set_is_full();
     if (all || test == 18) test3_set_is_full();
+
+    if (all || test == 19) test1_set_get_num_ids();
+    if (all || test == 20) test2_set_get_num_ids();
 
     PRINT_PASSED_PERCENTAGE;
 
@@ -192,4 +195,16 @@ void test2_set_is_full() {
 void test3_set_is_full() {
     Set *s = NULL;
     PRINT_TEST_RESULT(set_is_full(s) == TRUE);
+}
+
+void test1_set_get_num_ids() {
+    Set *s = set_create();
+    set_add(s, 1);
+    PRINT_TEST_RESULT(set_get_num_ids(s) == 1);
+    set_destroy(s);
+}
+
+void test2_set_get_num_ids() {
+    Set *s = NULL;
+    PRINT_TEST_RESULT(set_get_num_ids(s) == -1);
 }

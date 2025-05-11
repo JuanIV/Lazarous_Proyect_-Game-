@@ -938,24 +938,43 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game, Screen print) {
   screen_area_clear(ge->descript);
 
   /*PLAYERS*/
-  sprintf(str, " Quest-mates:");
-  screen_area_puts(ge->descript, str);
-
-  for(i = 0; i<game_get_n_players(game);i++){
-    aux_player = game_get_player_at(game, i);
-    if(!aux_player) continue;
-
-    if(role != player_get_role(aux_player)) continue;
-    
-    aux_health = player_get_health(aux_player);
-    if(aux_health < 0) continue;
-
-    sprintf(str, "  %-*.*s %*.*s: %-*d (%d)", DESC_NAMES_SZ,DESC_NAMES_SZ,player_get_name(aux_player), PLY_GD_SZ, PLY_GD_SZ, player_get_gdesc(aux_player), DESC_ID_SZ, (int)player_get_location(aux_player), aux_health);
+  if(role != UNDEFINED){
+    sprintf(str, " Quest-mates:");
+    screen_area_puts(ge->descript, str);
+  
+    for(i = 0; i<game_get_n_players(game);i++){
+      aux_player = game_get_player_at(game, i);
+      if(!aux_player) continue;
+  
+      if(role != player_get_role(aux_player)) continue;
+      
+      aux_health = player_get_health(aux_player);
+      if(aux_health < 0) continue;
+  
+      sprintf(str, "  %-*.*s %*.*s: %-*d (%d)", DESC_NAMES_SZ,DESC_NAMES_SZ,player_get_name(aux_player), PLY_GD_SZ, PLY_GD_SZ, player_get_gdesc(aux_player), DESC_ID_SZ, (int)player_get_location(aux_player), aux_health);
+      screen_area_puts(ge->descript, str);
+    }
+    sprintf(str, " ");
     screen_area_puts(ge->descript, str);
   }
-  sprintf(str, " ");
-  screen_area_puts(ge->descript, str);
-
+  sprintf(str, " Players at this location:");
+    screen_area_puts(ge->descript, str);
+  
+    for(i = 0; i<game_get_n_players(game);i++){
+      aux_player = game_get_player_at(game, i);
+      if(!aux_player) continue;
+      
+      if(id_act != player_get_location(aux_player)) continue;
+      
+      aux_health = player_get_health(aux_player);
+      if(aux_health < 0) continue;
+  
+      sprintf(str, "  %-*.*s %*.*s: %-*d (%d)", DESC_NAMES_SZ,DESC_NAMES_SZ,player_get_name(aux_player), PLY_GD_SZ, PLY_GD_SZ, player_get_gdesc(aux_player), DESC_ID_SZ, (int)player_get_location(aux_player), aux_health);
+      screen_area_puts(ge->descript, str);
+    }
+    sprintf(str, " ");
+    screen_area_puts(ge->descript, str);
+  
   /*OBJECTS*/
   sprintf(str, " Objects:");
   screen_area_puts(ge->descript, str);
@@ -1027,7 +1046,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game, Screen print) {
   screen_area_puts(ge->player_inf, str);
 
   objective = player_get_objective(act_player);
-  if (objective) strcpy(objective_aux, objective);
+  if (objective) strcpy(objective_aux, objective + 1);
 
   if (objective) {
     partial_objective = strtok(objective_aux, "@\n\r\0");
@@ -1046,6 +1065,15 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game, Screen print) {
   }
 
   sprintf(str, " <<<<<<<<<<<<<<>>>>>>>>>>>>>");
+  screen_area_puts(ge->player_inf, str);
+  sprintf(str, " ");
+  screen_area_puts(ge->player_inf, str);
+  /*PLAYER'S GDESC*/
+  sprintf(str, " You: %-*.*s", PLY_GD_SZ, PLY_GD_SZ, player_get_gdesc(act_player));
+  screen_area_puts(ge->player_inf, str);
+  sprintf(str, " ");
+  screen_area_puts(ge->player_inf, str);
+  sprintf(str, " Name: %-*.*s", DESC_NAMES_SZ, DESC_NAMES_SZ, player_get_name(act_player));
   screen_area_puts(ge->player_inf, str);
   sprintf(str, " ");
   screen_area_puts(ge->player_inf, str);

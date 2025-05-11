@@ -239,7 +239,8 @@ int character_get_health(Character *charr) {
 Status character_set_health(Character *charr, int health) {
   if (!charr) return ERROR;
 
-  charr->health = health;
+  if(health<=0) charr->health = 0;
+  else charr->health = health;
 
   return OK;
 }

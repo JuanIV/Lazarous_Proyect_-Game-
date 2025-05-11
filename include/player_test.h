@@ -12,248 +12,395 @@
 #define PLAYER_TEST_H
 
 /**
- * @test Test player creation
- * @pre None
- * @post Non NULL pointer to player
+ * @test Test player creation with valid ID
+ * @pre Valid ID passed to player_create
+ * @post Non NULL pointer to player is returned
  */
 void test1_player_create();
 
 /**
  * @test Test player creation with invalid ID
- * @pre Invalid ID
- * @post Output == NULL
+ * @pre NO_ID passed to player_create
+ * @post NULL pointer is returned
  */
 void test2_player_create();
 
 /**
- * @test Test player destruction
- * @pre Non NULL pointer to player
- * @post Output == OK
+ * @test Test destruction of a valid player
+ * @pre A valid player has been created
+ * @post player_destroy returns OK
  */
 void test1_player_destroy();
 
 /**
- * @test Test player destruction with NULL pointer
- * @pre NULL pointer to player
- * @post Output == ERROR
+ * @test Test destruction of a NULL player
+ * @pre NULL pointer passed to player_destroy
+ * @post player_destroy returns ERROR
  */
 void test2_player_destroy();
 
 /**
- * @test Test getting player ID
- * @pre Non NULL pointer to player
- * @post Output == Expected ID
+ * @test Test getting the ID from a valid player
+ * @pre A valid player with a known ID
+ * @post The correct ID is returned
  */
 void test1_player_get_id();
 
 /**
- * @test Test getting player ID with NULL pointer
- * @pre NULL pointer to player
- * @post Output == NO_ID
+ * @test Test getting the ID from a NULL player
+ * @pre NULL pointer passed to player_get_id
+ * @post NO_ID is returned
  */
 void test2_player_get_id();
 
 /**
- * @test Test setting player ID
- * @pre Non NULL pointer to player and valid ID
- * @post Output == OK
+ * @test Test setting the ID of a player
+ * @pre Valid player and ID
+ * @post The ID is updated correctly
  */
 void test1_player_set_id();
 
 /**
- * @test Test setting player ID with NULL pointer
- * @pre NULL pointer to player
- * @post Output == ERROR
+ * @test Test setting the ID of a NULL player
+ * @pre NULL player and valid ID
+ * @post player_set_id returns ERROR
  */
 void test2_player_set_id();
 
 /**
+ * @test Test getting the role of a player
+ * @pre Valid player with no role set
+ * @post UNDEFINED is returned
+ */
+void test1_player_get_role();
+
+/**
+ * @test Test getting role from NULL player
+ * @pre NULL player
+ * @post NO_ROLE is returned
+ */
+void test2_player_get_role();
+
+/**
+ * @test Test setting player role
+ * @pre Valid player and role
+ * @post Role is set correctly
+ */
+void test1_player_set_role();
+
+/**
+ * @test Test setting invalid player role
+ * @pre Valid player and NO_ROLE
+ * @post player_set_role returns ERROR
+ */
+void test2_player_set_role();
+
+/**
  * @test Test getting player name
- * @pre Non NULL pointer to player with a valid name
- * @post Output == Expected name
+ * @pre Name set previously
+ * @post The correct name is returned
  */
 void test1_player_get_name();
 
 /**
- * @test Test getting player name with NULL pointer
- * @pre NULL pointer to player
- * @post Output == NULL
+ * @test Test getting player name from NULL
+ * @pre NULL player
+ * @post NULL is returned
  */
 void test2_player_get_name();
 
 /**
- * @test Test setting player name
- * @pre Non NULL pointer to player and valid name
- * @post Output == OK
+ * @test Test setting valid player name
+ * @pre Valid player and name
+ * @post Name is set correctly
  */
 void test1_player_set_name();
 
 /**
- * @test Test setting player name with NULL pointer
- * @pre NULL pointer to player
- * @post Output == ERROR
+ * @test Test setting NULL name
+ * @pre Valid player and NULL name
+ * @post player_set_name returns ERROR
  */
 void test2_player_set_name();
 
 /**
- * @test Test adding an object to the player's inventory
- * @pre Non NULL pointer to player and valid object ID
- * @post Output == OK
+ * @test Test setting name to NULL player
+ * @pre NULL player and valid name
+ * @post player_set_name returns ERROR
+ */
+void test3_player_set_name();
+
+/**
+ * @test Test getting player weapon
+ * @pre Weapon was set before
+ * @post Correct weapon ID is returned
+ */
+void test1_player_get_weapon();
+
+/**
+ * @test Test getting weapon from NULL player
+ * @pre NULL player
+ * @post player_get_weapon returns ERROR
+ */
+void test2_player_get_weapon();
+
+/**
+ * @test Test getting weapon with NULL ID pointer
+ * @pre Valid player and NULL ID pointer
+ * @post player_get_weapon returns ERROR
+ */
+void test3_player_get_weapon();
+
+/**
+ * @test Test setting player weapon
+ * @pre Valid player and weapon ID
+ * @post Weapon is set correctly
+ */
+void test1_player_set_weapon();
+
+/**
+ * @test Test setting weapon to NULL player
+ * @pre NULL player and valid ID
+ * @post player_set_weapon returns ERROR
+ */
+void test2_player_set_weapon();
+
+/**
+ * @test Test getting player backpack
+ * @pre Valid player
+ * @post Backpack pointer is not NULL
+ */
+void test1_player_get_backpack();
+
+/**
+ * @test Test getting backpack from NULL player
+ * @pre NULL player
+ * @post NULL is returned
+ */
+void test2_player_get_backpack();
+
+/**
+ * @test Test adding object to player
+ * @pre Valid player and object ID
+ * @post Object is added successfully
  */
 void test1_player_add_object();
 
 /**
- * @test Test adding an object with NULL pointer
- * @pre NULL pointer to player
- * @post Output == ERROR
+ * @test Test adding object to NULL player
+ * @pre NULL player
+ * @post player_add_object returns ERROR
  */
 void test2_player_add_object();
 
 /**
- * @test Test deleting an object from the player's inventory
- * @pre Non NULL pointer to player and valid object ID
- * @post Output == OK
+ * @test Test deleting existing object from player
+ * @pre Object was previously added
+ * @post Object is removed successfully
  */
 void test1_player_delete_object();
 
 /**
- * @test Test deleting an object with NULL pointer
- * @pre NULL pointer to player
- * @post Output == ERROR
+ * @test Test deleting non-existing object from player
+ * @pre Valid player, but object not present
+ * @post player_delete_object returns ERROR
  */
 void test2_player_delete_object();
 
 /**
- * @test Test checking if the player has an object
- * @pre Non NULL pointer to player and valid object ID
- * @post Output == TRUE
+ * @test Test checking object presence
+ * @pre Object added to player
+ * @post TRUE is returned
  */
 void test1_player_has_object();
 
 /**
- * @test Test checking if the player has an object with NULL pointer
- * @pre NULL pointer to player
- * @post Output == FALSE
+ * @test Test checking object not present
+ * @pre Valid player with no such object
+ * @post FALSE is returned
  */
 void test2_player_has_object();
 
 /**
- * @test Test checking if the player's inventory is full
- * @pre Player's inventory is full
- * @post Output == TRUE
+ * @test Test inventory is not full
+ * @pre Empty or partially filled inventory
+ * @post FALSE is returned
  */
 void test1_player_inventory_is_full();
 
 /**
- * @test Test checking if the player's inventory is full with NULL pointer
- * @pre NULL pointer to player
- * @post Output == FALSE
+ * @test Test inventory still not full after one add
+ * @pre One object added
+ * @post FALSE is returned
  */
 void test2_player_inventory_is_full();
 
 /**
- * @test Test setting the size of the player's inventory
- * @pre Non NULL pointer to player and valid size
- * @post Output == OK
+ * @test Test setting valid inventory size
+ * @pre Valid player and size
+ * @post Inventory size is updated
  */
 void test1_player_set_inventory_size();
 
 /**
- * @test Test setting the size of the player's inventory with NULL pointer
- * @pre NULL pointer to player
- * @post Output == ERROR
+ * @test Test setting invalid inventory size
+ * @pre Valid player and negative size
+ * @post player_set_inventory_size returns ERROR
  */
 void test2_player_set_inventory_size();
 
 /**
- * @test Test setting the size of the player's inventory with negative size
- * @pre Non NULL pointer to player and negative size
- * @post Output == ERROR
- */
-void test2_player_set_inventory_size();
-
-/**
- * @test Test getting player health
- * @pre Non NULL pointer to player with valid health
- * @post Output == Expected health value
+ * @test Test getting initial health
+ * @pre Player created
+ * @post Default health is returned
  */
 void test1_player_get_health();
 
 /**
- * @test Test getting player health with NULL pointer
- * @pre NULL pointer to player
- * @post Output == -1 (or equivalent error value)
+ * @test Test getting health from NULL player
+ * @pre NULL player
+ * @post -1 is returned
  */
 void test2_player_get_health();
 
 /**
- * @test Test setting player health
- * @pre Non NULL pointer to player and valid health value
- * @post Output == OK
+ * @test Test setting valid health
+ * @pre Valid player and health value
+ * @post Health is updated correctly
  */
 void test1_player_set_health();
 
 /**
- * @test Test setting player health with NULL pointer
- * @pre NULL pointer to player
- * @post Output == ERROR
+ * @test Test setting health on NULL player
+ * @pre NULL player and valid value
+ * @post player_set_health returns ERROR
  */
 void test2_player_set_health();
 
 /**
- * @test Test getting player location
- * @pre Non NULL pointer to player with valid location
- * @post Output == Expected location ID
+ * @test Test getting initial location
+ * @pre Player created
+ * @post NO_ID is returned
  */
 void test1_player_get_location();
 
 /**
- * @test Test getting player location with NULL pointer
- * @pre NULL pointer to player
- * @post Output == NO_ID
+ * @test Test getting location from NULL player
+ * @pre NULL player
+ * @post NO_ID is returned
  */
 void test2_player_get_location();
 
 /**
- * @test Test setting player location
- * @pre Non NULL pointer to player and valid location ID
- * @post Output == OK
+ * @test Test setting location
+ * @pre Valid player and location ID
+ * @post Location is updated correctly
  */
 void test1_player_set_location();
 
 /**
- * @test Test setting player location with NULL pointer
- * @pre NULL pointer to player
- * @post Output == ERROR
+ * @test Test setting location on NULL player
+ * @pre NULL player
+ * @post player_set_location returns ERROR
  */
 void test2_player_set_location();
 
 /**
- * @test Test getting player graphic description
- * @pre Non NULL pointer to player with valid graphic description
- * @post Output == Expected graphic description
+ * @test Test getting graphical description
+ * @pre Description was set
+ * @post Correct description is returned
  */
 void test1_player_get_gdesc();
 
 /**
- * @test Test getting player graphic description with NULL pointer
- * @pre NULL pointer to player
- * @post Output == NULL
+ * @test Test getting gdesc from NULL player
+ * @pre NULL player
+ * @post NULL is returned
  */
 void test2_player_get_gdesc();
 
 /**
- * @test Test setting player graphic description
- * @pre Non NULL pointer to player and valid graphic description
- * @post Output == OK
+ * @test Test setting graphical description
+ * @pre Valid player and description
+ * @post gdesc is set correctly
  */
 void test1_player_set_gdesc();
 
 /**
- * @test Test setting player graphic description with NULL pointer 
- * @pre NULL pointer to player
- * @post Output == ERROR
+ * @test Test setting gdesc on NULL player
+ * @pre NULL player
+ * @post player_set_gdesc returns ERROR
  */
 void test2_player_set_gdesc();
 
-#endif /* PLAYER_TEST_H */
+/**
+ * @test Test getting closeup at line
+ * @pre Line was set before
+ * @post Correct line is returned
+ */
+void test1_player_get_closeup_at();
+
+/**
+ * @test Test getting closeup line from NULL player
+ * @pre NULL player
+ * @post NULL is returned
+ */
+void test2_player_get_closeup_at();
+
+/**
+ * @test Test getting all closeup lines
+ * @pre All lines set
+ * @post All lines returned correctly
+ */
+void test1_player_get_closeup();
+
+/**
+ * @test Test getting closeup from NULL player
+ * @pre NULL player
+ * @post player_get_closeup returns ERROR
+ */
+void test2_player_get_closeup();
+
+/**
+ * @test Test setting closeup line
+ * @pre Valid player and line
+ * @post Line is stored correctly
+ */
+void test1_player_set_closeup_at();
+
+/**
+ * @test Test setting closeup line on NULL player
+ * @pre NULL player and line
+ * @post player_set_closeup_at returns ERROR
+ */
+void test2_player_set_closeup_at();
+
+/**
+ * @test Test getting armor value
+ * @pre Valid player with armor set
+ * @post Correct armor value is returned
+ */ 
+void test1_player_get_armor();
+
+/**
+ * @test Test getting armor from NULL player
+ * @pre NULL player
+ * @post -1 is returned
+ */
+void test2_player_get_armor();
+
+/**
+ * @test Test setting armor value
+ * @pre Valid player and armor value
+ * @post Armor is set correctly
+ */
+void test1_player_set_armor();
+
+/**
+ * @test Test setting armor on NULL player
+ * @pre NULL player and valid value
+ * @post player_set_armor returns ERROR
+ */
+void test2_player_set_armor();
+
+#endif

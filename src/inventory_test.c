@@ -17,7 +17,7 @@
 #include "inventory_test.h"
 #include "test.h"
 
-#define MAX_TESTS 24
+#define MAX_TESTS 26
 
 /**
  * @brief Main function for INVENTORY unit tests.
@@ -80,6 +80,9 @@ int main(int argc, char **argv) {
   if (all || test == 22) test1_inventory_is_full();
   if (all || test == 23) test2_inventory_is_full();
   if (all || test == 24) test3_inventory_is_full();
+
+  if (all || test == 25) test1_inventory_get_object_at_pos();
+  if (all || test == 26) test2_inventory_get_object_at_pos();
 
   PRINT_PASSED_PERCENTAGE;
 
@@ -244,4 +247,17 @@ void test2_inventory_is_full() {
 void test3_inventory_is_full() {
   Inventory *inv = NULL;
   PRINT_TEST_RESULT(inventory_is_full(inv) == TRUE);
+}
+
+void test1_inventory_get_object_at_pos() {
+  Inventory *inv = inventory_create();
+  inventory_set_max_objects(inv, 5);
+  inventory_add_object(inv, 1);
+  PRINT_TEST_RESULT(inventory_get_object_at_pos(inv, 0) == 1);
+  inventory_destroy(inv);
+}
+
+void test2_inventory_get_object_at_pos() {
+  Inventory *inv = NULL;
+  PRINT_TEST_RESULT(inventory_get_object_at_pos(inv, 0) == NO_ID);
 }

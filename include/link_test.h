@@ -12,153 +12,297 @@
 #define LINK_TEST_H
 
 /**
- * @test Test link creation
- * @pre None
+ * @test Test link creation with valid ID
+ * @pre Valid ID passed to link_create
  * @post Non NULL pointer to link is returned
  */
 void test1_link_create();
 
 /**
- * @test Test link creation with NO_ID
- * @pre None
- * @post Link id is set to NO_ID
+ * @test Test link creation with invalid ID
+ * @pre NO_ID passed to link_create
+ * @post NULL pointer is returned
  */
 void test2_link_create();
 
 /**
- * @test Test link destruction
- * @pre Non NULL pointer to link
- * @post Returns OK
+ * @test Test destruction of a valid link
+ * @pre A valid link has been created
+ * @post link_destroy returns OK
  */
 void test1_link_destroy();
 
 /**
- * @test Test link destruction with NULL pointer
- * @pre NULL pointer
- * @post Returns ERROR
+ * @test Test destruction of a NULL link
+ * @pre NULL pointer passed to link_destroy
+ * @post link_destroy returns ERROR
  */
 void test2_link_destroy();
 
 /**
- * @test Test getting link id
- * @pre Non NULL pointer to link
- * @post Output equals expected id
+ * @test Test getting the ID from a valid link
+ * @pre A valid link with a known ID
+ * @post The correct ID is returned
  */
 void test1_link_get_id();
 
 /**
- * @test Test getting link id with NO_ID
- * @pre Non NULL pointer to link
- * @post Output equals NO_ID
+ * @test Test getting the ID from a NULL link
+ * @pre NULL pointer passed to link_get_id
+ * @post NO_ID is returned
  */
 void test2_link_get_id();
 
 /**
- * @test Test setting link name
- * @pre Non NULL pointer to link
- * @post Name is properly set
- */
-void test1_link_set_name();
-
-/**
- * @test Test setting link name with NULL parameter
- * @pre Non NULL pointer to link
- * @post Returns ERROR
- */
-void test2_link_set_name();
-
-/**
- * @test Test getting link name
- * @pre Non NULL pointer to link
- * @post Output equals expected name
+ * @test Test getting the name of a valid link
+ * @pre A valid link with name set
+ * @post Non NULL name is returned
  */
 void test1_link_get_name();
 
 /**
- * @test Test setting link origin
- * @pre Non NULL pointer to link
- * @post Origin is properly set
+ * @test Test getting the name of a NULL link
+ * @pre NULL pointer passed to link_get_name
+ * @post NULL is returned
  */
-void test1_link_set_origin();
+void test2_link_get_name();
 
 /**
- * @test Test setting link origin to NO_ID
- * @pre Non NULL pointer to link
- * @post Origin is set to NO_ID
+ * @test Test setting the name of a link
+ * @pre Valid link and name passed
+ * @post The name is correctly stored
  */
-void test2_link_set_origin();
+void test1_link_set_name();
 
 /**
- * @test Test getting link origin
- * @pre Non NULL pointer to link
- * @post Output equals expected origin
+ * @test Test setting a NULL name
+ * @pre Valid link but NULL name passed
+ * @post link_set_name returns ERROR
+ */
+void test2_link_set_name();
+
+/**
+ * @test Test getting the origin ID from a valid link
+ * @pre A valid link with origin set
+ * @post The correct origin ID is returned
  */
 void test1_link_get_orig();
 
 /**
- * @test Test setting link destination
- * @pre Non NULL pointer to link
- * @post Destination is properly set
+ * @test Test getting the origin ID from a NULL link
+ * @pre NULL link
+ * @post NO_ID is returned
  */
-void test1_link_set_destination();
+void test2_link_get_orig();
 
 /**
- * @test Test setting link destination to NO_ID
- * @pre Non NULL pointer to link
- * @post Destination is set to NO_ID
+ * @test Test setting the origin ID
+ * @pre A valid link and origin ID
+ * @post Origin ID is set correctly
  */
-void test2_link_set_destination();
+void test1_link_set_orig();
 
 /**
- * @test Test getting link destination
- * @pre Non NULL pointer to link
- * @post Output equals expected destination
+ * @test Test setting origin ID in NULL link
+ * @pre NULL link passed
+ * @post link_set_orig returns ERROR
+ */
+void test2_link_set_orig();
+
+/**
+ * @test Test getting destination ID from a valid link
+ * @pre A valid link with destination set
+ * @post Correct destination ID is returned
  */
 void test1_link_get_dest();
 
 /**
- * @test Test setting link direction
- * @pre Non NULL pointer to link
- * @post Direction is properly set
+ * @test Test getting destination ID from NULL link
+ * @pre NULL link
+ * @post NO_ID is returned
  */
-void test1_link_set_direction();
+void test2_link_get_dest();
 
 /**
- * @test Test setting link direction to UNK_DIR
- * @pre Non NULL pointer to link
- * @post Direction is set to UNK_DIR
+ * @test Test setting the destination ID
+ * @pre Valid link and ID
+ * @post Destination ID is set and returned correctly
  */
-void test2_link_set_direction();
+void test1_link_set_dest();
 
 /**
- * @test Test getting link direction
- * @pre Non NULL pointer to link
- * @post Output equals expected direction
+ * @test Test setting destination ID in NULL link
+ * @pre NULL link
+ * @post link_set_dest returns ERROR
+ */
+void test2_link_set_dest();
+
+/**
+ * @test Test getting direction of a valid link
+ * @pre Direction was set
+ * @post Correct direction is returned
  */
 void test1_link_get_direction();
 
 /**
- * @test Test setting link open status
- * @pre Non NULL pointer to link
- * @post Open state is properly set to TRUE
+ * @test Test getting direction of a NULL link
+ * @pre NULL link
+ * @post UNK_DIR is returned
+ */
+void test2_link_get_direction();
+
+/**
+ * @test Test setting the direction
+ * @pre Valid link and direction
+ * @post Direction is set correctly
+ */
+void test1_link_set_direction();
+
+/**
+ * @test Test setting direction in NULL link
+ * @pre NULL link
+ * @post link_set_direction returns ERROR
+ */
+void test2_link_set_direction();
+
+/**
+ * @test Test getting 'open' status
+ * @pre Valid link with known open status
+ * @post link_get_open returns OK and correct value
+ */
+void test1_link_get_open();
+
+/**
+ * @test Test getting 'open' from NULL link
+ * @pre NULL link
+ * @post link_get_open returns ERROR
+ */
+void test2_link_get_open();
+
+/**
+ * @test Test setting 'open' status
+ * @pre Valid link and value
+ * @post Status is set correctly
  */
 void test1_link_set_open();
 
 /**
- * @test Test setting link open status to FALSE
- * @pre Non NULL pointer to link
- * @post Open state is properly set to FALSE
+ * @test Test setting 'open' in NULL link
+ * @pre NULL link
+ * @post link_set_open returns ERROR
  */
 void test2_link_set_open();
 
 /**
- * @test Test getting link open status
- * @pre Non NULL pointer to link
- * @post Output equals expected open state
+ * @test Test getting 'locked' status
+ * @pre Valid link with locked status set
+ * @post Correct status and OK returned
  */
-void test1_link_get_open();
+void test1_link_get_locked();
 
+/**
+ * @test Test getting 'locked' from NULL link
+ * @pre NULL link
+ * @post link_get_locked returns ERROR
+ */
+void test2_link_get_locked();
+
+/**
+ * @test Test setting 'locked' status
+ * @pre Valid link and status
+ * @post Status is updated correctly
+ */
+void test1_link_set_locked();
+
+/**
+ * @test Test setting 'locked' in NULL link
+ * @pre NULL link
+ * @post link_set_locked returns ERROR
+ */
+void test2_link_set_locked();
+
+/**
+ * @test Test getting 'connected' status
+ * @pre Valid link with known connection state
+ * @post Correct status and OK returned
+ */
+void test1_link_get_connected();
+
+/**
+ * @test Test getting 'connected' from NULL link
+ * @pre NULL link
+ * @post link_get_connected returns ERROR
+ */
+void test2_link_get_connected();
+
+/**
+ * @test Test setting 'connected' status
+ * @pre Valid link and value
+ * @post link_set_connected returns OK
+ */
+void test1_link_set_connected();
+
+/**
+ * @test Test setting 'connected' in NULL link
+ * @pre NULL link
+ * @post link_set_connected returns ERROR
+ */
+void test2_link_set_connected();
+
+/**
+ * @test Test getting open role
+ * @pre Valid link with role set
+ * @post Correct role is returned
+ */
+void test1_link_get_open_role();
+
+/**
+ * @test Test getting open role from NULL link
+ * @pre NULL link
+ * @post NO_ROLE is returned
+ */
+void test2_link_get_open_role();
+
+/**
+ * @test Test setting open role
+ * @pre Valid link and role
+ * @post Role is correctly stored
+ */
+void test1_link_set_open_role();
+
+/**
+ * @test Test setting open role in NULL link
+ * @pre NULL link
+ * @post link_set_open_role returns ERROR
+ */
+void test2_link_set_open_role();
+
+/**
+ * @test Test getting use role
+ * @pre Valid link with use role set
+ * @post Correct role is returned
+ */
+void test1_link_get_use_role();
+
+/**
+ * @test Test getting use role from NULL link
+ * @pre NULL link
+ * @post NO_ROLE is returned
+ */
+void test2_link_get_use_role();
+
+/**
+ * @test Test setting use role
+ * @pre Valid link and role
+ * @post Role is correctly set
+ */
+void test1_link_set_use_role();
+
+/**
+ * @test Test setting use role in NULL link
+ * @pre NULL link
+ * @post link_set_use_role returns ERROR
+ */
+void test2_link_set_use_role();
 
 #endif
- 
- 
