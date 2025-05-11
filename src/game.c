@@ -680,6 +680,8 @@ Status game_next_turn(Game *game) {
     } else st = OK;
   }
 
+  game_erase_all_messages(game);
+
   if(game->turn == 0) game->round++;
 
   /*If all players are dead, we finish the game*/
@@ -1307,6 +1309,56 @@ Status game_get_friendly(Role role1, Role role2, Bool *relationship) {
   return ERROR;
 }
 
+/*Given two roles in the game, returns wether they are allies or not*/
+Status game_get_ally(Role role1, Role role2, Bool *relationship) {
+  if((role1) == NO_ROLE || (role2) == NO_ROLE) {
+    *relationship = FALSE;
+    return ERROR;
+  }
+
+  if((role1) == UNDEFINED || (role2) == UNDEFINED) {
+    *relationship = FALSE;
+    return OK;
+  }
+
+  switch (role1) {
+    case PEACEFUL:
+      *relationship = TRUE;
+      return OK;
+      break;
+    
+    case HOSTILE:
+      if(role2 == PEACEFUL) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+
+    case TEAM1:
+      if(role2 == TEAM1 || role2 == PEACEFUL) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+
+    case TEAM2:
+      if(role2 == TEAM2 || role2 == PEACEFUL) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+
+    case MONSTER:
+      if(role2 == MONSTER || role2 == PEACEFUL) (*relationship = TRUE);
+      else (*relationship = FALSE);
+      return OK;
+      break;
+
+    default:
+      break;
+  }
+
+  *relationship = FALSE;
+  return ERROR;
+}
+
 /**
  * ***************  Minimap management  ***************
  */
@@ -1514,7 +1566,8 @@ Status game_set_last_message_at_pos_with_info(Game *game, int play_pos, char *me
   InterfaceData *interfaceData = NULL;
   int i = 0;
 
-  if (!game || !message || send == NO_ID || send_type == NO_TYPE) return ERROR;
+  if (!game || !message ||send_type == NO_TYPE) return ERROR;
+  if ((send_type != GAME) && (send == NO_ID)) return ERROR;
   if (play_pos < 0 || play_pos >= game->n_players) return ERROR;
 
   interfaceData = game->data[play_pos];

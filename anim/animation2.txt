@@ -1,0 +1,12 @@
+#msg: 0|1|...
+#msg: 0|1|...Where am i?...
+c Kyle Hey! Who are you? What is this place?
+#msg: 1|3|I don't know. Im just as confused as you. I can't even remember my own name!
+c Kyle This place looks like it's gonna fall down on us.
+#msg: 1|3|We should find a way to get out of here.
+c Kyle Oh! Check your pockets. Maybe we can find something useful.
+#msg: 1|3|I only have an ID. It looks like my name is "Kyle Graye".
+c Kyle I have an ID too. My name appears to be "James Brannon".
+c Kyle Also I have a foto of a child. Is this... my son? I can't remember anything
+#msg: 1|3|This place... We really have to find an exit.
+c Kyle Yeah. Let's stay together untill we do.

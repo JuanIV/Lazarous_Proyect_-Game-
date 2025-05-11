@@ -188,6 +188,10 @@ runv :
 	@echo "Running Valgrind"
 	valgrind --leak-check=full -s --track-origins=yes ./$(EXEDIR)/project lab.dat
 
+runvfile :
+	@echo "Running Valgrind"
+	valgrind --leak-check=full -s --track-origins=yes ./$(EXEDIR)/project lab.dat < game1.cmd
+
 runl :
 	@echo "Running Log"
 	./$(EXEDIR)/project lab.dat -l logFile

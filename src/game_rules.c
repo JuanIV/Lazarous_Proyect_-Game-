@@ -1238,7 +1238,7 @@ Status game_rules_enemies_move(Game *game){
     if(chr_role != MONSTER) continue;
 
     /*If game is deterministic, characters just spin around*/
-    if(determ) dir = (game_get_round(game)%4);
+    if(determ == TRUE) dir = (game_get_round(game)%4);
     else dir = rand()%4;
 
     link = game_get_link(game, loc, dir);
@@ -1397,7 +1397,7 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
         game_set_last_message_at_pos_with_info(
             game, turn,
             "Wait! We barely know who we even are. We should stay together...@ "
-            "@Suggested command: cooperate Sg.Rourke",
+            "Suggested command: cooperate Sg.Rourke @ ",
             4, PLAYER);
         *bool = FALSE;
         return OK;
@@ -1632,6 +1632,7 @@ Status game_rules_update_actions(Game *game, Bool *bool) {
 Status game_rules_update_turn(Game *game, Bool *bool) {
   Command *cmd = NULL;
   CommandCode code;
+  Player *player = NULL;
 
   if (!game || !bool) return ERROR;
 
@@ -1642,6 +1643,11 @@ Status game_rules_update_turn(Game *game, Bool *bool) {
   }
 
   if ((code = command_get_code(cmd)) == NO_CMD) return ERROR;
+  if (!(player = game_get_player(game))) return ERROR;
+  if (player_get_health(player) <= 0) {
+    *bool = TRUE;
+    return OK;
+  }
 
   /* Enters cases once we know the */
   switch (code) {
@@ -1674,7 +1680,40 @@ Status game_rules_update_turn(Game *game, Bool *bool) {
   return OK;
 }
 
-Status game_rules_run(Game *game) { return OK; }
+Bool game_rules_get_animation(Game *game, char *path) {
+  int turn, round;
+  if (!game || !path) return FALSE;
+
+  if ((turn = game_get_turn(game)) == -1) return FALSE;
+  if ((round = game_get_round(game)) == -1) return FALSE;
+
+  if (round == 0) {
+    switch (turn) {
+      case 0:
+        strncpy(path, "./anim/animation1.txt" , WORD_SIZE);
+        return TRUE;
+        break;
+      case 1:
+        strncpy(path, "./anim/animation2.txt" , WORD_SIZE);
+        return TRUE;
+        break;
+      case 2:
+        strncpy(path, "./anim/animation3.txt" , WORD_SIZE);
+        return TRUE;
+        break;
+      case 3:
+        strncpy(path, "./anim/animation4.txt" , WORD_SIZE);
+        return TRUE;
+        break;
+      
+      
+      default:
+        break;
+    }
+  }
+
+  return FALSE;
+}
 
 Status game_rules_update_states_after_action(Game *game){
   Status st = OK;
@@ -1717,7 +1756,7 @@ Status game_rules_update_states_after_action(Game *game){
   game_rules_objective_change_by_location(game, 4, 3001, "2Investigate the lab further");
 
   game_rules_objective_change_by_note(game, 1, "3...", 5703);
-  game_rules_objective_change_by_note(game, 1, "4Finish Project Lazarus@Get a corpse (kill a player)@Take Eve-9 from lvl 8@and pour it the CORE", 5707);
+  game_rules_objective_change_by_note(game, 1, "4Finish Project Lazarus@Don't let Kyle intervene@Get a corpse (kill a player)@Take Eve-9 from lvl 8@and pour it the CORE", 5707);
 
   game_rules_objective_change_by_note(game, 2, "3Find your lost son", 5601);
   game_rules_objective_change_by_note(game, 2, "4Get the key to cell 6005@and the cure to mutation@at the storage on level 8", 5705);

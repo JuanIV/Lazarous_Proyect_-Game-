@@ -64,6 +64,16 @@ Status game_rules_update_turn(Game *game, Bool *bool);
 Screen game_rules_get_screen (Game *game);
 
 /**
+ * @brief Gets the animation that needs to be printed at any given moment
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @param path A string where the relative path to the animation will be stored 
+ * @return TRUE if an animation is shown, FALSE otherwise
+ */
+Bool game_rules_get_animation(Game *game, char *path);
+
+/**
  * @brief Does all the checkings necessary and the respective responses AFTER player's action has been updated this turn
  * @author Juan Ibáñez
  * 

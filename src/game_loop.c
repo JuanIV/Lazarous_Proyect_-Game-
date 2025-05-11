@@ -37,12 +37,22 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
  * @brief runs the game by painting the game screen, getting an user input and
  * updating game action
  *
- * @param game game struct being used
- * @param gengine double pointer to the graphic engine
+ * @param game double pointer to the game
+ * @param gengine pointer to the graphic engine
  * @param log_file the file where the log is going to be printed
  * @param log_implemented 1 if there should be a log 0 if not
  */
 void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented, Bool deterministic);
+
+/**
+ * @brief runs an animation from a file by painting the game screen, getting an user input and
+ * updating game action
+ * 
+ * @param game double pointer to the game
+ * @param gengine pointer to the graphic engine
+ * @param filename name of the file where the imput will be taken from
+ */
+void game_loop_run_animation (Game **game, Graphic_engine *gengine, char *filename);
 
 /**
  * @brief destroys both the game and the graphic engine
@@ -51,6 +61,14 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
  * @param gengine pointer to the graphic engine being destroyed
  */
 void game_loop_cleanup(Game *game, Graphic_engine *gengine);
+
+/**
+ * @brief Counts the lines of an animation file
+ * 
+ * @param filename name of/ path to the file
+ * @return name of lines to be read or -1 in case of error
+ */
+int game_loop_count_lines(char *filename);
 
 int main(int argc, char *argv[]) {
   Game *game = NULL;
@@ -127,11 +145,25 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
   return 0;
 }
 
+int game_loop_count_lines(char *filename) {
+  FILE *file = NULL;
+  int count = 0;
+  char msg[MESG_SIZE + 1];
+
+  if (!(file = fopen(filename, "r"))) return -1;
+
+  while(fgets(msg, MESG_SIZE, file)) count++;
+
+  fclose(file);
+
+  return count;
+}
+
 void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented, Bool deterministic) {
-  Command *last_cmd;
-  CommandCode last_cmd_code;
-  Status last_status;
-  char last_desc[WORD_SIZE];
+  Command *last_cmd = NULL;
+  CommandCode last_cmd_code = NO_CMD;
+  Status last_status = ERROR;
+  char last_desc[WORD_SIZE + 1], path[WORD_SIZE + 1] = "", aux_path[WORD_SIZE + 1] = "";
   Player *player = NULL;
   char *name = NULL, message[MESG_SIZE];
   int turn;
@@ -146,14 +178,25 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
 
   if(deterministic == TRUE) game_set_deterministic(*game, deterministic);
   
+  graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
+
   do {
-    graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
-    if(game_erase_all_messages(*game) == ERROR) return;
+    if (game_rules_get_animation(*game, path) == TRUE) {
+      if (strcmp(path, aux_path) != 0) {
+        strcpy(aux_path, path);
+        game_loop_run_animation(game, gengine, path);
+        continue;
+      }
+    }
+
+    if (last_cmd_code == INSPECT) {
+      if(game_erase_all_messages(*game) == ERROR) return;
+    }
 
     last_cmd = game_get_last_command_at_pos(*game, NUM_CMDS - 1);
 
     if (game_set_last_command(*game, last_cmd) == ERROR) return;
-    if (command_get_user_input(last_cmd) == ERROR) return;
+    if (command_get_user_input(last_cmd, stdin) == ERROR) return;
 
     player = game_get_player(*game);
     if (!player) return;
@@ -202,20 +245,105 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
       }
     }
 
-    if (game_get_n_players(*game) > 1) {
-      if(game_rules_update_turn(*game, &update_turn) == ERROR) return;
+    if (game_rules_update_turn(*game, &update_turn) == ERROR) break;
+    if (update_turn == TRUE) {
+      if ((last_cmd_code != EXIT) && (last_cmd_code != SKIP)) {
+        graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
+        sleep(1);
+        /*graphic_engine_paint_game(gengine, *game, INTERTURN);
+        sleep(3);*/
+      }
+      game_next_turn(*game);
+    } else {
+      graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
+      if ((((last_cmd_code == CHAT) || (last_cmd_code == INSPECT) || (last_cmd_code == VIEW))) && 
+        (command_get_status(last_cmd) == OK)) {
+          sleep(3);
+      } else sleep(1);
+    }
+
+  } while ((last_cmd_code != EXIT) && (game_get_finished(*game) == FALSE));
+}
+
+void game_loop_run_animation (Game **game, Graphic_engine *gengine, char *filename) {
+  Command *last_cmd;
+  CommandCode last_cmd_code = NO_CMD;
+  Player *player2 = NULL;
+  FILE *file = NULL;
+  int lines, i = 0, j = 0;
+  long file_pos = 0;
+  char line[MESG_SIZE + 1], *msg = NULL, *tok = NULL, *closeup = NULL;
+  Id sender_id = NO_ID;
+  Bool update_turn = FALSE;
+  Type sender_type = NO_TYPE;
+
+  if ((lines = game_loop_count_lines(filename)) == -1) return;
+  
+  if (!(file = fopen(filename, "r"))) return;
+
+  for (i = 0; (i < lines) && (last_cmd_code != EXIT) &&(game_get_finished(*game) == FALSE); i++) {
+    /* We store the position of the previous read. If the read line is not a message,
+    we go back and execute it as a player command*/
+    file_pos = ftell(file);
+    if(!fgets(line, MESG_SIZE, file)) break;
+
+    if (strncmp(line, "#msg:", 5) == 0) {
+      if(!(tok = strtok(line + 5, "|"))) break;
+      sender_type = (Type) atoi (tok);
+      if(!(tok = strtok(NULL, "|"))) break;
+      sender_id = (Id) atol (tok);
+      if(!(tok = strtok(NULL, "|"))) break;
+      msg = tok;
+
+      if (!(player2 = game_get_player_from_id(*game, sender_id))) break;
+      game_set_last_message_at_pos_with_info(*game, game_get_turn(*game), msg, sender_id, sender_type);
+      
+      if (sender_type == PLAYER) {
+        for (j = 0; j < POV_HGHT; j++) {
+          if(!(closeup = player_get_closeup_at(player2, j))) break;
+          game_set_last_close_up(*game, closeup, j);
+        }
+      }
+
+      graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
+      sleep(1);
+
+    } else {
+      if (!(last_cmd = game_get_last_command_at_pos(*game, NUM_CMDS - 1))) break;
+      if (game_set_last_command(*game, last_cmd) == ERROR) break;
+
+      fseek(file, file_pos, SEEK_SET);
+      if (command_get_user_input(last_cmd, file) == ERROR) break;
+
+      if(game_actions_update(game, last_cmd, &last_cmd_code, TRUE) == ERROR) break;
+      if(game_rules_update_states_after_action(*game) == ERROR) break;
+
+      if (last_cmd_code == LOAD) continue;
+
+      if (game_rules_update_turn(*game, &update_turn) == ERROR) break;
+
       if (update_turn == TRUE) {
-        if((last_cmd_code != EXIT) && (last_cmd_code != SKIP)) {
+        if ((last_cmd_code != EXIT) && (last_cmd_code != SKIP)) {
           graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
           sleep(1);
           /*graphic_engine_paint_game(gengine, *game, INTERTURN);
           sleep(3);*/
         }
         game_next_turn(*game);
+      } else {
+        graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
+        if ((((last_cmd_code == CHAT) || (last_cmd_code == INSPECT) || (last_cmd_code == VIEW))) && 
+          (command_get_status(last_cmd) == OK)) {
+          sleep(1);
+        } else sleep(1);
       }
     }
 
-  } while ((last_cmd_code != EXIT) && (game_get_finished(*game) == FALSE));
+  }
+  
+
+
+  fclose(file);
 }
 
 void game_loop_cleanup(Game *game, Graphic_engine *gengine) {

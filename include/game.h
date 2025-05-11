@@ -617,13 +617,24 @@ Character *game_get_character_at_pos(Game *game, int pos);
 /**
  * @brief Given two roles in the game, returns wether their relationship is friendly or not
  * 
- * @param role1 a rola
+ * @param role1 a role
  * @param role2 another role with which we want to see the relationship 
  * @param relationship Pointer to a bool 
  * @return Ok if everything went well, ERROR if the space is full or there was a mistake
  *  exit value of relationship: TRUE if their relationship is friendly and FALSE otherwise
  */
 Status game_get_friendly(Role role1, Role role2, Bool *relationship); 
+
+/**
+ * @brief Given two roles in the game, returns wether they are allies or not
+ * 
+ * @param role1 a role
+ * @param role2 another role with which we want to see the alliance 
+ * @param relationship Pointer to a bool 
+ * @return Ok if everything went well, ERROR if the space is full or there was a mistake
+ *  exit value of relationship: TRUE if they are allies and FALSE otherwise
+ */
+Status game_get_ally(Role role1, Role role2, Bool *relationship);
 
 
 /**

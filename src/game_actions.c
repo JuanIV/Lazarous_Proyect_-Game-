@@ -551,10 +551,10 @@ void game_actions_take(Game *game) {
 
   /*If you try to pick up a note or a switch, the game should advice you how to use it*/
   if(tag == NOTE){
-    game_set_last_message(game, "That's a note. To read it i must type \"use\" followed by its name...");
+    game_set_last_message(game, "That's a note! To read it@Suggested command: inspect <name>");
     return;
   } else if(tag == SWITCH){
-    game_set_last_message(game, "That's a switch. To press it i must type \"use\" followed by its name...");
+    game_set_last_message(game, "That's a switch. To press it @Suggested command: use <name>");
     return;
   }
   
@@ -628,7 +628,7 @@ void game_actions_attack(Game *game) {
   Object *weapon = NULL, *armor = NULL;
   Class *weapon_class = NULL, *armor_class = NULL;
   Id charr_id = NO_ID, damaged_follower = NO_ID, player_loc = NO_ID, victim_loc = NO_ID, weapon_id = NO_ID, armor_id = NO_ID;
-  char *name = NULL, message[MESG_SIZE], notifier[MESG_SIZE];
+  char *name = NULL, message[MESG_SIZE], notifier[MESG_SIZE], *closeup = NULL;
   int i, dice, charr_health, victim_health = -1, charr_dmg, follower_health, player_health, weapon_dmg = 0;
   int armor_def,damage = 0, damaged, num_followers = -1, num_followers2 = -1, total_luck = 0, count = 0, pos;
 
@@ -652,7 +652,7 @@ void game_actions_attack(Game *game) {
     if (character_get_health(charr) <= 0) return;
 
     /*Attack happens only if the character is not friendly and alive*/
-    if (game_get_friendly(player_get_role(player), character_get_role(charr), &friendly) == ERROR) return;
+    if (game_get_ally(player_get_role(player), character_get_role(charr), &friendly) == ERROR) return;
     if (friendly == TRUE) {
       if (game_set_last_message(game, "It seems friendly... No need to fight") == ERROR) return;
       return;
@@ -842,6 +842,11 @@ void game_actions_attack(Game *game) {
     } else {
       sprintf(message + count, "%s missed his attack. @", character_get_name(charr));
     }
+
+    for (i = 0; i < POV_HGHT; i++) {
+      if (!(closeup = character_get_closeup_at_pos(charr, i))) return;
+      if ((game_set_last_close_up_at_pos(game, closeup, game_get_turn(game), i)) == ERROR) return;
+    }
   } else{
     /*Case of attacking a player*/
     victim = game_get_player_from_name(game, name);
@@ -1004,6 +1009,8 @@ void game_actions_chat(Game *game) {
   if (play_reciever) {
     if (player_get_health(play_reciever) <= 0) return;
     if ((pos = game_get_player_pos_from_name(game, name)) < 0) return;
+
+    if(player_get_id(play_sender) == player_get_id(play_reciever)) return;
 
     if ((reciever_loc = player_get_location(play_reciever)) == NO_ID) return;
 
@@ -1341,7 +1348,7 @@ void game_actions_use(Game *game){
       game_actions_set_trap(game, obj);
       break;
     case NOTE:
-      game_actions_read_note(game, obj);
+      game_set_last_message(game, "That's a note! If you want to read it@Suggested command: inspect <name>");
       break;
     case SWITCH:
       game_actions_use_switch(game, obj);
@@ -1465,26 +1472,6 @@ void game_actions_set_trap(Game *game, Object *obj){
   if (game_set_last_status(game, OK) == ERROR) return;
 }
 
-void game_actions_read_note(Game *game, Object *obj){
-  char *desc = NULL, *closeup = NULL;
-  Class *class = NULL;
-  int i;
-
-  if (!(class = game_get_class(game, object_get_class_id(obj)))) return;
-
-  desc = class_get_desc(class);
-  if(!desc) return;
-
-  for (i = 0; i < POV_HGHT; i++) {
-    if (!(closeup = class_get_closeup_at_pos(class, i))) return;
-    if (game_set_last_close_up(game, closeup, i) == ERROR) return;
-  }
-
-  game_set_last_message(game, desc);
-
-  if (game_set_last_status(game, OK) == ERROR) return;
-}
-
 void game_actions_use_switch(Game *game, Object *obj){
   int state;
 
@@ -1514,7 +1501,6 @@ void game_actions_save(Game *game) {
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
   if ((len = strlen(cmd_desc)) <= 0) return;
 
-  printf("Entra a ga_save: %d\n", len);
   if (len >= 4 && strcmp(cmd_desc + len - 4, ".dat") != 0) {
     sprintf(file_save /*+ strlen(file_save)*/, "%s.dat", cmd_desc);
   }
@@ -1778,7 +1764,7 @@ void game_actions_cooperate(Game *game) {
   if(((loc = player_get_location(play)) != player_get_location(play_dest) || loc == NO_ID) ) return;
 
   /* Assigns a team to the first pair and another to the other pair*/
-  if(turn == 0) {
+  if(turn < TOT_PLAYERS/2) {
     if(player_set_role(play, TEAM1) == ERROR) return;
   } else {
     if(player_set_role(play, TEAM2) == ERROR) return;

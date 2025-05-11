@@ -12,6 +12,7 @@
 #define COMMAND_H
 
 #include "types.h"
+#include "stdio.h"
 
 /**
  * @brief Number of ways a command can be written
@@ -151,10 +152,11 @@ Status command_get_status(Command *command);
  * @author Tiago Oselka
  *
  * @param command a pointer to the command where the user command will be stored
+ * @param input_stream where the information is going to be inputed from
  * @return OK, if the command is correctly asigned or ERROR if there was some
  * mistake
  */
-Status command_get_user_input(Command *command);
+Status command_get_user_input(Command *command, FILE *input_stream);
 
 /**
  * @brief It prints the command information

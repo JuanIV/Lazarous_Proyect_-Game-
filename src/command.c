@@ -125,14 +125,14 @@ Status command_get_status(Command *command) {
 }
 
 /*Interpretates the input from the user and asigns the propper command*/
-Status command_get_user_input(Command *command) {
-  char input[CMD_LENGHT] = "", *token = NULL, *cmd_desc = NULL;
+Status command_get_user_input(Command *command, FILE *input_stream) {
+  char input[MESG_SIZE + 1] = "", *token = NULL, *cmd_desc = NULL;
   int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
 
-  if (!command) return ERROR;
+  if (!command || !input_stream) return ERROR;
 
-  if (fgets(input, CMD_LENGHT, stdin)) {
+  if (fgets(input, MESG_SIZE, input_stream)) {
     token = strtok(input, " \r\n");
     if (!token) {
       return command_set_code(command, UNKNOWN);
@@ -149,7 +149,6 @@ Status command_get_user_input(Command *command) {
       if (!strcasecmp(token, cmd_to_str[i][CMDS]) ||
           !strcasecmp(token, cmd_to_str[i][CMDL])) {
         cmd = i + NO_CMD;
-        printf("%s", cmd_to_str[i][CMDL]);
       } else {
         i++;
       }
@@ -159,6 +158,8 @@ Status command_get_user_input(Command *command) {
   } else {
     return command_set_code(command, EXIT);
   }
+
+  return ERROR;
 }
 
 /*It prints the command information*/

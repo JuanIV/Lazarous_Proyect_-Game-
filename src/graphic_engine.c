@@ -727,6 +727,41 @@ void graphic_engine_map_print_interturn(Game *game, Graphic_engine *ge) {
 }
 
 void graphic_engine_map_print_instructions(Game *game, Graphic_engine *ge) {
+  if (!game || !ge) return;
+  if (!ge->map) return;
+
+  screen_area_clear(ge->map);
+
+  screen_area_puts(ge->map, " Instructions:");
+  screen_area_puts(ge->map, "  - Follow you objective to get out of the lab and win the game");
+  screen_area_puts(ge->map, "  - Pay attention to the suggestions, they are filled with wisdom!");
+  screen_area_puts(ge->map, "  - The commands entered are not case-dependent (uppercase or lowercase)");
+  screen_area_puts(ge->map, "  - You can talk with players outside of your space if you have your");
+  screen_area_puts(ge->map, "    walkie talkie with you");
+  screen_area_puts(ge->map, "  - The turn of the game changes if you use SKIP, if you go to a different");
+  screen_area_puts(ge->map, "    room or if you attack another player");
+  screen_area_puts(ge->map, " List of commands:");
+  screen_area_puts(ge->map, "  - Exit or e:");
+  screen_area_puts(ge->map, "  - Move or m:");
+  screen_area_puts(ge->map, "  - Take or t:");
+  screen_area_puts(ge->map, "  - Drop or d:");
+  screen_area_puts(ge->map, "  - Attack or at:");
+  screen_area_puts(ge->map, "  - Chat or c:");
+  screen_area_puts(ge->map, "  - Inspect or i:");
+  screen_area_puts(ge->map, "  - Recruit or r:");
+  screen_area_puts(ge->map, "  - Abandon or ab:");
+  screen_area_puts(ge->map, "  - Use or u:");
+  screen_area_puts(ge->map, "  - Save or s:");
+  screen_area_puts(ge->map, "  - Load or lo:");
+  screen_area_puts(ge->map, "  - Open or o:");
+  screen_area_puts(ge->map, "  - Close or c:");
+  screen_area_puts(ge->map, "  - Skip or sk:");
+  screen_area_puts(ge->map, "  - Accept or ac:");
+  screen_area_puts(ge->map, "  - Deny or de:");
+  screen_area_puts(ge->map, "  - Cooperate or co:");
+  screen_area_puts(ge->map, "  - View or v:");
+  screen_area_puts(ge->map, "  - Help or h:");
+
   return;
 }
 
@@ -739,6 +774,9 @@ void graphic_engine_map_print_map(Game *game, Graphic_engine *ge){
   Player *act_player = NULL;
   Space *space[9];
   int i = 0, index_convert[9] = {0,1,2,7,-1,3,6,5,4};
+
+  if (!game || !ge) return;
+  if (!ge->map) return;
 
   id_act = game_get_player_location(game);
   if(id_act == NO_ID) return;
@@ -847,6 +885,7 @@ void graphic_engine_map_print_minimap(Game *game, Graphic_engine *ge) {
   char *minimap = NULL;
 
   if (!game || ! ge) return;
+  if (!ge->map) return;
 
   if ((id_act = game_get_player_location(game)) == NO_ID) return;
   if ((sp = game_get_space(game, id_act)) == NULL) return;
@@ -918,6 +957,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game, Screen print) {
   Inventory *inventory = NULL;
   Set *followers = NULL;
   Bool friendly = FALSE;
+
+  if (!ge || !game) return;
+  if (!ge->descript || !ge->feedback || !ge->map ||
+  !ge->message || !ge->player_inf || !ge->pov) return;
 
   id_act = game_get_player_location(game);
   if(id_act == NO_ID) return;
@@ -1045,10 +1088,9 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game, Screen print) {
   sprintf(str, " <<<<<<<  Objective  >>>>>>>");
   screen_area_puts(ge->player_inf, str);
 
-  objective = player_get_objective(act_player);
-  if (objective) strcpy(objective_aux, objective + 1);
+  if ((objective = player_get_objective(act_player))) {
+    strcpy(objective_aux, objective + 1);
 
-  if (objective) {
     partial_objective = strtok(objective_aux, "@\n\r\0");
     if (partial_objective) {
       sprintf(str, " %s", partial_objective);
@@ -1183,14 +1225,14 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game, Screen print) {
       switch (sender_type)
       {
       case GAME:
-        chars = sprintf(str, " Speakers:");
         break;
+      case NO_TYPE:
+        break;
+
       case THOUGHTS:
         chars = sprintf(str, " You:");
         break;
-      case NO_TYPE:
-        chars = sprintf(str, " ");
-        break;
+      
       default:
         aux_name = game_get_last_message_sender_name_at_pos(game, turn, NUM_MSGS-i);
         if(aux_name) chars = sprintf(str, " %s:", aux_name);
