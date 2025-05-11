@@ -738,8 +738,8 @@ void graphic_engine_map_print_instructions(Game *game, Graphic_engine *ge) {
   screen_area_puts(ge->map, "  - The commands entered are not case-dependent (uppercase or lowercase)");
   screen_area_puts(ge->map, "  - You can talk with players outside of your space if you have your");
   screen_area_puts(ge->map, "    walkie talkie with you");
-  screen_area_puts(ge->map, "  - The turn of the game changes if you use SKIP, if you go to a different");
-  screen_area_puts(ge->map, "    room or if you attack another player");
+  screen_area_puts(ge->map, "  - The turn of the game changes if you use SKIP, if you go to a");
+  screen_area_puts(ge->map, "    different room or if you attack another player");
   screen_area_puts(ge->map, " List of commands:");
   screen_area_puts(ge->map, "  - Exit or e:");
   screen_area_puts(ge->map, "  - Move or m:");
@@ -886,6 +886,8 @@ void graphic_engine_map_print_minimap(Game *game, Graphic_engine *ge) {
 
   if (!game || ! ge) return;
   if (!ge->map) return;
+
+  screen_area_clear(ge->map);
 
   if ((id_act = game_get_player_location(game)) == NO_ID) return;
   if ((sp = game_get_space(game, id_act)) == NULL) return;

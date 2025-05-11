@@ -1598,6 +1598,17 @@ Status game_set_last_message_at_pos_with_info(Game *game, int play_pos, char *me
   return OK;
 }
 
+/* Gets a line from the last close up shown of a specific player */
+char *game_get_last_close_up_at_pos(Game *game, int player_pos, int pos_closeup) {
+  if(!game) return NULL;
+
+  if(player_pos < 0 || player_pos >= game->n_players) return NULL;
+  if(pos_closeup < 0 || pos_closeup >= POV_HGHT) return NULL;
+ 
+  return (game->data[player_pos])->last_closeup[pos_closeup];
+}
+
+
 /*It gets the last message of the interface data of a player at a desired position*/
 char *game_get_last_message_msg_at_pos(Game *game, int play_pos) {
   if (!game) return NULL;

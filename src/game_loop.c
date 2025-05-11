@@ -165,7 +165,6 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
   Status last_status = ERROR;
   char last_desc[WORD_SIZE + 1], path[WORD_SIZE + 1] = "", aux_path[WORD_SIZE + 1] = "";
   Player *player = NULL;
-  char *name = NULL, message[MESG_SIZE];
   int turn;
   extern char *cmd_to_str[N_CMD][N_CMDT];
   Id id_player;
@@ -174,7 +173,6 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
   if (!gengine) return;
 
   if (game_get_finished(*game) == TRUE) return;
-  message[0] = '\0';
 
   if(deterministic == TRUE) game_set_deterministic(*game, deterministic);
   
@@ -208,17 +206,6 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
 
     if (last_cmd_code == LOAD) continue;
 
-    if (player_get_health(player) <= 0) {
-      name = player_get_name(player);
-      if (!name) return;
-      turn = game_get_turn(*game) + 1;
-      if (turn == 0) return;
-      sprintf(message, "Heaven or hell? What will my future depare@Sadly Player %d: %s passed away@End of the game", turn, name);
-      game_set_last_message(*game, message);
-      graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
-      return;
-    }
-
     /*If the LOG is enabled it prints the last action and status*/
     if (log_implemented == 1 && log_file) {
       last_status = game_get_last_status(*game);
@@ -247,19 +234,19 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
 
     if (game_rules_update_turn(*game, &update_turn) == ERROR) break;
     if (update_turn == TRUE) {
+      if (last_cmd_code != EXIT) 
       if ((last_cmd_code != EXIT) && (last_cmd_code != SKIP)) {
         graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
         sleep(1);
-        /*graphic_engine_paint_game(gengine, *game, INTERTURN);
-        sleep(3);*/
       }
       game_next_turn(*game);
+      if (last_cmd_code == SKIP) graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
     } else {
       graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
       if ((((last_cmd_code == CHAT) || (last_cmd_code == INSPECT) || (last_cmd_code == VIEW))) && 
         (command_get_status(last_cmd) == OK)) {
-          sleep(3);
-      } else sleep(1);
+        sleep(3);
+      }
     }
 
   } while ((last_cmd_code != EXIT) && (game_get_finished(*game) == FALSE));
@@ -297,8 +284,8 @@ void game_loop_run_animation (Game **game, Graphic_engine *gengine, char *filena
 
       if (!(player2 = game_get_player_from_id(*game, sender_id))) break;
       game_set_last_message_at_pos_with_info(*game, game_get_turn(*game), msg, sender_id, sender_type);
-      
-      if (sender_type == PLAYER) {
+      player_print(player2);
+      if ((sender_type == PLAYER) || (sender_type == THOUGHTS)) {
         for (j = 0; j < POV_HGHT; j++) {
           if(!(closeup = player_get_closeup_at(player2, j))) break;
           game_set_last_close_up(*game, closeup, j);
@@ -306,7 +293,7 @@ void game_loop_run_animation (Game **game, Graphic_engine *gengine, char *filena
       }
 
       graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
-      sleep(1);
+      sleep(2);
 
     } else {
       if (!(last_cmd = game_get_last_command_at_pos(*game, NUM_CMDS - 1))) break;
@@ -334,7 +321,7 @@ void game_loop_run_animation (Game **game, Graphic_engine *gengine, char *filena
         graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
         if ((((last_cmd_code == CHAT) || (last_cmd_code == INSPECT) || (last_cmd_code == VIEW))) && 
           (command_get_status(last_cmd) == OK)) {
-          sleep(1);
+          sleep(3);
         } else sleep(1);
       }
     }

@@ -1417,7 +1417,7 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
         game_set_last_message_at_pos_with_info(
             game, turn,
             "Wait! We don't know what is out there. Let's stay together.@ "
-            "@Suggested command: cooperate Kyle",
+            "Suggested command: cooperate Kyle@ ",
             3, PLAYER);
         *bool = FALSE;
         return OK;
@@ -1435,7 +1435,7 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
         return player_set_role(play2, TEAM2);
       } else {
         game_set_last_message_at_pos_with_info(
-            game, turn, "Let's stick together! @Suggested command: Accept", 2,
+            game, turn, "Let's stick together! @Suggested command: Accept@ ", 2,
             PLAYER);
         *bool = FALSE;
         return OK;
@@ -1453,7 +1453,7 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
         return player_set_role(play2, TEAM1);
       } else {
         game_set_last_message_at_pos_with_info(
-            game, turn, "Let's stick together! @Suggested command: Accept", 1,
+            game, turn, "Let's stick together! @Suggested command: Accept@ ", 1,
             PLAYER);
         *bool = FALSE;
         return OK;
@@ -1537,8 +1537,12 @@ Status game_rules_force_inspection(Game *game, Bool *bool, Id id) {
 Screen game_rules_get_screen (Game *game) {
   Command *last_cmd = NULL;
   CommandCode code = NO_CMD;
+  Player *player = NULL;
 
   if (!game) return NO_SCREEN;
+  if (!(player = game_get_player(game))) return NO_SCREEN;
+
+  if (player_get_health(player) <= 0) return LOSS;
 
   if (!(last_cmd = game_get_last_command(game))) return ERROR;
   if ((code = command_get_code(last_cmd)) == NO_CMD) return ERROR;
@@ -1691,11 +1695,11 @@ Bool game_rules_get_animation(Game *game, char *path) {
     switch (turn) {
       case 0:
         strncpy(path, "./anim/animation1.txt" , WORD_SIZE);
-        return TRUE;
+        return FALSE;
         break;
       case 1:
         strncpy(path, "./anim/animation2.txt" , WORD_SIZE);
-        return TRUE;
+        return FALSE;
         break;
       case 2:
         strncpy(path, "./anim/animation3.txt" , WORD_SIZE);

@@ -855,6 +855,17 @@ char *game_get_last_message_sender_name_at_pos(Game *game, int play_pos, int msg
 Status game_set_last_message_at_pos_with_info(Game *game, int play_pos, char *message, Id send, Type send_type);
 
 /**
+ * @brief Gets a line from the last close up shown of a specific player
+ * @author Lucas Blanco
+ *
+ * @param game Pointer to the game
+ * @param player_pos Position of the player in the array of players
+ * @param pos_closeup Position of the line wanted
+ * @return String with the line wanted
+ */
+char *game_get_last_close_up_at_pos(Game *game, int player_pos, int pos_closeup);
+
+/**
  * @brief Gets a line from the last close up shown
  * @author Juan Ibáñez
  * 

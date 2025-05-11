@@ -9,7 +9,7 @@
 #msg: 1|4|I don't know. I don't even know who i am...
 #msg: 0|1|We should check our pockets. Maybe we'll find something.
 #msg: 1|4|I have a police badge. It looks like my name is Sargent Silas Rourke.
-#msg: 1|4|Maybe i was investigating this place.
+#msg: 1|4|It looks like i was investigating this place.
 inspect Torn_paper
 #msg: 0|1|I only have a paper with a name. "Alaric". That must be me.
 #msg: 1|4|Man we gotta find out what is going on. 

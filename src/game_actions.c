@@ -1495,7 +1495,7 @@ void game_actions_save(Game *game) {
   char file_save[WORD_SIZE];
   int len = 0;
 
-  if (!game) return; 
+  if (!game) return;
   /*Gets the description of the last cmd to name the file*/
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
@@ -1508,9 +1508,8 @@ void game_actions_save(Game *game) {
     sprintf(file_save, "%s", cmd_desc);
   }
 
-  if (game_save(game, file_save) == ERROR) return;
-
-  if (game_set_last_status(game, OK) == ERROR) return;
+  if ((game_set_last_status(game, OK) == ERROR)) return;
+  if (game_save(game, file_save) == ERROR) game_set_last_status(game, ERROR);
 }
 
 void game_actions_load(Game **game) {
@@ -1764,8 +1763,9 @@ void game_actions_cooperate(Game *game) {
   if(((loc = player_get_location(play)) != player_get_location(play_dest) || loc == NO_ID) ) return;
 
   /* Assigns a team to the first pair and another to the other pair*/
-  if(turn < TOT_PLAYERS/2) {
+  if(turn == 0) {
     if(player_set_role(play, TEAM1) == ERROR) return;
+
   } else {
     if(player_set_role(play, TEAM2) == ERROR) return;
   }
@@ -1774,7 +1774,12 @@ void game_actions_cooperate(Game *game) {
 }
 
 void game_actions_betray(Game *game) {
+  Player *player = NULL;
   if(!game) return;
+
+  if (!(player = game_get_player(game))) return;
+
+  if (player_set_role(player, UNDEFINED) == ERROR) return;
 
   if (game_set_last_status(game, ERROR) == ERROR) return;
 }

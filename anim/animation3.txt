@@ -1,12 +1,13 @@
-#msg: 0|1|...
-#msg: 0|1|...Where am i?...
+#msg: 0|3|...
+#msg: 0|3|...Where am i?...
 #msg: 1|2|Hey! Who are you? What is this place?
-c BrannonI don't know. Im just as confused as you. I can't even remember my own name!
+#msg: 0|3|I don't know. Im just as confused as you. I can't even remember my own name!
 #msg: 1|2|This place looks like it's gonna fall down on us.
-c BrannonWe should find a way to get out of here.
+#msg: 0|3|We should find a way to get out of here.
 #msg: 1|2|Oh! Check your pockets. Maybe we can find something useful.
-c BrannonI only have an ID. It looks like my name is "Kyle Graye".
+inspect Identification_Kyle
+#msg: 0|3|I only have an ID. It looks like my name is "Kyle Graye".
 #msg: 1|2|I have an ID too. My name appears to be "James Brannon".
 #msg: 1|2|Also I have a foto of a child. Is this... my son? I can't remember anything
-c BrannonThis place... We really have to find an exit.
+#msg: 0|3|This place... We really have to find an exit.
 #msg: 1|2|Yeah. Let's stay together untill we do.

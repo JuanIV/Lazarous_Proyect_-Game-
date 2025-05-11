@@ -1094,7 +1094,7 @@ Status game_management_load_interface_data(Game *game, char *filename) {
   if (!(file = fopen(filename, "r"))) return ERROR;
 
   while (fgets(line, MESG_SIZE + EXTRAS, file) && st == OK) {
-    if (strncmp("#i:", line, 4) == 0) {
+    if (strncmp("#i:", line, 3) == 0) {
       if((token = strtok(line + 3, "|"))) i = atoi(token);
       else st = ERROR;
       
@@ -1182,8 +1182,8 @@ Status game_management_save_interface_data(Game *game, char *filename) {
     len += sprintf(line, "#i:%d|", i);
 
     for (j = 0; j < POV_HGHT; j++) {
-      closeup = game_get_last_close_up_at(game, j);
-      len += sprintf(line + len, "%s|", closeup ? closeup : " ");
+      closeup = game_get_last_close_up_at_pos(game, i, j);
+      len += sprintf(line + len, "%s|", closeup);
     }
 
     for (j = 0; j < NUM_CMDS; j++) {
@@ -1202,6 +1202,8 @@ Status game_management_save_interface_data(Game *game, char *filename) {
     /*#msg: <pos_player>|<pos_message>|<visibility>|<sender>|<type>|<message>|*/
   
     for (j = 0; j < NUM_MSGS; j++, len = 0) {
+      memset(line, 0, sizeof(line));
+      len = 0;
       if (!(msg = game_get_last_message_at_pos(game, i, j))) st = ERROR;
       if ((visibility = game_get_last_message_visibility_at_pos(game, i, j)) == FALSE) {
         len = 0;

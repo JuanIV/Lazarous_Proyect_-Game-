@@ -1,0 +1,14 @@
+#msg: 1|1|There is more people in here!
+#msg: 0|2|Who are you two?
+#msg: 1|3|We can't remember anything. Do you know what happened here?
+#msg: 1|1|I'm afraid we are in the same situation.
+#msg: 1|4|I believe i am a police sargent. My name is Sg. Rourke.
+#msg: 0|2|I'm James Brannon.
+#msg: 1|3|I believe my name is Kyle.
+#msg: 1|1|And my name is Alaric as it appears to be.
+#msg: 0|2|By the looks of this place we don't have much time for talking.
+#msg: 1|4|I agree. We have to keep moving. We should stay together.
+#msg: 1|3|Yeah, we seem to not have any alternative anyway.
+#msg: 1|1|The entrance back there is blocked from the exterior.
+#msg: 0|2|There is no exit where we come from neither.
+#msg: 1|4|That leaves us no other option. We have to go further into the lab.
