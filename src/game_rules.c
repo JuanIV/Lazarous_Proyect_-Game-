@@ -1019,7 +1019,7 @@ Status game_rules_cure_Grendel(Game *game){
 void game_rules_objective_change_by_note(Game *game, Id player_id, char *new_goal, Id note_id){
   Command *cmd = NULL;
   Player *pl = NULL;
-  char *desc = NULL, *name = NULL, *toks = NULL, *old_goal = NULL;
+  char *desc = NULL, *name = NULL, *toks = NULL, *old_goal = NULL, desc_copy[MESG_SIZE] = "";
   Id obj_id = NO_ID;
 
   if(!game || (player_id == NO_ID) || (!new_goal) || (note_id == NO_ID))return;
@@ -1039,7 +1039,9 @@ void game_rules_objective_change_by_note(Game *game, Id player_id, char *new_goa
   if(command_get_code(cmd)==USE || command_get_code(cmd)==INSPECT){
     if (!(desc = command_get_desc(cmd))) return;
 
-    toks = strtok(desc," \r\n");
+    strcpy(desc_copy, desc);
+
+    toks = strtok(desc_copy," \r\n");
     if(!toks) return;
     name = toks;
   
@@ -1109,8 +1111,8 @@ Screen game_rules_win_condition_Alaric(Game *game){
   if(player_get_location(pl[0]) == 9008) game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I can't leave. I have to finish Project Lazarus and bring Evelyn back.",1,PLAYER);
 
 
-  if(space_find_object(core, 8004)){
-    if(player_get_health(pl[1]) <= 0 || player_get_health(pl[1]) <= 0 || player_get_health(pl[1]) <= 0 ){
+  if(space_find_object(core, 8005)){
+    if(player_get_health(pl[1]) <= 0 || player_get_health(pl[2]) <= 0 || player_get_health(pl[3]) <= 0 ){
       game_set_last_message(game, "As soon as Alaric starts the machine the floor starts to shake. A huge beam of light floods the room@As the light simmers down the eyes of death show themselves. @Alaric Wins! Game Over");
       return WIN_1;
     } else if(player_get_location(pl[0]) == 9008) game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I still need a recently passed cadaver as a bridge between life and death.",1,PLAYER);
@@ -1253,6 +1255,8 @@ Status game_rules_enemies_move(Game *game){
   if(!game) return ERROR;
 
   if(game_get_deterministic(game, &determ) == ERROR) return ERROR; 
+  /*If game is deterministic, characters dont move*/
+  if(determ == TRUE) return OK;
 
   n_chrs = game_get_n_characters(game);
 
@@ -1269,9 +1273,7 @@ Status game_rules_enemies_move(Game *game){
     chr_role = character_get_role(aux_chr);
     if(chr_role != MONSTER) continue;
 
-    /*If game is deterministic, characters stay fixed*/
-    if(determ == TRUE) return OK;
-    else dir = rand()%4;
+    dir = rand()%4;
 
     link = game_get_link(game, loc, dir);
     if(!link) continue;

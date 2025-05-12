@@ -185,7 +185,7 @@ run_tests:
 
 run :
 	@echo "Running project"
-	./$(EXEDIR)/project lab.dat
+	./$(EXEDIR)/project lab.dat < logFile.log
 
 runv :
 	@echo "Running Valgrind"
@@ -209,8 +209,8 @@ runvd :
 
 runld :
 	@echo "Running Deterministic mode with Log"
-	./$(EXEDIR)/project lab.dat -l -d logFile
-
+	./$(EXEDIR)/project lab.dat -l logFile.log -d
+	
 run_test:
 	@echo "Running global test"
 	./$(EXEDIR)/project lab.dat -l output <game1.cmd

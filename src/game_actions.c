@@ -505,7 +505,7 @@ void game_actions_move(Game *game) {
       /*Eliminates the trap from the space*/
       if((space_set_trap(dest_space, NO_ID)) == ERROR) return;
 
-      if(game_set_last_message(game, "A trap was activated! Ouch!")) return;
+      if(game_set_last_message(game, "A trap was activated! Ouch!") == ERROR) return;
     }
   }
 
@@ -628,8 +628,8 @@ void game_actions_attack(Game *game) {
   Object *weapon = NULL, *armor = NULL;
   Class *weapon_class = NULL, *armor_class = NULL;
   Id charr_id = NO_ID, damaged_follower = NO_ID, player_loc = NO_ID, victim_loc = NO_ID, weapon_id = NO_ID, armor_id = NO_ID;
-  char *name = NULL, message[MESG_SIZE], notifier[MESG_SIZE], *closeup = NULL;
-  int i, dice, charr_health, victim_health = -1, charr_dmg, follower_health, player_health, weapon_dmg = 0;
+  char *name = NULL, message[MESG_SIZE], notifier[MESG_SIZE], *closeup = NULL, *wp_name = NULL;
+  int i, dice, charr_health, victim_health = -1, charr_dmg, follower_health, player_health, weapon_dmg = 0, total_dmg = 0;
   int armor_def,damage = 0, damaged, num_followers = -1, num_followers2 = -1, total_luck = 0, count = 0, pos;
 
   if (!game) return;
@@ -642,6 +642,27 @@ void game_actions_attack(Game *game) {
 
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(name = command_get_desc(last_cmd))) return;
+
+  if ((player_get_weapon(player, &weapon_id)) == ERROR) return;
+  weapon = game_get_object(game, weapon_id);
+  if(weapon){
+    weapon_class = game_get_class(game, object_get_class_id(weapon));
+    if(!weapon_class) return;
+
+    total_luck += class_get_luck(weapon_class);
+    weapon_dmg = object_get_use_value(weapon);
+    wp_name = class_get_name(weapon_class);
+  }
+
+  if ((player_get_armor(player, &armor_id)) == ERROR) return;
+  armor = game_get_object(game, armor_id);
+  if(armor){
+    armor_class = game_get_class(game, object_get_class_id(armor));
+    if(!armor_class) return;
+
+    total_luck += class_get_luck(armor_class);
+    armor_def = object_get_use_value(armor);
+  }
 
   /*Case of attacking a character*/
   if ((charr_id = game_get_charr_id_from_name_at_space(game, name, player_loc)) != NO_ID){
@@ -659,22 +680,6 @@ void game_actions_attack(Game *game) {
     }
 
     /*  PLAYER ATTACKS  */
-
-    player_get_weapon(player, &weapon_id);
-    weapon = game_get_object(game, weapon_id);
-    weapon_class = game_get_class(game, object_get_id(weapon));
-    if(weapon_class && weapon){
-      total_luck += class_get_luck(weapon_class);
-      weapon_dmg = object_get_use_value(weapon);
-    }
-
-    player_get_armor(player, &armor_id);
-    armor = game_get_object(game, armor_id);
-    armor_class = game_get_class(game, object_get_class_id(armor));
-    if(armor_class && armor){
-      total_luck += class_get_luck(armor_class);
-      armor_def = object_get_use_value(armor);
-    }
     
     if(game_get_deterministic(game, &deterministic)==ERROR) return;
   
@@ -693,10 +698,10 @@ void game_actions_attack(Game *game) {
       if (character_set_health(charr, charr_health) == ERROR) return;
 
       if(character_get_health(charr) > 0) {
-        if(weapon) count += sprintf(message, " @You hit %s with %s dealing %d dmg pts. @", character_get_name(charr), class_get_name(weapon_class), damage);
+        if(weapon) count += sprintf(message, " @You hit %s with %s dealing %d dmg pts. @", character_get_name(charr), wp_name, damage);
         else count += sprintf(message, " @You punched %s dealing %d dmg pts. @", character_get_name(charr), damage);
       }else {
-        if(weapon) count += sprintf(message, " @You hit %s with %s killing him.@", character_get_name(charr), class_get_name(weapon_class));
+        if(weapon) count += sprintf(message, " @You hit %s with %s killing him.@", character_get_name(charr), wp_name);
         else count += sprintf(message, " @You punched %s so hard you actually killed him.@", character_get_name(charr));
         sprintf(message + count, "@ Enemie defeated! You gain 20 hp. ");
         if(player_set_health(player, player_health + 15) == ERROR) return;
@@ -872,16 +877,15 @@ void game_actions_attack(Game *game) {
       
       damage = PLY_BASE_DMG + weapon_dmg;
 
+      total_dmg += damage;
+
       if (player_set_health(victim, victim_health - damage) == ERROR) return;
 
       if(player_get_health(victim) > 0) {
-        if(weapon) count += sprintf(message, " @You hit %s with %s dealing %d dmg pts. @", player_get_name(victim), class_get_name(weapon_class), damage);
+        if(weapon) count += sprintf(message, " @You hit %s with %s dealing %d dmg pts. @", player_get_name(victim), wp_name, damage);
         else count += sprintf(message, " @You punched %s dealing %d dmg pts. @", player_get_name(victim), damage);
-        if ((pos = game_get_player_pos_from_name(game, name)) < 0) return;
-        sprintf(notifier, "%s attacked you! You lost %d hp.", player_get_name(player), damage);
-        if (game_set_last_message_at_pos_with_info(game, pos, notifier, player_get_id(player), PLAYER) == ERROR) return;
       }else {
-        if(weapon)count+= sprintf(message, " @You hit %s with %s killing him.@", player_get_name(victim), class_get_name(weapon_class));
+        if(weapon)count+= sprintf(message, " @You hit %s with %s killing him.@", player_get_name(victim), wp_name);
         else count+= sprintf(message, " @You punched %s so hard you actually killed him.@", player_get_name(victim));
         sprintf(message + count, "@ Enemie defeated! You gain 20 hp. ");
         if(player_set_health(player, player_health + 15) == ERROR) return;
@@ -930,6 +934,8 @@ void game_actions_attack(Game *game) {
         if(dice >= ATK_WIN) damage += character_get_damage(follower);
       }
 
+      total_dmg += damage;
+
       set_destroy(followers);
 
       if((num_followers2 = game_get_num_followers(game, victim)) == -1) return;
@@ -967,6 +973,10 @@ void game_actions_attack(Game *game) {
 
     }
 
+    if ((pos = game_get_player_pos_from_name(game, name)) < 0) return;
+
+    sprintf(notifier, "%s attacked you! You lost %d hp.", player_get_name(player), total_dmg);
+    if (game_set_last_message_at_pos_with_info(game, pos, notifier, player_get_id(player), PLAYER) == ERROR) return;
   }
 
   if (game_set_last_message(game, message) == ERROR) return;
@@ -985,7 +995,7 @@ void game_actions_chat(Game *game) {
   Role role1 = NO_ROLE, role2 = NO_ROLE;
   Bool friendly = FALSE, found = FALSE;
   Id player_loc = NO_ID, reciever_loc = NO_ID, sender_id = NO_ID, charr_id = NO_ID, obj1 = NO_ID, obj2 = NO_ID;
-  char *name = NULL, *closeup = NULL, *desc = NULL, *mesg = NULL, message[MESG_SIZE];
+  char *name = NULL, *closeup = NULL, *desc = NULL, desc_cpy[MESG_SIZE] = "", *mesg = NULL, message[MESG_SIZE];
   int i, j, pos, n_objs = -1, n_objs2 = -1, use_value = -1;
 
   if (!game) return;
@@ -998,7 +1008,8 @@ void game_actions_chat(Game *game) {
 
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(desc = command_get_desc(last_cmd))) return;
-  if (!(name = strtok(desc, " "))) return;
+  strcpy(desc_cpy, desc);
+  if (!(name = strtok(desc_cpy, " "))) return;
   if (!(mesg = strtok(NULL, "\r\n"))) return;
 
   charr_id = game_get_charr_id_from_name(game, name);
@@ -1066,7 +1077,6 @@ void game_actions_chat(Game *game) {
         game_set_last_message(game, "This player is out of reach...");
         return;
       }
-      printf("encuentra");
       if ((use_value = object_get_use_value(talkie1)) <= 0) {
         if (game_set_last_message_at_pos_with_info(game, game_get_turn(game), "Damn, my WalkieTalkie broke down...", sender_id, THOUGHTS) == ERROR) return;
       
@@ -1265,7 +1275,7 @@ void game_actions_abandon(Game *game) {
 
 void game_actions_use(Game *game){
   Command *last_cmd = NULL;
-  char *cmd_desc = NULL, *toks = NULL;
+  char *cmd_desc = NULL, cmd_desc_copy[MESG_SIZE] = "", *toks = NULL;
   char *name = NULL, *target = NULL;
   Id obj_id = NO_ID, charr_id = NO_ID;
   Bool friendly = FALSE, possesed = FALSE;
@@ -1280,7 +1290,9 @@ void game_actions_use(Game *game){
 
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
 
-  toks = strtok(cmd_desc," \r\n");
+  strcpy(cmd_desc_copy, cmd_desc);
+
+  toks = strtok(cmd_desc_copy," \r\n");
   if(!toks) return;
   name = toks;
 
@@ -1540,7 +1552,7 @@ void game_actions_load(Game **game) {
 
 void game_actions_open_link(Game *game){
   Command *last_cmd = NULL;
-  char *cmd_desc = NULL, *toks = NULL;
+  char *cmd_desc = NULL, cmd_desc_copy[MESG_SIZE] = "", *toks = NULL;
   char *key = NULL;
   extern char *dir_to_str[N_DIR][N_DIRT];
   Direction typed_dir = UNK_DIR, reverse_dir = UNK_DIR;
@@ -1558,7 +1570,9 @@ void game_actions_open_link(Game *game){
 
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
 
-  toks = strtok(cmd_desc," \r\n");
+  strcpy(cmd_desc_copy, cmd_desc);
+
+  toks = strtok(cmd_desc_copy," \r\n");
   if(!toks) return;
 
   /* compares the command description to any known directions */

@@ -42,7 +42,7 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
  * @param log_file the file where the log is going to be printed
  * @param log_implemented 1 if there should be a log 0 if not
  */
-void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented, Bool deterministic);
+void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, Bool log_implemented, Bool deterministic);
 
 /**
  * @brief runs an animation from a file by painting the game screen, getting an user input and
@@ -74,46 +74,46 @@ int main(int argc, char *argv[]) {
   Game *game = NULL;
   Graphic_engine *gengine;
   FILE *log_file = NULL;
-  int log_implemented = 0;
-  Bool deterministic = FALSE;
-  char filename[WORD_SIZE];
+  int posd = -1, posl = -1, i = 0;
+  Bool deterministic = FALSE, log_implemented = FALSE;
   srand(time(NULL));
 
-  if (argc < 2) {
-    fprintf(stderr, "Use: %s <game_data_file> [-l <log_filename>] \n", argv[0]);
+  if ((argc < 2) || (argc > 5)) {
+    fprintf(stderr, "Use: %s <game_data_file> [-l <log_filename>] [-d] \n", argv[0]);
     return 1;
+  } 
+
+  for (i = 0; i < argc; i++) {
+    if (strcmp(argv[i], "-d") == 0) posd = i;
+    else if (strcmp(argv[i], "-l") == 0) posl = i;
   }
 
-  if (argc == 4 && strcmp(argv[2], "-l") == 0) {
-    strcpy(filename, argv[3]);
-    strcat(filename, ".log");
-    log_file = fopen(filename, "w");
-    if (!log_file) {
-        fprintf(stderr, "Error opening the log file.\n");
-        return 1;
+  if (posd != -1) deterministic = TRUE; 
+  if (posl != -1) log_implemented = TRUE;
+
+  if (log_implemented && deterministic) {
+    if (posd == (posl + 1)) {
+      fprintf(stderr, "Use: %s <game_data_file> [-l <log_filename>] [-d] \n", argv[0]);
+      return 1;
     }
-    log_implemented = 1;
   }
 
-  if (argc == 4 && strcmp(argv[2], "-d") == 0) {
-    deterministic = TRUE;
-  }
-
-  if (argc == 5 && 
-    ((strcmp(argv[2], "-d") == 0 && strcmp(argv[3], "-l") == 0) || 
-     (strcmp(argv[3], "-d") == 0 && strcmp(argv[2], "-l") == 0))) {
-    
-    strcpy(filename, argv[4]);
-    strcat(filename, ".log");
-    log_file = fopen(filename, "w");
-    if (!log_file) {
-        fprintf(stderr, "Error opening the log file.\n");
-        return 1;
+  if (log_implemented == TRUE) {
+    if ((posl == (argc)) || (posl < 2)) {
+      fprintf(stderr, "Use: %s <game_data_file> [-l <log_filename>] [-d] \n", argv[0]);
+      return 1;
     }
-    deterministic = TRUE;
-    log_implemented = 1;
+
+    if (!(log_file = fopen(argv[posl + 1], "w")));
   }
 
+  if (deterministic == TRUE) {
+    if ((posd < 2)) {
+      fprintf(stderr, "Use: %s <game_data_file> [-l <log_filename>] [-d] \n", argv[0]);
+      return 1;
+    }
+  }
+  printf("%d", deterministic);
   if (!(game = game_create())) {
     if (log_file) fclose(log_file);
     return -1;
@@ -159,7 +159,7 @@ int game_loop_count_lines(char *filename) {
   return count;
 }
 
-void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log_implemented, Bool deterministic) {
+void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, Bool log_implemented, Bool deterministic) {
   Command *last_cmd = NULL;
   CommandCode last_cmd_code = NO_CMD;
   Status last_status = ERROR;
