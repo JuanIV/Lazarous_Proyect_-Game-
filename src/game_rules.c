@@ -1926,6 +1926,8 @@ Bool game_rules_get_animation(Game *game, char *path) {
     }
   }
 
+  if (round != 2) return FALSE;
+
   for (i = 0; i < TOT_PLAYERS; i++) {
     if (!(player = game_get_player_at(game, i))) break;
     if (player_get_location(player) != 6) break;
