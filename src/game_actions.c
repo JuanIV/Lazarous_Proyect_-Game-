@@ -1772,8 +1772,13 @@ void game_actions_cooperate(Game *game) {
   if(!(play = game_get_player(game))) return;
   if((role = player_get_role(play)) == NO_ROLE) return;
   if ((loc = player_get_location(play)) == NO_ID) return;
-  
+
+  /* The assignation to all players only works in the last one */
   if (strncmp("all", cmd_desc, 3) == 0) {
+    if (turn != TOT_PLAYERS - 1) {
+      if (game_set_last_status(game, OK) == ERROR) return;
+
+    }
     if (role == TEAM1) role = TEAM2;
     else if (role == TEAM2) role = TEAM1;
 

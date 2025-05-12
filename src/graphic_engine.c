@@ -715,7 +715,6 @@ void graphic_engine_map_print_win(Game *game, Graphic_engine *ge, int pos) {
   screen_area_clear(ge->map);
   screen_area_clear(ge->descript);
   screen_area_clear(ge->feedback);
-  screen_area_clear(ge->message);
   screen_area_clear(ge->player_inf);
   screen_area_clear(ge->pov);
 
@@ -879,7 +878,6 @@ void graphic_engine_map_print_loss(Game *game, Graphic_engine *ge) {
   screen_area_clear(ge->map);
   screen_area_clear(ge->descript);
   screen_area_clear(ge->feedback);
-  screen_area_clear(ge->message);
   screen_area_clear(ge->player_inf);
   screen_area_clear(ge->pov);
 
@@ -936,43 +934,92 @@ void graphic_engine_map_print_interturn(Game *game, Graphic_engine *ge) {
   return;
 }
 
+/*Prints all the instructions needed to play the game*/
+
 void graphic_engine_map_print_instructions(Game *game, Graphic_engine *ge) {
+
   if (!game || !ge) return;
+
   if (!ge->map) return;
+
+ 
 
   screen_area_clear(ge->map);
 
+ 
+
   screen_area_puts(ge->map, " Instructions:");
+
   screen_area_puts(ge->map, "  - Follow you objective to get out of the lab and win the game");
+
   screen_area_puts(ge->map, "  - Pay attention to the suggestions, they are filled with wisdom!");
+
   screen_area_puts(ge->map, "  - The commands entered are not case-dependent (uppercase or lowercase)");
+
   screen_area_puts(ge->map, "  - You can talk with players outside of your space if you have your");
+
   screen_area_puts(ge->map, "    walkie talkie with you");
-  screen_area_puts(ge->map, "  - The turn of the game changes if you use SKIP, if you go to a");
-  screen_area_puts(ge->map, "    different room or if you attack another player");
+
+  screen_area_puts(ge->map, "  - The turn of the game changes if you use SKIP, if you go through a");
+
+  screen_area_puts(ge->map, "    door or if you attack another player. (You can not skip your turn in");
+
+  screen_area_puts(ge->map, "    the first floor). ");
+
   screen_area_puts(ge->map, " List of commands:");
-  screen_area_puts(ge->map, "  - Exit or e:");
-  screen_area_puts(ge->map, "  - Move or m:");
-  screen_area_puts(ge->map, "  - Take or t:");
-  screen_area_puts(ge->map, "  - Drop or d:");
-  screen_area_puts(ge->map, "  - Attack or at:");
-  screen_area_puts(ge->map, "  - Chat or c:");
-  screen_area_puts(ge->map, "  - Inspect or i:");
-  screen_area_puts(ge->map, "  - Recruit or r:");
-  screen_area_puts(ge->map, "  - Abandon or ab:");
-  screen_area_puts(ge->map, "  - Use or u:");
-  screen_area_puts(ge->map, "  - Save or s:");
-  screen_area_puts(ge->map, "  - Load or lo:");
-  screen_area_puts(ge->map, "  - Open or o:");
-  screen_area_puts(ge->map, "  - Close or c:");
-  screen_area_puts(ge->map, "  - Skip or sk:");
-  screen_area_puts(ge->map, "  - Accept or ac:");
-  screen_area_puts(ge->map, "  - Deny or de:");
-  screen_area_puts(ge->map, "  - Cooperate or co:");
-  screen_area_puts(ge->map, "  - View or v:");
-  screen_area_puts(ge->map, "  - Help or h:");
+
+  screen_area_puts(ge->map, "  - Exit or e: quit will you can (press to exit the game)");
+
+  screen_area_puts(ge->map, "  - Move or m: press to move to the north(n) south (s), east (e) or west (w)");
+
+  screen_area_puts(ge->map, "    if the path is not blocked");
+
+  screen_area_puts(ge->map, "  - Take or t: press to take an object in your current space");
+
+  screen_area_puts(ge->map, "  - Drop or d: press to drop an object in your current space");
+
+  screen_area_puts(ge->map, "  - Attack or at: press to attack a character of player (fight for");
+
+  screen_area_puts(ge->map, "    your life)");
+
+  screen_area_puts(ge->map, "  - Chat or c: press to chat with a player or character");
+
+  screen_area_puts(ge->map, "  - Inspect or i: press to get the information of an object");
+
+  screen_area_puts(ge->map, "  - Recruit or r: press to have your own slaves");
+
+  screen_area_puts(ge->map, "  - Abandon or ab: press to get rid of one of your followers");
+
+  screen_area_puts(ge->map, "  - Use or u: press to use an object of your inventory");
+
+  screen_area_puts(ge->map, "  - Save or s: press to save the game at that moment");
+
+  screen_area_puts(ge->map, "  - Load or lo: press to load a game that has been saved");
+
+  screen_area_puts(ge->map, "  - Open or o: press to open a door");
+
+  screen_area_puts(ge->map, "  - Close or cl: press to close a door");
+
+  screen_area_puts(ge->map, "  - Skip or sk: press to skip (mentioned earlier)");
+
+  screen_area_puts(ge->map, "  - Accept or ac: press to accept a cooperate offer");
+
+  screen_area_puts(ge->map, "  - Deny or de: press to deny an offer");
+
+  screen_area_puts(ge->map, "  - Cooperate or co: press to send a cooperation offer");
+
+  screen_area_puts(ge->map, "  - View or v: press to view the minimap");
+
+  screen_area_puts(ge->map, "  - Betray or b: press to betray one of your teammates (careful, ");
+
+  screen_area_puts(ge->map, "    you need to have a really good reason to do that");
+
+  screen_area_puts(ge->map, "  - Help or h press for help");
+
+ 
 
   return;
+
 }
 
 void graphic_engine_map_print_map(Game *game, Graphic_engine *ge){

@@ -1113,7 +1113,9 @@ Screen game_rules_win_condition_Alaric(Game *game){
 
   if(space_find_object(core, 8005)){
     if(player_get_health(pl[1]) <= 0 || player_get_health(pl[2]) <= 0 || player_get_health(pl[3]) <= 0 ){
+      game_erase_all_messages(game);
       game_set_last_message(game, "As soon as Alaric starts the machine the floor starts to shake. A huge beam of light floods the room@As the light simmers down the eyes of death show themselves. @Alaric Wins! Game Over");
+      game_set_finished(game, TRUE);
       return WIN_1;
     } else if(player_get_location(pl[0]) == 9008) game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I still need a recently passed cadaver as a bridge between life and death.",1,PLAYER);
   }
@@ -1137,7 +1139,9 @@ Screen game_rules_win_condition_Brannon(Game *game){
 
   if(player_get_location(Brannon) == 9008){
     if(following == 2){
+      game_erase_all_messages(game);
       game_set_last_message(game, "Brannon and his son, finally reunited, flee the lab through the inestable tunnels causing the lab to collapse. @Brannon Wins! Game Over");
+      game_set_finished(game, TRUE);
       return WIN_2;
     } else {
       if(game_get_turn(game) == 1)
@@ -1163,9 +1167,11 @@ Screen game_rules_win_condition_Rourke(Game *game){
   if((!boss) || (!rourke) || (!alaric)) return NO_SCREEN;
 
   if(player_get_location(rourke) == 9008){
-    if(character_get_health(boss) < 0){
-      if(player_get_health(alaric) < 0){
+    if(character_get_health(boss) <= 0){
+      if(player_get_health(alaric) <= 0){
+        game_erase_all_messages(game);
         game_set_last_message(game, "Sg. Rourke makes it to the exit of the lab after finally having unveiled the suspects he had been after for years. @Sg.Rourke Wins! Game Over");
+        game_set_finished(game, TRUE);
         return WIN_4;
       } else {
         if(game_get_turn(game) == 3)
@@ -1201,6 +1207,7 @@ Screen game_rules_win_condition_Kyle(Game *game){
 
   if(space_find_object(core, 8004)){
     game_set_last_message(game, "Kyle Reaches the CORE and destroys it along with the rest of the lab succesfully stoping Vexleigh's plan @Kyle Wins! Game Over");
+    game_set_finished(game, TRUE);
     return WIN_3;
   }
   return NO_SCREEN;
