@@ -1425,13 +1425,12 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
     return OK;
   }
 
-  if ((code == COOPERATE) && (strncmp("all", desc, 3) == 0)) {
-    if ((game_get_round(game) != 2)) {
+  if (game_get_round(game) == 2) {
+    if ((code != COOPERATE) || (strncmp("all", desc, 3) != 0)) {
+      game_set_last_message(game, "All: We must al cooperate to get out of here@Suggested command: cooperate all@ @");
       *bool = FALSE;
       return OK;
-    }
-    if (turn == 0){
-      if (!(play1 = game_get_player_from_id(game, 1))) return ERROR;
+    }else {
       *bool = TRUE;
       return OK;
     }

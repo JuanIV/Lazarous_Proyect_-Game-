@@ -20,7 +20,7 @@ object_test_files = $(OBJDIR)/object_test.o $(OBJDIR)/object.o
 class_test_files = $(OBJDIR)/class_test.o $(OBJDIR)/class.o 
 .PHONY: prepare project run_tests $(tests) clean run runv
 all : project tests
-tests: set_test character_test space_test link_test inventory_test player_test object_test
+tests: set_test character_test space_test link_test inventory_test player_test object_test class_test
 
 
 # *************** GAME ***************
