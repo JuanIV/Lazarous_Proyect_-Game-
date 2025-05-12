@@ -64,6 +64,8 @@
 #define PLAYER_LINE (EXTRAS + WORD_SIZE + MESG_SIZE + (PLY_GD_SZ + 1) + (POV_HGHT * (POV_WDTH + 1)))
 
 /*############################### MAIN FUNCTIONS ############################*/
+
+
 /* Saves the game to a file */
 Status game_management_save(Game *game, char *filename) {
   FILE *create_file = NULL;
@@ -82,6 +84,7 @@ Status game_management_save(Game *game, char *filename) {
   if (game_management_save_turn(game, filename) == ERROR) return ERROR;
   if (game_management_save_mode(game, filename) == ERROR) return ERROR;
   if (game_management_save_minimap(game, filename) == ERROR) return ERROR;
+  if (game_management_save_interface_data(game, filename) == ERROR) return ERROR;
 
   return OK;
 }

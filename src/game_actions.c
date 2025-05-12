@@ -1745,18 +1745,32 @@ void game_actions_cooperate(Game *game) {
   char *cmd_desc = NULL;
   Player *play = NULL, *play_dest = NULL;
   Id loc = NO_ID;
-  int turn;
+  Role role = NO_ROLE;
+  int turn, i;
 
   if(!game) return;
   
   if((turn = game_get_turn(game)) == -1) return;
-  if(game_get_round(game) != 0) return;
 
   if (!(last_cmd = game_get_last_command(game))) return;
   if (!(cmd_desc = command_get_desc(last_cmd))) return;
 
   if(!(play = game_get_player(game))) return;
-  if(player_get_role(play) != UNDEFINED) return;
+  if((role = player_get_role(play)) == NO_ROLE) return;
+  if ((loc = player_get_location(play)) == NO_ID) return;
+  
+  if (strncmp("all", cmd_desc, 3) == 0) {
+    if (role == TEAM1) role = TEAM2;
+    else if (role == TEAM2) role = TEAM1;
+
+    for (i = 0; i < TOT_PLAYERS; i++) {
+      if (!(play_dest = game_get_player_at(game, i))) return;
+      if (player_get_location(play) != loc) continue;
+      if (player_set_role(play_dest, role) == ERROR) return;
+    }
+
+    if (game_set_last_status(game, OK) == ERROR) return;
+  }
   
   if (!(play_dest = game_get_player_from_name(game, cmd_desc))) return;
   if (player_get_role(play_dest) != UNDEFINED) return;

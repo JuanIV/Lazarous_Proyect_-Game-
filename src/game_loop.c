@@ -165,6 +165,7 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
   Status last_status = ERROR;
   char last_desc[WORD_SIZE + 1], path[WORD_SIZE + 1] = "", aux_path[WORD_SIZE + 1] = "";
   Player *player = NULL;
+  Screen printed_screen = NO_SCREEN;
   int turn;
   extern char *cmd_to_str[N_CMD][N_CMDT];
   Id id_player;
@@ -174,11 +175,23 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
 
   if (game_get_finished(*game) == TRUE) return;
 
+  if (game_rules_check_start(*game) == ERROR) {
+    fprintf(stdout, "The data file does not comply with the requirements\n");
+    return;
+  }
+
   if(deterministic == TRUE) game_set_deterministic(*game, deterministic);
   
   graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
 
   do {
+    if (last_cmd_code == LOAD) {
+      if (game_rules_check_start(*game) == ERROR) {
+        fprintf(stdout, "The data file does not comply with the requirements\n");
+        return;
+      }
+    }
+
     if (game_rules_get_animation(*game, path) == TRUE) {
       if (strcmp(path, aux_path) != 0) {
         strcpy(aux_path, path);
@@ -201,10 +214,9 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
 
     /*Updating the actions af states of multiple assets*/
     if(game_rules_update_actions(*game, &update_ga) == ERROR) return;
+    printf("%d", update_ga);
     if(game_actions_update(game, last_cmd, &last_cmd_code, update_ga) == ERROR) return;
     if(game_rules_update_states_after_action(*game) == ERROR) return;
-
-    if (last_cmd_code == LOAD) continue;
 
     /*If the LOG is enabled it prints the last action and status*/
     if (log_implemented == 1 && log_file) {
@@ -232,20 +244,27 @@ void game_loop_run(Game **game, Graphic_engine *gengine, FILE *log_file, int log
       }
     }
 
+    if (last_cmd_code == LOAD) {
+      graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
+      continue;
+    }
+
     if (game_rules_update_turn(*game, &update_turn) == ERROR) break;
+    if ((printed_screen = game_rules_get_screen(*game)) == NO_SCREEN) break;
+
     if (update_turn == TRUE) {
       if (last_cmd_code != EXIT) 
       if ((last_cmd_code != EXIT) && (last_cmd_code != SKIP)) {
-        graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
+        graphic_engine_paint_game(gengine, *game, printed_screen);
         sleep(1);
       }
       game_next_turn(*game);
+      graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
       if (last_cmd_code == SKIP) graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
     } else {
       graphic_engine_paint_game(gengine, *game, game_rules_get_screen(*game));
       if ((((last_cmd_code == CHAT) || (last_cmd_code == INSPECT) || (last_cmd_code == VIEW))) && 
         (command_get_status(last_cmd) == OK)) {
-        sleep(3);
       }
     }
 
@@ -284,7 +303,6 @@ void game_loop_run_animation (Game **game, Graphic_engine *gengine, char *filena
 
       if (!(player2 = game_get_player_from_id(*game, sender_id))) break;
       game_set_last_message_at_pos_with_info(*game, game_get_turn(*game), msg, sender_id, sender_type);
-      player_print(player2);
       if ((sender_type == PLAYER) || (sender_type == THOUGHTS)) {
         for (j = 0; j < POV_HGHT; j++) {
           if(!(closeup = player_get_closeup_at(player2, j))) break;

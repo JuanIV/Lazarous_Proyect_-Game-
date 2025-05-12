@@ -53,7 +53,7 @@ object_test : prepare $(object_test_files)
 	$(CC) $(CFLAGS) $(object_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
 class_test : prepare $(class_test_files)
-	$(CC) $(CFLAGS) $(object_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(class_test_files) -o $(EXEDIR)/$@ $(LDFLAGS)
 
 # ************** FOLDERS *************
 
@@ -160,6 +160,7 @@ run_object_test:
 
 run_class_test:
 	./$(EXEDIR)/class_test
+
 run_tests:
 	@echo "Running set_test"
 	./$(EXEDIR)/set_test
@@ -175,6 +176,8 @@ run_tests:
 	./$(EXEDIR)/player_test
 	@echo "Running object_test"
 	./$(EXEDIR)/object_test
+	@echo "Running object_test"
+	./$(EXEDIR)/class_test
 
 # ****************************************
 

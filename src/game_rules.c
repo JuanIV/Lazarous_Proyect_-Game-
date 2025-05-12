@@ -47,6 +47,41 @@ Status game_rules_force_cooperation(Game *game, Bool *bool);
  */
 Status game_rules_force_inspection(Game *game, Bool *bool, Id id);
 
+/**
+ * @brief Checks a condition in order to allow the player to attack
+ * 
+ * @param game Pointer to the game
+ * @param bool Pointer to a boolean value where the result is stored
+ * @return OK if everything went well and ERROR otherwise
+ */
+Status game_rules_allow_betrayal (Game *game, Bool *bool);
+
+/**
+ * @brief Checks a condition in order to allow the player to cooperate
+ * 
+ * @param game Pointer to the game
+ * @param bool Pointer to a boolean value where the result is stored
+ * @return OK if everything went well and ERROR otherwise
+ */
+Status game_rules_allow_cooperate(Game *game, Bool *bool);
+
+/**
+ * @brief Checks a condition in order to allow the player to attack other players
+ * 
+ * @param game Pointer to the game
+ * @param bool Pointer to a boolean value where the result is stored
+ * @return OK if everything went well and ERROR otherwise
+ */
+Status game_rules_allow_attack_players (Game *game, Bool *bool);
+
+/**
+ * @brief Checks a condition in order to allow the player to skip a turn
+ * 
+ * @param game Pointer to the game
+ * @param bool Pointer to a boolean value where the result is stored
+ * @return OK if everything went well and ERROR otherwise
+ */
+Status game_rules_allow_skip (Game *game, Bool *bool);
 
 /**
  * @brief Move only updates the turn if the rooms are not connected
@@ -270,36 +305,36 @@ void game_rules_objective_change_by_object(Game *game, Id player_id, Id obj_id, 
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @return OK if everything went well and ERROR otherwise
+ * @return WIN1 if Alaric wins or NO_SCREEN otherwise
  */
-Status game_rules_win_condition_Alaric(Game *game);
+Screen game_rules_win_condition_Alaric(Game *game);
 
 /**
  * @brief Defines the conditions for Brannon to win the game
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @return OK if everything went well and ERROR otherwise
+ * @return WIN2 if Brannon wins or NO_SCREEN otherwise
  */
-Status game_rules_win_condition_Brannon(Game *game);
+Screen game_rules_win_condition_Brannon(Game *game);
 
 /**
  * @brief Defines the conditions for Kyle to win the game
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @return OK if everything went well and ERROR otherwise
+ * @return WIN3 if Kyle wins or NO_SCREEN otherwise
  */
-Status game_rules_win_condition_Kyle(Game *game);
+Screen game_rules_win_condition_Kyle(Game *game);
 
 /**
  * @brief Defines the conditions for Rourke to win the game
  * @author Juan Ibáñez
  * 
  * @param game Pointer to the game
- * @return OK if everything went well and ERROR otherwise
+ * @return WIN4 if Rourke wins or NO_SCREEN otherwise
  */
-Status game_rules_win_condition_Rourke(Game *game);
+Screen game_rules_win_condition_Rourke(Game *game);
 
 
 /**
@@ -1055,21 +1090,21 @@ void game_rules_objective_change_by_object(Game *game, Id player_id, Id obj_id, 
   }
 }
 
-Status game_rules_win_condition_Alaric(Game *game){
+Screen game_rules_win_condition_Alaric(Game *game){
   Player *pl[4] = {NULL, NULL, NULL, NULL};
   Space *core = NULL;
 
-  if(!game) return ERROR;
+  if(!game) return NO_SCREEN;
 
   pl[0] = game_get_player_from_id(game, 1);
   pl[1] = game_get_player_from_id(game, 2);
   pl[2] = game_get_player_from_id(game, 3);
   pl[3] = game_get_player_from_id(game, 4);
 
-  if(!pl[1] | !pl[2] | !pl[3] | !pl[0]) return ERROR;
+  if(!pl[1] | !pl[2] | !pl[3] | !pl[0]) return NO_SCREEN;
 
   core = game_get_space(game, 9006);
-  if(!core) return ERROR;
+  if(!core) return NO_SCREEN;
 
   if(player_get_location(pl[0]) == 9008) game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I can't leave. I have to finish Project Lazarus and bring Evelyn back.",1,PLAYER);
 
@@ -1077,30 +1112,31 @@ Status game_rules_win_condition_Alaric(Game *game){
   if(space_find_object(core, 8004)){
     if(player_get_health(pl[1]) <= 0 || player_get_health(pl[1]) <= 0 || player_get_health(pl[1]) <= 0 ){
       game_set_last_message(game, "As soon as Alaric starts the machine the floor starts to shake. A huge beam of light floods the room@As the light simmers down the eyes of death show themselves. @Alaric Wins! Game Over");
-      game_set_finished(game, TRUE);
+      return WIN_1;
     } else if(player_get_location(pl[0]) == 9008) game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I still need a recently passed cadaver as a bridge between life and death.",1,PLAYER);
   }
-  return OK;
+
+  return NO_SCREEN;
 }
 
-Status game_rules_win_condition_Brannon(Game *game){
+Screen game_rules_win_condition_Brannon(Game *game){
   Player *Brannon = NULL;
   Character *Grendel = NULL;
   Id following = NO_ID;
 
-  if(!game) return ERROR;
+  if(!game) return NO_SCREEN;
 
   Brannon = game_get_player_from_id(game, 2);
   Grendel = game_get_character_from_id(game, 1602);
 
-  if(!Brannon || !Grendel) return ERROR;
+  if(!Brannon || !Grendel) return NO_SCREEN;
 
-  if(character_get_following(Grendel, &following) == ERROR) return ERROR;
+  if(character_get_following(Grendel, &following) == ERROR) return NO_SCREEN;
 
   if(player_get_location(Brannon) == 9008){
     if(following == 2){
       game_set_last_message(game, "Brannon and his son, finally reunited, flee the lab through the inestable tunnels causing the lab to collapse. @Brannon Wins! Game Over");
-      game_set_finished(game, TRUE);
+      return WIN_2;
     } else {
       if(game_get_turn(game) == 1)
       game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I can't leave without my son",2,PLAYER);
@@ -1108,27 +1144,27 @@ Status game_rules_win_condition_Brannon(Game *game){
   }
   
 
-  return OK;
+  return NO_SCREEN;
 }
 
-Status game_rules_win_condition_Rourke(Game *game){
+Screen game_rules_win_condition_Rourke(Game *game){
   Player *rourke = NULL;
   Player *alaric = NULL;
   Character *boss = NULL;
 
-  if(!game) return ERROR;
+  if(!game) return NO_SCREEN;
 
   rourke = game_get_player_from_id(game, 4);
   alaric = game_get_player_from_id(game, 1);
   boss = game_get_character_from_id(game, 2701);
 
-  if((!boss) || (!rourke) || (!alaric)) return ERROR;
+  if((!boss) || (!rourke) || (!alaric)) return NO_SCREEN;
 
   if(player_get_location(rourke) == 9008){
     if(character_get_health(boss) < 0){
       if(player_get_health(alaric) < 0){
         game_set_last_message(game, "Sg. Rourke makes it to the exit of the lab after finally having unveiled the suspects he had been after for years. @Sg.Rourke Wins! Game Over");
-        game_set_finished(game, TRUE);
+        return WIN_4;
       } else {
         if(game_get_turn(game) == 3)
         game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I must stop Alaric before leaving. Lethal force will be needed.",2,PLAYER);
@@ -1139,38 +1175,34 @@ Status game_rules_win_condition_Rourke(Game *game){
     }
   }
 
-  return OK;
+  return NO_SCREEN;
 }
 
-Status game_rules_win_condition_Kyle(Game *game){
+Screen game_rules_win_condition_Kyle(Game *game){
   Player *pl[4] = {NULL, NULL, NULL, NULL};
   Space *core = NULL;
 
-  if(!game) return ERROR;
+  if(!game) return NO_SCREEN;
 
   pl[0] = game_get_player_from_id(game, 1);
   pl[1] = game_get_player_from_id(game, 2);
   pl[2] = game_get_player_from_id(game, 3);
   pl[3] = game_get_player_from_id(game, 4);
 
-  if(!pl[1] | !pl[2] | !pl[3] | !pl[0]) return ERROR;
+  if(!pl[1] | !pl[2] | !pl[3] | !pl[0]) return NO_SCREEN;
 
   core = game_get_space(game, 9006);
-  if(!core) return ERROR;
+  if(!core) return NO_SCREEN;
 
   if(player_get_location(pl[3]) == 9008) game_set_last_message_at_pos_with_info(game,game_get_turn(game),"I can't leave. I must stop Alaric at any cost.",3,PLAYER);
 
 
   if(space_find_object(core, 8004)){
     game_set_last_message(game, "Kyle Reaches the CORE and destroys it along with the rest of the lab succesfully stoping Vexleigh's plan @Kyle Wins! Game Over");
-    game_set_finished(game, TRUE);
+    return WIN_3;
   }
-  return OK;
+  return NO_SCREEN;
 }
-
-
-
-
 
 
 /**
@@ -1237,8 +1269,8 @@ Status game_rules_enemies_move(Game *game){
     chr_role = character_get_role(aux_chr);
     if(chr_role != MONSTER) continue;
 
-    /*If game is deterministic, characters just spin around*/
-    if(determ == TRUE) dir = (game_get_round(game)%4);
+    /*If game is deterministic, characters stay fixed*/
+    if(determ == TRUE) return OK;
     else dir = rand()%4;
 
     link = game_get_link(game, loc, dir);
@@ -1371,15 +1403,29 @@ Status game_rules_force_cooperation(Game *game, Bool *bool) {
   Player *play1 = NULL, *play2 = NULL;
   Command *last_cmd;
   CommandCode code;
+  char *desc = NULL;
   int turn = 0;
 
   if ((turn = game_get_turn(game)) == -1) return ERROR;
   if (!(last_cmd = game_get_last_command(game))) return ERROR;
+  if (!(desc = command_get_desc(last_cmd))) return ERROR;
   if ((code = command_get_code(last_cmd)) == NO_CMD) return ERROR;
 
   if (code == LOAD || code == SAVE || code == EXIT) {
     *bool = TRUE;
     return OK;
+  }
+
+  if ((code == COOPERATE) && (strncmp("all", desc, 3) == 0)) {
+    if ((game_get_round(game) != 2)) {
+      *bool = FALSE;
+      return OK;
+    }
+    if (turn == 0){
+      if (!(play1 = game_get_player_from_id(game, 1))) return ERROR;
+      *bool = TRUE;
+      return OK;
+    }
   }
 
   switch (turn) {
@@ -1532,7 +1578,107 @@ Status game_rules_force_inspection(Game *game, Bool *bool, Id id) {
 
   return OK;
 }
-/* Implementation of private functions */
+
+Status game_rules_allow_betrayal (Game *game, Bool *bool) {
+  Player *player = NULL;
+  Id loc = NO_ID;
+
+  if (!game || !bool) return ERROR;
+
+  if (!(player = game_get_player(game))) return ERROR;
+
+  if ((loc = player_get_location(player)) == NO_ID) return ERROR;
+
+  if ((loc / 1000) < 7) {
+    game_set_last_message(game, "Why would you try to do that? They are your friends");
+    *bool = FALSE;
+  }
+  else *bool = TRUE;
+
+  return OK;
+}
+
+Status game_rules_allow_cooperate(Game *game, Bool *bool) {
+  int round = 0;
+  Bool allies = TRUE;
+  Player *player = NULL;
+
+  if ((round = game_get_round(game)) == -1) return ERROR;
+
+  if (round > 1) {
+    *bool = FALSE;
+    if (!(player = game_get_player(game))) return ERROR;
+
+    game_rules_allow_attack_players (game, &allies);
+    if (allies == FALSE) {
+      game_set_last_message_at_pos_with_info(game, game_get_turn(game), "Why would you want to cooperate with those bastards?", 
+      player_get_id(player), 0);
+      *bool = FALSE;
+      return OK;
+    }
+  } 
+  
+  *bool = TRUE;
+  return OK;
+}
+
+Status game_rules_allow_attack_players (Game *game, Bool *bool) {
+  int prime = 0, use_value = -1, turn = -1;
+  Player *player = NULL;
+  Object *obj = NULL;
+  Command *cmd = NULL;
+  char *desc = NULL;
+
+  if (!game || !bool) return ERROR;
+
+  if (!(cmd = game_get_last_command(game))) return ERROR;
+  if (!(desc = command_get_desc(cmd))) return ERROR;
+
+  if (!(player = game_get_player_from_name(game, desc))) {
+    *bool = TRUE;
+    return OK;
+  }
+
+  if (player_get_role(player) == UNDEFINED) {
+    *bool = TRUE;
+    return OK;
+  }
+
+  if (!(obj = game_get_object(game, 7051))) return ERROR;
+  if ((use_value = object_get_use_value(obj)) == -1) return ERROR;
+  
+  if ((prime = game_get_prime_from_id(game, player_get_id(player))) == -1) return ERROR;
+  if ((use_value % prime) != 0) {
+    *bool = FALSE;
+    return OK;
+  }
+  
+  if ((turn = game_get_turn(game)) == -1) return ERROR;
+
+  
+
+  return OK;
+}
+
+Status game_rules_allow_skip (Game *game, Bool *bool) {
+  Player *player = NULL;
+  Id loc = NO_ID;
+
+  if (!game || !bool) return ERROR;
+
+  if (!(player = game_get_player(game))) return ERROR;
+
+  if ((loc = player_get_location(player)) == NO_ID) return ERROR;
+
+  if ((loc / 1000) == 0) {
+    game_set_last_message(game, "We have to move fast, there is no time to wait!");
+    *bool = FALSE;
+  }
+  else *bool = TRUE;
+
+  return OK;
+}
+
 
 Screen game_rules_get_screen (Game *game) {
   Command *last_cmd = NULL;
@@ -1546,6 +1692,11 @@ Screen game_rules_get_screen (Game *game) {
 
   if (!(last_cmd = game_get_last_command(game))) return ERROR;
   if ((code = command_get_code(last_cmd)) == NO_CMD) return ERROR;
+
+  if(game_rules_win_condition_Alaric(game) == WIN_1) return WIN_1;
+  if(game_rules_win_condition_Kyle(game) == WIN_3) return WIN_3;
+  if(game_rules_win_condition_Brannon(game) == WIN_2) return WIN_2;
+  if(game_rules_win_condition_Rourke(game) == WIN_4) return WIN_4;
 
   switch (code) {
     case VIEW:
@@ -1566,13 +1717,20 @@ Screen game_rules_get_screen (Game *game) {
 Status game_rules_update_actions(Game *game, Bool *bool) {
   Id player_loc;
   int round = 0, turn = 0;
+  Command *cmd = NULL;
+  CommandCode code = NO_CMD;
 
   if (!game || !bool) return ERROR;
 
   if ((round = game_get_round(game)) == -1) return ERROR;
   if ((turn = game_get_turn(game)) == -1) return ERROR;
+  if (!(cmd = game_get_last_command(game))) return ERROR;
+  code = command_get_code(cmd);
 
-  if (round == 0) return game_rules_force_cooperation(game, bool);
+  /* The game actions get updated unless something says so */
+  *bool = TRUE;
+
+  if (round <= 2) return game_rules_force_cooperation(game, bool);
   /* *bool = TRUE;*/
   if ((player_loc = game_get_player_location(game)) == NO_ID) return ERROR;
 
@@ -1623,9 +1781,49 @@ Status game_rules_update_actions(Game *game, Bool *bool) {
 
   case 7051:
     game_rules_force_inspection(game, bool, 5707);
+    if (*bool == FALSE) switch (turn) {
+    case 0:
+      game_set_last_message_at_pos_with_info(game, 0, " @How could I forget... I need to end this project@ "
+      "I can't let anyone intervene now!@Suggested command", 1, THOUGHTS);
+      break;
+    case 1:
+      game_set_last_message_at_pos_with_info(game, 1, " @@I can't trust anyone anymore@I need to find my son and get out right away", 2, THOUGHTS);
+      break;
+
+    case 2:
+      game_set_last_message_at_pos_with_info(game, 2, " @That's why I am here!@I need to stop Alaric before he dooms humankind", 3, THOUGHTS);
+      break;
+
+    case 3:
+      game_set_last_message_at_pos_with_info(game, 3, "", 4, THOUGHTS);
+      break;
+
+    default:
+      break;
+    }
     break;
   
-  
+  default:
+    break;
+  }
+
+  if (*bool == FALSE) return OK;
+
+  switch (code){
+    case COOPERATE:
+      return game_rules_allow_cooperate(game, bool);
+
+    case SKIP:
+      return game_rules_allow_skip(game, bool);
+      break;
+
+    case ATTACK:
+      return game_rules_allow_attack_players(game, bool);
+      break;
+
+    case BETRAY:
+      return game_rules_allow_betrayal(game, bool);
+
   default:
     break;
   }
@@ -1666,8 +1864,12 @@ Status game_rules_update_turn(Game *game, Bool *bool) {
     case EXIT:
       *bool = TRUE;
       break;
+    
+    case COOPERATE:
+      *bool = TRUE;
+      break;
 
-    case SKIP:
+    case ACCEPT:
       *bool = TRUE;
       break;
 
@@ -1685,7 +1887,8 @@ Status game_rules_update_turn(Game *game, Bool *bool) {
 }
 
 Bool game_rules_get_animation(Game *game, char *path) {
-  int turn, round;
+  Player *player = NULL;
+  int turn, round, i;
   if (!game || !path) return FALSE;
 
   if ((turn = game_get_turn(game)) == -1) return FALSE;
@@ -1703,18 +1906,47 @@ Bool game_rules_get_animation(Game *game, char *path) {
         break;
       case 2:
         strncpy(path, "./anim/animation3.txt" , WORD_SIZE);
-        return TRUE;
+        return FALSE;
         break;
       case 3:
         strncpy(path, "./anim/animation4.txt" , WORD_SIZE);
-        return TRUE;
+        return FALSE;
         break;
-      
       
       default:
         break;
     }
   }
+
+  for (i = 0; i < TOT_PLAYERS; i++) {
+    if (!(player = game_get_player_at(game, i))) break;
+    if (player_get_location(player) != 6) break;
+  }
+
+  if (i == TOT_PLAYERS) {
+    switch (turn) {
+      case 0:
+        strncpy(path, "./anim/animation21.txt" , WORD_SIZE);
+        return TRUE;
+        break;
+      case 1:
+        strncpy(path, "./anim/animation22.txt" , WORD_SIZE);
+        return TRUE;
+        break;
+      case 2:
+        strncpy(path, "./anim/animation23.txt" , WORD_SIZE);
+        return TRUE;
+        break;
+      case 3:
+        strncpy(path, "./anim/animation24.txt" , WORD_SIZE);
+        return TRUE;
+        break;
+      
+      default:
+        break;
+    }
+  }
+  
 
   return FALSE;
 }
@@ -1777,11 +2009,21 @@ Status game_rules_update_states_after_action(Game *game){
   game_rules_objective_change_by_note(game, 4, "5Stop Alaric", 5707);
   game_rules_objective_change_by_location(game, 4, 9001, "6Kill Alaric@Kill S0001 at lvl 9");
 
-  /*Win conditions*/
-  if(game_rules_win_condition_Alaric(game) == ERROR) st = ERROR;
-  if(game_rules_win_condition_Kyle(game) == ERROR) st = ERROR;
-  if(game_rules_win_condition_Brannon(game) == ERROR) st = ERROR;
-  if(game_rules_win_condition_Rourke(game) == ERROR) st = ERROR;
-
   return st;
+}
+
+Status game_rules_check_start(Game *game) {
+  int i = 0, n_players = -1;
+
+  if (!game) return ERROR;
+
+  if ((n_players = game_get_n_players(game)) == -1) return ERROR;
+
+  if (n_players != TOT_PLAYERS) return ERROR;
+
+  for (i = 1; i <= TOT_PLAYERS; i++) {
+    if (game_get_player_from_id(game, i) == NULL) return ERROR;
+  }
+
+  return OK;
 }

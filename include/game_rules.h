@@ -15,15 +15,6 @@
 #include "types.h"
 
 /**
- * @brief Runs all the needed game rules BEFORE player's action has been updated this turn
- * @author Tiago Oselka
- *
- * @param game Pointer to the game
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status game_rules_run(Game *game);
-
-/**
 * @brief Defines the movement of the characters
 * @author Juan Ibáñez
 * 
@@ -81,5 +72,15 @@ Bool game_rules_get_animation(Game *game, char *path);
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status game_rules_update_states_after_action(Game *game);
+
+/**
+ * @brief Does all the necessary checkings to see if the game can run 
+ * (Check number of players and if their IDs coincide with the ones inside game_rule)
+ * @author Tiago Oselka
+ * 
+ * @param game Pointer to the game
+ * @return OK, if the game is ready to be started or ERROR otherwise
+ */
+Status game_rules_check_start(Game *game);
 
 #endif
