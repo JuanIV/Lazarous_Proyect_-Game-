@@ -60,13 +60,13 @@ The project uses a Makefile to compile the game.
 ### Compile
 
 ```bash
-make project
+make
 ```
 
 ### Run
 
 ```bash
-./exe/project lab.dat
+make run
 ```
 
 ### Build and run tests
