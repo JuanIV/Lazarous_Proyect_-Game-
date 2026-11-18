@@ -185,7 +185,7 @@ run_tests:
 
 run :
 	@echo "Running project"
-	./$(EXEDIR)/project lab.dat < logFile.log
+	./$(EXEDIR)/project lab.dat
 
 runv :
 	@echo "Running Valgrind"
