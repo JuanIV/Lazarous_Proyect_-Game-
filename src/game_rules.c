@@ -1906,19 +1906,19 @@ Bool game_rules_get_animation(Game *game, char *path) {
     switch (turn) {
       case 0:
         strncpy(path, "./anim/animation1.txt" , WORD_SIZE);
-        return FALSE;
+        return TRUE;
         break;
       case 1:
         strncpy(path, "./anim/animation2.txt" , WORD_SIZE);
-        return FALSE;
+        return TRUE;
         break;
       case 2:
         strncpy(path, "./anim/animation3.txt" , WORD_SIZE);
-        return FALSE;
+        return TRUE;
         break;
       case 3:
         strncpy(path, "./anim/animation4.txt" , WORD_SIZE);
-        return FALSE;
+        return TRUE;
         break;
       
       default:
